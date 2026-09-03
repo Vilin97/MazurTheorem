@@ -246,8 +246,7 @@ order 25.
 * `theorem` (`contract`): `MazurTorsion.Kubert.orderTwentyFive_degeneracyFricke_package`
   Recover a rational X₀(25) Hauptmodul from the two quotient-normalized X₀(5) parameters
   and check that n ↦ 5/n exchanges their degeneracy values with reciprocal factor 125.
-* `theorem` (`contract`):
-  `MazurTorsion.Kubert.pointTate_parameters_eq_of_order_five`
+* `theorem` (`contract`): `MazurTorsion.Kubert.pointTate_parameters_eq_of_order_five`
   Show that explicit Tate normalization at a specified affine point of exact order five
   has nonzero normalization factors and produces equal, nonzero Tate parameters.
 * `theorem` (`contract`):
@@ -262,6 +261,18 @@ order 25.
   `MazurTorsion.Kubert.no_orderTwentyFiveBrunaultOrbit_of_threeIntegral`
   Exclude a nonexceptional cyclic orbit whenever its recovered invariant is integral at
   three, with no separately supplied Lehmer-root hypotheses.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.exists_orderTwentyFiveFifthPowerParameter_of_secondDegeneracy`
+  Parametrize every nonzero rational generator lift of the second X₀(25) degeneracy
+  value by c = k⁵ and n = k - 1/k - 1.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_fiveMultiple_fifthPowerParameter`
+  Apply the fifth-power parametrization to the actual fivefold multiple and identify its
+  signed Hauptmodul with the marked Lécacheux orbit parameter.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_fifthPowerParameter_residual_of_marked_order`
+  Package the remaining exact-order case as a non-three-unit fifth root whose reciprocal
+  signed Hauptmodul is three-integral.
 
 :::
 

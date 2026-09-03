@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2060813,
-    "integrated_lean_modules": 1957,
+    "integrated_lean_lines": 2061079,
+    "integrated_lean_modules": 1958,
     "remaining_composite_orders": [
       25,
       35
@@ -917,7 +917,7 @@
       "weight_points": 16,
       "risk": "extreme",
       "backend": "mathlib",
-      "summary": "Prove that no rational point on an elliptic curve over Q has exact additive order 25. The checked Tate recurrence computes (n+2)P from index n and proves every secant denominator through 13P nonzero from exact order 25. Explicit square/cube normalized coordinates through 13P reduce x(13P)=x(12P) to the cuspidal factor b-c times one fixed 234-term polynomial of total degree 40. Checked Lécacheux modular units give five nonzero orbit coordinates, and all six cyclic relations needed to recover the invariant and force two selected units to be roots of Lehmer's quintic now hold for the actual Tate cross-ratios; the symmetric invariant is also recovered by a pole-free formula from two consecutive roots. A three-integral recovered invariant is impossible by the checked F₃ open-chart enumeration. Independently, explicit Tate normalization at 5P retains equal nonzero order-five parameters, and the five-isogeny route reaches one oriented five-division component, maps it to the explicit X₀(25) degeneracy curve, recovers a rational Hauptmodul without exceptional rational poles, and proves that n ↦ 5/n exchanges the two X₀(5) degeneracy values. It remains to identify the explicit fifth-multiple parameter with the signed Lécacheux orbit parameter and lift Fricke symmetry to the rational-generator orbit so that the three-integrality dichotomy feeds the exclusion.",
+      "summary": "Prove that no rational point on an elliptic curve over Q has exact additive order 25. The checked Tate recurrence computes (n+2)P from index n and proves every secant denominator through 13P nonzero from exact order 25. Explicit square/cube normalized coordinates through 13P reduce x(13P)=x(12P) to the cuspidal factor b-c times one fixed 234-term polynomial of total degree 40. Checked Lécacheux modular units give five nonzero orbit coordinates, and all six cyclic relations needed to recover the invariant and force two selected units to be roots of Lehmer's quintic now hold for the actual Tate cross-ratios; the symmetric invariant is also recovered by a pole-free formula from two consecutive roots. A three-integral recovered invariant is impossible by the checked F₃ open-chart enumeration. Independently, explicit Tate normalization at 5P retains equal nonzero order-five parameters, and the five-isogeny route reaches one oriented five-division component, maps it to the explicit X₀(25) degeneracy curve, recovers a rational Hauptmodul without exceptional rational poles, and proves that n ↦ 5/n exchanges the two X₀(5) degeneracy values. Both actual degeneracy values are now identified with the same signed orbit Hauptmodul: the fifth-multiple Tate parameter is a rational fifth power k⁵ and the signed Hauptmodul is k - 1/k - 1. The residual exact-order case forces k to be a non-three-unit while -5/(k - 1/k - 1) is three-integral. The remaining gap is a genuine generator-level Kummer or genus-four descent, not an assumed rational Fricke transport.",
       "artifacts": [
         {
           "kind": "theorem",
@@ -1037,6 +1037,27 @@
           "state": "contract",
           "module": "MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitExclusion",
           "description": "Exclude a nonexceptional cyclic orbit whenever its recovered invariant is integral at three, with no separately supplied Lehmer-root hypotheses."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.exists_orderTwentyFiveFifthPowerParameter_of_secondDegeneracy",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFiveFifthPowerParameter",
+          "description": "Parametrize every nonzero rational generator lift of the second X₀(25) degeneracy value by c = k⁵ and n = k - 1/k - 1."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.orderTwentyFive_fiveMultiple_fifthPowerParameter",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFiveFifthPowerParameter",
+          "description": "Apply the fifth-power parametrization to the actual fivefold multiple and identify its signed Hauptmodul with the marked Lécacheux orbit parameter."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.Kubert.orderTwentyFive_fifthPowerParameter_residual_of_marked_order",
+          "state": "contract",
+          "module": "MazurTorsion.Kubert.OrderTwentyFiveFifthPowerParameter",
+          "description": "Package the remaining exact-order case as a non-three-unit fifth root whose reciprocal signed Hauptmodul is three-integral."
         }
       ],
       "depends_on": [
@@ -1064,7 +1085,7 @@
           "MazurTorsion.Kubert.OrderTwentyFive"
         ],
         "informal": "An elliptic curve over Q has no rational point of exact order 25.",
-        "recommended_route": "Compare the explicit nonzero Tate parameter at 5P from orderTwentyFive_fiveMultiple_pointTate_parameters with the two-root Lécacheux parameter from orderTwentyFiveOrbitParameter_eq_pairParameter_of_marked_order, accounting for the sign convention. Then lift the checked X₀-level Fricke formulas to the explicit rational-generator orbit and use the n versus 5/n integrality dichotomy to select an orbit consumed by no_orderTwentyFiveBrunaultOrbit_of_threeIntegral.",
+        "recommended_route": "Use orderTwentyFive_fifthPowerParameter_residual_of_marked_order to work on the generator-marked Kummer parameter c = k⁵ and n = k - 1/k - 1. Complete a twist-aware Kummer descent on the genus-four Lécacheux cover, or an equivalent Jacobian rank-zero and cusp classification; do not assume that Fricke preserves a rational generator. Feed the resulting contradiction into the Tate normalization endpoint.",
         "consumer_declarations": [
           "MazurTorsion.rationalTorsion_orders_mem_cyclicOrders_of_remaining_obstructions"
         ],

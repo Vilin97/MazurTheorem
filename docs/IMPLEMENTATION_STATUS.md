@@ -179,11 +179,12 @@ the two chosen generators maps that component to an explicit `X₀(25)`
 degeneracy equation. A checked rational inverse recovers its Hauptmodul with no
 exceptional rational pole on the curve, and direct identities prove that
 `n ↦ 5/n` exchanges the two `X₀(5)` degeneracy values with reciprocal factor
-`125`. This is an `X₀`-level Fricke statement: it does not yet construct the
-Fricke-transformed Lécacheux orbit with a rational generator. The next gap is
-to identify this explicit fifth-multiple parameter with the Lécacheux orbit
-parameter, including its sign convention, and lift the symmetry to that
-generator-level data.
+`125`. Both degeneracy values for the actual marked point have now been
+identified with the same signed Lécacheux orbit Hauptmodul. More precisely,
+the Tate parameter at `5P` is `k^5` for a nonzero rational `k`, and the signed
+Hauptmodul is `k - 1/k - 1`. This is a generator-level fifth-power lift of the
+second degeneracy map, not an assertion that Fricke preserves a rational
+generator.
 
 The checked Lécacheux orbit route also recovers the invariant
 parameter from the five orbit coordinates and proves that the six cyclic
@@ -207,8 +208,11 @@ one.
 norm-one relation. Thus
 `no_orderTwentyFive_marked_order_of_orbitParameter_threeIntegral` discharges
 the order-25 exclusion whenever the recovered parameter is integral at three.
-The remaining endpoint gap is the Fricke transport used when `5/n`, rather
-than `n`, is the integral parameter.
+In the residual exact-order case, the checked fifth-power bridge forces `k`
+to be a non-three-unit while `-5/(k - 1/k - 1)` is three-integral. The remaining
+endpoint gap is therefore a genuine twist-aware Kummer descent on the
+generator-marked genus-four Lécacheux cover (or an equivalent Jacobian
+rank-zero and cusp classification), rather than a rational Fricke transport.
 
 Five published contracts are intentionally paused:
 
