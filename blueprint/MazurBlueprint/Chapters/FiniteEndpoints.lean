@@ -413,6 +413,11 @@ order 25.
   quotient schemes, identify their algebra-valued points, prove the two opens cover the
   characteristic-zero carrier, and place the full coordinate hyperplane sections in the
   appropriate charts.
+* `definition` (`contract`):
+  `MazurTorsion.Kubert.OrderTwentyFiveCanonicalAffineCharts.overlapSchemeIso`
+  Localize the two represented canonical charts on their common open, construct the
+  projective rescaling maps in both directions, prove their algebra-hom composites are
+  identities, and obtain the exact affine-scheme transition isomorphism.
 
 :::
 
