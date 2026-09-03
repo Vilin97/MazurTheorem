@@ -491,7 +491,6 @@ theorem orderTwentyFiveLehmer_fiveRoots_threeAdicValuationMultiset
       ring
     rw [hlist, hs3v] at hbound
     omega
-
   have hnot123 : noUniqueLowTriple a z1 z2 z3 z0 z4 := by
     simp only [noUniqueLowTriple]
     intro h
@@ -1025,4 +1024,3 @@ theorem orderTwentyFive_exactThreeAdicRootValuationMultiset_of_marked_order
         hroot0 hroot1 hroot2 hroot3 hroot4 hvieta.1 hs3
 
 end MazurTorsion.Kubert
-
