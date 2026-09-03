@@ -317,6 +317,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_threeAdicResolvedInfinityCharts_of_marked_order`
   Lift all five actual cyclic roots to the explicit strict-transform charts and retain
   the exact three-adic valuations of their local coordinates.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_threeAdicResolvedInfinityBranches_of_marked_order`
+  Use exceptional-factor congruences to specialize all five actual roots to the two
+  root-zero branches, two diagonal branches, and unique smooth parameter-zero branch.
 
 :::
 
