@@ -382,6 +382,11 @@ order 25.
   `MazurTorsion.Kubert.rationalPoint_addOrderOf_ne_twentyFive_of_noCanonicalNoncuspidal`
   Reduce the unconditional order-25 endpoint exactly to the assertion that the fixed
   canonical quadric-cubic carrier has no noncuspidal rational point.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveCanonical_rootZero_cuspOrderVector`
+  Compute the z = 0 and w = 0 hyperplane sections in four covering affine charts,
+  certify their exact univariate root multiplicities, and derive the cyclic-unit order
+  vector (3,-1,1,-2,-1).
 
 :::
 
