@@ -407,6 +407,12 @@ order 25.
   Convert a finite-dimensional principal quotient of a rational local ring into its
   exact local and scheme-theoretic order, and specialize the bridge to all six canonical
   cusp fat-point factors with orders 1, 2, 3, 3, 1, and 2.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.OrderTwentyFiveCanonicalAffineCharts.twoFormsCover`
+  Represent the x+z=1 and x+w=1 canonical affine charts by explicit two-equation
+  quotient schemes, identify their algebra-valued points, prove the two opens cover the
+  characteristic-zero carrier, and place the full coordinate hyperplane sections in the
+  appropriate charts.
 
 :::
 
