@@ -144,6 +144,7 @@ import MazurTorsion.Kubert.OrderTwentyFiveCanonicalOrbit
 import MazurTorsion.Kubert.OrderTwentyFiveCanonicalOpen
 import MazurTorsion.Kubert.OrderTwentyFiveCanonicalMarked
 import MazurTorsion.Kubert.OrderTwentyFiveCanonicalHyperplane
+import MazurTorsion.Kubert.OrderTwentyFiveCanonicalSmooth
 import MazurTorsion.Kubert.OrderThirtyFive
 import MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven
 import MazurTorsion.Kubert.OrderThirtyFiveCuspidalReductionAtEleven
