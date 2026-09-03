@@ -364,6 +364,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFiveCanonical_exceptionalProjection_isCusp`
   Classify every nonzero rational canonical representative where the inverse projection
   denominator vanishes as one of the four explicit exceptional cusp rays.
+* `theorem` (`contract`): `MazurTorsion.Kubert.orderTwentyFiveCanonical_lehmerRoots`
+  Construct the five explicit cyclic rational functions on the canonical carrier, prove
+  all Lécacheux orbit relations and norm one, and recover two roots of one Lehmer
+  quintic.
 
 :::
 
