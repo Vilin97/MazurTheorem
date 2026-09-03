@@ -423,6 +423,11 @@ order 25.
   Glue the two canonical affine complete-intersection spectra along their checked
   transition, construct the resulting scheme and structural morphism, retain both open
   chart immersions, and prove local Noetherianity over a Noetherian base.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.OrderTwentyFiveCanonicalSchemeSmooth.curveToBase_smoothOfRelativeDimension_one`
+  Use explicit two-equation submersive presentations on both represented affine charts,
+  prove their three Jacobian minors generate the unit ideal geometrically, and glue
+  smoothness of relative dimension one over every characteristic-zero field.
 
 :::
 
