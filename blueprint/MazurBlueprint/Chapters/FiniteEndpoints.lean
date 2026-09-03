@@ -289,6 +289,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_iteratedKummerCover_of_marked_order`
   Identify the pole-free Lehmer transformation with the actual five-term orbit, prove
   its full cycle, and retain the residual Kummer conditions.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_threeAdicRootValuations_of_marked_order`
+  Compute the exact 3-adic Newton slopes and constrain all five cyclic roots using one
+  common positively valued oriented parameter.
 
 :::
 
