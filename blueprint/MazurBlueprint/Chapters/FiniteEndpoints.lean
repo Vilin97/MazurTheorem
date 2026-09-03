@@ -281,6 +281,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_kummerCover_of_marked_order`
   Send an actual exact-order-25 marked point to a noncuspidal rational solution of the
   generator-marked cover while retaining the residual three-adic conditions.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_integralKummerCover_of_marked_order`
+  Orient the actual cover point in primitive integer coordinates, clear both
+  denominators, and prove the exclusive first modulo-three descent split.
 
 :::
 
