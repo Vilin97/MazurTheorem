@@ -355,6 +355,11 @@ order 25.
   Evaluate the determinant-71 multiplicative combination on every cyclic rotation of the
   actual nonzero Brunault orbit, prove the five rational units multiply to one, and
   retain that relation modulo rational 71st powers.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveCanonicalCusps_pairwiseDistinct`
+  Encode the canonical quadric-cubic carrier and its checked birational plane chart,
+  verify the five rational cusp representatives, and supply their exact projective
+  pairwise-distinctness input to the cusp-divisor interface.
 
 :::
 
