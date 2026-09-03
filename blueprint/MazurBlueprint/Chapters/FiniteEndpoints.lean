@@ -297,6 +297,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_exactThreeAdicRootValuationMultiset_of_marked_order`
   Use the product and cubic Vieta identities to determine the exact five-root 3-adic
   valuation multiset, including multiplicities.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_exactThreeAdicRootValuationCycle_of_marked_order`
+  Use the explicit deck-map transitions and norm-one relation to determine the cyclic
+  3-adic valuation order, up to rotation.
 
 :::
 
