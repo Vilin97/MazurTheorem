@@ -293,6 +293,10 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_threeAdicRootValuations_of_marked_order`
   Compute the exact 3-adic Newton slopes and constrain all five cyclic roots using one
   common positively valued oriented parameter.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_exactThreeAdicRootValuationMultiset_of_marked_order`
+  Use the product and cubic Vieta identities to determine the exact five-root 3-adic
+  valuation multiset, including multiplicities.
 
 :::
 
