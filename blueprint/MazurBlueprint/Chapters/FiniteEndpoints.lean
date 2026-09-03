@@ -303,8 +303,8 @@ order 25.
   3-adic valuation order, up to rotation.
 * `theorem` (`contract`):
   `MazurTorsion.Kubert.orderTwentyFive_threeAdicCuspCongruences_of_marked_order`
-  Show that both -a-valued cyclic roots have three-integral difference from the Lehmer
-  parameter, locating the diagonal infinity node.
+  Use exact ratio valuations to locate every cyclic root in one of the three infinity
+  charts, including both -a-valued roots at the diagonal node.
 
 :::
 
