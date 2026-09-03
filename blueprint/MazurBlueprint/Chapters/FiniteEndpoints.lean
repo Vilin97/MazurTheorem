@@ -402,6 +402,11 @@ order 25.
   Split the represented hyperplane charts by Chinese remaindering into six cusp-labelled
   fat-point schemes and prove their individual lengths recover the nonzero entries of
   both coordinate-section order tables.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderAt_eq_finrank_of_rationalLocalQuotient`
+  Convert a finite-dimensional principal quotient of a rational local ring into its
+  exact local and scheme-theoretic order, and specialize the bridge to all six canonical
+  cusp fat-point factors with orders 1, 2, 3, 3, 1, and 2.
 
 :::
 
