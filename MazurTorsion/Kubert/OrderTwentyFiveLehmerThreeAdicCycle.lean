@@ -591,6 +591,48 @@ theorem orderTwentyFiveLehmer_negOneSlope_cuspCongruence
   rw [hsumEq, hprodval] at hsum
   omega
 
+private theorem root_infinityChart_of_cuspCongruence
+    (n x : ℚ) (a : ℤ) (ha : 0 < a)
+    (hn : padicValRat 3 n = -a)
+    (hroot : orderTwentyFiveLehmerPolynomial n x = 0)
+    (hcusp : padicValRat 3 x = -a → 0 ≤ padicValRat 3 (x - n)) :
+    (padicValRat 3 x = 3 * a ∧ padicValRat 3 (x / n) = 4 * a) ∨
+      (padicValRat 3 x = a ∧ padicValRat 3 (x / n) = 2 * a) ∨
+      (padicValRat 3 x = -a ∧
+        (x = n ∨ 0 < padicValRat 3 (x / n - 1))) ∨
+      (padicValRat 3 x = -2 * a ∧ padicValRat 3 (n / x) = a) := by
+  have hn0 : n ≠ 0 := by
+    intro hzero
+    rw [hzero, padicValRat.zero] at hn
+    omega
+  have hx0 := root_ne_zero_cycle n x hroot
+  rcases orderTwentyFiveLehmer_root_threeAdicValuation
+      n x a ha hn hroot with hxv | hxv | hxv | hxv
+  · left
+    refine ⟨hxv, ?_⟩
+    rw [padicValRat.div hx0 hn0, hxv, hn]
+    omega
+  · right; left
+    refine ⟨hxv, ?_⟩
+    rw [padicValRat.div hx0 hn0, hxv, hn]
+    omega
+  · right; right; left
+    refine ⟨hxv, ?_⟩
+    by_cases hxn : x = n
+    · exact Or.inl hxn
+    · right
+      have hdiff : x - n ≠ 0 := sub_ne_zero.mpr hxn
+      have hid : x / n - 1 = (x - n) / n := by
+        field_simp [hn0]
+      rw [hid, padicValRat.div hdiff hn0, hn]
+      have := hcusp hxv
+      omega
+  · right; right; right
+    refine ⟨hxv, ?_⟩
+    rw [padicValRat.div hn0 hx0, hn, hxv]
+    omega
+
+
 private theorem negOne_successors_positive_of_cyclic_pattern
     (a z0 z1 z2 z3 z4 : ℤ) (ha : 0 < a)
     (hpattern :
@@ -611,7 +653,8 @@ private theorem negOne_successors_positive_of_cyclic_pattern
 
 /-- The two `-a`-valued roots in the marked five-cycle approach the diagonal
 infinity node `x = n`: after subtracting the negatively valued Lehmer
-parameter, the difference is 3-integral. -/
+parameter, the difference is 3-integral.  The ratio valuations for all four
+slopes also locate every root in one of the three infinity charts. -/
 theorem orderTwentyFive_threeAdicCuspCongruences_of_marked_order
     (b c : ℚ) (hb : b ≠ 0)
     (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
@@ -637,12 +680,25 @@ theorem orderTwentyFive_threeAdicCuspCongruences_of_marked_order
         padicValRat 3 ((m : ℚ) / (n : ℚ)) = a ∧
         let N := -orderTwentyFiveFifthPowerHauptmodul
           ((m : ℚ) / (n : ℚ))
-        ∀ x ∈ [orderTwentyFiveBrunaultXZero b c,
-            orderTwentyFiveBrunaultXOne b c,
-            orderTwentyFiveBrunaultXTwo b c,
-            orderTwentyFiveBrunaultXThree b c,
-            orderTwentyFiveBrunaultXFour b c],
-          padicValRat 3 x = -a → 0 ≤ padicValRat 3 (x - N) := by
+        (∀ x ∈ [orderTwentyFiveBrunaultXZero b c,
+              orderTwentyFiveBrunaultXOne b c,
+              orderTwentyFiveBrunaultXTwo b c,
+              orderTwentyFiveBrunaultXThree b c,
+              orderTwentyFiveBrunaultXFour b c],
+            padicValRat 3 x = -a → 0 ≤ padicValRat 3 (x - N)) ∧
+          ∀ x ∈ [orderTwentyFiveBrunaultXZero b c,
+              orderTwentyFiveBrunaultXOne b c,
+              orderTwentyFiveBrunaultXTwo b c,
+              orderTwentyFiveBrunaultXThree b c,
+              orderTwentyFiveBrunaultXFour b c],
+            (padicValRat 3 x = 3 * a ∧
+                padicValRat 3 (x / N) = 4 * a) ∨
+              (padicValRat 3 x = a ∧
+                padicValRat 3 (x / N) = 2 * a) ∨
+              (padicValRat 3 x = -a ∧
+                (x = N ∨ 0 < padicValRat 3 (x / N - 1))) ∨
+              (padicValRat 3 x = -2 * a ∧
+                padicValRat 3 (N / x) = a) := by
   obtain ⟨k, hk, -, hkParameter, hkNotUnit, hreciprocal,
       -, -, hcover⟩ :=
     orderTwentyFive_kummerCover_of_marked_order b c hb h00 horder
@@ -743,9 +799,31 @@ theorem orderTwentyFive_threeAdicCuspCongruences_of_marked_order
         N r3 r4 a ha hNv hxv (hpositive.2.2.2.1 hxv) hroot3 h34
     · exact orderTwentyFiveLehmer_negOneSlope_cuspCongruence
         N r4 r0 a ha hNv hxv (hpositive.2.2.2.2 hxv) hroot4 h40
+  have hcharts : ∀ x ∈ [r0, r1, r2, r3, r4],
+      (padicValRat 3 x = 3 * a ∧ padicValRat 3 (x / N) = 4 * a) ∨
+        (padicValRat 3 x = a ∧ padicValRat 3 (x / N) = 2 * a) ∨
+        (padicValRat 3 x = -a ∧
+          (x = N ∨ 0 < padicValRat 3 (x / N - 1))) ∨
+        (padicValRat 3 x = -2 * a ∧
+          padicValRat 3 (N / x) = a) := by
+    intro x hx
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hx
+    rcases hx with rfl | rfl | rfl | rfl | rfl
+    · exact root_infinityChart_of_cuspCongruence
+        N r0 a ha hNv hroot0 (hcusp r0 (by simp))
+    · exact root_infinityChart_of_cuspCongruence
+        N r1 a ha hNv hroot1 (hcusp r1 (by simp))
+    · exact root_infinityChart_of_cuspCongruence
+        N r2 a ha hNv hroot2 (hcusp r2 (by simp))
+    · exact root_infinityChart_of_cuspCongruence
+        N r3 a ha hNv hroot3 (hcusp r3 (by simp))
+    · exact root_infinityChart_of_cuspCongruence
+        N r4 a ha hNv hroot4 (hcusp r4 (by simp))
   refine ⟨m, n, hm0, hn0, hmn, hm3, hn3, hparameter,
     hreciprocal', a, ha, hval, ?_⟩
-  simpa only [N, k', r0, r1, r2, r3, r4] using hcusp
+  constructor
+  · simpa only [N, k', r0, r1, r2, r3, r4] using hcusp
+  · simpa only [N, k', r0, r1, r2, r3, r4] using hcharts
 
 
 /-- A rational marked point of order twenty-five has cyclic Brunault-root
