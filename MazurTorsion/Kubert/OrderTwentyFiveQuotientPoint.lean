@@ -46,13 +46,15 @@ private theorem explicitNormalization
         (orderFiveCurve (pointTateC W X Y)).toAffine.Point),
       e (WeierstrassCurve.Affine.Point.some X Y hns) =
           WeierstrassCurve.Affine.Point.some 0 0 h00 ∧
-        ∀ {x y : ℚ} (hxy : W.toAffine.Nonsingular x y),
-          ∃ hnormalized :
-              (orderFiveCurve (pointTateC W X Y)).toAffine.Nonsingular
-                (normalizedX W X Y x) (normalizedY W X Y x y),
-            e (WeierstrassCurve.Affine.Point.some x y hxy) =
-              WeierstrassCurve.Affine.Point.some
-                (normalizedX W X Y x) (normalizedY W X Y x y) hnormalized := by
+        (∀ {x y : ℚ} (hxy : W.toAffine.Nonsingular x y),
+            ∃ hnormalized :
+                (orderFiveCurve (pointTateC W X Y)).toAffine.Nonsingular
+                  (normalizedX W X Y x) (normalizedY W X Y x y),
+              e (WeierstrassCurve.Affine.Point.some x y hxy) =
+                WeierstrassCurve.Affine.Point.some
+                  (normalizedX W X Y x) (normalizedY W X Y x y) hnormalized) ∧
+        (orderFiveCurve (pointTateC W X Y)).c₄ ^ 3 * W.Δ =
+          W.c₄ ^ 3 * (orderFiveCurve (pointTateC W X Y)).Δ := by
   obtain ⟨hbeta, halpha, hparameters, hc⟩ :=
     pointTate_parameters_eq_of_order_five W hns horder
   let scale : ℚˣ := Units.mk0
@@ -202,10 +204,24 @@ private theorem explicitNormalization
   letI : (C₂ • (C₁ • W)).IsElliptic := inferInstance
   have hElliptic : (orderFiveCurve (pointTateC W X Y)).IsElliptic :=
     hcurve ▸ inferInstance
-  refine ⟨hElliptic, h00, e, ?_, hcoordinates⟩
-  rw [hmarkedEq]
-  exact WeierstrassCurve.Affine.Point.some_eq_some _
-    (by simp [normalizedX]) (by simp [normalizedY])
+  have hdisc :
+      ((scale : ℚ))⁻¹ ^ 12 * W.Δ =
+        (orderFiveCurve (pointTateC W X Y)).Δ := by
+    rw [← hcurve, WeierstrassCurve.variableChange_Δ,
+      WeierstrassCurve.variableChange_Δ]
+    simp [C₁, C₂]
+  have hc₄ :
+      ((scale : ℚ))⁻¹ ^ 4 * W.c₄ =
+        (orderFiveCurve (pointTateC W X Y)).c₄ := by
+    rw [← hcurve, WeierstrassCurve.variableChange_c₄,
+      WeierstrassCurve.variableChange_c₄]
+    simp [C₁, C₂]
+  refine ⟨hElliptic, h00, e, ?_, hcoordinates, ?_⟩
+  · rw [hmarkedEq]
+    exact WeierstrassCurve.Affine.Point.some_eq_some _
+      (by simp [normalizedX]) (by simp [normalizedY])
+  · rw [← hc₄, ← hdisc]
+    ring
 
 /-- The order-five parameter obtained by normalizing the marked curve at
 its fifth multiple. -/
@@ -266,7 +282,7 @@ theorem orderTwentyFiveFiveTateParameter_ne
           (tateFiveX b c) (tateFiveY b c) hfiveNs : W.toAffine.Point) = 5 := by
     rw [← hfive, addOrderOf_nsmul' P (by norm_num), horder]
     norm_num
-  obtain ⟨hsourceElliptic, -, -, -, -⟩ :=
+  obtain ⟨hsourceElliptic, -, -, -, -, -⟩ :=
     explicitNormalization W hfiveNs hfiveOrder
   letI : (orderFiveCurve (orderTwentyFiveFiveTateParameter b c)).IsElliptic := by
     simpa only [orderTwentyFiveFiveTateParameter, W] using hsourceElliptic
@@ -356,7 +372,7 @@ theorem explicitQuotientPointPackage
           (tateFiveX b c) (tateFiveY b c) hfiveNs : W.toAffine.Point) = 5 := by
     rw [← hfive, addOrderOf_nsmul' P (by norm_num), horder]
     norm_num
-  obtain ⟨hsourceElliptic, horigin, e, heFive, hcoordinates⟩ :=
+  obtain ⟨hsourceElliptic, horigin, e, heFive, hcoordinates, -⟩ :=
     explicitNormalization W hfiveNs hfiveOrder
   obtain ⟨hc5, hfactor5⟩ :=
     orderTwentyFiveFiveTateParameter_ne b c hb h00 horder
@@ -469,5 +485,37 @@ theorem explicitQuotientPointPackage
   exact ⟨hc5, hfactor5, hsource, htarget,
     hsourceOrder, hsourceFive, hx0, hxc,
     htargetOrder, hbeta, halpha, hparameters, hparameter⟩
+
+/-- The point-selected Tate parameter on the explicit quotient satisfies the
+same invariant relation as the source order-five parameter.  This pins the
+relation to the actual quotient point, rather than to an existentially chosen
+Tate normalization. -/
+theorem orderTwentyFiveQuotientParameter_relation
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25)
+    [(tateNormalCurve b c).IsElliptic] :
+    orderTwentyFiveFiveDivisionRelation
+        (orderTwentyFiveFiveTateParameter b c)
+        (pointTateC
+          (orderFiveVeluTarget (orderTwentyFiveFiveTateParameter b c))
+          (orderTwentyFiveQuotientGeneratorX b c)
+          (orderTwentyFiveQuotientGeneratorY b c)) = 0 := by
+  obtain ⟨hc5, hfactor5, -, htarget, -, -, -, -, htargetOrder, -, -, -, -⟩ :=
+    explicitQuotientPointPackage b c hb h00 horder
+  letI : (orderFiveCurve (orderTwentyFiveFiveTateParameter b c)).IsElliptic :=
+    orderFiveCurve_isElliptic
+      (orderTwentyFiveFiveTateParameter b c) hc5 hfactor5
+  obtain ⟨-, -, -, -, -, hinvariant⟩ :=
+    explicitNormalization
+      (orderFiveVeluTarget (orderTwentyFiveFiveTateParameter b c))
+      htarget htargetOrder
+  rw [orderFiveCurve_c₄, orderFiveCurve_discriminant,
+    orderFiveVeluTarget_discriminant,
+    orderFiveVeluTarget_c₄] at hinvariant
+  exact sub_eq_zero.mpr hinvariant
 
 end MazurTorsion.Kubert
