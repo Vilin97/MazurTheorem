@@ -127,6 +127,7 @@ import MazurTorsion.Kubert.OrderTwentyFiveLehmerDeckTransform
 import MazurTorsion.Kubert.OrderTwentyFiveLehmerThreeAdic
 import MazurTorsion.Kubert.OrderTwentyFiveLehmerNewtonMultiset
 import MazurTorsion.Kubert.OrderTwentyFiveLehmerThreeAdicCycle
+import MazurTorsion.Kubert.OrderTwentyFiveLehmerInfinity
 import MazurTorsion.Kubert.OrderThirtyFive
 import MazurTorsion.Kubert.OrderThirtyFiveGoodReductionAtEleven
 import MazurTorsion.Kubert.OrderThirtyFiveCuspidalReductionAtEleven
