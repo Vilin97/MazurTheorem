@@ -418,6 +418,11 @@ order 25.
   Localize the two represented canonical charts on their common open, construct the
   projective rescaling maps in both directions, prove their algebra-hom composites are
   identities, and obtain the exact affine-scheme transition isomorphism.
+* `definition` (`contract`):
+  `MazurTorsion.Kubert.OrderTwentyFiveCanonicalScheme.curveToBase`
+  Glue the two canonical affine complete-intersection spectra along their checked
+  transition, construct the resulting scheme and structural morphism, retain both open
+  chart immersions, and prove local Noetherianity over a Noetherian base.
 
 :::
 
