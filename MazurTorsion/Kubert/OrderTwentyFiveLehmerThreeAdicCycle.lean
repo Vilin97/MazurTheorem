@@ -513,6 +513,241 @@ theorem orderTwentyFiveLehmer_fiveCycle_threeAdicValuationPattern
       ht0.2.1 ht1.2.1 ht2.2.1 ht3.2.1 ht4.2.1
       ht0.2.2 ht1.2.2 ht2.2.2 ht3.2.2 ht4.2.2
 
+/-- On the `-a` Newton slope, a positive-valued successor forces the root
+to approach the diagonal cusp `x = n`: the difference is 3-integral even
+though both `x` and `n` have valuation `-a`. -/
+theorem orderTwentyFiveLehmer_negOneSlope_cuspCongruence
+    (n x y : ℚ) (a : ℤ) (ha : 0 < a)
+    (hn : padicValRat 3 n = -a)
+    (hxv : padicValRat 3 x = -a)
+    (hyv : padicValRat 3 y = a ∨ padicValRat 3 y = 3 * a)
+    (hroot : orderTwentyFiveLehmerPolynomial n x = 0)
+    (hxy : orderTwentyFiveLehmerDeckTransform n x = y) :
+    0 ≤ padicValRat 3 (x - n) := by
+  have hn0 : n ≠ 0 := by
+    intro hzero
+    rw [hzero, padicValRat.zero] at hn
+    omega
+  have hx0 := root_ne_zero_cycle n x hroot
+  have hyroot : orderTwentyFiveLehmerPolynomial n y = 0 := by
+    rw [← hxy]
+    exact orderTwentyFiveLehmerDeckTransform_isRoot n x hroot
+  have hy0 := root_ne_zero_cycle n y hyroot
+  have hden := val_foldl_add_eq_of_head_lt_cycle (n * x)
+    [(1 : ℚ), -2 * x] (mul_ne_zero hn0 hx0) (by
+      intro r hr
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at hr
+      rcases hr with rfl | rfl
+      · rw [padicValRat.mul hn0 hx0, hn, hxv]
+        norm_num
+        omega
+      · rw [padicValRat.mul hn0 hx0, hn, hxv,
+          padicValRat.mul (by norm_num) hx0,
+          padicValRat.neg, padicValRat_two_cycle]
+        norm_num
+        omega)
+  have hdenEq :
+      [(1 : ℚ), -2 * x].foldl (· + ·) (n * x) =
+        1 + (n - 2) * x := by
+    norm_num
+    ring
+  rw [hdenEq, padicValRat.mul hn0 hx0, hn, hxv] at hden
+  have hnum0 : x ^ 2 - n * x + n - 2 ≠ 0 := by
+    intro hzero
+    apply hy0
+    rw [← hxy, orderTwentyFiveLehmerDeckTransform, hzero, zero_div]
+  have hquot :
+      padicValRat 3 y =
+        padicValRat 3 (x ^ 2 - n * x + n - 2) -
+          padicValRat 3 (1 + (n - 2) * x) := by
+    rw [← hxy, orderTwentyFiveLehmerDeckTransform,
+      padicValRat.div hnum0 hden.1]
+  have hnumLower :
+      -a ≤ padicValRat 3 (x ^ 2 - n * x + n - 2) := by
+    rw [hden.2] at hquot
+    rcases hyv with hyv | hyv <;> omega
+  have hnMinus := val_add_eq_left_of_lt_cycle n (-2) hn0 (by
+    rw [padicValRat.neg, padicValRat_two_cycle, hn]
+    omega)
+  have hnMinusEq : n + (-2) = n - 2 := by ring
+  rw [hnMinusEq, hn] at hnMinus
+  by_contra hnot
+  have hxnval : padicValRat 3 (x - n) < 0 := by omega
+  have hxn0 : x - n ≠ 0 := by
+    intro hzero
+    rw [hzero, padicValRat.zero] at hxnval
+    omega
+  have hprod0 : x * (x - n) ≠ 0 := mul_ne_zero hx0 hxn0
+  have hprodval :
+      padicValRat 3 (x * (x - n)) =
+        -a + padicValRat 3 (x - n) := by
+    rw [padicValRat.mul hx0 hxn0, hxv]
+  have hsum := val_add_eq_left_of_lt_cycle
+    (x * (x - n)) (n - 2) hprod0 (by
+      rw [hprodval, hnMinus.2]
+      omega)
+  have hsumEq :
+      x * (x - n) + (n - 2) = x ^ 2 - n * x + n - 2 := by ring
+  rw [hsumEq, hprodval] at hsum
+  omega
+
+private theorem negOne_successors_positive_of_cyclic_pattern
+    (a z0 z1 z2 z3 z4 : ℤ) (ha : 0 < a)
+    (hpattern :
+      (z0 = 3 * a ∧ z1 = -a ∧ z2 = a ∧ z3 = -2 * a ∧ z4 = -a) ∨
+        (z0 = -a ∧ z1 = 3 * a ∧ z2 = -a ∧ z3 = a ∧ z4 = -2 * a) ∨
+        (z0 = -2 * a ∧ z1 = -a ∧ z2 = 3 * a ∧ z3 = -a ∧ z4 = a) ∨
+        (z0 = a ∧ z1 = -2 * a ∧ z2 = -a ∧ z3 = 3 * a ∧ z4 = -a) ∨
+        (z0 = -a ∧ z1 = a ∧ z2 = -2 * a ∧ z3 = -a ∧ z4 = 3 * a)) :
+    (z0 = -a → z1 = a ∨ z1 = 3 * a) ∧
+      (z1 = -a → z2 = a ∨ z2 = 3 * a) ∧
+      (z2 = -a → z3 = a ∨ z3 = 3 * a) ∧
+      (z3 = -a → z4 = a ∨ z4 = 3 * a) ∧
+      (z4 = -a → z0 = a ∨ z0 = 3 * a) := by
+  rcases hpattern with h | h | h | h | h <;>
+    rcases h with ⟨h0, h1, h2, h3, h4⟩
+  all_goals
+    refine ⟨?_, ?_, ?_, ?_, ?_⟩ <;> intro hz <;> omega
+
+/-- The two `-a`-valued roots in the marked five-cycle approach the diagonal
+infinity node `x = n`: after subtracting the negatively valued Lehmer
+parameter, the difference is 3-integral. -/
+theorem orderTwentyFive_threeAdicCuspCongruences_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25)
+    [(tateNormalCurve b c).IsElliptic] :
+    ∃ m n : ℤ, m ≠ 0 ∧ n ≠ 0 ∧ IsCoprime m n ∧
+      (m : ZMod 3) = 0 ∧ (n : ZMod 3) ≠ 0 ∧
+      -(orderTwentyFiveOrbitParameter
+          (orderTwentyFiveBrunaultXZero b c)
+          (orderTwentyFiveBrunaultXOne b c)
+          (orderTwentyFiveBrunaultXTwo b c)
+          (orderTwentyFiveBrunaultXThree b c)
+          (orderTwentyFiveBrunaultXFour b c)) =
+        orderTwentyFiveFifthPowerHauptmodul
+          ((m : ℚ) / (n : ℚ)) ∧
+      orderTwentyFiveRatIsThreeIntegral
+        (-5 / orderTwentyFiveFifthPowerHauptmodul
+          ((m : ℚ) / (n : ℚ))) ∧
+      ∃ a : ℤ, 0 < a ∧
+        padicValRat 3 ((m : ℚ) / (n : ℚ)) = a ∧
+        let N := -orderTwentyFiveFifthPowerHauptmodul
+          ((m : ℚ) / (n : ℚ))
+        ∀ x ∈ [orderTwentyFiveBrunaultXZero b c,
+            orderTwentyFiveBrunaultXOne b c,
+            orderTwentyFiveBrunaultXTwo b c,
+            orderTwentyFiveBrunaultXThree b c,
+            orderTwentyFiveBrunaultXFour b c],
+          padicValRat 3 x = -a → 0 ≤ padicValRat 3 (x - N) := by
+  obtain ⟨k, hk, -, hkParameter, hkNotUnit, hreciprocal,
+      -, -, hcover⟩ :=
+    orderTwentyFive_kummerCover_of_marked_order b c hb h00 horder
+  obtain ⟨m, n, hm0, hn0, hmn, hm3, hn3, hhaupt, -⟩ :=
+    orderTwentyFiveKummerCover_threeAdicOrientation
+      k (orderTwentyFiveBrunaultXZero b c) hk hkNotUnit hcover
+  obtain ⟨a, ha, hval⟩ :=
+    orderTwentyFiveOrientedFraction_threeAdicValuation
+      m n hm0 hn0 hm3 hn3
+  have hparameter :
+      -(orderTwentyFiveOrbitParameter
+          (orderTwentyFiveBrunaultXZero b c)
+          (orderTwentyFiveBrunaultXOne b c)
+          (orderTwentyFiveBrunaultXTwo b c)
+          (orderTwentyFiveBrunaultXThree b c)
+          (orderTwentyFiveBrunaultXFour b c)) =
+        orderTwentyFiveFifthPowerHauptmodul
+          ((m : ℚ) / (n : ℚ)) := hkParameter.trans hhaupt.symm
+  have hreciprocal' :
+      orderTwentyFiveRatIsThreeIntegral
+        (-5 / orderTwentyFiveFifthPowerHauptmodul
+          ((m : ℚ) / (n : ℚ))) := by
+    simpa only [hhaupt] using hreciprocal
+  let k' : ℚ := (m : ℚ) / (n : ℚ)
+  let N : ℚ := -orderTwentyFiveFifthPowerHauptmodul k'
+  let r0 := orderTwentyFiveBrunaultXZero b c
+  let r1 := orderTwentyFiveBrunaultXOne b c
+  let r2 := orderTwentyFiveBrunaultXTwo b c
+  let r3 := orderTwentyFiveBrunaultXThree b c
+  let r4 := orderTwentyFiveBrunaultXFour b c
+  have hN : N = orderTwentyFiveOrbitParameter r0 r1 r2 r3 r4 := by
+    dsimp only [N, r0, r1, r2, r3, r4, k']
+    linarith
+  have hNv : padicValRat 3 N = -a := by
+    dsimp only [N]
+    exact orderTwentyFiveFifthPowerHauptmodul_threeAdicValuation
+      k' a ha (by simpa only [k'] using hval)
+  have hor0 := orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order
+    b c hb h00 horder
+  have hor1 := orderTwentyFiveOrbitRelationOne_eq_zero_of_marked_order
+    b c hb h00 horder
+  have hor2 := orderTwentyFiveOrbitRelationTwo_eq_zero_of_marked_order
+    b c hb h00 horder
+  have hor3 := orderTwentyFiveOrbitRelationThree_eq_zero_of_marked_order
+    b c hb h00 horder
+  have hor4 := orderTwentyFiveOrbitRelationFour_eq_zero_of_marked_order
+    b c hb h00 horder
+  have hor5 := orderTwentyFiveOrbitRelationFive_eq_zero_of_marked_order
+    b c hb h00 horder
+  have hxOne : r0 ≠ 1 := by
+    dsimp only [r0]
+    rw [orderTwentyFiveBrunaultXZero_eq_U]
+    exact orderTwentyFiveBrunaultU_ne_one_of_marked_order
+      b c hb h00 horder
+  have hroot0 : orderTwentyFiveLehmerPolynomial N r0 = 0 := by
+    rw [hN]
+    exact (orderTwentyFiveLehmer_selectedRoots_of_orbit
+      r0 r1 r2 r3 r4 hxOne hor0 hor1 hor2 hor3 hor4 hor5).1
+  have hcycle := orderTwentyFiveLehmerDeckTransform_cycle_of_orbit
+    r0 r1 r2 r3 r4 hxOne hor0 hor1 hor2 hor3 hor4 hor5
+  dsimp only at hcycle
+  rw [← hN] at hcycle
+  obtain ⟨h01, h12, h23, h34, h40⟩ := hcycle
+  have hroot1 : orderTwentyFiveLehmerPolynomial N r1 = 0 := by
+    rw [← h01]
+    exact orderTwentyFiveLehmerDeckTransform_isRoot N r0 hroot0
+  have hroot2 : orderTwentyFiveLehmerPolynomial N r2 = 0 := by
+    rw [← h12]
+    exact orderTwentyFiveLehmerDeckTransform_isRoot N r1 hroot1
+  have hroot3 : orderTwentyFiveLehmerPolynomial N r3 = 0 := by
+    rw [← h23]
+    exact orderTwentyFiveLehmerDeckTransform_isRoot N r2 hroot2
+  have hroot4 : orderTwentyFiveLehmerPolynomial N r4 = 0 := by
+    rw [← h34]
+    exact orderTwentyFiveLehmerDeckTransform_isRoot N r3 hroot3
+  have hproduct : r0 * r1 * r2 * r3 * r4 = 1 := by
+    simpa only [orderTwentyFiveOrbitRelationFive, sub_eq_zero] using hor5
+  have hpattern :=
+    orderTwentyFiveLehmer_fiveCycle_threeAdicValuationPattern
+      N r0 r1 r2 r3 r4 a ha hNv hroot0 hroot1 hroot2 hroot3 hroot4
+      h01 h12 h23 h34 h40 hproduct
+  have hpositive := negOne_successors_positive_of_cyclic_pattern a
+    (padicValRat 3 r0) (padicValRat 3 r1) (padicValRat 3 r2)
+    (padicValRat 3 r3) (padicValRat 3 r4) ha (by
+      simpa only [r0, r1, r2, r3, r4] using hpattern)
+  have hcusp : ∀ x ∈ [r0, r1, r2, r3, r4],
+      padicValRat 3 x = -a → 0 ≤ padicValRat 3 (x - N) := by
+    intro x hx hxv
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hx
+    rcases hx with rfl | rfl | rfl | rfl | rfl
+    · exact orderTwentyFiveLehmer_negOneSlope_cuspCongruence
+        N r0 r1 a ha hNv hxv (hpositive.1 hxv) hroot0 h01
+    · exact orderTwentyFiveLehmer_negOneSlope_cuspCongruence
+        N r1 r2 a ha hNv hxv (hpositive.2.1 hxv) hroot1 h12
+    · exact orderTwentyFiveLehmer_negOneSlope_cuspCongruence
+        N r2 r3 a ha hNv hxv (hpositive.2.2.1 hxv) hroot2 h23
+    · exact orderTwentyFiveLehmer_negOneSlope_cuspCongruence
+        N r3 r4 a ha hNv hxv (hpositive.2.2.2.1 hxv) hroot3 h34
+    · exact orderTwentyFiveLehmer_negOneSlope_cuspCongruence
+        N r4 r0 a ha hNv hxv (hpositive.2.2.2.2 hxv) hroot4 h40
+  refine ⟨m, n, hm0, hn0, hmn, hm3, hn3, hparameter,
+    hreciprocal', a, ha, hval, ?_⟩
+  simpa only [N, k', r0, r1, r2, r3, r4] using hcusp
+
+
 /-- A rational marked point of order twenty-five has cyclic Brunault-root
 valuations `(3a,-a,a,-2a,-a)`, up to the choice of starting coordinate. -/
 theorem orderTwentyFive_exactThreeAdicRootValuationCycle_of_marked_order
@@ -643,4 +878,3 @@ theorem orderTwentyFive_exactThreeAdicRootValuationCycle_of_marked_order
   · simpa only [r0, r1, r2, r3, r4] using hpattern
 
 end MazurTorsion.Kubert
-
