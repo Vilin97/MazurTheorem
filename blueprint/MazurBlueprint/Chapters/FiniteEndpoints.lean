@@ -329,6 +329,11 @@ order 25.
   `MazurTorsion.Kubert.orderTwentyFive_threeAdicInfinityCuspCycle_of_marked_order`
   Determine the exact cyclic order of all five resolved infinity cusps for the actual
   Brunault root orbit, up to rotation.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFive_firstCuspDifference_exactOrder`
+  Turn the five cyclic cusp-divisor relations with order vector (3,-1,1,-2,-1) into an
+  explicit 71-annihilation certificate and exact order 71 for distinct adjacent cusp
+  classes.
 
 :::
 
