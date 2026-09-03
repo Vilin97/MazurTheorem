@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
 - Ecosystem readiness is **20%**.
-- The audited baseline contains **1,950 Lean modules** and **1,966,075 Lean
+- The audited baseline contains **1,950 Lean modules** and **1,966,429 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -166,7 +166,9 @@ compatibility then prove that the transported order-twenty-five point maps to
 a rational point of exact order five on the quotient. This produces the second
 rational five-level structure needed for a direct parameter comparison without
 asserting that a Fricke involution preserves a rational generator. A reusable
-exact-order-five normalization now preserves the discriminant and `c₄` scales;
+exact-order-five normalization now preserves the discriminant and `c₄` scales,
+and its explicit marked-point version proves that the particular normalization
+at `5P` has equal, nonzero Tate parameters;
 applied to that quotient image, it eliminates the scale and proves an explicit
 cleared equation between two noncuspidal rational order-five parameters. Its
 complete factorization is checked: the quadratic component has no rational
@@ -179,12 +181,17 @@ exceptional rational pole on the curve, and direct identities prove that
 `n ↦ 5/n` exchanges the two `X₀(5)` degeneracy values with reciprocal factor
 `125`. This is an `X₀`-level Fricke statement: it does not yet construct the
 Fricke-transformed Lécacheux orbit with a rational generator. The next gap is
-to identify the recovered Hauptmodul with the orbit parameter, including its
-sign convention, and lift this symmetry to that generator-level data.
+to identify this explicit fifth-multiple parameter with the Lécacheux orbit
+parameter, including its sign convention, and lift the symmetry to that
+generator-level data.
 
 The checked Lécacheux orbit route also recovers the invariant
 parameter from the five orbit coordinates and proves that the six cyclic
 relations force the two selected coordinates to satisfy Lehmer's quintic.
+The same six relations now rule out the pole in Lécacheux's smaller
+two-consecutive-root recovery formula and prove, for the actual marked Tate
+point, that it equals the symmetric five-root parameter. This isolates the raw
+comparison to two orbit coordinates rather than five.
 Consequently `no_orderTwentyFiveBrunaultOrbit_of_threeIntegral` rules out the
 orbit as soon as its recovered invariant is integral at three, without taking
 the two root facts as assumptions. Exact-order separation already proves

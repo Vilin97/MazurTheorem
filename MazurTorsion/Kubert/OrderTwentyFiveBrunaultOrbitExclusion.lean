@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.Kubert.OrderTwentyFiveBrunaultIntegrality
 import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitCertificate
+import Mathlib.RingTheory.Polynomial.RationalRoot
 
 /-!
 # Arithmetic exclusion for a Lécacheux order-twenty-five orbit
@@ -32,6 +33,96 @@ def orderTwentyFiveOrbitParameter (a b c d e : ℚ) : ℚ :=
       (a * b * c * d + a * b * c * e + a * b * d * e +
         a * c * d * e + b * c * d * e) -
       (a + b + c + d + e)) / 5
+
+/-- The denominator in Lécacheux's two-consecutive-root recovery formula
+for the invariant parameter. -/
+def orderTwentyFiveOrbitPairDenominator (a b : ℚ) : ℚ :=
+  1 - a - a * b
+
+/-- Lécacheux's invariant parameter recovered from the first two
+consecutive roots of the cyclic orbit. -/
+def orderTwentyFiveOrbitPairParameter (a b : ℚ) : ℚ :=
+  (2 - 2 * a * b - a ^ 2 + b) /
+    orderTwentyFiveOrbitPairDenominator a b
+
+private noncomputable def orderTwentyFiveOrbitPairExceptionalPolynomial :
+    Polynomial ℤ :=
+  Polynomial.X ^ 3 - 2 * Polynomial.X ^ 2 + Polynomial.X - 1
+
+private theorem orderTwentyFiveOrbitPairExceptionalPolynomial_monic :
+    orderTwentyFiveOrbitPairExceptionalPolynomial.Monic := by
+  unfold orderTwentyFiveOrbitPairExceptionalPolynomial
+  monicity!
+
+private theorem orderTwentyFiveOrbitPairExceptionalPolynomial_ne_zero
+    (a : ℚ) :
+    a ^ 3 - 2 * a ^ 2 + a - 1 ≠ 0 := by
+  intro ha
+  have hroot :
+      Polynomial.aeval a orderTwentyFiveOrbitPairExceptionalPolynomial = 0 := by
+    rw [Polynomial.aeval_def]
+    norm_num [orderTwentyFiveOrbitPairExceptionalPolynomial]
+    linear_combination ha
+  obtain ⟨z, haz, hdiv⟩ :=
+    exists_integer_of_is_root_of_monic
+      orderTwentyFiveOrbitPairExceptionalPolynomial_monic hroot
+  have hunit : IsUnit z := by
+    rw [isUnit_iff_dvd_one]
+    simpa [orderTwentyFiveOrbitPairExceptionalPolynomial] using hdiv
+  rcases Int.isUnit_iff.mp hunit with rfl | rfl
+  · norm_num [haz] at ha
+  · norm_num [haz] at ha
+
+/-- The two-root recovery formula has no rational pole on a complete
+Lécacheux orbit. At a putative pole, the cyclic equations force the first
+root to satisfy a monic cubic with constant coefficient `-1`; the rational
+root theorem excludes both possible integral roots. -/
+theorem orderTwentyFiveOrbitPairDenominator_ne_zero
+    (a b c d e : ℚ)
+    (h0 : orderTwentyFiveOrbitRelationZero a b c d e = 0)
+    (h1 : orderTwentyFiveOrbitRelationOne a b c d e = 0)
+    (h2 : orderTwentyFiveOrbitRelationTwo a b c d e = 0)
+    (h3 : orderTwentyFiveOrbitRelationThree a b c d e = 0)
+    (h4 : orderTwentyFiveOrbitRelationFour a b c d e = 0)
+    (h5 : orderTwentyFiveOrbitRelationFive a b c d e = 0) :
+    orderTwentyFiveOrbitPairDenominator a b ≠ 0 := by
+  intro hden
+  have hcubic : a ^ 3 - 2 * a ^ 2 + a - 1 = 0 := by
+    simp only [orderTwentyFiveOrbitPairDenominator,
+      orderTwentyFiveOrbitRelationZero,
+      orderTwentyFiveOrbitRelationOne,
+      orderTwentyFiveOrbitRelationTwo,
+      orderTwentyFiveOrbitRelationThree,
+      orderTwentyFiveOrbitRelationFour,
+      orderTwentyFiveOrbitRelationFive] at hden h0 h1 h2 h3 h4 h5
+    grobner
+  exact orderTwentyFiveOrbitPairExceptionalPolynomial_ne_zero a hcubic
+
+/-- On a complete Lécacheux orbit, the symmetric five-root definition of
+the invariant agrees with its substantially smaller two-consecutive-root
+formula. -/
+theorem orderTwentyFiveOrbitParameter_eq_pairParameter
+    (a b c d e : ℚ)
+    (h0 : orderTwentyFiveOrbitRelationZero a b c d e = 0)
+    (h1 : orderTwentyFiveOrbitRelationOne a b c d e = 0)
+    (h2 : orderTwentyFiveOrbitRelationTwo a b c d e = 0)
+    (h3 : orderTwentyFiveOrbitRelationThree a b c d e = 0)
+    (h4 : orderTwentyFiveOrbitRelationFour a b c d e = 0)
+    (h5 : orderTwentyFiveOrbitRelationFive a b c d e = 0) :
+    orderTwentyFiveOrbitParameter a b c d e =
+      orderTwentyFiveOrbitPairParameter a b := by
+  have hden := orderTwentyFiveOrbitPairDenominator_ne_zero
+    a b c d e h0 h1 h2 h3 h4 h5
+  rw [orderTwentyFiveOrbitPairParameter, eq_div_iff hden]
+  simp only [orderTwentyFiveOrbitParameter,
+    orderTwentyFiveOrbitPairDenominator,
+    orderTwentyFiveOrbitRelationZero,
+    orderTwentyFiveOrbitRelationOne,
+    orderTwentyFiveOrbitRelationTwo,
+    orderTwentyFiveOrbitRelationThree,
+    orderTwentyFiveOrbitRelationFour,
+    orderTwentyFiveOrbitRelationFive] at h0 h1 h2 h3 h4 h5 ⊢
+  grobner
 
 private def orderTwentyFiveOrbitInvariantRelation
     (n a b c d e : ℚ) : ℚ :=

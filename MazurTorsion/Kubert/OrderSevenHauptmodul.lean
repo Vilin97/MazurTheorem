@@ -20,31 +20,6 @@ open scoped WeierstrassCurve.Affine
 
 namespace MazurTorsion.Kubert
 
-/-- The vertical tangent denominator used to normalize a marked affine
-point to Tate normal form. -/
-def pointTateBeta (W : WeierstrassCurve ℚ) (x y : ℚ) : ℚ :=
-  W.a₃ + x * W.a₁ + 2 * y
-
-/-- The tangent slope used in the first translation-shear of Tate
-normalization. -/
-def pointTateLambda (W : WeierstrassCurve ℚ) (x y : ℚ) : ℚ :=
-  (W.a₄ + 2 * x * W.a₂ - y * W.a₁ + 3 * x ^ 2) /
-    pointTateBeta W x y
-
-/-- The quadratic coefficient after translating a marked affine point to
-the origin and making its tangent horizontal. -/
-def pointTateAlpha (W : WeierstrassCurve ℚ) (x y : ℚ) : ℚ :=
-  W.a₂ - W.a₁ * pointTateLambda W x y + 3 * x -
-    pointTateLambda W x y ^ 2
-
-/-- The `d = b / c` parameter obtained by the explicit Tate normalization
-at an affine point. -/
-def pointTateParameter (W : WeierstrassCurve ℚ) (x y : ℚ) : ℚ :=
-  -pointTateAlpha W x y ^ 3 /
-    (pointTateBeta W x y *
-      (pointTateBeta W x y - pointTateAlpha W x y *
-        (W.a₁ + 2 * pointTateLambda W x y)))
-
 /-- The level-seven Hauptmodul obtained by explicit Tate normalization at
 an affine point. -/
 def orderSevenHauptmodulAt

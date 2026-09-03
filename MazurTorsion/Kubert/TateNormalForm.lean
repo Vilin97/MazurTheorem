@@ -38,6 +38,43 @@ def tateNormalCurve (b c : ℚ) : WeierstrassCurve ℚ :=
 @[simp] lemma tateNormalCurve_a₄ (b c : ℚ) : (tateNormalCurve b c).a₄ = 0 := rfl
 @[simp] lemma tateNormalCurve_a₆ (b c : ℚ) : (tateNormalCurve b c).a₆ = 0 := rfl
 
+/-- The vertical tangent denominator used to normalize a marked affine
+point to Tate normal form. -/
+def pointTateBeta (W : WeierstrassCurve ℚ) (x y : ℚ) : ℚ :=
+  W.a₃ + x * W.a₁ + 2 * y
+
+/-- The tangent slope used in the first translation-shear of explicit Tate
+normalization. -/
+def pointTateLambda (W : WeierstrassCurve ℚ) (x y : ℚ) : ℚ :=
+  (W.a₄ + 2 * x * W.a₂ - y * W.a₁ + 3 * x ^ 2) /
+    pointTateBeta W x y
+
+/-- The quadratic coefficient after translating a marked affine point to
+the origin and making its tangent horizontal. -/
+def pointTateAlpha (W : WeierstrassCurve ℚ) (x y : ℚ) : ℚ :=
+  W.a₂ - W.a₁ * pointTateLambda W x y + 3 * x -
+    pointTateLambda W x y ^ 2
+
+/-- The first Tate parameter produced by explicit normalization at an
+affine point. -/
+def pointTateB (W : WeierstrassCurve ℚ) (x y : ℚ) : ℚ :=
+  -pointTateAlpha W x y ^ 3 / pointTateBeta W x y ^ 2
+
+/-- The second Tate parameter produced by explicit normalization at an
+affine point. -/
+def pointTateC (W : WeierstrassCurve ℚ) (x y : ℚ) : ℚ :=
+  (pointTateBeta W x y - pointTateAlpha W x y *
+      (W.a₁ + 2 * pointTateLambda W x y)) /
+    pointTateBeta W x y
+
+/-- The ratio `b / c` produced by explicit Tate normalization at an affine
+point. -/
+def pointTateParameter (W : WeierstrassCurve ℚ) (x y : ℚ) : ℚ :=
+  -pointTateAlpha W x y ^ 3 /
+    (pointTateBeta W x y *
+      (pointTateBeta W x y - pointTateAlpha W x y *
+        (W.a₁ + 2 * pointTateLambda W x y)))
+
 /-- The marked origin is nonsingular whenever the Tate parameter `b` is nonzero. -/
 lemma tateNormalCurve_nonsingular_origin (b c : ℚ) (hb : b ≠ 0) :
     (tateNormalCurve b c).toAffine.Nonsingular 0 0 := by

@@ -7,6 +7,7 @@ Authors: Vasily Ilin
 import MazurTorsion.Kubert.OrderTwentyFiveBrunault
 import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitCertificate
 import MazurTorsion.Kubert.OrderTwentyFiveBrunaultOrbitExclusion
+import MazurTorsion.Kubert.OrderFive
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitData
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitNormData
 import MazurTorsion.Kubert.OrderTwentyFiveRawOrbitRelationTwoData
@@ -3464,6 +3465,77 @@ theorem orderTwentyFiveOrbitRelationOne_eq_zero_of_marked_order
     (orderTwentyFiveOrbitRelationThree_eq_zero_of_marked_order b c hb h00 horder)
     (orderTwentyFiveOrbitRelationFour_eq_zero_of_marked_order b c hb h00 horder)
     (orderTwentyFiveOrbitRelationFive_eq_zero_of_marked_order b c hb h00 horder)
+
+/-- On an actual exact-order-25 marked Tate point, Lécacheux's symmetric
+five-root parameter is already recovered from the first two consecutive
+orbit units.  This is the marked-point consumer of the abstract two-root
+recovery theorem. -/
+theorem orderTwentyFiveOrbitParameter_eq_pairParameter_of_marked_order
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    orderTwentyFiveOrbitParameter
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c)
+        (orderTwentyFiveBrunaultXTwo b c)
+        (orderTwentyFiveBrunaultXThree b c)
+        (orderTwentyFiveBrunaultXFour b c) =
+      orderTwentyFiveOrbitPairParameter
+        (orderTwentyFiveBrunaultXZero b c)
+        (orderTwentyFiveBrunaultXOne b c) := by
+  apply orderTwentyFiveOrbitParameter_eq_pairParameter
+  · exact orderTwentyFiveOrbitRelationZero_eq_zero_of_marked_order
+      b c hb h00 horder
+  · exact orderTwentyFiveOrbitRelationOne_eq_zero_of_marked_order
+      b c hb h00 horder
+  · exact orderTwentyFiveOrbitRelationTwo_eq_zero_of_marked_order
+      b c hb h00 horder
+  · exact orderTwentyFiveOrbitRelationThree_eq_zero_of_marked_order
+      b c hb h00 horder
+  · exact orderTwentyFiveOrbitRelationFour_eq_zero_of_marked_order
+      b c hb h00 horder
+  · exact orderTwentyFiveOrbitRelationFive_eq_zero_of_marked_order
+      b c hb h00 horder
+
+/-- The explicit Tate normalization at the fifth multiple of an
+exact-order-25 marked Tate point produces one nonzero diagonal order-five
+parameter.  This retains the particular normalization needed by the
+degeneracy-map comparison, rather than choosing an unrelated order-five
+model. -/
+theorem orderTwentyFive_fiveMultiple_pointTate_parameters
+    (b c : ℚ) (hb : b ≠ 0)
+    (h00 : (tateNormalCurve b c).toAffine.Nonsingular 0 0)
+    (horder :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some 0 0 h00 :
+          (tateNormalCurve b c).toAffine.Point) = 25) :
+    pointTateBeta (tateNormalCurve b c) (tateFiveX b c) (tateFiveY b c) ≠ 0 ∧
+      pointTateAlpha (tateNormalCurve b c) (tateFiveX b c) (tateFiveY b c) ≠ 0 ∧
+      pointTateB (tateNormalCurve b c) (tateFiveX b c) (tateFiveY b c) =
+        pointTateC (tateNormalCurve b c) (tateFiveX b c) (tateFiveY b c) ∧
+      pointTateC (tateNormalCurve b c) (tateFiveX b c) (tateFiveY b c) ≠ 0 := by
+  obtain ⟨hc, hbc, -⟩ :=
+    orderTwentyFiveNoncuspidalFactor_eq_zero_of_marked_order
+      b c hb h00 horder
+  obtain ⟨hfiveNs, hfiveEq⟩ :=
+    five_nsmul_origin_coordinates b c hb hc hbc h00
+  let P : (tateNormalCurve b c).toAffine.Point :=
+    WeierstrassCurve.Affine.Point.some 0 0 h00
+  have horderFiveMultiple : addOrderOf ((5 : ℕ) • P) = 5 := by
+    rw [addOrderOf_nsmul' P (by norm_num), horder]
+    norm_num
+  have horderFive :
+      addOrderOf
+        (WeierstrassCurve.Affine.Point.some
+          (tateFiveX b c) (tateFiveY b c) hfiveNs :
+          (tateNormalCurve b c).toAffine.Point) = 5 := by
+    rw [← hfiveEq]
+    exact horderFiveMultiple
+  exact pointTate_parameters_eq_of_order_five
+    (tateNormalCurve b c) hfiveNs horderFive
 
 /-- An exact-order-25 marked Tate point is impossible as soon as its recovered
 Lécacheux orbit parameter is integral at three. All orbit and Lehmer-root

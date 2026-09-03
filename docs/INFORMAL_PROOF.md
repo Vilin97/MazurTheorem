@@ -177,9 +177,12 @@ Use the Tate-normal-form/order-25 endpoint. Its large polynomial certificates
 are checked and optimized. Exact-order separation proves the exceptional value
 is avoided. Four independent Lécacheux cyclic relations and the norm-one
 relation are checked, and the fifth cyclic relation follows algebraically.
-The recovered-parameter exclusion is therefore checked when that parameter is
-integral at three. Fricke transport for the reciprocal parameter and the final
-unconditional rational-point exclusion remain.
+The symmetric orbit parameter is also proved equal to Lécacheux's pole-free
+formula from two consecutive roots, while explicit Tate normalization at `5P`
+retains one equal, nonzero order-five parameter. The recovered-parameter
+exclusion is therefore checked when that parameter is integral at three.
+Identifying the two explicit parameters, Fricke transport for the reciprocal
+case, and the final unconditional rational-point exclusion remain.
 
 ### Order 35
 

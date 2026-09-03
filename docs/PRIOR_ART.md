@@ -1132,7 +1132,12 @@ identity to recover `n` from the orbit coordinates.  Lean's checked polynomial
 normalization proves that, away from the exceptional value `x₀ = 1`, the
 six orbit equations force the elementary symmetric coefficients printed in
 the source and hence make `x₀` and `x₂` roots of the quintic.  The proof
-imports no external Gröbner certificate.  Exact-order separation now proves
+imports no external Gröbner certificate.  The two-consecutive-root identity on
+p. 243 also gives
+`n = (2 - 2*x₀*x₁ - x₀² + x₁) / (1 - x₀ - x₀*x₁)`.
+The local proof derives this formula from the six orbit equations and excludes
+its possible rational pole by the monic cubic forced at a zero denominator.
+Exact-order separation now proves
 the exceptional value is avoided, and an exact coefficientwise polynomial
 certificate proves four independent cyclic relations for the explicit Tate
 cross-ratios. The norm-one relation is also checked, and those five equations

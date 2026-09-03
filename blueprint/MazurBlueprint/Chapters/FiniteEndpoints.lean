@@ -247,6 +247,14 @@ order 25.
   Recover a rational X₀(25) Hauptmodul from the two quotient-normalized X₀(5) parameters
   and check that n ↦ 5/n exchanges their degeneracy values with reciprocal factor 125.
 * `theorem` (`contract`):
+  `MazurTorsion.Kubert.pointTate_parameters_eq_of_order_five`
+  Show that explicit Tate normalization at a specified affine point of exact order five
+  has nonzero normalization factors and produces equal, nonzero Tate parameters.
+* `theorem` (`contract`):
+  `MazurTorsion.Kubert.orderTwentyFiveOrbitParameter_eq_pairParameter_of_marked_order`
+  Recover the symmetric Lécacheux invariant of an actual marked order-25 point from its
+  first two consecutive orbit units, with the possible rational pole excluded.
+* `theorem` (`contract`):
   `MazurTorsion.Kubert.orderTwentyFiveLehmer_selectedRoots_of_orbit`
   Recover Lécacheux's invariant from an abstract orbit and prove the two Brunault
   coordinates are roots of Lehmer's quintic.
