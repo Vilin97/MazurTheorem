@@ -22,7 +22,7 @@ are selected, leaving one slot unused:
 | Lane | Node slice | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|---|
 | Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Global projective addition, both categorical unit laws, commutativity, and both inverse laws are checked; prove associativity and coordinate-point compatibility, then remove the supplied shadows from the named order-49 consumer. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
+| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Global projective addition and all group laws, including associativity, are checked and the canonical commutative `GrpObj` is installed; prove coordinate-point compatibility, then remove the supplied point-compatibility shadow from the named order-49 consumer. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
 
 Only these two `current_work_package` values count as selected WIP. Other
 packages whose status is `active` are ready, not assigned. Package weights
@@ -112,8 +112,9 @@ projective infinity section is both the categorical left and right unit.
 Swapping the tensor factors on the dense standard-pair output-`Z` open fixes
 the normalized secant morphism and extends to categorical commutativity. The
 inverse graph restricts on a dense derivative open to the infinity section,
-and separatedness extends this to both categorical inverse laws. The remaining
-group law is associativity.
+and separatedness extends this to both categorical inverse laws. Associativity
+is now proved on the dominant generic standard triple and extended globally by
+separatedness; these laws install the canonical commutative `GrpObj`.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
@@ -150,8 +151,9 @@ now pairwise compatible on their exact pullbacks and glue across that entire
 chart. The four resulting chart morphisms are now compatible on every
 categorical intersection and glue to a global addition morphism over
 `Spec K`, with every chart restriction checked. Its projective infinity
-section is now a checked categorical left and right unit. The remaining work
-is associativity and coordinate-point compatibility.
+section is now a checked categorical left and right unit. Associativity is
+checked by the generic-triple fraction-field argument, so the remaining work
+is coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and

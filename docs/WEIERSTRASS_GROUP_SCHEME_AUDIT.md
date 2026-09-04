@@ -335,25 +335,26 @@ any compatible future group object has exactly this unit morphism.  Its
 standard-chart `Gamma₀(N)` constructor consumes `map_zero`; this prevents the
 new pointed interface from being an unused restatement.
 
+`projectiveAdditionOver_assoc` now proves associativity by evaluating the
+dominant generic standard triple in its tensor-coordinate fraction field and
+using the checked projective-point group law there.  The two normalized
+iterated sums are compared as actual chart algebra maps, and separatedness
+extends their equality globally.  `projectiveGrpObj` consequently packages
+the checked addition, infinity section, and negation as a canonical
+commutative group object.
+
 ## Remaining mathematical boundary
 
-The full `MT-X0-MODULI` acceptance boundary still requires the following
-checked constructions for every elliptic Weierstrass curve over the relevant
-field:
+The full `MT-X0-MODULI` acceptance boundary still requires compatibility of
+the canonical forward coordinate-point map with the
+scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
+now checked.  The ellipticity hypothesis used for surjectivity is essential:
+for a singular Weierstrass equation the reduced cubic may have rational
+singular points which are deliberately absent from Mathlib's nonsingular
+`Projective.Point` type.  Once group-law compatibility is checked,
+`canonicalProjectivePointEquiv` then packages the multiplicative equivalence
+and the existing bridge derives the affine-coordinate comparison.
 
-1. associativity for the checked global multiplication morphism. The section
-   at infinity is already proved to be its categorical left and right unit,
-   commutativity is checked, and homogeneous negation is proved to satisfy both
-   categorical inverse equations;
-2. compatibility of the canonical forward coordinate-point map with the
-   scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
-   now checked.  The ellipticity hypothesis used for surjectivity is essential:
-   for a singular Weierstrass equation the reduced cubic may have rational
-   singular points which are deliberately absent from Mathlib's nonsingular
-   `Projective.Point` type.  Once group-law compatibility is checked,
-   `canonicalProjectivePointEquiv` packages the multiplicative equivalence and
-   the existing bridge derives the affine-coordinate comparison.
-
-No searched dependency supplies the remaining group laws or pointed
-Picard/Jacobian comparison at the pinned revisions. They remain formalization
-work rather than external blockers.
+No searched dependency supplies the remaining coordinate-point compatibility
+or pointed Picard/Jacobian comparison at the pinned revisions. They remain
+formalization work rather than external blockers.
