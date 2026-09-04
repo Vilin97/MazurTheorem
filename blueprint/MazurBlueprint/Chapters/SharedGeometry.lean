@@ -722,6 +722,25 @@ order-49 consumers.
   Prove on `D(B∞)` that the regular slope satisfies `slope * (x₁ - x₂) = z₁ - z₂`,
   including along the diagonal.
 * `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairNeighborhoodAdditionCoordinates_equation`
+  Prove that the denominator-free third-intersection addition triple satisfies the
+  mapped homogeneous cubic throughout `D(B∞)`, including on the diagonal.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairNeighborhoodAdditionCoordinates_at_origin`
+  Specialize the local addition triple at `(O, O)` to `[0 : -1 : 0]`, the identity
+  projective point.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairOriginAdditionOpen`
+  Realize the successive `B∞` and output-Y localizations as an actual open neighborhood
+  of `(O, O)` in the infinity-by-infinity projective-pair chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairOriginAdditionMorphism`
+  Define the genuine regular addition morphism from the selected origin neighborhood
+  into the concrete projective cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairOriginAdditionMorphism_comp_structureMap`
+  Prove that the infinity-diagonal local addition morphism lies over the base field.
+* `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual
   finite free-translation quotient.

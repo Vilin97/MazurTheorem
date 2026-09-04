@@ -229,8 +229,12 @@ two universal cubic equations now gives the checked factorization
 `(z₁ - z₂) B∞ = (x₁ - x₂) A∞`. Hence `A∞ / B∞` is a regular slope on
 `D(B∞)`, including along the diagonal. There `B∞` is exactly the projective
 `Z` partial derivative; an explicit evaluation map through the localization
-proves `B∞(O, O) = 1` and slope `(O, O) = 0`. The genuine addition output
-formula on this neighborhood, its compatibility with secant addition, and the
+proves `B∞(O, O) = 1` and slope `(O, O) = 0`. A coefficient-by-coefficient
+third-intersection calculation now gives the denominator-free addition triple
+`[N : -D - a₁N - a₃M : M]` and proves it satisfies the mapped cubic without
+cancelling either `x₁ - x₂` or `D`. Its output-`Y` localization is an actual
+open neighborhood containing `(O, O)`, with a checked over-base addition
+morphism into the concrete cubic. Compatibility with secant addition and the
 global gluing remain open.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
@@ -260,11 +264,10 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a global multiplication morphism obtained by constructing the genuine
-   addition output triple from the checked regular slope on the
-   infinity-by-infinity diagonal neighborhood, transporting it across the
-   remaining projective-product members meeting infinity, proving its overlaps
-   with the checked secant maps and the checked standard member, gluing the
+1. a global multiplication morphism obtained by proving that the genuine
+   infinity-diagonal addition morphism agrees with the checked secant maps,
+   transporting it across the remaining projective-product members meeting
+   infinity, proving the overlaps with the checked standard member, gluing the
    local maps, and proving the group laws using the checked section at infinity
    and homogeneous negation as the identity and inverse candidates;
 2. compatibility of the canonical forward coordinate-point map with the
