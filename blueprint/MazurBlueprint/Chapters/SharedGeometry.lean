@@ -618,6 +618,22 @@ order-49 consumers.
   Transport the raw homogeneous addition triple on the affine universal inputs to the
   projective standard-pair triple.
 * `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairOutputZToSecant`
+  Construct the canonical map from the raw standard-pair output-Z localization to the
+  checked secant chart.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairOutputZToSecant_comp_secantChartToPair`
+  Identify the canonical output-to-secant map over the affine-pair source with the raw
+  output open over the standard projective-pair chart.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairOutputZToSecant_comp_secantAdditionProjectiveMorphism`
+  Prove that the checked affine secant formula pulls back to the normalized raw
+  homogeneous standard-pair formula.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairStandardOutputOpen_comp_standardPairAdditionMorphism`
+  Identify the localized raw standard-pair addition morphism with the exact restriction
+  of the globally glued affine-pair addition law.
+* `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartIsoSpecTensor`
   Identify every member of the four-chart projective-pair cover with the spectrum of the
   tensor product of its two chart coordinate rings.

@@ -208,7 +208,11 @@ ring are now explicitly equivalent as `K`-algebras. The equivalence identifies
 all four universal affine coordinates and the secant denominator, its spectrum
 map is proved to be the canonical geometric comparison, and it transports the
 raw homogeneous addition triple (whose standard output `Z` is the cube of the
-transported denominator).
+transported denominator). Localizing at that raw output `Z` now gives a
+canonical map to the checked affine secant chart. Its source factorization and
+its cubic-valued formula both commute, so the normalized raw homogeneous
+morphism is exactly the restriction of the globally glued standard-pair
+addition morphism.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor

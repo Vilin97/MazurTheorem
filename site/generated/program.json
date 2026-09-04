@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2076605,
-    "integrated_lean_modules": 2001,
+    "integrated_lean_lines": 2077201,
+    "integrated_lean_modules": 2002,
     "remaining_composite_orders": [
       25,
       35
@@ -3101,6 +3101,34 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairOutputZToSecant",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassStandardPairAdditionCompatibility",
+          "description": "Construct the canonical map from the raw standard-pair output-Z localization to the checked secant chart."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairOutputZToSecant_comp_secantChartToPair",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassStandardPairAdditionCompatibility",
+          "description": "Identify the canonical output-to-secant map over the affine-pair source with the raw output open over the standard projective-pair chart."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairOutputZToSecant_comp_secantAdditionProjectiveMorphism",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassStandardPairAdditionCompatibility",
+          "description": "Prove that the checked affine secant formula pulls back to the normalized raw homogeneous standard-pair formula."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairStandardOutputOpen_comp_standardPairAdditionMorphism",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassStandardPairAdditionCompatibility",
+          "description": "Identify the localized raw standard-pair addition morphism with the exact restriction of the globally glued affine-pair addition law."
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartIsoSpecTensor",
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductChartRings",
@@ -3459,8 +3487,8 @@
         "revision": "sequence the canonical Weierstrass group scheme, exact-torsion finite-flat subgroup, and cyclic quotient APIs against named X_0 and order-49 consumers"
       },
       "evidence": {
-        "recorded_artifact_count": 509,
-        "canonical_artifact_count": 81,
+        "recorded_artifact_count": 515,
+        "canonical_artifact_count": 85,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -3472,7 +3500,7 @@
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
-          "exit_criterion": "Starting from the actual four-member cover of the full projective product, the integral affine tensor-product presentation of each member, the checked secant and doubling polynomial triples on its universal inputs, both pairs of output-coordinate principal-open morphisms, their joint nonvanishing cover of every pair member, the checked YZ compatibility of the secant formulas, the addition morphism on the standard-by-standard member, and the actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)` with checked secant compatibility on its exact overlap, prove the remaining projective-pair overlap equalities and glue globally. Prove the commutative group laws and coordinate-point compatibility, then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
+          "exit_criterion": "Starting from the actual four-member cover of the full projective product, the integral affine tensor-product presentation of each member, the checked secant and doubling polynomial triples on its universal inputs, both pairs of output-coordinate principal-open morphisms, their joint nonvanishing cover of every pair member, the checked YZ compatibility of the secant formulas, the addition morphism on the standard-by-standard member together with its checked raw output-Z restriction, and the actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)` with checked secant compatibility on its exact overlap, prove the remaining projective-pair overlap equalities and glue globally. Prove the commutative group laws and coordinate-point compatibility, then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
         },
         {
           "id": "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP",

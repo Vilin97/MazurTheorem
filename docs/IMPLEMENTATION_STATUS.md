@@ -97,7 +97,11 @@ slices without changing the 200-point headline:
   as a `K`-algebra to the four-coordinate affine-pair ring. This comparison
   identifies all four universal affine coordinates and the secant denominator,
   its spectrum map is exactly the canonical geometric identification, and it
-  transports the raw homogeneous addition triple. Every product member is now
+  transports the raw homogeneous addition triple. On the raw output-`Z`
+  localization, the resulting denominator cube induces the canonical map to
+  the checked secant chart; both the source factorization and addition formula
+  commute, proving that the normalized raw morphism is exactly the restriction
+  of the glued standard-pair addition. Every product member is now
   identified with the spectrum of the
   tensor product of its two chart coordinate rings. A checked constructor
   turns each `K`-algebra coordinate formula into an automatically over-base

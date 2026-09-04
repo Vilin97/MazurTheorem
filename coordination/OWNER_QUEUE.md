@@ -55,6 +55,10 @@ affine-pair ring are now explicitly equivalent as `K`-algebras: all four
 universal affine coordinates and the secant denominator are identified, the
 induced spectrum map is proved equal to the canonical geometric comparison,
 and the raw homogeneous addition triple transports across that equivalence.
+On the raw output-`Z` localization, the denominator cube gives a canonical map
+to the checked secant chart. Both its source map and its cubic-valued formula
+agree exactly, so the normalized raw morphism is now proved to be the
+restriction of the globally glued standard-pair addition law.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
