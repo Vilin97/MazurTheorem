@@ -711,6 +711,14 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairFirstOverlap_standardAddition_eq_smul_infinityAddition`
   After tensoring with an unchanged second chart, prove that changing the first
   normalized input scales the raw addition triple by the square of Y/Z.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondChartOverlap_standardSecondPoint_eq_smul_infinitySecondPoint`
+  After tensoring the cubic overlap on the right, prove that the second normalized
+  universal input changes by the transition scalar Y/Z.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlap_standardAddition_eq_smul_infinityAddition`
+  With the first chart unchanged, prove that changing the second normalized input scales
+  the raw addition triple by the square of Y/Z.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as
