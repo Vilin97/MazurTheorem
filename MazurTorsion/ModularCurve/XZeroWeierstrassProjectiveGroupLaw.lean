@@ -1362,5 +1362,538 @@ theorem infinitySectionOver_projectiveAdditionOver_right_unit
   convert projectiveRightUnitInsertion_comp_addition W using 1
   constructor <;> intro h <;> exact h
 
+/-! ## Commutativity on the dense secant-output chart -/
+
+/-- Swapping the two inputs negates Mathlib's raw homogeneous secant triple.
+The common factor `-1` disappears after projective normalization. -/
+private theorem projectiveAddXYZ_swap
+    {R : Type u} [CommRing R] (W : WeierstrassCurve R)
+    (P Q : Fin 3 → R) :
+    W.toProjective.addXYZ Q P = -W.toProjective.addXYZ P Q := by
+  funext j
+  fin_cases j <;>
+    simp [WeierstrassCurve.Projective.addXYZ,
+      WeierstrassCurve.Projective.addX,
+      WeierstrassCurve.Projective.addY,
+      WeierstrassCurve.Projective.negAddY,
+      WeierstrassCurve.Projective.addZ,
+      WeierstrassCurve.Projective.negY] <;>
+    ring
+
+/-- Swap the two tensor factors of the standard-by-standard chart ring. -/
+private noncomputable def standardPairSwapAlgEquiv
+    (W : WeierstrassCurve K) :
+    projectivePairChartCoordinateRing W (true, true) ≃ₐ[K]
+      projectivePairChartCoordinateRing W (true, true) :=
+  Algebra.TensorProduct.comm K
+    (coveringChartCoordinateRing W true)
+    (coveringChartCoordinateRing W true)
+
+@[simp]
+private theorem standardPairSwapAlgEquiv_firstUniversalPoint
+    (W : WeierstrassCurve K) (j : Fin 3) :
+    standardPairSwapAlgEquiv W
+        (projectivePairChartFirstUniversalPoint W (true, true) j) =
+      projectivePairChartSecondUniversalPoint W (true, true) j := by
+  simp [standardPairSwapAlgEquiv,
+    projectivePairChartFirstUniversalPoint,
+    projectivePairChartSecondUniversalPoint,
+    Algebra.TensorProduct.includeLeft,
+    Algebra.TensorProduct.includeRight]
+
+@[simp]
+private theorem standardPairSwapAlgEquiv_secondUniversalPoint
+    (W : WeierstrassCurve K) (j : Fin 3) :
+    standardPairSwapAlgEquiv W
+        (projectivePairChartSecondUniversalPoint W (true, true) j) =
+      projectivePairChartFirstUniversalPoint W (true, true) j := by
+  simp [standardPairSwapAlgEquiv,
+    projectivePairChartFirstUniversalPoint,
+    projectivePairChartSecondUniversalPoint,
+    Algebra.TensorProduct.includeLeft,
+    Algebra.TensorProduct.includeRight]
+
+private theorem standardPairSwapAlgEquiv_additionCoordinates
+    (W : WeierstrassCurve K) (j : Fin 3) :
+    standardPairSwapAlgEquiv W
+        (projectivePairChartAdditionCoordinates W (true, true) j) =
+      -projectivePairChartAdditionCoordinates W (true, true) j := by
+  let f := (standardPairSwapAlgEquiv W).toRingHom
+  let P := projectivePairChartFirstUniversalPoint W (true, true)
+  let Q := projectivePairChartSecondUniversalPoint W (true, true)
+  have hmap := congrFun
+    (WeierstrassCurve.Projective.map_addXYZ
+      (W' := projectivePairChartMappedCurve W (true, true))
+      (P := P) (Q := Q) f) j
+  have hcurve :
+      (projectivePairChartMappedCurve W (true, true)).map f =
+        projectivePairChartMappedCurve W (true, true) := by
+    rw [projectivePairChartMappedCurve, WeierstrassCurve.map_map]
+    congr 1
+    ext r
+    exact (standardPairSwapAlgEquiv W).commutes r
+  have hP : f ∘ P = Q := by
+    funext k
+    exact standardPairSwapAlgEquiv_firstUniversalPoint W k
+  have hQ : f ∘ Q = P := by
+    funext k
+    exact standardPairSwapAlgEquiv_secondUniversalPoint W k
+  change
+    ((projectivePairChartMappedCurve W (true, true)).map f).toProjective.addXYZ
+        (f ∘ P) (f ∘ Q) j =
+      (f ∘ (projectivePairChartMappedCurve W
+        (true, true)).toProjective.addXYZ P Q) j at hmap
+  rw [hcurve, hP, hQ, projectiveAddXYZ_swap] at hmap
+  simpa [P, Q, f, projectivePairChartAdditionCoordinates] using hmap.symm
+
+/-- The tensor-factor swap extends across the standard-pair raw output-`Z`
+localization, since it sends the inverted coordinate to its negative. -/
+private noncomputable def standardPairOutputZSwapAlgHom
+    (W : WeierstrassCurve K) :
+    projectivePairChartAdditionOutputRing W (true, true) true →ₐ[K]
+      projectivePairChartAdditionOutputRing W (true, true) true :=
+  IsLocalization.Away.liftAlgHom
+    (projectivePairChartAdditionCoordinates W (true, true)
+      (coveringCoordinate true))
+    (f := (IsScalarTower.toAlgHom K
+      (projectivePairChartCoordinateRing W (true, true))
+      (projectivePairChartAdditionOutputRing W (true, true) true)).comp
+        (standardPairSwapAlgEquiv W).toAlgHom) (by
+      change IsUnit (algebraMap
+        (projectivePairChartCoordinateRing W (true, true))
+        (projectivePairChartAdditionOutputRing W (true, true) true)
+        (standardPairSwapAlgEquiv W
+          (projectivePairChartAdditionCoordinates W (true, true)
+            (coveringCoordinate true))))
+      rw [standardPairSwapAlgEquiv_additionCoordinates, map_neg]
+      exact (IsLocalization.Away.algebraMap_isUnit
+        (projectivePairChartAdditionCoordinates W (true, true)
+          (coveringCoordinate true))).neg)
+
+@[simp]
+private theorem standardPairOutputZSwapAlgHom_algebraMap
+    (W : WeierstrassCurve K)
+    (a : projectivePairChartCoordinateRing W (true, true)) :
+    standardPairOutputZSwapAlgHom W
+        (algebraMap (projectivePairChartCoordinateRing W (true, true))
+          (projectivePairChartAdditionOutputRing W (true, true) true) a) =
+      algebraMap (projectivePairChartCoordinateRing W (true, true))
+        (projectivePairChartAdditionOutputRing W (true, true) true)
+        (standardPairSwapAlgEquiv W a) := by
+  simp [standardPairOutputZSwapAlgHom,
+    IsLocalization.Away.liftAlgHom_apply, IsLocalization.Away.lift_eq]
+
+private theorem standardPairOutputZSwapAlgHom_outputPoint
+    (W : WeierstrassCurve K) [W.IsElliptic] (j : Fin 3) :
+    standardPairOutputZSwapAlgHom W
+        (projectivePairChartAdditionOutputPoint W (true, true) true j) =
+      projectivePairChartAdditionOutputPoint W (true, true) true j := by
+  rw [projectivePairChartAdditionOutputPoint, map_mul,
+    standardPairOutputZSwapAlgHom_algebraMap,
+    standardPairSwapAlgEquiv_additionCoordinates, map_neg]
+  let u := projectivePairChartAdditionOutputUnit W (true, true) true
+  have hunit : standardPairOutputZSwapAlgHom W (↑u) = -(↑u) := by
+    unfold u projectivePairChartAdditionOutputUnit
+    rw [IsUnit.unit_spec,
+      standardPairOutputZSwapAlgHom_algebraMap,
+      standardPairSwapAlgEquiv_additionCoordinates, map_neg]
+  have hinv : standardPairOutputZSwapAlgHom W (↑u⁻¹) = -(↑u⁻¹) := by
+    have hu : Units.map (standardPairOutputZSwapAlgHom W).toMonoidHom u =
+        -u := by
+      apply Units.ext
+      exact hunit
+    have hi := congrArg Inv.inv hu
+    have hiv := congrArg Units.val hi
+    simpa using hiv
+  rw [hinv]
+  ring
+
+private theorem standardPairOutputZSwapAlgHom_comp_outputAlgHom
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    (standardPairOutputZSwapAlgHom W).comp
+        (projectivePairChartAdditionOutputAlgHom W
+          (true, true) true) =
+      projectivePairChartAdditionOutputAlgHom W (true, true) true := by
+  apply AlgHom.coe_ringHom_injective
+  apply Ideal.Quotient.ringHom_ext
+  apply chartRingHom_ext (K := K) (coveringCoordinate true)
+  · ext a
+    change standardPairOutputZSwapAlgHom W
+        (projectivePairChartAdditionOutputAlgHom W (true, true) true
+          (coveringChartStructureRingHom W true a)) =
+      projectivePairChartAdditionOutputAlgHom W (true, true) true
+        (coveringChartStructureRingHom W true a)
+    rw [← coveringChartCoordinateRing_algebraMap,
+      (projectivePairChartAdditionOutputAlgHom W
+        (true, true) true).commutes,
+      (standardPairOutputZSwapAlgHom W).commutes]
+  · intro j
+    change standardPairOutputZSwapAlgHom W
+        (projectivePairChartAdditionOutputAlgHom W (true, true) true
+          (Ideal.Quotient.mk (coveringChartIdeal W true)
+            (coordinateChartRatio (coveringCoordinate true) j))) = _
+    calc
+      _ = standardPairOutputZSwapAlgHom W
+          (projectivePairChartAdditionOutputPoint W
+            (true, true) true j) := by
+        rw [projectivePairChartAdditionOutputAlgHom_ratio]
+      _ = projectivePairChartAdditionOutputPoint W
+          (true, true) true j :=
+        standardPairOutputZSwapAlgHom_outputPoint W j
+      _ = _ := (projectivePairChartAdditionOutputAlgHom_ratio W
+        (true, true) true j).symm
+
+/-- Scheme endomorphism of the raw output-`Z` open induced by swapping the
+two standard-chart inputs. -/
+private noncomputable def standardPairOutputZSwap
+    (W : WeierstrassCurve K) :
+    Spec (.of (projectivePairChartAdditionOutputRing W
+      (true, true) true)) ⟶
+      Spec (.of (projectivePairChartAdditionOutputRing W
+        (true, true) true)) :=
+  Spec.map (CommRingCat.ofHom
+    (standardPairOutputZSwapAlgHom W).toRingHom)
+
+private theorem standardPairOutputZSwap_comp_outputMorphism
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    standardPairOutputZSwap W ≫
+        projectivePairChartAdditionOutputMorphism W (true, true) true =
+      projectivePairChartAdditionOutputMorphism W (true, true) true := by
+  rw [standardPairOutputZSwap,
+    projectivePairChartAdditionOutputMorphism, ← Category.assoc,
+    ← Spec.map_comp]
+  have hring := standardPairOutputZSwapAlgHom_comp_outputAlgHom W
+  have hring' :
+      (standardPairOutputZSwapAlgHom W).toRingHom.comp
+          (projectivePairChartAdditionOutputAlgHom W
+            (true, true) true).toRingHom =
+        (projectivePairChartAdditionOutputAlgHom W
+          (true, true) true).toRingHom := by
+    exact congrArg AlgHom.toRingHom hring
+  change Spec.map (CommRingCat.ofHom
+      ((standardPairOutputZSwapAlgHom W).toRingHom.comp
+        (projectivePairChartAdditionOutputAlgHom W
+          (true, true) true).toRingHom)) ≫
+      coveringChartMap W true =
+    Spec.map (CommRingCat.ofHom
+      (projectivePairChartAdditionOutputAlgHom W
+        (true, true) true).toRingHom) ≫ coveringChartMap W true
+  rw [hring']
+
+@[simp]
+private theorem standardPairOutputZSwapAlgHom_includeLeft
+    (W : WeierstrassCurve K)
+    (a : coveringChartCoordinateRing W true) :
+    standardPairOutputZSwapAlgHom W
+        (algebraMap (projectivePairChartCoordinateRing W (true, true))
+          (projectivePairChartAdditionOutputRing W (true, true) true)
+          (Algebra.TensorProduct.includeLeft (S := K) a)) =
+      algebraMap (projectivePairChartCoordinateRing W (true, true))
+        (projectivePairChartAdditionOutputRing W (true, true) true)
+        (Algebra.TensorProduct.includeRight a) := by
+  rw [standardPairOutputZSwapAlgHom_algebraMap]
+  simp [standardPairSwapAlgEquiv,
+    Algebra.TensorProduct.includeLeft,
+    Algebra.TensorProduct.includeRight]
+
+@[simp]
+private theorem standardPairOutputZSwapAlgHom_includeRight
+    (W : WeierstrassCurve K)
+    (a : coveringChartCoordinateRing W true) :
+    standardPairOutputZSwapAlgHom W
+        (algebraMap (projectivePairChartCoordinateRing W (true, true))
+          (projectivePairChartAdditionOutputRing W (true, true) true)
+          (Algebra.TensorProduct.includeRight a)) =
+      algebraMap (projectivePairChartCoordinateRing W (true, true))
+        (projectivePairChartAdditionOutputRing W (true, true) true)
+        (Algebra.TensorProduct.includeLeft (S := K) a) := by
+  rw [standardPairOutputZSwapAlgHom_algebraMap]
+  simp [standardPairSwapAlgEquiv,
+    Algebra.TensorProduct.includeLeft,
+    Algebra.TensorProduct.includeRight]
+
+private theorem standardPairOutputZSwap_comp_open_comp_firstInput
+    (W : WeierstrassCurve K) :
+    (standardPairOutputZSwap W ≫
+        projectivePairChartAdditionOutputOpen W (true, true) true) ≫
+        projectivePairChartFirstInput W (true, true) =
+      projectivePairChartAdditionOutputOpen W (true, true) true ≫
+        projectivePairChartSecondInput W (true, true) := by
+  simp only [standardPairOutputZSwap,
+    projectivePairChartAdditionOutputOpen,
+    projectivePairChartFirstInput, projectivePairChartSecondInput,
+    projectivePairChartMorphismOfCoordinateRingHom,
+    Category.assoc, Iso.inv_hom_id_assoc]
+  simp only [← Category.assoc]
+  apply congrArg (fun f ↦ f ≫ coveringChartMap W true)
+  rw [← Spec.map_comp, ← Spec.map_comp, ← Spec.map_comp,
+    Spec.map_inj]
+  apply CommRingCat.hom_ext
+  apply RingHom.ext
+  intro a
+  exact standardPairOutputZSwapAlgHom_includeLeft W a
+
+private theorem standardPairOutputZSwap_comp_open_comp_secondInput
+    (W : WeierstrassCurve K) :
+    (standardPairOutputZSwap W ≫
+        projectivePairChartAdditionOutputOpen W (true, true) true) ≫
+        projectivePairChartSecondInput W (true, true) =
+      projectivePairChartAdditionOutputOpen W (true, true) true ≫
+        projectivePairChartFirstInput W (true, true) := by
+  simp only [standardPairOutputZSwap,
+    projectivePairChartAdditionOutputOpen,
+    projectivePairChartFirstInput, projectivePairChartSecondInput,
+    projectivePairChartMorphismOfCoordinateRingHom,
+    Category.assoc, Iso.inv_hom_id_assoc]
+  simp only [← Category.assoc]
+  apply congrArg (fun f ↦ f ≫ coveringChartMap W true)
+  rw [← Spec.map_comp, ← Spec.map_comp, ← Spec.map_comp,
+    Spec.map_inj]
+  apply CommRingCat.hom_ext
+  apply RingHom.ext
+  intro a
+  exact standardPairOutputZSwapAlgHom_includeRight W a
+
+/-! ## The localized swap and the global product braiding -/
+
+/-- The symmetry of the projective fibre square, before packaging it in the
+slice category. -/
+private noncomputable def projectivePairSwap
+    (W : WeierstrassCurve K) :
+    projectivePair W ⟶ projectivePair W :=
+  (pullbackSymmetry (structureMap W) (structureMap W)).hom
+
+@[reassoc]
+private theorem projectivePairSwap_fst
+    (W : WeierstrassCurve K) :
+    projectivePairSwap W ≫
+        pullback.fst (structureMap W) (structureMap W) =
+      pullback.snd (structureMap W) (structureMap W) := by
+  exact pullbackSymmetry_hom_comp_fst _ _
+
+@[reassoc]
+private theorem projectivePairSwap_snd
+    (W : WeierstrassCurve K) :
+    projectivePairSwap W ≫
+        pullback.snd (structureMap W) (structureMap W) =
+      pullback.fst (structureMap W) (structureMap W) := by
+  exact pullbackSymmetry_hom_comp_snd _ _
+
+/-- On the raw output-`Z` open, the tensor-factor involution is the
+restriction of the global symmetry of the projective fibre square. -/
+private theorem standardPairOutputZSwap_comp_globalChart
+    (W : WeierstrassCurve K) :
+    (standardPairOutputZSwap W ≫
+        projectivePairChartAdditionOutputOpen W (true, true) true) ≫
+        projectivePairChartMap W (true, true) =
+      (projectivePairChartAdditionOutputOpen W (true, true) true ≫
+        projectivePairChartMap W (true, true)) ≫
+        projectivePairSwap W := by
+  apply pullback.hom_ext
+  · calc
+      _ = (standardPairOutputZSwap W ≫
+            projectivePairChartAdditionOutputOpen W (true, true) true) ≫
+          projectivePairChartFirstInput W (true, true) := by
+            rw [Category.assoc, projectivePairChartMap_comp_fst,
+              ← projectivePairChartFirstInput_eq]
+      _ = projectivePairChartAdditionOutputOpen W (true, true) true ≫
+          projectivePairChartSecondInput W (true, true) :=
+        standardPairOutputZSwap_comp_open_comp_firstInput W
+      _ = projectivePairChartAdditionOutputOpen W (true, true) true ≫
+          (projectivePairChartMap W (true, true) ≫
+            pullback.snd (structureMap W) (structureMap W)) := by
+              rw [projectivePairChartMap_comp_snd,
+                ← projectivePairChartSecondInput_eq]
+      _ = (projectivePairChartAdditionOutputOpen W (true, true) true ≫
+            projectivePairChartMap W (true, true)) ≫
+          pullback.snd (structureMap W) (structureMap W) :=
+        (Category.assoc _ _ _).symm
+      _ = (projectivePairChartAdditionOutputOpen W (true, true) true ≫
+            projectivePairChartMap W (true, true)) ≫
+          (projectivePairSwap W ≫
+            pullback.fst (structureMap W) (structureMap W)) := by
+              rw [projectivePairSwap_fst]
+      _ = ((projectivePairChartAdditionOutputOpen W (true, true) true ≫
+              projectivePairChartMap W (true, true)) ≫
+            projectivePairSwap W) ≫
+          pullback.fst (structureMap W) (structureMap W) :=
+        (Category.assoc _ _ _).symm
+  · calc
+      _ = (standardPairOutputZSwap W ≫
+            projectivePairChartAdditionOutputOpen W (true, true) true) ≫
+          projectivePairChartSecondInput W (true, true) := by
+            rw [Category.assoc, projectivePairChartMap_comp_snd,
+              ← projectivePairChartSecondInput_eq]
+      _ = projectivePairChartAdditionOutputOpen W (true, true) true ≫
+          projectivePairChartFirstInput W (true, true) :=
+        standardPairOutputZSwap_comp_open_comp_secondInput W
+      _ = projectivePairChartAdditionOutputOpen W (true, true) true ≫
+          (projectivePairChartMap W (true, true) ≫
+            pullback.fst (structureMap W) (structureMap W)) := by
+              rw [projectivePairChartMap_comp_fst,
+                ← projectivePairChartFirstInput_eq]
+      _ = (projectivePairChartAdditionOutputOpen W (true, true) true ≫
+            projectivePairChartMap W (true, true)) ≫
+          pullback.fst (structureMap W) (structureMap W) :=
+        (Category.assoc _ _ _).symm
+      _ = (projectivePairChartAdditionOutputOpen W (true, true) true ≫
+            projectivePairChartMap W (true, true)) ≫
+          (projectivePairSwap W ≫
+            pullback.snd (structureMap W) (structureMap W)) := by
+              rw [projectivePairSwap_snd]
+      _ = ((projectivePairChartAdditionOutputOpen W (true, true) true ≫
+              projectivePairChartMap W (true, true)) ≫
+            projectivePairSwap W) ≫
+          pullback.snd (structureMap W) (structureMap W) :=
+        (Category.assoc _ _ _).symm
+
+private theorem standardPairOutputZ_swapped_addition_eq
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    (projectivePairChartAdditionOutputOpen W (true, true) true ≫
+        projectivePairChartMap W (true, true)) ≫
+        (projectivePairSwap W ≫ projectiveAdditionMorphism W) =
+      (projectivePairChartAdditionOutputOpen W (true, true) true ≫
+        projectivePairChartMap W (true, true)) ≫
+        projectiveAdditionMorphism W := by
+  calc
+    _ = ((projectivePairChartAdditionOutputOpen W (true, true) true ≫
+            projectivePairChartMap W (true, true)) ≫
+          projectivePairSwap W) ≫
+        projectiveAdditionMorphism W :=
+      (Category.assoc _ _ _).symm
+    _ = ((standardPairOutputZSwap W ≫
+            projectivePairChartAdditionOutputOpen W (true, true) true) ≫
+          projectivePairChartMap W (true, true)) ≫
+        projectiveAdditionMorphism W := by
+          rw [standardPairOutputZSwap_comp_globalChart]
+    _ = (standardPairOutputZSwap W ≫
+          projectivePairChartAdditionOutputOpen W (true, true) true) ≫
+        (projectivePairChartMap W (true, true) ≫
+          projectiveAdditionMorphism W) := Category.assoc _ _ _
+    _ = (standardPairOutputZSwap W ≫
+          projectivePairChartAdditionOutputOpen W (true, true) true) ≫
+        standardPairAdditionMorphism W := by
+          rw [projectivePairStandardChart_comp_projectiveAdditionMorphism]
+    _ = standardPairOutputZSwap W ≫
+        (projectivePairChartAdditionOutputOpen W (true, true) true ≫
+          standardPairAdditionMorphism W) := Category.assoc _ _ _
+    _ = standardPairOutputZSwap W ≫
+        projectivePairChartAdditionOutputMorphism W
+          (true, true) true := by
+            rw [projectivePairStandardOutputOpen_comp_standardPairAdditionMorphism]
+    _ = projectivePairChartAdditionOutputMorphism W
+          (true, true) true :=
+      standardPairOutputZSwap_comp_outputMorphism W
+    _ = projectivePairChartAdditionOutputOpen W (true, true) true ≫
+        standardPairAdditionMorphism W :=
+      (projectivePairStandardOutputOpen_comp_standardPairAdditionMorphism W).symm
+    _ = projectivePairChartAdditionOutputOpen W (true, true) true ≫
+        (projectivePairChartMap W (true, true) ≫
+          projectiveAdditionMorphism W) := by
+            rw [projectivePairStandardChart_comp_projectiveAdditionMorphism]
+    _ = (projectivePairChartAdditionOutputOpen W (true, true) true ≫
+          projectivePairChartMap W (true, true)) ≫
+        projectiveAdditionMorphism W := (Category.assoc _ _ _).symm
+
+/-- The nonempty standard-pair output-`Z` principal open used to extend
+commutativity to the whole integral projective pair. -/
+private noncomputable def standardPairOutputZToProjectivePair
+    (W : WeierstrassCurve K) :
+    Spec (.of (projectivePairChartAdditionOutputRing W
+      (true, true) true)) ⟶ projectivePair W :=
+  projectivePairChartAdditionOutputOpen W (true, true) true ≫
+    projectivePairChartMap W (true, true)
+
+private instance standardPairOutputZToProjectivePair_isOpenImmersion
+    (W : WeierstrassCurve K) :
+    IsOpenImmersion (standardPairOutputZToProjectivePair W) := by
+  dsimp only [standardPairOutputZToProjectivePair]
+  infer_instance
+
+private noncomputable instance standardPairOutputZ_nonempty
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    Nonempty (Spec (.of
+      (projectivePairChartAdditionOutputRing W (true, true) true))) := by
+  change Nonempty (Spec (.of (Localization.Away
+    (projectivePairChartAdditionCoordinates W (true, true) (2 : Fin 3)))))
+  letI : IsDomain (projectivePairChartCoordinateRing W (true, true)) :=
+    projectivePairChartCoordinateRing_isDomain W (true, true)
+  letI : Nontrivial (projectivePairChartCoordinateRing W (true, true)) :=
+    (projectivePairChartCoordinateRing_isDomain W
+      (true, true)).toNontrivial
+  have hinj : Function.Injective
+      (algebraMap (projectivePairChartCoordinateRing W (true, true))
+        (Localization.Away
+          (projectivePairChartAdditionCoordinates W
+            (true, true) (2 : Fin 3)))) :=
+    IsLocalization.injective
+      (Localization.Away
+        (projectivePairChartAdditionCoordinates W
+          (true, true) (2 : Fin 3)))
+      (powers_le_nonZeroDivisors_of_noZeroDivisors
+        (standardPairRawOutputZ_ne_zero W))
+  letI : Nontrivial
+      (Localization.Away
+        (projectivePairChartAdditionCoordinates W
+          (true, true) (2 : Fin 3))) :=
+    hinj.nontrivial
+  exact PrimeSpectrum.nonempty_iff_nontrivial.mpr inferInstance
+
+private theorem projectivePairSwap_comp_structureMap
+    (W : WeierstrassCurve K) :
+    projectivePairSwap W ≫ projectivePairStructureMap W =
+      projectivePairStructureMap W := by
+  rw [projectivePairStructureMap, ← Category.assoc,
+    projectivePairSwap_fst]
+  exact pullback.condition.symm
+
+/-- The globally glued projective addition is invariant under exchanging its
+two inputs. -/
+private theorem projectivePairSwap_comp_addition
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    projectivePairSwap W ≫ projectiveAdditionMorphism W =
+      projectiveAdditionMorphism W := by
+  letI : IsIntegral (scheme W) :=
+    GeometricallyIntegral.isIntegral_of_subsingleton (structureMap W)
+  letI : Flat (structureMap W) := by infer_instance
+  letI : UniversallyOpen (structureMap W) := by infer_instance
+  letI : LocallyOfFiniteType (structureMap W) := by infer_instance
+  letI : IsLocallyNoetherian (scheme W) :=
+    LocallyOfFiniteType.isLocallyNoetherian (structureMap W)
+  letI : IsIntegral (projectivePair W) := by infer_instance
+  letI : IsDominant (standardPairOutputZToProjectivePair W) := by
+    constructor
+    have hopen :=
+      (standardPairOutputZToProjectivePair W).isOpenEmbedding.isOpenMap
+    exact hopen.denseRange_of_isPreirreducibleSpace _
+  apply ext_of_isDominant_of_isSeparated
+    (s := structureMap W) (ι := standardPairOutputZToProjectivePair W)
+  · calc
+      (projectivePairSwap W ≫ projectiveAdditionMorphism W) ≫
+          structureMap W =
+        projectivePairSwap W ≫
+          (projectiveAdditionMorphism W ≫ structureMap W) :=
+            Category.assoc _ _ _
+      _ = projectivePairSwap W ≫ projectivePairStructureMap W := by
+        rw [projectiveAdditionMorphism_comp_structureMap]
+      _ = projectivePairStructureMap W :=
+        projectivePairSwap_comp_structureMap W
+      _ = projectiveAdditionMorphism W ≫ structureMap W :=
+        (projectiveAdditionMorphism_comp_structureMap W).symm
+  · exact standardPairOutputZ_swapped_addition_eq W
+
+/-! ## Categorical commutativity -/
+
+/-- The projective addition is commutative in the slice over the coefficient
+field. -/
+theorem projectiveAdditionOver_comm
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    (β_ (toOver W) (toOver W)).hom ≫ projectiveAdditionOver W =
+      projectiveAdditionOver W := by
+  apply Over.OverMorphism.ext
+  simp only [Over.comp_left, Over.braiding_hom_left,
+    projectiveAdditionOver_left]
+  exact projectivePairSwap_comp_addition W
+
 end WeierstrassProjectiveCubic
 end MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
