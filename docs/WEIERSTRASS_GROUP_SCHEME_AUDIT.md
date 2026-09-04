@@ -218,9 +218,10 @@ the two input `Z` coordinates is exactly the cube of the cross-multiplied input
 `Y` or `Z` coordinate therefore produces actual over-base morphisms from both
 principal opens of every projective-pair member into the concrete cubic. The
 same construction now produces actual over-base first-input doubling morphisms
-on both doubling-output principal opens. Proving that these four opens jointly
-cover each relevant member, their compatibility, and the global gluing remain
-open.
+on both doubling-output principal opens. A primewise argument through the
+fraction field of every prime quotient proves that these four principal opens
+jointly cover every projective-pair member. Their compatibility and the global
+gluing remain open.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -249,12 +250,12 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a global multiplication morphism obtained by proving that the checked
-   secant and doubling output opens jointly cover each of the three
-   projective-product chart members meeting infinity, proving every overlap
-   with the checked standard member and each other, gluing the four local maps,
-   and proving the group laws using the checked section at infinity and
-   homogeneous negation as the identity and inverse candidates;
+1. a global multiplication morphism obtained by proving every overlap for the
+   checked four-open secant-and-doubling cover on each of the three
+   projective-product chart members meeting infinity, comparing with the
+   checked standard member, gluing the local maps, and proving the group laws
+   using the checked section at infinity and homogeneous negation as the
+   identity and inverse candidates;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:

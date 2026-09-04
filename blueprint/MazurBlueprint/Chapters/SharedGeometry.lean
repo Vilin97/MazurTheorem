@@ -694,6 +694,10 @@ order-49 consumers.
   Prove that every localized first-input doubling morphism lies over the structural
   morphism to Spec K.
 * `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartAdditionAndDoublingOutputOpens_cover`
+  Prove that the two secant and two first-input doubling output-coordinate principal
+  opens jointly cover every projective-pair chart.
+* `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual
   finite free-translation quotient.
