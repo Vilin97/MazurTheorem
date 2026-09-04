@@ -93,7 +93,12 @@ slices without changing the 200-point headline:
   The full projective product is covered by the four products of the genuine
   `Y ≠ 0` and `Z ≠ 0` cubic charts; its standard-by-standard member is
   canonically identified with the affine-pair source and consumes that glued
-  morphism. Every product member is now identified with the spectrum of the
+  morphism. The standard tensor coordinate ring is now explicitly equivalent
+  as a `K`-algebra to the four-coordinate affine-pair ring. This comparison
+  identifies all four universal affine coordinates and the secant denominator,
+  its spectrum map is exactly the canonical geometric identification, and it
+  transports the raw homogeneous addition triple. Every product member is now
+  identified with the spectrum of the
   tensor product of its two chart coordinate rings. A checked constructor
   turns each `K`-algebra coordinate formula into an automatically over-base
   scheme morphism, and its left/right inclusion consumers recover the two

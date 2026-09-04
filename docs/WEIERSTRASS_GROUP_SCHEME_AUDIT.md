@@ -203,6 +203,12 @@ restrictions are glued to an actual affine-pair addition morphism, but its
 source is only the standard-by-standard member of the full projective product.
 That full product now has its actual four-member `Y ≠ 0`/`Z ≠ 0` chart cover,
 and the standard member is canonically identified with the affine-pair source.
+On that member, the tensor coordinate ring and the four-coordinate affine-pair
+ring are now explicitly equivalent as `K`-algebras. The equivalence identifies
+all four universal affine coordinates and the secant denominator, its spectrum
+map is proved to be the canonical geometric comparison, and it transports the
+raw homogeneous addition triple (whose standard output `Z` is the cube of the
+transported denominator).
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor

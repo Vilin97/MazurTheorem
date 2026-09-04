@@ -585,6 +585,10 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.affinePairAdditionMorphism`
   Glue the four checked principal-open formulas to an actual addition morphism from the
   entire affine-pair presentation into the concrete projective cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.affinePairAdditionMorphism_comp_structureMap`
+  Prove that the globally glued affine-pair addition morphism lies over the coefficient
+  field.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairOpenCover`
   Cover the actual projective cubic fibre product by the four products of its genuine Y
@@ -597,6 +601,22 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairAdditionMorphism`
   Transport the checked glued affine-pair addition to the genuine standard-by-standard
   member of the full projective-product cover.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairCoordinateRingAlgEquiv`
+  Identify the four-coordinate affine-pair ring with the tensor coordinate ring of the
+  standard projective pair chart as K-algebras.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairCoordinateRingAlgEquiv_denominator`
+  Transport the affine secant denominator to the difference of the two standard
+  universal abscissas.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartIsoSpecTensor_hom_comp_standardPairCoordinateRingAlgEquiv_specMap`
+  Prove that the contravariant spectrum map of the coordinate equivalence is exactly the
+  canonical geometric standard-pair comparison.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairCoordinateRingAlgEquiv_additionCoordinates`
+  Transport the raw homogeneous addition triple on the affine universal inputs to the
+  projective standard-pair triple.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartIsoSpecTensor`
   Identify every member of the four-chart projective-pair cover with the spectrum of the

@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2076056,
-    "integrated_lean_modules": 2000,
+    "integrated_lean_lines": 2076605,
+    "integrated_lean_modules": 2001,
     "remaining_composite_orders": [
       25,
       35
@@ -3044,6 +3044,13 @@
           "description": "Glue the four checked principal-open formulas to an actual addition morphism from the entire affine-pair presentation into the concrete projective cubic."
         },
         {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.affinePairAdditionMorphism_comp_structureMap",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassAdditionAtlas",
+          "description": "Prove that the globally glued affine-pair addition morphism lies over the coefficient field."
+        },
+        {
           "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairOpenCover",
           "state": "contract",
@@ -3063,6 +3070,34 @@
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductAtlas",
           "description": "Transport the checked glued affine-pair addition to the genuine standard-by-standard member of the full projective-product cover."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairCoordinateRingAlgEquiv",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassStandardPairCoordinates",
+          "description": "Identify the four-coordinate affine-pair ring with the tensor coordinate ring of the standard projective pair chart as K-algebras."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairCoordinateRingAlgEquiv_denominator",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassStandardPairCoordinates",
+          "description": "Transport the affine secant denominator to the difference of the two standard universal abscissas."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartIsoSpecTensor_hom_comp_standardPairCoordinateRingAlgEquiv_specMap",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassStandardPairCoordinates",
+          "description": "Prove that the contravariant spectrum map of the coordinate equivalence is exactly the canonical geometric standard-pair comparison."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairCoordinateRingAlgEquiv_additionCoordinates",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassStandardPairCoordinates",
+          "description": "Transport the raw homogeneous addition triple on the affine universal inputs to the projective standard-pair triple."
         },
         {
           "kind": "definition",
@@ -3424,8 +3459,8 @@
         "revision": "sequence the canonical Weierstrass group scheme, exact-torsion finite-flat subgroup, and cyclic quotient APIs against named X_0 and order-49 consumers"
       },
       "evidence": {
-        "recorded_artifact_count": 486,
-        "canonical_artifact_count": 76,
+        "recorded_artifact_count": 509,
+        "canonical_artifact_count": 81,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [

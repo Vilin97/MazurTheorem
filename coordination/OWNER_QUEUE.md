@@ -50,7 +50,12 @@ doubling. All six pairwise restrictions of the four charts agree on their
 exact pullbacks, and the resulting cover is glued to an actual affine-pair
 addition morphism. The full projective product now has its actual four-member
 coordinate-chart cover, and its standard-by-standard member is identified
-with that affine-pair source. Every member is also identified with the spectrum
+with that affine-pair source. The standard tensor ring and the four-coordinate
+affine-pair ring are now explicitly equivalent as `K`-algebras: all four
+universal affine coordinates and the secant denominator are identified, the
+induced spectrum map is proved equal to the canonical geometric comparison,
+and the raw homogeneous addition triple transports across that equivalence.
+Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
 morphism, and its two projection consumers verify the orientation. Each chart
