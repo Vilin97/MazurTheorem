@@ -229,11 +229,11 @@ same square-scaling law. Tensor localization realizes all four restrictions
 as actual open immersions into adjacent projective-pair charts. Their
 projection factorizations prove that both descriptions of each factorwise
 overlap have the same composite into the full projective product. On both
-selected secant output opens of a first-factor overlap, the transition scalar
-is a unit. Cancelling its square proves equality of the normalized points;
-the corresponding restrictions are open immersions with equal maps into the
-full product and equal genuine cubic-valued morphisms. The symmetric
-second-factor comparison remains downstream.
+selected secant output opens of every factorwise overlap, the transition
+scalar is a unit. Cancelling its square proves equality of the normalized
+points; the corresponding restrictions are open immersions with equal maps
+into the full product and equal genuine cubic-valued morphisms. Compatible
+regular laws covering the secant base locus remain downstream.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor
@@ -270,8 +270,8 @@ back to `(x₁ - x₂)³` times this regular triple. On the exact principal over
 `D(B∞ · Ysec)`, the two sources restrict by open immersions to the same open
 of the infinity-pair chart, and their normalized points and actual
 cubic-valued morphisms agree. The remaining projective-pair compatibility now
-starts with the symmetric second-factor normalized morphisms, continues with
-the remaining local comparisons, and then global gluing.
+starts with compatible regular addition laws covering the secant base locus,
+continues with the remaining local comparisons, and then global gluing.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -303,9 +303,9 @@ field:
 1. a global multiplication morphism obtained by proving that the genuine
    infinity-diagonal addition morphism agrees with the checked secant maps,
    transporting it across the remaining projective-product members meeting
-   infinity, proving the symmetric second-factor normalized-morphism
-   equalities and the remaining local comparisons, gluing the local maps, and
-   proving the group laws using the checked section at infinity and
+   infinity, constructing compatible regular laws covering the secant base
+   locus and proving the remaining local comparisons, gluing the local maps,
+   and proving the group laws using the checked section at infinity and
    homogeneous negation as the identity and inverse candidates;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are

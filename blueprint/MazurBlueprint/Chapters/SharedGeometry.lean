@@ -760,6 +760,22 @@ order-49 consumers.
   Prove equality of the genuine standard- and infinity-side secant morphisms on each
   localized first-factor overlap.
 * `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlapAdditionOutputRing`
+  Localize the exact second-factor input overlap at either selected infinity-side secant
+  output coordinate.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlapAdditionOutput_points_eq`
+  Cancel the invertible square transition factor and prove equality of all three
+  normalized secant coordinates.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlapAdditionOutput_maps_eq`
+  Prove that both localized second-factor restrictions have the same map into the full
+  projective product.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlapAdditionOutput_morphisms_eq`
+  Prove equality of the genuine standard- and infinity-side secant morphisms on each
+  localized second-factor overlap.
+* `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as
   the polynomial replacement on the diagonal base locus.

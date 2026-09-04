@@ -116,7 +116,7 @@ slices without changing the 200-point headline:
   tensor constructions, giving four actual open immersions into adjacent pair
   charts. The two descriptions of each factorwise overlap are proved to have
   equal composites into the full projective product. On either selected
-  secant output open of every first-factor overlap, cancellation of the
+  secant output open of every factorwise overlap, cancellation of the
   invertible square transition factor proves equality of the normalized
   points. Both restrictions are open immersions with equal maps into the full
   product and equal genuine cubic-valued morphisms. Every product member is
@@ -152,9 +152,9 @@ slices without changing the 200-point headline:
   exact principal overlap `D(B∞ · Ysec)`, both source restrictions are open
   immersions into the same pair chart, their normalized output points agree,
   and the two actual cubic-valued morphisms are equal. The remaining overlap
-  equalities—starting with the symmetric second-factor normalized
-  compatibility and the remaining local comparisons—and global gluing, the
-  group laws, and coordinate-point compatibility remain missing.
+  equalities—starting with compatible regular addition laws covering the
+  secant base locus and the remaining local comparisons—and global gluing,
+  the group laws, and coordinate-point compatibility remain missing.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

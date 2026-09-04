@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2079869,
-    "integrated_lean_modules": 2007,
+    "integrated_lean_lines": 2080456,
+    "integrated_lean_modules": 2008,
     "remaining_composite_orders": [
       25,
       35
@@ -3353,6 +3353,34 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlapAdditionOutputRing",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductSecondInputOverlapCompatibility",
+          "description": "Localize the exact second-factor input overlap at either selected infinity-side secant output coordinate."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlapAdditionOutput_points_eq",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductSecondInputOverlapCompatibility",
+          "description": "Cancel the invertible square transition factor and prove equality of all three normalized secant coordinates."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlapAdditionOutput_maps_eq",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductSecondInputOverlapCompatibility",
+          "description": "Prove that both localized second-factor restrictions have the same map into the full projective product."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlapAdditionOutput_morphisms_eq",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductSecondInputOverlapCompatibility",
+          "description": "Prove equality of the genuine standard- and infinity-side secant morphisms on each localized second-factor overlap."
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates",
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductAdditionCoordinates",
@@ -3627,8 +3655,8 @@
         "revision": "sequence the canonical Weierstrass group scheme, exact-torsion finite-flat subgroup, and cyclic quotient APIs against named X_0 and order-49 consumers"
       },
       "evidence": {
-        "recorded_artifact_count": 626,
-        "canonical_artifact_count": 105,
+        "recorded_artifact_count": 645,
+        "canonical_artifact_count": 109,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -3640,7 +3668,7 @@
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
-          "exit_criterion": "Starting from the actual four-member cover of the full projective product, the integral affine tensor-product presentation of each member, the checked secant and doubling polynomial triples on its universal inputs, both pairs of output-coordinate principal-open morphisms, their joint nonvanishing cover of every pair member, the checked YZ compatibility of the secant formulas, the addition morphism on the standard-by-standard member together with its checked raw output-Z and output-Y restrictions, the actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)` with checked secant compatibility on its exact overlap, both exact factorwise pair-chart overlap schemes with raw addition transition laws and equal embeddings into the full product, and normalized secant-morphism compatibility on every first-factor output overlap, prove the symmetric second-factor compatibility and glue globally. Prove the commutative group laws and coordinate-point compatibility, then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
+          "exit_criterion": "Starting from the actual four-member cover of the full projective product, the integral affine tensor-product presentation of each member, the checked secant and doubling polynomial triples on its universal inputs, both pairs of output-coordinate principal-open morphisms, their joint nonvanishing cover of every pair member, the checked YZ compatibility of the secant formulas, the addition morphism on the standard-by-standard member together with its checked raw output-Z and output-Y restrictions, the actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)` with checked secant compatibility on its exact overlap, both exact factorwise pair-chart overlap schemes with raw addition transition laws and equal embeddings into the full product, and normalized secant-morphism compatibility on every factorwise output overlap, construct compatible regular addition laws covering the secant base locus and glue globally. Prove the commutative group laws and coordinate-point compatibility, then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
         },
         {
           "id": "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP",
