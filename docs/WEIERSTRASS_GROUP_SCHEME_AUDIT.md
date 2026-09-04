@@ -208,8 +208,14 @@ chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor
 inclusions are checked against the geometric projections. The normalized
 universal homogeneous point on each quotient chart satisfies its mapped cubic
-equation, as do both tensor-embedded inputs on every pair member. Addition
-formulas on the other three members and their global gluing remain open.
+equation, as do both tensor-embedded inputs on every pair member. For an
+elliptic cubic, all four tensor-product chart rings are integral domains. The
+raw homogeneous secant triple and both universal doubling triples now satisfy
+the mapped cubic equation; moreover, the secant output `Z` coordinate times
+the two input `Z` coordinates is exactly the cube of the cross-multiplied input
+`X` difference. These triples may still vanish on their base loci, so their
+principal-open regularization on the other three members and the global gluing
+remain open.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -238,8 +244,8 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a global multiplication morphism obtained by evaluating and regularizing
-   addition formulas on the checked universal tensor-ring inputs, supplying
+1. a global multiplication morphism obtained by regularizing the checked
+   secant and doubling triples on the universal tensor-ring inputs, supplying
    them through the affine coordinate-ring interface on the three
    projective-product chart members meeting infinity, proving every overlap
    with the checked standard member and each other, gluing the four local maps,

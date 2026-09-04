@@ -39,7 +39,7 @@ two current packages:
 | Lane | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|
 | Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Use the checked affine tensor-product presentation of every projective-pair member to construct addition on the three members meeting infinity, prove the overlaps and global gluing, then prove the commutative group laws and coordinate-point compatibility and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
+| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Regularize the checked secant and doubling triples on the three projective-pair members meeting infinity, prove the overlaps and global gluing, then prove the commutative group laws and coordinate-point compatibility and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Package status is scheduling metadata. Only the two `current_work_package`
 entries above are selected WIP; one slot is intentionally unused. The generic
@@ -99,9 +99,13 @@ slices without changing the 200-point headline:
   scheme morphism, and its left/right inclusion consumers recover the two
   geometric projections. Each quotient chart has a normalized universal
   homogeneous point, and both tensor-embedded inputs satisfy the mapped cubic
-  equation in every pair ring. Addition formulas on the other three members,
-  their overlap equalities and global gluing, the group laws, and
-  coordinate-point compatibility remain missing.
+  equation in every pair ring. Those pair rings are integral domains for an
+  elliptic cubic. The evaluated homogeneous secant triple and both doubling
+  triples satisfy the mapped cubic equation, and the secant output `Z`
+  coordinate obeys the exact cubic cross-difference denominator identity.
+  The raw triples can still vanish on their base loci, so their principal-open
+  regularization on the other three members, the overlap equalities and global
+  gluing, the group laws, and coordinate-point compatibility remain missing.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

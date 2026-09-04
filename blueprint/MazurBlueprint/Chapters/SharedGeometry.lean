@@ -633,6 +633,26 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartSecondUniversalPoint_equation`
   Prove that the tensor-right universal input satisfies the cubic equation over every
   projective-pair chart ring.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartAdditionCoordinates`
+  Evaluate the raw homogeneous secant-addition triple on the two normalized universal
+  inputs of every projective-pair chart.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartAdditionCoordinates_equation`
+  Use the integral chart ring and its fraction field to prove that every evaluated
+  secant triple satisfies the mapped homogeneous cubic equation.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartAdditionCoordinates_Z_mul_input_Z`
+  Identify the secant output Z coordinate times both input Z coordinates with the cube
+  of the cross-multiplied input X difference.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
+  Evaluate the homogeneous doubling triple on the first normalized universal input as
+  the polynomial replacement on the diagonal base locus.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates_equation`
+  Prove that the first universal doubling triple satisfies the mapped homogeneous cubic
+  equation over every projective-pair chart ring.
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual
