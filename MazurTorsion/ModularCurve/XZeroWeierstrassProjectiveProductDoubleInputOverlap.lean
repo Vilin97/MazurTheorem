@@ -202,7 +202,11 @@ theorem projectivePairDoubleOverlap_isLocalization_infinityPair
 
 /-! ## Localization on the standard side -/
 
-private theorem doubleOverlap_isLocalization_secondStandardOverlap
+/-- The second standard factor can be localized after the first factor has
+already entered the exact chart overlap.  The downstream global-addition
+consumer uses this boundary to view the double overlap as an open subscheme
+of either mixed pair chart. -/
+theorem doubleOverlap_isLocalization_secondStandardOverlap
     (W : WeierstrassCurve K) :
     letI := (firstStandardOverlapToDoubleOverlapAlgHom W).toAlgebra
     IsLocalization.Away
