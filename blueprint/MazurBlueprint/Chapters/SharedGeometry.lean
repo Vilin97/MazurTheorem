@@ -775,6 +775,18 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlapAdditionOutput_morphisms_eq`
   Prove equality of the genuine standard- and infinity-side secant morphisms on each
   localized second-factor overlap.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairStandardInfinityTransitionAndSecantZOpens_cover`
+  Cover the standard-by-infinity chart by its transition-to-standard open and the
+  genuine secant output-Z open.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairInfinityStandardTransitionAndSecantZOpens_cover`
+  Cover the infinity-by-standard chart by its transition-to-standard open and the
+  genuine secant output-Z open.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairStandardNeighborhoodAndSecantZOpens_cover`
+  Cover the infinity pair by the both-standard locus, the regular D(B-infinity)
+  neighborhood, and the secant output-Z open.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as

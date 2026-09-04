@@ -119,8 +119,12 @@ slices without changing the 200-point headline:
   secant output open of every factorwise overlap, cancellation of the
   invertible square transition factor proves equality of the normalized
   points. Both restrictions are open immersions with equal maps into the full
-  product and equal genuine cubic-valued morphisms. Every product member is
-  now identified with the spectrum of the
+  product and equal genuine cubic-valued morphisms. A primewise replacement
+  cover now avoids treating the doubling formulas as addition: each mixed
+  chart is covered by its transition-to-standard locus and the secant
+  output-`Z` locus; the infinity pair is covered by the both-standard locus,
+  the regular `D(B∞)` neighborhood, and secant output `Z`. Every product
+  member is now identified with the spectrum of the
   tensor product of its two chart coordinate rings. A checked constructor
   turns each `K`-algebra coordinate formula into an automatically over-base
   scheme morphism, and its left/right inclusion consumers recover the two
@@ -152,9 +156,10 @@ slices without changing the 200-point headline:
   exact principal overlap `D(B∞ · Ysec)`, both source restrictions are open
   immersions into the same pair chart, their normalized output points agree,
   and the two actual cubic-valued morphisms are equal. The remaining overlap
-  equalities—starting with compatible regular addition laws covering the
-  secant base locus and the remaining local comparisons—and global gluing,
-  the group laws, and coordinate-point compatibility remain missing.
+  equalities—starting with promotion of the regular replacement cover to an
+  actual compatible scheme atlas and the remaining local comparisons—and
+  global gluing, the group laws, and coordinate-point compatibility remain
+  missing.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

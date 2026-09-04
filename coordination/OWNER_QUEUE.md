@@ -78,8 +78,12 @@ have the same composite into the full projective product. On both selected
 secant output opens of every factorwise overlap, the transition coordinate is
 a unit, the two source restrictions are open immersions with the same map into
 the full product, and cancellation of its square proves equality of the
-normalized points and genuine cubic-valued morphisms. Compatible regular laws
-covering the secant base locus are the next gluing step.
+normalized points and genuine cubic-valued morphisms. A sharper primewise
+cover now replaces the non-additive doubling opens: each mixed chart is
+covered by its transition-to-standard locus and secant output `Z`, while the
+infinity pair is covered by the both-standard locus, `D(B∞)`, and secant
+output `Z`. Promoting these loci to the compatible scheme atlas is the next
+gluing step.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
@@ -111,9 +115,9 @@ coordinate gives an actual open neighborhood containing `(O, O)` and a genuine
 over-base addition morphism into the cubic. The old secant triple pulls back to
 `(x₁ - x₂)³` times the regular triple, and on `D(B∞ · Ysec)` the two source
 restrictions are open immersions with equal normalized points and equal actual
-cubic-valued morphisms. The remaining work is to construct compatible regular
-addition laws covering the secant base locus, complete the required local
-comparisons, and perform global gluing, then prove the group laws and
+cubic-valued morphisms. The remaining work is to promote the checked regular
+replacement cover to an actual compatible scheme atlas, complete the required
+local comparisons, and perform global gluing, then prove the group laws and
 coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
