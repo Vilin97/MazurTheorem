@@ -64,6 +64,13 @@ exact output-`YZ` overlap dense in the raw output-`Y` open; separatedness over
 the coefficient field extends the overlap equality to that entire open. Thus
 both raw output normalizations on the standard input pair are checked
 restrictions of the same standard-pair addition law.
+The standard and infinity cubic charts now also meet through a checked exact
+`D(YZ)` quotient: the two chart equations generate the same overlap ideal,
+both restriction maps are principal open immersions, and their composites into
+the concrete cubic agree. Tensoring this overlap with an unchanged second
+chart proves that the first normalized input changes by `Y/Z` and that the raw
+addition triple changes by `(Y/Z)²`. Actual pair-chart overlap maps and the
+symmetric second-factor transition remain the next source-gluing step.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
@@ -95,7 +102,8 @@ coordinate gives an actual open neighborhood containing `(O, O)` and a genuine
 over-base addition morphism into the cubic. The old secant triple pulls back to
 `(x₁ - x₂)³` times the regular triple, and on `D(B∞ · Ysec)` the two source
 restrictions are open immersions with equal normalized points and equal actual
-cubic-valued morphisms. The remaining work is to finish the projective-pair
+cubic-valued morphisms. The remaining work is to promote the checked input
+transition laws to actual pair-chart overlap morphisms, finish the symmetric
 overlaps and global gluing, then prove the group laws and coordinate-point
 compatibility.
 

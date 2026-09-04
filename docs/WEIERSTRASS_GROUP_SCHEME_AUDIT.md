@@ -218,6 +218,14 @@ output-`Y` principal open, and separatedness over the coefficient field
 extends the checked overlap identity to the entire output-`Y` morphism. Both
 raw output normalizations on the standard input pair are therefore exact
 restrictions of the same standard-pair addition law.
+The source-chart transition now has a checked exact model as well. The two
+cubic equations generate the same ideal on `D(YZ)`; restriction from either
+the standard or infinity chart is a principal open immersion, and the two
+maps into the concrete cubic agree. Tensoring this ring with an unchanged
+second chart shows that the first normalized input changes by `Y/Z` and, by
+homogeneity, the raw addition triple changes by `(Y/Z)²`. Constructing the
+corresponding actual pair-chart overlap maps and proving the symmetric
+second-factor law remain downstream.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor
@@ -253,8 +261,9 @@ morphism into the concrete cubic. The original homogeneous secant triple pulls
 back to `(x₁ - x₂)³` times this regular triple. On the exact principal overlap
 `D(B∞ · Ysec)`, the two sources restrict by open immersions to the same open
 of the infinity-pair chart, and their normalized points and actual
-cubic-valued morphisms agree. The remaining projective-pair compatibility and
-global gluing remain open.
+cubic-valued morphisms agree. The remaining projective-pair compatibility now
+starts with the actual pair-chart realization of the checked source
+transition, its second-factor analogue, and global gluing.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -286,9 +295,11 @@ field:
 1. a global multiplication morphism obtained by proving that the genuine
    infinity-diagonal addition morphism agrees with the checked secant maps,
    transporting it across the remaining projective-product members meeting
-   infinity, proving the overlaps with the checked standard member, gluing the
-   local maps, and proving the group laws using the checked section at infinity
-   and homogeneous negation as the identity and inverse candidates;
+   infinity, promoting the checked first-factor `D(YZ)` transition to actual
+   pair-chart overlaps, proving its symmetric second-factor analogue and the
+   normalized-morphism equalities, gluing the local maps, and proving the
+   group laws using the checked section at infinity and homogeneous negation
+   as the identity and inverse candidates;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:

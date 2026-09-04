@@ -694,6 +694,24 @@ order-49 consumers.
   Identify the secant output Z coordinate times both input Z coordinates with the cube
   of the cross-multiplied input X difference.
 * `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coveringChartOverlapScheme`
+  Construct the exact cubic overlap D(YZ) shared by the standard and infinity coordinate
+  charts.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coveringChartOverlap_isLocalization_standardChart`
+  Identify the cubic overlap ring as the standard chart localized at Y/Z.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coveringChartOverlap_isLocalization_infinityChart`
+  Identify the same cubic overlap ring as the infinity chart localized at Z/Y.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coveringChartOverlap_maps_eq`
+  Prove that the two principal-open restrictions define the same morphism into the
+  concrete projective cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairFirstOverlap_standardAddition_eq_smul_infinityAddition`
+  After tensoring with an unchanged second chart, prove that changing the first
+  normalized input scales the raw addition triple by the square of Y/Z.
+* `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as
   the polynomial replacement on the diagonal base locus.
