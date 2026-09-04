@@ -653,6 +653,26 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates_equation`
   Prove that the first universal doubling triple satisfies the mapped homogeneous cubic
   equation over every projective-pair chart ring.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coveringChartCoordinateRingAlgHomOfNormalizedPoint`
+  Turn any normalized homogeneous solution of the mapped cubic equation into a K-algebra
+  map from the corresponding quotient coordinate chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartAdditionOutputAlgHom`
+  Normalize the universal secant triple after inverting a selected output coordinate and
+  instantiate the quotient-chart algebra-map constructor.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartAdditionOutputOpen`
+  Embed the selected secant output-coordinate principal localization as an actual open
+  subscheme of its projective-pair chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartAdditionOutputMorphism`
+  Define the regular secant-addition morphism from either output-coordinate principal
+  open into the concrete projective cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartAdditionOutputMorphism_comp_structureMap`
+  Prove that every localized secant output morphism lies over the structural morphism to
+  Spec K.
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual

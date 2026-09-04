@@ -39,7 +39,7 @@ two current packages:
 | Lane | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|
 | Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Regularize the checked secant and doubling triples on the three projective-pair members meeting infinity, prove the overlaps and global gluing, then prove the commutative group laws and coordinate-point compatibility and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
+| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Cover the diagonal base locus of the checked secant output morphisms by doubling, prove the overlaps and global gluing, then prove the commutative group laws and coordinate-point compatibility and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Package status is scheduling metadata. Only the two `current_work_package`
 entries above are selected WIP; one slot is intentionally unused. The generic
@@ -103,9 +103,13 @@ slices without changing the 200-point headline:
   elliptic cubic. The evaluated homogeneous secant triple and both doubling
   triples satisfy the mapped cubic equation, and the secant output `Z`
   coordinate obeys the exact cubic cross-difference denominator identity.
-  The raw triples can still vanish on their base loci, so their principal-open
-  regularization on the other three members, the overlap equalities and global
-  gluing, the group laws, and coordinate-point compatibility remain missing.
+  A normalized-point quotient-chart constructor turns either selected output
+  chart into a `K`-algebra map. Inverting the secant output `Y` or `Z`
+  coordinate therefore gives actual over-base morphisms from both principal
+  opens of every pair member into the cubic. These opens need not cover the
+  diagonal base locus, so doubling regularization there, the overlap equalities
+  and global gluing, the group laws, and coordinate-point compatibility remain
+  missing.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric
