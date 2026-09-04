@@ -202,6 +202,87 @@ private lemma projectiveEquation_negate_thirdIntersection
     Matrix.cons_val_one, Matrix.cons_val_two] at h ⊢
   linear_combination h
 
+private lemma infinityChart_secantCoordinates_eq_smul
+    {R : Type u} [CommRing R] (W : WeierstrassCurve R)
+    (x₁ z₁ x₂ z₂ ℓ c D E N M : R)
+    (h₁ : W.toProjective.Equation ![x₁, 1, z₁])
+    (hline : ℓ * (x₁ - x₂) = z₁ - z₂)
+    (hslope : ℓ *
+        (1 + W.a₁ * x₁ + W.a₃ * (z₁ + z₂) - W.a₂ * x₁ ^ 2 -
+          W.a₄ * x₁ * (z₁ + z₂) -
+          W.a₆ * (z₁ ^ 2 + z₁ * z₂ + z₂ ^ 2)) =
+      x₁ ^ 2 + x₁ * x₂ + x₂ ^ 2 + W.a₂ * z₂ * (x₁ + x₂) +
+        W.a₄ * z₂ ^ 2 - W.a₁ * z₂)
+    (hc : c = z₁ - ℓ * x₁)
+    (hD : D = 1 + W.a₂ * ℓ + W.a₄ * ℓ ^ 2 + W.a₆ * ℓ ^ 3)
+    (hE : E = W.a₁ * ℓ - W.a₂ * c + W.a₃ * ℓ ^ 2 -
+      2 * W.a₄ * c * ℓ - 3 * W.a₆ * c * ℓ ^ 2)
+    (hN : N = E - D * (x₁ + x₂))
+    (hM : M = ℓ * N + c * D) :
+    W.toProjective.addXYZ ![x₁, 1, z₁] ![x₂, 1, z₂] =
+      (x₁ - x₂) ^ 3 • ![N, -D - W.a₁ * N - W.a₃ * M, M] := by
+  have hz₁ : z₁ = ℓ * x₁ + c := by
+    linear_combination -hc
+  have hz₂ : z₂ = ℓ * x₂ + c := by
+    linear_combination hline - hc
+  rw [WeierstrassCurve.Projective.equation_iff] at h₁
+  simp only [Matrix.head_cons, Matrix.tail_cons, Matrix.cons_val_zero,
+    Matrix.cons_val_one, Matrix.cons_val_two, one_pow, one_mul, mul_one] at h₁
+  simp only [hz₁, hz₂] at h₁ hslope
+  have hF :
+      ℓ + W.a₁ * c + 2 * W.a₃ * c * ℓ - W.a₄ * c ^ 2 -
+          3 * W.a₆ * c ^ 2 * ℓ =
+        -(N * (x₁ + x₂) + D * x₁ * x₂) := by
+    rw [hN, hE, hD]
+    linear_combination hslope
+  have hG : c + W.a₃ * c ^ 2 - W.a₆ * c ^ 3 = N * x₁ * x₂ := by
+    have hE' : E = N + D * (x₁ + x₂) := by
+      linear_combination -hN
+    have hg₁ :
+        -D * x₁ ^ 3 + E * x₁ ^ 2 +
+            (ℓ + W.a₁ * c + 2 * W.a₃ * c * ℓ - W.a₄ * c ^ 2 -
+              3 * W.a₆ * c ^ 2 * ℓ) * x₁ +
+            (c + W.a₃ * c ^ 2 - W.a₆ * c ^ 3) = 0 := by
+      rw [hD, hE]
+      linear_combination h₁
+    linear_combination hg₁ - x₁ * hF - x₁ ^ 2 * hE'
+  have hF' := hF
+  have hG' := hG
+  rw [hN, hE, hD] at hF' hG'
+  have hX : W.toProjective.addX ![x₁, 1, z₁] ![x₂, 1, z₂] =
+      (x₁ - x₂) ^ 3 * N := by
+    rw [WeierstrassCurve.Projective.addX, hN, hE, hD]
+    simp only [Matrix.head_cons, Matrix.tail_cons, Matrix.cons_val_zero,
+      Matrix.cons_val_one, Matrix.cons_val_two, one_pow, mul_one, hz₁, hz₂]
+    linear_combination
+      -(x₁ - x₂) * (x₁ + x₂) * hF' - 3 * (x₁ - x₂) * hG'
+  have hnegY : W.toProjective.negAddY ![x₁, 1, z₁] ![x₂, 1, z₂] =
+      (x₁ - x₂) ^ 3 * D := by
+    rw [WeierstrassCurve.Projective.negAddY, hD]
+    simp only [Matrix.head_cons, Matrix.tail_cons, Matrix.cons_val_zero,
+      Matrix.cons_val_one, Matrix.cons_val_two, one_pow, one_mul, mul_one,
+      hz₁, hz₂]
+    linear_combination (x₁ - x₂) * hF'
+  have hZ : W.toProjective.addZ ![x₁, 1, z₁] ![x₂, 1, z₂] =
+      (x₁ - x₂) ^ 3 * M := by
+    rw [WeierstrassCurve.Projective.addZ, hM, hN, hE, hD]
+    simp only [Matrix.head_cons, Matrix.tail_cons, Matrix.cons_val_zero,
+      Matrix.cons_val_one, Matrix.cons_val_two, one_pow, one_mul, mul_one,
+      hz₁, hz₂]
+    linear_combination
+      -(x₁ - x₂) * (-c + ℓ * x₁ + ℓ * x₂) * hF' -
+        3 * ℓ * (x₁ - x₂) * hG'
+  have hY : W.toProjective.addY ![x₁, 1, z₁] ![x₂, 1, z₂] =
+      (x₁ - x₂) ^ 3 * (-D - W.a₁ * N - W.a₃ * M) := by
+    rw [WeierstrassCurve.Projective.addY,
+      WeierstrassCurve.Projective.negY_eq, hnegY, hX, hZ]
+    ring
+  funext j
+  fin_cases j
+  · simpa [WeierstrassCurve.Projective.addXYZ] using hX
+  · simpa [WeierstrassCurve.Projective.addXYZ] using hY
+  · simpa [WeierstrassCurve.Projective.addXYZ] using hZ
+
 private theorem projectiveInfinityPairNeighborhood_firstEquation
     (W : WeierstrassCurve K) :
     (projectiveInfinityPairNeighborhoodMappedCurve W).toProjective.Equation
@@ -323,6 +404,84 @@ theorem projectiveInfinityPairNeighborhoodAdditionCoordinates_equation
   apply projectiveEquation_negate_thirdIntersection
   simpa [projectiveInfinityPairNeighborhoodThirdCoordinates] using
     projectiveInfinityPairNeighborhoodThirdCoordinates_equation W
+
+/-- On the infinity-pair neighborhood, the raw homogeneous secant triple on
+the normalized inputs is the cube of `x₁ - x₂` times the regular local
+addition triple.  Thus the latter removes exactly the diagonal base factor
+from the former. -/
+theorem projectiveInfinityPairNeighborhood_addXYZ_eq_smul
+    (W : WeierstrassCurve K) :
+    (projectiveInfinityPairNeighborhoodMappedCurve W).toProjective.addXYZ
+        ![projectiveInfinityPairNeighborhoodX₁ W, 1,
+          projectiveInfinityPairNeighborhoodZ₁ W]
+        ![projectiveInfinityPairNeighborhoodX₂ W, 1,
+          projectiveInfinityPairNeighborhoodZ₂ W] =
+      (projectiveInfinityPairNeighborhoodX₁ W -
+          projectiveInfinityPairNeighborhoodX₂ W) ^ 3 •
+        projectiveInfinityPairNeighborhoodAdditionCoordinates W := by
+  apply infinityChart_secantCoordinates_eq_smul
+  · exact projectiveInfinityPairNeighborhood_firstEquation W
+  · simpa [projectiveInfinityPairNeighborhoodX₁,
+      projectiveInfinityPairNeighborhoodX₂,
+      projectiveInfinityPairNeighborhoodZ₁,
+      projectiveInfinityPairNeighborhoodZ₂] using
+        projectiveInfinityPairNeighborhoodSlope_mul_sub W
+  · have h := projectiveInfinityPairNeighborhoodSlope_mul_B12 W
+    rw [projectiveInfinityPairNeighborhoodB12_eq,
+      projectiveInfinityPairNeighborhoodA12_eq] at h
+    exact h
+  · rfl
+  · rfl
+  · rfl
+  · rfl
+  · rfl
+
+/-- Pulling the original projective-pair secant coordinates to `D(B∞)`
+exhibits their exact common scalar factor.  This is the coordinate-level
+comparison used to identify the old and new addition morphisms wherever the
+raw output is nonzero. -/
+theorem projectiveInfinityPairNeighborhood_rawAdditionCoordinates_eq_smul
+    (W : WeierstrassCurve K) :
+    (algebraMap (projectiveInfinityPairCoordinateRing W)
+        (projectiveInfinityPairNeighborhoodRing W)) ∘
+        projectivePairChartAdditionCoordinates W (false, false) =
+      (projectiveInfinityPairNeighborhoodX₁ W -
+          projectiveInfinityPairNeighborhoodX₂ W) ^ 3 •
+        projectiveInfinityPairNeighborhoodAdditionCoordinates W := by
+  let R := projectiveInfinityPairCoordinateRing W
+  let S := projectiveInfinityPairNeighborhoodRing W
+  let f : R →+* S := algebraMap R S
+  have hf : f.comp (algebraMap K R) = algebraMap K S :=
+    (IsScalarTower.algebraMap_eq K R S).symm
+  have hp₁ : f ∘ projectivePairChartFirstUniversalPoint W (false, false) =
+      ![projectiveInfinityPairNeighborhoodX₁ W, 1,
+        projectiveInfinityPairNeighborhoodZ₁ W] := by
+    funext j
+    fin_cases j
+    · rfl
+    · change f (projectivePairChartFirstUniversalPoint W (false, false)
+          (coveringCoordinate false)) = 1
+      rw [projectivePairChartFirstUniversalPoint_normalized, map_one]
+    · rfl
+  have hp₂ : f ∘ projectivePairChartSecondUniversalPoint W (false, false) =
+      ![projectiveInfinityPairNeighborhoodX₂ W, 1,
+        projectiveInfinityPairNeighborhoodZ₂ W] := by
+    funext j
+    fin_cases j
+    · rfl
+    · change f (projectivePairChartSecondUniversalPoint W (false, false)
+          (coveringCoordinate false)) = 1
+      rw [projectivePairChartSecondUniversalPoint_normalized, map_one]
+    · rfl
+  change f ∘
+      (projectivePairChartMappedCurve W (false, false)).toProjective.addXYZ
+        (projectivePairChartFirstUniversalPoint W (false, false))
+        (projectivePairChartSecondUniversalPoint W (false, false)) = _
+  rw [← WeierstrassCurve.Projective.map_addXYZ]
+  change ((projectivePairChartMappedCurve W (false, false)).map f).toProjective.addXYZ
+      _ _ = _
+  rw [projectivePairChartMappedCurve, WeierstrassCurve.map_map, hf, hp₁, hp₂]
+  exact projectiveInfinityPairNeighborhood_addXYZ_eq_smul W
 
 /-! ## Specialization at the infinity point -/
 
