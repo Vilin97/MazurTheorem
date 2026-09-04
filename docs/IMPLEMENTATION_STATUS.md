@@ -205,7 +205,14 @@ slices at the 225-point headline:
   kernel, rational-point boundary exactness, and arbitrary-base-change kernel
   exactness. The order-49 quotient presentation consumes it directly. All
   three packages are integrated, completing the 25-point cyclic subgroup
-  quotient node; the represented open `X₀(N)` classifier is selected next.
+  quotient node. The next layer now bundles an intrinsic split `Gamma₀(N)`
+  object from the proper geometrically integral relative curve and its actual
+  finite-flat cyclic subgroup. It defines subgroup-preserving group-scheme
+  isomorphisms, their field-valued moduli quotient, and scalar extension on
+  that quotient. Exact order-49 torsion reaches this intrinsic class without a
+  Weierstrass presentation or supplied point-set equivalence. No scheme is yet
+  asserted to represent the class, so the arbitrary-base moduli functor and
+  represented open `X₀(N)` classifier remain selected.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

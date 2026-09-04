@@ -253,6 +253,25 @@ by checked admissible variable changes.
 
 *Canonical artifacts:*
 
+* `structure` (`contract`): `MazurTorsion.ModularCurve.XZeroModuli.SplitGeometricDatum`
+  Bundle a proper geometrically integral relative-dimension-one commutative group scheme
+  with an actual split finite-flat cyclic subgroup of level N.
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.SplitGeometricDatum.Iso`
+  Express isomorphism of split Gamma-zero objects by compatible isomorphisms of the
+  ambient group schemes and finite-flat subgroup carriers.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.SplitGeometricDatum.IsomorphismClass`
+  Form the intrinsic field-valued split Gamma-zero moduli set modulo subgroup-preserving
+  group-scheme isomorphism.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.SplitGeometricDatum.IsomorphismClass.baseChange`
+  Descend scalar extension of the curve and finite-flat subgroup to intrinsic split
+  moduli classes.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.splitGeometricModuliClassOfOrderFortyNineTorsion`
+  Send exact order-49 torsion to the intrinsic geometric moduli class without retaining
+  a Weierstrass presentation or supplied point-set equivalence.
 * `definition` (`proposed`): `ModularCurve.XZeroModuli`
   Define elliptic curves with a finite locally free cyclic subgroup of level N.
 * `theorem` (`proposed`): `ModularCurve.XZeroModuli.pointOfRationalCyclicSubgroup`

@@ -325,6 +325,15 @@ ModularCurve.XZero.infinityCusp
 ModularCurve.XZero.atkinLehner
 ```
 
+The checked intermediate `XZeroModuli.SplitGeometricDatum` now packages a
+proper geometrically integral relative-dimension-one commutative group scheme
+and its actual split finite-flat cyclic subgroup. Its `Iso` relation commutes
+with the subgroup inclusions, the resulting `IsomorphismClass` is independent
+of the Weierstrass presentation, and scalar extension descends to those
+classes. In particular, exact order-49 torsion reaches this intrinsic
+field-valued moduli class. This is source data for representability, not a
+replacement for the arbitrary-base moduli functor or its representing scheme.
+
 The point constructor must consume an actual finite-flat subgroup scheme and
 prove noncuspidality; a supplied equivalence of point sets is not sufficient.
 The checked `AffineCuspPolynomialChart.sectionAt` construction and

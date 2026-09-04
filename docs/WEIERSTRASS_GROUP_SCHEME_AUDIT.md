@@ -371,5 +371,10 @@ without caller-supplied group, point-equivalence, subgroup, or quotient data.
 Its finite étale fppf projection has the canonical subgroup as its exact
 scheme-theoretic kernel after arbitrary base change, and the order-49
 presentation consumes it directly. Thus the group-scheme, exact-torsion
-subgroup, and represented cyclic-quotient packages are integrated. The next
-boundary is the represented open `X₀(N)` classifier.
+subgroup, and represented cyclic-quotient packages are integrated.
+`XZeroModuli.SplitGeometricDatum` now forgets the coordinate presentation while
+retaining the proper relative curve and actual subgroup; its isomorphism
+classes and scalar-extension map form the honest field-valued split moduli
+boundary. The order-49 consumer reaches this class canonically. It is not yet a
+scheme-valued moduli functor, so the next boundary remains the represented open
+`X₀(N)` classifier.

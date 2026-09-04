@@ -166,8 +166,15 @@ interface. The canonical quotient is now bundled as
 an abelian variety with a finite étale fppf projection, exact kernel,
 rational-point boundary exactness, and arbitrary-base-change kernel exactness.
 The order-49 presentation consumes it directly, completing the 25-point cyclic
-subgroup quotient node. The represented-moduli lane now selects the actual
-open `X₀(N)` classifier. The generic Néron mapping-property and
+subgroup quotient node. The represented-moduli lane now has an intrinsic split
+`Gamma₀(N)` object: it bundles the proper geometrically integral
+relative-dimension-one group scheme and its finite-flat cyclic subgroup.
+Subgroup-preserving group-scheme isomorphisms define its field-valued moduli
+classes, scalar extension respects those classes, and exact order-49 torsion
+reaches the resulting class with no Weierstrass or point-equivalence shadow.
+This is still not a represented scheme; the lane continues with the
+arbitrary-base moduli functor and actual open `X₀(N)` classifier. The generic
+Néron mapping-property and
 admissible-filtration packages are integrated. Their Eisenstein-quotient
 instantiation requires the actual Eisenstein quotient and its Néron model, so
 it is blocked and does not occupy the spare WIP slot.
