@@ -343,18 +343,21 @@ extends their equality globally.  `projectiveGrpObj` consequently packages
 the checked addition, infinity section, and negation as a canonical
 commutative group object.
 
-## Remaining mathematical boundary
+`projectivePointOverMorphism_add_canonical` now proves that the canonical
+forward coordinate-point map preserves this addition.  Distinct abscissas
+are evaluated through the secant output chart; equal abscissas away from the
+inverse locus are evaluated through `D(B₁₂)`, where `A₁₂/B₁₂` becomes
+Mathlib's tangent slope.  The identity and inverse cases complete the proof.
+`canonicalPointGroupLawCompatibility` packages the result for the existing
+abelian-variety and split-`Gamma₀` interfaces.  Injectivity, surjectivity, and
+therefore bijectivity were already checked; the ellipticity hypothesis used
+for surjectivity remains essential because singular rational points are
+deliberately absent from Mathlib's nonsingular `Projective.Point` type.
 
-The full `MT-X0-MODULI` acceptance boundary still requires compatibility of
-the canonical forward coordinate-point map with the
-scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
-now checked.  The ellipticity hypothesis used for surjectivity is essential:
-for a singular Weierstrass equation the reduced cubic may have rational
-singular points which are deliberately absent from Mathlib's nonsingular
-`Projective.Point` type.  Once group-law compatibility is checked,
-`canonicalProjectivePointEquiv` then packages the multiplicative equivalence
-and the existing bridge derives the affine-coordinate comparison.
+## Remaining integration boundary
 
-No searched dependency supplies the remaining coordinate-point compatibility
-or pointed Picard/Jacobian comparison at the pinned revisions. They remain
-formalization work rather than external blockers.
+The canonical group object and its coordinate-point comparison are complete.
+This work package now only needs the named order-49 consumer refactored to use
+them without supplied `GrpObj` or `CanonicalPointGroupLawCompatibility`
+shadows.  The subsequent exact-torsion finite-flat subgroup and represented
+cyclic quotient remain separate formalization packages.
