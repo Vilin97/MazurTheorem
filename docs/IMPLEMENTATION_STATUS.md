@@ -143,7 +143,12 @@ slices without changing the 200-point headline:
   categorical pullback of those members. Their laws are compatible and glue
   to genuine morphisms on both entire mixed charts; named restriction
   theorems recover both the transported standard law and normalized secant
-  law. Every
+  law. On the infinity-pair cover, the regular-origin/secant-`Z`,
+  double-standard/secant-`Z`, and double-standard/regular-origin intersections
+  are identified with the exact categorical pullbacks. The local laws are
+  compatible on every ordered pair and glue to a genuine morphism on the
+  whole infinity-by-infinity chart, with named restriction theorems for all
+  three cover members. Every
   product member is now identified with the spectrum of the
   tensor product of its two chart coordinate rings. A checked constructor
   turns each `K`-algebra coordinate formula into an automatically over-base
@@ -175,10 +180,9 @@ slices without changing the 200-point headline:
   secant triple is exactly `(x₁ - x₂)³` times this regular triple. On the
   exact principal overlap `D(B∞ · Ysec)`, both source restrictions are open
   immersions into the same pair chart, their normalized output points agree,
-  and the two actual cubic-valued morphisms are equal. The remaining overlap
-  equalities on the actual infinity-pair cover, compatibility among the four
-  full chart morphisms, global gluing, the group laws, and coordinate-point
-  compatibility remain missing.
+  and the two actual cubic-valued morphisms are equal. Compatibility among the
+  four full chart morphisms, global gluing, the group laws, and
+  coordinate-point compatibility remain missing.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

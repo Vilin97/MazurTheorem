@@ -99,8 +99,12 @@ families select these genuine local morphisms. On each mixed chart, the exact
 input/output localization is now identified with the categorical pullback of
 the two cover members. The local laws are compatible there and glue to a
 genuine morphism on the entire mixed chart, with both transition and secant
-restrictions checked. Compatibility on the infinity-pair cover and global
-four-chart gluing are the next atlas step.
+restrictions checked. On the infinity-pair cover, all three exact pairwise
+pullbacks are now identified and their local laws are compatible. The
+double-standard, regular-origin, and secant-`Z` laws therefore glue to a
+genuine morphism on the entire infinity chart, with all three restrictions
+checked. Compatibility among the four full chart morphisms and global gluing
+are the next atlas step.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
@@ -132,10 +136,11 @@ coordinate gives an actual open neighborhood containing `(O, O)` and a genuine
 over-base addition morphism into the cubic. The old secant triple pulls back to
 `(x₁ - x₂)³` times the regular triple, and on `D(B∞ · Ysec)` the two source
 restrictions are open immersions with equal normalized points and equal actual
-cubic-valued morphisms. The remaining work is to prove pairwise compatibility
-on the actual infinity-pair addition cover, establish compatibility of the
-four full chart morphisms, and perform global gluing, then prove the group laws
-and coordinate-point compatibility.
+cubic-valued morphisms. The three local laws on the infinity-pair cover are
+now pairwise compatible on their exact pullbacks and glue across that entire
+chart. The remaining work is to establish compatibility of the four full
+chart morphisms and perform global gluing, then prove the group laws and
+coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and

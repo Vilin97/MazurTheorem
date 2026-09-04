@@ -254,7 +254,11 @@ morphisms. On both mixed charts, the exact input/output localization is now
 identified with the categorical pullback of the cover members. Compatibility
 of the two laws yields a genuine glued morphism on the whole chart, and its
 transition and secant restrictions recover the selected local laws.
-Compatibility of the infinity-pair cover and global four-chart gluing are the
+On the infinity-pair cover, all three exact pairwise pullbacks have now been
+identified. The double-standard, regular-origin, and secant-`Z` laws are
+compatible in all ordered cases and glue to a genuine morphism on the entire
+infinity chart, with each selected local law recovered by restriction.
+Compatibility among the four full chart morphisms and global gluing are the
 immediate atlas boundary.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an

@@ -887,6 +887,39 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairInfinityStandardSecantZOpen_comp_addition`
   Identify the secant-Z restriction of the glued infinity-by-standard law with the
   normalized secant morphism.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairOriginSecantZ_compatible`
+  Identify the exact regular-origin/secant-Z intersection with the categorical pullback
+  and prove compatibility of its two genuine local laws.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairDoubleSecantZ_compatible`
+  Identify the exact double-standard/secant-Z intersection with the categorical pullback
+  and prove compatibility through the transported standard law.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairDoubleOrigin_compatible`
+  Prove compatibility of the double-standard and regular-origin laws by transporting the
+  standard raw output-Z nonvanishing result and extending equality from their dense
+  triple overlap into the separated cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairAdditionCoverMorphism_compatible`
+  Prove all nine ordered compatibility cases for the genuine three-member infinity-pair
+  addition cover.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairAdditionMorphism`
+  Glue the compatible double-standard, regular-origin, and secant-Z laws to a genuine
+  addition morphism on the entire infinity-by-infinity chart.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlapToInfinityPair_comp_addition`
+  Identify the double-standard restriction of the glued infinity-pair law with the
+  transported standard-pair addition law.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairOriginAdditionOpen_comp_addition`
+  Identify the regular-origin restriction of the glued infinity-pair law with the
+  genuine local addition morphism around (O, O).
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairSecantZOpen_comp_addition`
+  Identify the secant-Z restriction of the glued infinity-pair law with the normalized
+  secant morphism.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as
