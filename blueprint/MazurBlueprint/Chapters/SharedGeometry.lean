@@ -788,6 +788,26 @@ order-49 consumers.
   Cover the infinity pair by the both-standard locus, the regular D(B-infinity)
   neighborhood, and the secant output-Z open.
 * `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleChartOverlapCoordinateRing`
+  Realize the exact both-standard locus of the infinity pair as the tensor square of the
+  cubic chart-overlap ring.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlap_isLocalization_infinityPair`
+  Identify the double-overlap ring as localization of the infinity-pair ring at the
+  product of its two input Z coordinates.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlap_isLocalization_standardPair`
+  Identify the same double-overlap ring as localization of the standard-pair ring at the
+  product of its two input Y coordinates.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlapToStandardPair`
+  Embed the exact double input overlap as the corresponding principal open of the
+  standard-by-standard pair chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlapToInfinityPair`
+  Embed the same exact double input overlap as the both-standard principal open of the
+  infinity-by-infinity pair chart.
+* `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as
   the polynomial replacement on the diagonal base locus.

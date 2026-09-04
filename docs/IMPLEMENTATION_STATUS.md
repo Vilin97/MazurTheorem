@@ -123,7 +123,11 @@ slices without changing the 200-point headline:
   cover now avoids treating the doubling formulas as addition: each mixed
   chart is covered by its transition-to-standard locus and the secant
   output-`Z` locus; the infinity pair is covered by the both-standard locus,
-  the regular `D(B∞)` neighborhood, and secant output `Z`. Every product
+  the regular `D(B∞)` neighborhood, and secant output `Z`. The both-standard
+  term is now an actual affine scheme: the tensor square of the exact cubic
+  overlap is a principal localization of both adjacent pair rings, so its
+  maps to the standard-by-standard and infinity-by-infinity charts are open
+  immersions. Every product
   member is now identified with the spectrum of the
   tensor product of its two chart coordinate rings. A checked constructor
   turns each `K`-algebra coordinate formula into an automatically over-base

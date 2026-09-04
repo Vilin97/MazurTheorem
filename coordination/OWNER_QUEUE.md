@@ -82,8 +82,11 @@ normalized points and genuine cubic-valued morphisms. A sharper primewise
 cover now replaces the non-additive doubling opens: each mixed chart is
 covered by its transition-to-standard locus and secant output `Z`, while the
 infinity pair is covered by the both-standard locus, `D(B∞)`, and secant
-output `Z`. Promoting these loci to the compatible scheme atlas is the next
-gluing step.
+output `Z`. The both-standard locus now has its exact scheme model: the tensor
+square of the cubic overlap is proved to be the required principal
+localization of both the standard and infinity pair rings, and its maps to
+both pair charts are open immersions. Proving that those two maps have the
+same composite into the full product is the next gluing step.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
@@ -115,9 +118,9 @@ coordinate gives an actual open neighborhood containing `(O, O)` and a genuine
 over-base addition morphism into the cubic. The old secant triple pulls back to
 `(x₁ - x₂)³` times the regular triple, and on `D(B∞ · Ysec)` the two source
 restrictions are open immersions with equal normalized points and equal actual
-cubic-valued morphisms. The remaining work is to promote the checked regular
-replacement cover to an actual compatible scheme atlas, complete the required
-local comparisons, and perform global gluing, then prove the group laws and
+cubic-valued morphisms. The remaining work is to finish the compatibility of
+the exact double-overlap chart, promote the checked regular replacement cover
+to an actual compatible scheme atlas, and perform global gluing, then prove the group laws and
 coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat

@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2080782,
-    "integrated_lean_modules": 2009,
+    "integrated_lean_lines": 2081137,
+    "integrated_lean_modules": 2010,
     "remaining_composite_orders": [
       25,
       35
@@ -3402,6 +3402,41 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleChartOverlapCoordinateRing",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductDoubleInputOverlap",
+          "description": "Realize the exact both-standard locus of the infinity pair as the tensor square of the cubic chart-overlap ring."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlap_isLocalization_infinityPair",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductDoubleInputOverlap",
+          "description": "Identify the double-overlap ring as localization of the infinity-pair ring at the product of its two input Z coordinates."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlap_isLocalization_standardPair",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductDoubleInputOverlap",
+          "description": "Identify the same double-overlap ring as localization of the standard-pair ring at the product of its two input Y coordinates."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlapToStandardPair",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductDoubleInputOverlap",
+          "description": "Embed the exact double input overlap as the corresponding principal open of the standard-by-standard pair chart."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlapToInfinityPair",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductDoubleInputOverlap",
+          "description": "Embed the same exact double input overlap as the both-standard principal open of the infinity-by-infinity pair chart."
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates",
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductAdditionCoordinates",
@@ -3676,8 +3711,8 @@
         "revision": "sequence the canonical Weierstrass group scheme, exact-torsion finite-flat subgroup, and cyclic quotient APIs against named X_0 and order-49 consumers"
       },
       "evidence": {
-        "recorded_artifact_count": 648,
-        "canonical_artifact_count": 112,
+        "recorded_artifact_count": 653,
+        "canonical_artifact_count": 117,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -3689,7 +3724,7 @@
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
-          "exit_criterion": "Starting from the actual four-member cover of the full projective product, the integral affine tensor-product presentation of each member, the checked secant and doubling polynomial triples on its universal inputs, both pairs of output-coordinate principal-open morphisms, their joint nonvanishing cover of every pair member, the checked YZ compatibility of the secant formulas, the addition morphism on the standard-by-standard member together with its checked raw output-Z and output-Y restrictions, the actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)` with checked secant compatibility on its exact overlap, both exact factorwise pair-chart overlap schemes with raw addition transition laws and equal embeddings into the full product, normalized secant-morphism compatibility on every factorwise output overlap, and the primewise replacement cover by standard, regular D(B-infinity), and secant-Z loci, promote the replacement loci to an actual compatible scheme open cover and glue globally. Prove the commutative group laws and coordinate-point compatibility, then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
+          "exit_criterion": "Starting from the actual four-member cover of the full projective product, the integral affine tensor-product presentation of each member, the checked secant and doubling polynomial triples on its universal inputs, both pairs of output-coordinate principal-open morphisms, their joint nonvanishing cover of every pair member, the checked YZ compatibility of the secant formulas, the addition morphism on the standard-by-standard member together with its checked raw output-Z and output-Y restrictions, the actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)` with checked secant compatibility on its exact overlap, both exact factorwise pair-chart overlap schemes with raw addition transition laws and equal embeddings into the full product, normalized secant-morphism compatibility on every factorwise output overlap, the primewise replacement cover by standard, regular D(B-infinity), and secant-Z loci, and the exact double input overlap embedded as principal opens of both the standard and infinity pair charts, finish the compatible scheme open cover and glue globally. Prove the commutative group laws and coordinate-point compatibility, then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
         },
         {
           "id": "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP",

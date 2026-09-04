@@ -236,7 +236,11 @@ into the full product and equal genuine cubic-valued morphisms. A primewise
 replacement cover avoids the non-additive doubling opens: the mixed charts
 use their transition-to-standard loci together with secant output `Z`, and
 the infinity pair uses the both-standard locus, `D(B∞)`, and secant output
-`Z`. Its scheme-atlas realization remains downstream.
+`Z`. The both-standard locus now has an exact affine scheme realization: the
+tensor square of the cubic chart overlap is proved to be the product-coordinate
+principal localization on both the standard and infinity pair charts, and
+both induced chart maps are open immersions. Equality of their maps into the
+full product remains the immediate compatibility boundary.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor
