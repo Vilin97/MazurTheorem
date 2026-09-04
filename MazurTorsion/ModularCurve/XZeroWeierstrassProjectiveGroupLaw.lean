@@ -14,10 +14,10 @@ import MazurTorsion.ModularCurve.XZeroWeierstrassCubicChartDensity
 This file packages the globally glued projective addition morphism in the
 slice over `Spec K` and proves its group-law equations.  The design boundary
 is the concrete object `toOver W`: no pre-existing `MonObj` or `GrpObj`
-structure is assumed while the equations are established.  The named
-downstream consumer is `projectiveGrpObj`, which installs these checked
-morphisms as the canonical group-object structure used by the modular-curve
-interfaces.
+structure is assumed while the equations are established.  The downstream
+module `XZeroWeierstrassProjectiveAssociativity` proves the remaining
+associativity equation and installs these checked morphisms as the canonical
+group-object structure used by the modular-curve interfaces.
 -/
 
 noncomputable section
