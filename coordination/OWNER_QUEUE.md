@@ -172,9 +172,13 @@ relative-dimension-one group scheme and its finite-flat cyclic subgroup.
 Subgroup-preserving group-scheme isomorphisms define its field-valued moduli
 classes, scalar extension respects those classes, and exact order-49 torsion
 reaches the resulting class with no Weierstrass or point-equivalence shadow.
-This is still not a represented scheme; the lane continues with the
-arbitrary-base moduli functor and actual open `X₀(N)` classifier. The generic
-Néron mapping-property and
+The arbitrary-base object layer now supplies a constant cyclic group over any
+scheme, fppf-locally constant cyclic subgroups with a checked global-order
+descent theorem, and relative `Gamma₀(N)` families. Exact order-49 torsion
+reaches this interface on the identity cover. Pullback and arbitrary-base
+isomorphism classes remain the next prerequisites before representability, so
+the current package and its zero credit are unchanged. The generic Néron
+mapping-property and
 admissible-filtration packages are integrated. Their Eisenstein-quotient
 instantiation requires the actual Eisenstein quotient and its Néron model, so
 it is blocked and does not occupy the spare WIP slot.

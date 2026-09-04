@@ -375,6 +375,12 @@ subgroup, and represented cyclic-quotient packages are integrated.
 `XZeroModuli.SplitGeometricDatum` now forgets the coordinate presentation while
 retaining the proper relative curve and actual subgroup; its isomorphism
 classes and scalar-extension map form the honest field-valued split moduli
-boundary. The order-49 consumer reaches this class canonically. It is not yet a
-scheme-valued moduli functor, so the next boundary remains the represented open
-`X₀(N)` classifier.
+boundary. The next layer now constructs the constant cyclic group over every
+base scheme and defines a finite-flat subgroup by an fppf cover carrying local
+constant-cyclic isomorphisms. Its checked descent argument proves that the
+global carrier has order `N`. Bundling this with the relative curve produces
+an arbitrary-base locally constant `Gamma₀(N)` family, and the order-49
+consumer reaches it through the identity cover. Pullback functoriality and an
+arbitrary-base isomorphism quotient are not yet constructed, so this object
+assignment is not yet a scheme-valued moduli functor. The next boundary
+remains the represented open `X₀(N)` classifier.

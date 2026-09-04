@@ -253,6 +253,30 @@ by checked admissible variable changes.
 
 *Canonical artifacts:*
 
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.constantCyclicOver`
+  Construct the universe-compatible constant cyclic finite-flat group of order N over
+  an arbitrary base scheme.
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantCyclicSubgroup`
+  Bundle a finite-flat closed subgroup together with an fppf cover on which it is
+  constant cyclic, without choosing a generator.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantCyclicSubgroup.hasConstantOrder`
+  Descend constant geometric order N from the fppf-local cyclic trivializations to the
+  global carrier.
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily`
+  Bundle a proper geometrically integral smooth relative curve of dimension one with
+  an fppf-locally constant cyclic subgroup.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.ofSplitGeometricDatum`
+  Embed the intrinsic split field-valued datum into the arbitrary-base family interface
+  using the identity fppf cover.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.locallyConstantGammaZeroFamilyOfOrderFortyNineTorsion`
+  Send exact order-49 torsion to the relative locally constant Gamma-zero family without
+  a chosen generator or point-equivalence shadow.
 * `structure` (`contract`): `MazurTorsion.ModularCurve.XZeroModuli.SplitGeometricDatum`
   Bundle a proper geometrically integral relative-dimension-one commutative group scheme
   with an actual split finite-flat cyclic subgroup of level N.

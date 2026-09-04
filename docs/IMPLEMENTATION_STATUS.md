@@ -210,9 +210,15 @@ slices at the 225-point headline:
   finite-flat cyclic subgroup. It defines subgroup-preserving group-scheme
   isomorphisms, their field-valued moduli quotient, and scalar extension on
   that quotient. Exact order-49 torsion reaches this intrinsic class without a
-  Weierstrass presentation or supplied point-set equivalence. No scheme is yet
-  asserted to represent the class, so the arbitrary-base moduli functor and
-  represented open `X₀(N)` classifier remain selected.
+  Weierstrass presentation or supplied point-set equivalence. The next checked
+  slice defines the constant cyclic finite-flat group over every scheme and
+  fppf-locally constant cyclic closed subgroups. Local cyclicity now descends
+  to a global constant-order theorem, and these subgroups are bundled with
+  proper geometrically integral smooth relative curves of dimension one.
+  Exact order-49 torsion reaches this arbitrary-base family interface on the
+  identity cover. Pullback, arbitrary-base isomorphism classes, and the
+  representing open scheme are still absent, so the represented `X₀(N)`
+  classifier remains selected and no additional roadmap credit is claimed.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

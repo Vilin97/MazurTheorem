@@ -331,8 +331,16 @@ and its actual split finite-flat cyclic subgroup. Its `Iso` relation commutes
 with the subgroup inclusions, the resulting `IsomorphismClass` is independent
 of the Weierstrass presentation, and scalar extension descends to those
 classes. In particular, exact order-49 torsion reaches this intrinsic
-field-valued moduli class. This is source data for representability, not a
-replacement for the arbitrary-base moduli functor or its representing scheme.
+field-valued moduli class. The arbitrary-base object layer now constructs a
+universe-compatible constant cyclic finite-flat group over every scheme,
+defines fppf-locally constant cyclic closed subgroups, and proves their global
+order by descent along the cover. A proper geometrically integral smooth
+relative curve of dimension one together with such a subgroup forms
+`XZeroModuli.LocallyConstantGammaZeroFamily`; the split field datum and the
+exact-order-49 consumer map into it through the identity cover. The remaining
+functorial layer must construct pullback, compatible isomorphism classes, and
+then a representing open modular curve. Thus this is still source data for
+representability, not a represented `X₀(N)` point.
 
 The point constructor must consume an actual finite-flat subgroup scheme and
 prove noncuspidality; a supplied equivalence of point sets is not sufficient.
