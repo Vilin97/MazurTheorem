@@ -239,8 +239,10 @@ the infinity pair uses the both-standard locus, `D(B∞)`, and secant output
 `Z`. The both-standard locus now has an exact affine scheme realization: the
 tensor square of the cubic chart overlap is proved to be the product-coordinate
 principal localization on both the standard and infinity pair charts, and
-both induced chart maps are open immersions. Equality of their maps into the
-full product remains the immediate compatibility boundary.
+both induced chart maps are open immersions. Each description recovers the
+two intrinsic cubic-overlap projections, so their maps into the full product
+are now proved equal. The remaining immediate boundary is the actual scheme
+atlas containing this open together with the regular and secant loci.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor

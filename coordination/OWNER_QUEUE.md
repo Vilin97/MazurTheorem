@@ -85,8 +85,10 @@ infinity pair is covered by the both-standard locus, `D(B∞)`, and secant
 output `Z`. The both-standard locus now has its exact scheme model: the tensor
 square of the cubic overlap is proved to be the required principal
 localization of both the standard and infinity pair rings, and its maps to
-both pair charts are open immersions. Proving that those two maps have the
-same composite into the full product is the next gluing step.
+both pair charts are open immersions. Their two intrinsic overlap projections
+agree with both chart descriptions, so the induced maps into the full
+projective product are equal. Realizing the remaining regular and secant loci
+as one compatible scheme cover is the next gluing step.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
@@ -118,10 +120,10 @@ coordinate gives an actual open neighborhood containing `(O, O)` and a genuine
 over-base addition morphism into the cubic. The old secant triple pulls back to
 `(x₁ - x₂)³` times the regular triple, and on `D(B∞ · Ysec)` the two source
 restrictions are open immersions with equal normalized points and equal actual
-cubic-valued morphisms. The remaining work is to finish the compatibility of
-the exact double-overlap chart, promote the checked regular replacement cover
-to an actual compatible scheme atlas, and perform global gluing, then prove the group laws and
-coordinate-point compatibility.
+cubic-valued morphisms. The remaining work is to promote the checked regular
+replacement cover, now including the compatible exact double-overlap chart,
+to an actual scheme atlas and perform global gluing, then prove the group laws
+and coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and

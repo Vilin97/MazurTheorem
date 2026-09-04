@@ -808,6 +808,18 @@ order-49 consumers.
   Embed the same exact double input overlap as the both-standard principal open of the
   infinity-by-infinity pair chart.
 * `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlapFst`
+  Project the exact double input overlap to the first copy of the common cubic chart
+  overlap.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlapSnd`
+  Project the exact double input overlap to the second copy of the common cubic chart
+  overlap.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlap_maps_eq`
+  Prove that the standard-pair and infinity-pair descriptions of the exact double
+  overlap have equal composites into the full projective product.
+* `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as
   the polynomial replacement on the diagonal base locus.
