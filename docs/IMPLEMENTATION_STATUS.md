@@ -17,9 +17,9 @@ finite/infinite split, but it does not replace the full classification.
 
 ## Ledger-derived snapshot
 
-- Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
-- Ecosystem readiness is **20%**.
-- The audited baseline contains **2,020 Lean modules** and **2,092,518 Lean
+- Integrated completion is **22.5%**: 225 of the fixed 1,000 points.
+- Ecosystem readiness is **23%**.
+- The audited baseline contains **2,021 Lean modules** and **2,092,782 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -39,7 +39,7 @@ two current packages:
 | Lane | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|
 | Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-CYCLIC-QUOTIENT` | Construct the represented cyclic quotient directly from the canonical exact-torsion subgroup, with exact kernel and arbitrary base change, and refactor `MazurTorsion.XZeroFortyNine.orderFortyNineEllipticQuotientPresentation` to consume that canonical quotient without rebuilding it from a rational-datum point equivalence. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
+| Represented `X₀(N)` vertical slice | `WP-MT-X0-MODULI-REPRESENTED-MODULI` | Map the honest subgroup scheme to the represented open modular curve without assuming missing group-law or quotient data. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Package status is scheduling metadata. Only the two `current_work_package`
 entries above are selected WIP; one slot is intentionally unused. The generic
@@ -50,7 +50,7 @@ Work-package weights partition their parent node and award no independent
 credit.
 
 Execution revision `canonical-foundations-v4` records checked foundation
-slices without changing the 200-point headline:
+slices at the 225-point headline:
 
 - In coherent cohomology, multiplication by global functions now gives a
   canonical cover-independent action in every degree. The `H⁰` comparison
@@ -200,8 +200,12 @@ slices without changing the 200-point headline:
   exact-order coordinate point now generates a canonical split finite-flat
   cyclic subgroup with checked constant geometric order and rational-datum
   recovery. The order-49 transfer and quotient APIs consume it without an
-  arbitrary group-scheme interface, so that package is integrated and the
-  represented cyclic quotient is selected next.
+  arbitrary group-scheme interface. The canonical quotient is now bundled as
+  an abelian variety with a finite étale fppf projection, exact canonical
+  kernel, rational-point boundary exactness, and arbitrary-base-change kernel
+  exactness. The order-49 quotient presentation consumes it directly. All
+  three packages are integrated, completing the 25-point cyclic subgroup
+  quotient node; the represented open `X₀(N)` classifier is selected next.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric
@@ -209,9 +213,10 @@ slices without changing the 200-point headline:
   noetherian base, properness descends from a proper source, while smoothness
   follows separately from a flat, locally finite-type, geometrically reduced
   source. Its field-level abelian-variety wrapper is the named consumer. The
-  canonical projective-cubic layer now supplies the Weierstrass source and
-  exact-torsion subgroup; the generic translation layer alone still infers no
-  arithmetic cyclic quotient instance or arbitrary-base-change kernel law.
+  canonical projective-cubic layer now supplies the Weierstrass source,
+  exact-torsion subgroup, arithmetic cyclic quotient, and arbitrary-base-change
+  kernel law; the generic translation layer alone still infers none of these
+  canonical instances.
 - For an actual proper commutative group model over a valuation ring,
   properness now identifies terminal integral points with points of an
   identified generic fibre. The specialization reducer and its prime-five

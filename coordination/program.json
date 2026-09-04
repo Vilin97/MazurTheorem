@@ -5,7 +5,7 @@
     "revision": {
       "id": "canonical-foundations-v4",
       "date": "2026-08-15",
-      "summary": "Retain Mazur's degree-one formal-immersion route while recording checked but uncredited foundation slices: canonical-linear coherent H0/H1 with pointed proper-curve H1 finiteness and global-functions-linear Ext connecting maps; the associated fppf sheafification of the all-degree normalized Picard presheaf together with an honest absolute Picard degree kernel and splitting; a genuine four-chart affine Weierstrass addition cover with all six exact pairwise compatibilities and an actual glued affine-pair morphism, now identified with the standard member of an actual four-member cover of the full projective product whose members have integral affine tensor-product coordinate rings, normalized universal input points, evaluated secant and doubling triples satisfying the cubic equation, actual over-base secant and doubling morphisms on both output-coordinate principal opens, a proof that those four opens jointly cover every pair member, exact agreement of the two secant output normalizations on their YZ overlap, and an actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)`; generic finite free-translation quotient geometry over affine noetherian bases; terminal proper-model specialization at five; and represented polynomial-cusp sections. Proper coherent H0 finiteness, Riemann-Roch, proper base change, a pullback-compatible relative degree and relative Pic⁰, Picard representability, actual canonical cyclic and Eisenstein quotient instances, torsion injectivity, represented X_0, and compactification remain open."
+      "summary": "Retain Mazur's degree-one formal-immersion route while recording checked but uncredited foundation slices: canonical-linear coherent H0/H1 with pointed proper-curve H1 finiteness and global-functions-linear Ext connecting maps; the associated fppf sheafification of the all-degree normalized Picard presheaf together with an honest absolute Picard degree kernel and splitting; a genuine four-chart affine Weierstrass addition cover with all six exact pairwise compatibilities and an actual glued affine-pair morphism, now identified with the standard member of an actual four-member cover of the full projective product whose members have integral affine tensor-product coordinate rings, normalized universal input points, evaluated secant and doubling triples satisfying the cubic equation, actual over-base secant and doubling morphisms on both output-coordinate principal opens, a proof that those four opens jointly cover every pair member, exact agreement of the two secant output normalizations on their YZ overlap, and an actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)`; generic finite free-translation quotient geometry over affine noetherian bases; terminal proper-model specialization at five; and represented polynomial-cusp sections. Proper coherent H0 finiteness, Riemann-Roch, proper base change, a pullback-compatible relative degree and relative Pic⁰, Picard representability, actual Eisenstein quotient instances, torsion injectivity, represented X_0, and compactification remain open."
     },
     "canonical_target": {
       "name": "MazurTorsion.rationalTorsion_hasMazurClassification",
@@ -52,7 +52,7 @@
           "MT-X0-INTEGRAL",
           "MT-X0-JACOBIAN"
         ],
-        "current_work_package": "WP-MT-EC-ISOGENY-WEIL-CYCLIC-QUOTIENT",
+        "current_work_package": "WP-MT-X0-MODULI-REPRESENTED-MODULI",
         "exit_criterion": "Represented X₀(N) geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows."
       }
     ],
@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2092518,
-    "integrated_lean_modules": 2020,
+    "integrated_lean_lines": 2092782,
+    "integrated_lean_modules": 2021,
     "remaining_composite_orders": [
       25,
       35
@@ -127,9 +127,9 @@
   ],
   "progress": {
     "total_points": 1000,
-    "earned_points": 200,
-    "percent": 20.0,
-    "ecosystem_ready_estimate_percent": 20,
+    "earned_points": 225,
+    "percent": 22.5,
+    "ecosystem_ready_estimate_percent": 23,
     "claimable_open_points": 18,
     "ordinary_claimable_points": 0,
     "research_open_points": 18,
@@ -2842,12 +2842,12 @@
       "title": "Cyclic subgroup quotients and classifying data",
       "stage": "shared_geometry",
       "kind": "infrastructure",
-      "status": "blocked",
-      "readiness": "nouns_missing",
+      "status": "done",
+      "readiness": "integrated",
       "weight_points": 25,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the canonical commutative group scheme on the concrete projective Weierstrass cubic, the finite-flat cyclic subgroup generated by an exact-torsion point, and the quotient with only the kernel and base-change laws exercised by the X_0 and order-49 consumers. The ordinary D(x₁ - x₂) secant chart and D(B₁₂) product-neighbourhood chart carry actual over-base addition morphisms, with B₁₂ := y₁ + y₂ + a₁x₁ + a₃; their restricted projective morphisms agree on the exact intersection, and the second restricts to tangent doubling on the diagonal. Two denominator-cleared infinity-output charts extend those formulas across inverse pairs. All six pairwise restrictions of the four charts agree as actual scheme morphisms on their pullbacks, nonsingularity proves that the four principal opens cover the entire affine-pair presentation, and those charts are glued to an actual morphism from that affine-pair scheme into the concrete projective cubic. The full projective product is now covered by the four products of the genuine Y ≠ 0 and Z ≠ 0 cubic charts, and its standard-by-standard member is canonically identified with the affine-pair presentation and consumes the glued morphism. Every one of the four product members is now identified with the spectrum of the tensor product of its two chart coordinate rings; a K-algebra formula into that tensor product produces an automatically over-base scheme morphism, with both input projections checked as consumers. Each factor also has a normalized universal homogeneous point, and both embedded inputs are proved to satisfy the mapped cubic equation in every pair ring. For elliptic curves, every pair ring is now an integral domain; the raw homogeneous secant triple and both universal doubling triples satisfy the mapped cubic equation, and the secant output Z coordinate obeys the exact cubic cross-difference denominator identity. A normalized-point quotient-chart constructor turns the secant triple into honest over-base addition morphisms on both principal opens where its output Y or Z coordinate is invertible, for every projective-pair member. The same construction gives honest over-base first-input doubling morphisms on both doubling-output principal opens. A fraction-field argument using nonsingularity proves that these four principal opens jointly cover every pair member, and the two secant normalizations now agree as actual cubic-valued morphisms on their exact YZ overlap. The doubling morphisms agree with addition only on the diagonal; their unrestricted opens are therefore a nonvanishing certificate, not a four-open addition atlas. On the infinity-by-infinity chart, subtracting the two normalized cubic equations factors as `(z₁ - z₂) B∞ = (x₁ - x₂) A∞`; the principal neighborhood `D(B∞)` carries the regular slope `A∞ / B∞`. On the diagonal `B∞` is exactly the projective Z partial derivative, and an explicit evaluation map through the localization proves that `(O, O)` belongs to this neighborhood and that its slope is zero there. A denominator-free third-intersection calculation now turns that slope into homogeneous addition coordinates satisfying the mapped cubic without cancelling `x₁ - x₂` or the new homogeneous coordinate. Localizing at the output Y coordinate gives an actual open neighborhood of `(O, O)` and an over-base addition morphism into the concrete cubic; evaluation at `(O, O)` extends through both localizations. The raw secant triple is now proved to equal `(x₁ - x₂)³` times this regular triple on `D(B∞)`. On the exact principal overlap `D(B∞ · Ysec)`, both source restrictions are open immersions into the same pair chart and their normalized points and actual cubic-valued morphisms agree. Global projective addition, all commutative group laws, and the canonical coordinate-point addition comparison are now checked; the named order-49 consumer now derives the group object and point compatibility canonically, without supplied shadow inputs. The canonical exact-torsion finite-flat subgroup is now constructed from every exact-order coordinate point, has checked constant geometric order, and recovers the original rational Γ₀ datum; the order-49 consumers no longer accept an arbitrary group-scheme interface. The represented cyclic quotient is the selected next package. Separately, an actual finite free-translation quotient of a supplied commutative group scheme transfers geometric integrality, local finite type, flatness, separatedness, properness, and smoothness under the theorem-specific source hypotheses, together with an affine diagonal, finite section action, stable affine atlas, and scheme-theoretic freeness; the local-finite-type, proper, and smooth results use an affine noetherian base. The field-level abelian-variety quotient is its named consumer. This generic substrate does not instantiate the canonical Weierstrass source, exact-torsion subgroup, desired cyclic quotient, or its arbitrary-base-change kernel law. At the point-group level, no equality between quotient-scheme K-points and the quotient of K-points is asserted without controlling the H1 connecting class.",
+      "summary": "The canonical commutative group scheme on the concrete projective Weierstrass cubic, its exact-torsion finite-flat cyclic subgroup, and its represented quotient now expose the kernel and base-change laws exercised by the X_0 and order-49 consumers. The ordinary D(x₁ - x₂) secant chart and D(B₁₂) product-neighbourhood chart carry actual over-base addition morphisms, with B₁₂ := y₁ + y₂ + a₁x₁ + a₃; their restricted projective morphisms agree on the exact intersection, and the second restricts to tangent doubling on the diagonal. Two denominator-cleared infinity-output charts extend those formulas across inverse pairs. All six pairwise restrictions of the four charts agree as actual scheme morphisms on their pullbacks, nonsingularity proves that the four principal opens cover the entire affine-pair presentation, and those charts are glued to an actual morphism from that affine-pair scheme into the concrete projective cubic. The full projective product is now covered by the four products of the genuine Y ≠ 0 and Z ≠ 0 cubic charts, and its standard-by-standard member is canonically identified with the affine-pair presentation and consumes the glued morphism. Every one of the four product members is now identified with the spectrum of the tensor product of its two chart coordinate rings; a K-algebra formula into that tensor product produces an automatically over-base scheme morphism, with both input projections checked as consumers. Each factor also has a normalized universal homogeneous point, and both embedded inputs are proved to satisfy the mapped cubic equation in every pair ring. For elliptic curves, every pair ring is now an integral domain; the raw homogeneous secant triple and both universal doubling triples satisfy the mapped cubic equation, and the secant output Z coordinate obeys the exact cubic cross-difference denominator identity. A normalized-point quotient-chart constructor turns the secant triple into honest over-base addition morphisms on both principal opens where its output Y or Z coordinate is invertible, for every projective-pair member. The same construction gives honest over-base first-input doubling morphisms on both doubling-output principal opens. A fraction-field argument using nonsingularity proves that these four principal opens jointly cover every pair member, and the two secant normalizations now agree as actual cubic-valued morphisms on their exact YZ overlap. The doubling morphisms agree with addition only on the diagonal; their unrestricted opens are therefore a nonvanishing certificate, not a four-open addition atlas. On the infinity-by-infinity chart, subtracting the two normalized cubic equations factors as `(z₁ - z₂) B∞ = (x₁ - x₂) A∞`; the principal neighborhood `D(B∞)` carries the regular slope `A∞ / B∞`. On the diagonal `B∞` is exactly the projective Z partial derivative, and an explicit evaluation map through the localization proves that `(O, O)` belongs to this neighborhood and that its slope is zero there. A denominator-free third-intersection calculation now turns that slope into homogeneous addition coordinates satisfying the mapped cubic without cancelling `x₁ - x₂` or the new homogeneous coordinate. Localizing at the output Y coordinate gives an actual open neighborhood of `(O, O)` and an over-base addition morphism into the concrete cubic; evaluation at `(O, O)` extends through both localizations. The raw secant triple is now proved to equal `(x₁ - x₂)³` times this regular triple on `D(B∞)`. On the exact principal overlap `D(B∞ · Ysec)`, both source restrictions are open immersions into the same pair chart and their normalized points and actual cubic-valued morphisms agree. Global projective addition, all commutative group laws, and the canonical coordinate-point addition comparison are now checked; the named order-49 consumer now derives the group object and point compatibility canonically, without supplied shadow inputs. The canonical exact-torsion finite-flat subgroup is now constructed from every exact-order coordinate point, has checked constant geometric order, and recovers the original rational Γ₀ datum; the order-49 consumers no longer accept an arbitrary group-scheme interface. The represented cyclic quotient is now bundled as an abelian variety with a finite étale fppf projection, exact canonical kernel, rational-point boundary exactness, and arbitrary-base-change kernel exactness; the order-49 presentation is its named downstream consumer. Separately, an actual finite free-translation quotient of a supplied commutative group scheme transfers geometric integrality, local finite type, flatness, separatedness, properness, and smoothness under the theorem-specific source hypotheses, together with an affine diagonal, finite section action, stable affine atlas, and scheme-theoretic freeness; the local-finite-type, proper, and smooth results use an affine noetherian base. The field-level abelian-variety quotient is its named consumer. The generic substrate does not instantiate those objects by itself; the canonical projective-cubic layer now supplies the Weierstrass source, exact-torsion subgroup, represented cyclic quotient, and its arbitrary-base-change kernel law. At the point-group level, no equality between quotient-scheme K-points and the quotient of K-points is asserted without controlling the H1 connecting class.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -2857,7 +2857,7 @@
             "max": 45
           },
           "summary": "AINTLIB supplies elliptic torsion subgroup schemes, multiplication kernels, a finite-action quotient scheme and universal property, field-level pairing work, and finite-flat examples; this project equips the actual finite free-translation quotient with a commutative group law and proves its generic geometry over affine noetherian bases.",
-          "boundary": "The construction still starts from a supplied source commutative group scheme with affine diagonal, a finite section action, stable affine atlas, and scheme-theoretic freeness proof, plus the source geometric hypotheses required by each transfer theorem. Local finite type uses a locally-finite-type source over an affine noetherian base; properness uses a proper source over that base; smoothness separately uses a flat, locally-finite-type, geometrically reduced source over that base. It does not construct the canonical Weierstrass group scheme, exact-torsion subgroup, desired cyclic quotient instance, arbitrary-base-change kernel law, dual isogeny, or global scheme-valued Weil pairing, so none of this node is discharged.",
+          "boundary": "The construction still starts from a supplied source commutative group scheme with affine diagonal, a finite section action, stable affine atlas, and scheme-theoretic freeness proof, plus the source geometric hypotheses required by each transfer theorem. Local finite type uses a locally-finite-type source over an affine noetherian base; properness uses a proper source over that base; smoothness separately uses a flat, locally-finite-type, geometrically reduced source over that base. It does not construct the canonical Weierstrass group scheme, exact-torsion subgroup, desired cyclic quotient instance, arbitrary-base-change kernel law, dual isogeny, or global scheme-valued Weil pairing, so it does not discharge this node by itself.",
           "declarations": [
             {
               "name": "ModularCurves.quotient",
@@ -3977,28 +3977,30 @@
         {
           "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveGrpObj",
-          "state": "contract",
+          "state": "integrated",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveAssociativity",
           "description": "Install the concrete reduced projective Weierstrass cubic as its canonical commutative group object using the globally glued addition, infinity section, negation, and checked group laws; canonicalPointGroupLawCompatibility and the order-49 consumer exercise its coordinate-point comparison."
         },
         {
           "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalSplitGammaZeroDatumOfTorsion",
-          "state": "contract",
+          "state": "integrated",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassCanonicalFiniteFlatSubgroup",
           "description": "Construct the canonical split finite-flat cyclic subgroup generated by an exact-order coordinate point; its checked consumers prove constant geometric order and recover the original rational Γ₀ datum."
         },
         {
           "kind": "definition",
-          "name": "EllipticCurve.Isogeny.quotientByCyclic",
-          "state": "proposed",
-          "description": "Construct the cyclic quotient used by the X_0 moduli and order-49 consumers."
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCyclicQuotientPresentation",
+          "state": "integrated",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassCanonicalCyclicQuotient",
+          "description": "Construct the represented fppf cyclic quotient directly from an exact-order coordinate point, with the order-49 quotient presentation as its named downstream consumer."
         },
         {
           "kind": "theorem",
-          "name": "EllipticCurve.Isogeny.quotientByCyclic_baseChange",
-          "state": "proposed",
-          "description": "Prove the kernel and base-change laws required by both named downstream consumers."
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCyclicQuotientPresentationBaseChange_kernel_exact",
+          "state": "integrated",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassCanonicalCyclicQuotient",
+          "description": "Prove that the canonical finite-flat subgroup remains exactly the scheme-theoretic kernel after arbitrary base change."
         }
       ],
       "depends_on": [
@@ -4010,11 +4012,11 @@
         "MT-PRIME-SEMISTABLE"
       ],
       "completion": {
-        "statement": false,
-        "proof": false,
-        "api": false,
-        "integrated": false,
-        "credit_percent": 0
+        "statement": true,
+        "proof": true,
+        "api": true,
+        "integrated": true,
+        "credit_percent": 100
       },
       "route_history": {
         "previous_scope": "generic quotients, dual isogenies, multiplication kernels, and the Weil pairing",
@@ -4050,7 +4052,7 @@
           "id": "WP-MT-EC-ISOGENY-WEIL-CYCLIC-QUOTIENT",
           "title": "Cyclic quotient, exact kernel, and base change",
           "weight_points": 9,
-          "status": "active",
+          "status": "integrated",
           "depends_on": [
             "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP"
           ],
@@ -4645,7 +4647,7 @@
       "weight_points": 30,
       "risk": "extreme",
       "backend": "mixed",
-      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data by checked admissible variable changes. For coprime divisor levels whose product is N, a checked Bezout argument proves that the two intrinsic divisor subgroups generate the original carrier; the order-five/order-seven level-35 reconstruction is its concrete consumer. The represented polynomial cusp chart and its local sections do not construct represented X_0, a generalized-elliptic compactification, or the missing Gamma_0 classifier, so this node remains blocked.",
+      "summary": "Construct the split rational cyclic subgroup generated by a torsion point, its intrinsic divisor subgroups and degeneracy maps, and quotient raw Weierstrass data by checked admissible variable changes. For coprime divisor levels whose product is N, a checked Bezout argument proves that the two intrinsic divisor subgroups generate the original carrier; the order-five/order-seven level-35 reconstruction is its concrete consumer. The canonical projective group scheme, exact-torsion finite-flat subgroup, and represented cyclic quotient are now available; the selected package must map this datum into an actual represented open X_0(N). The represented polynomial cusp chart and its local sections do not construct represented X_0, a generalized-elliptic compactification, or the missing Gamma_0 classifier, so this node remains blocked.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -4753,12 +4755,12 @@
           "id": "WP-MT-X0-MODULI-REPRESENTED-MODULI",
           "title": "Represented Γ₀ moduli map",
           "weight_points": 12,
-          "status": "blocked",
+          "status": "active",
           "depends_on": [
             "WP-MT-X0-MODULI-SPLIT-CYCLIC-DATA",
             "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP"
           ],
-          "exit_criterion": "Map the honest subgroup scheme to the represented open modular curve without assuming the missing group law."
+          "exit_criterion": "Map the honest subgroup scheme to the represented open modular curve without assuming missing group-law or quotient data."
         },
         {
           "id": "WP-MT-X0-MODULI-POINT-COMPATIBILITY",
