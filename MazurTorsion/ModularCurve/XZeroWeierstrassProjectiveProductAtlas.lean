@@ -104,19 +104,9 @@ private theorem affineEquationIso_comp_standardChart_comp_structureMap
     _ = secantTargetStructureMap W :=
       affineChartIso_comp_coveringStructureMap W
 
-/-- The standard affine product is the standard-by-standard member of the
-projective-pair cover. -/
-noncomputable def standardAffineProductIsoStandardProjectivePairChart
+private theorem standardAffineProductPullbackSquare
     (W : WeierstrassCurve K) :
-    secantAffineProduct W ≅ standardProjectivePairChartScheme W := by
-  have h : secantTargetStructureMap W ≫ 𝟙 (Spec (.of K)) =
-      (affineEquationSchemeIsoStandardChart W).hom ≫
-        (standardSecantChartMap W ≫ structureMap W) := by
-    rw [Category.comp_id]
-    exact (affineEquationIso_comp_standardChart_comp_structureMap W).symm
-  let hSource := IsPullback.of_hasPullback
-    (secantTargetStructureMap W) (secantTargetStructureMap W)
-  have hTransport : IsPullback
+    IsPullback
       (pullback.fst (secantTargetStructureMap W)
           (secantTargetStructureMap W) ≫
         (affineEquationSchemeIsoStandardChart W).hom)
@@ -124,11 +114,24 @@ noncomputable def standardAffineProductIsoStandardProjectivePairChart
           (secantTargetStructureMap W) ≫
         (affineEquationSchemeIsoStandardChart W).hom)
       (standardSecantChartMap W ≫ structureMap W)
-      (standardSecantChartMap W ≫ structureMap W) :=
-    hSource.of_iso (Iso.refl _) (affineEquationSchemeIsoStandardChart W)
-      (affineEquationSchemeIsoStandardChart W) (Iso.refl _)
-      (by simp) (by simp) h h
-  exact hTransport.isoIsPullback _ _
+      (standardSecantChartMap W ≫ structureMap W) := by
+  have h : secantTargetStructureMap W ≫ 𝟙 (Spec (.of K)) =
+      (affineEquationSchemeIsoStandardChart W).hom ≫
+        (standardSecantChartMap W ≫ structureMap W) := by
+    rw [Category.comp_id]
+    exact (affineEquationIso_comp_standardChart_comp_structureMap W).symm
+  exact (IsPullback.of_hasPullback
+      (secantTargetStructureMap W) (secantTargetStructureMap W)).of_iso
+    (Iso.refl _) (affineEquationSchemeIsoStandardChart W)
+    (affineEquationSchemeIsoStandardChart W) (Iso.refl _)
+    (by simp) (by simp) h h
+
+/-- The standard affine product is the standard-by-standard member of the
+projective-pair cover. -/
+noncomputable def standardAffineProductIsoStandardProjectivePairChart
+    (W : WeierstrassCurve K) :
+    secantAffineProduct W ≅ standardProjectivePairChartScheme W :=
+  (standardAffineProductPullbackSquare W).isoIsPullback _ _
     (IsPullback.of_hasPullback
       (standardSecantChartMap W ≫ structureMap W)
       (standardSecantChartMap W ≫ structureMap W))
@@ -138,8 +141,87 @@ full projective-product cover. -/
 noncomputable def standardAffineProductIsoProjectivePairChart
     (W : WeierstrassCurve K) :
     secantAffineProduct W ≅ projectivePairChartScheme W (true, true) :=
-  standardAffineProductIsoStandardProjectivePairChart W ≪≫
-    standardProjectivePairChartIsoCoverMember W
+  standardAffineProductIsoStandardProjectivePairChart W
+
+/-- The canonical standard-product comparison preserves the first projection. -/
+@[reassoc]
+theorem standardAffineProductIsoProjectivePairChart_hom_fst
+    (W : WeierstrassCurve K) :
+    (standardAffineProductIsoProjectivePairChart W).hom ≫
+        pullback.fst
+          (coveringChartMap W true ≫ structureMap W)
+          (coveringChartMap W true ≫ structureMap W) =
+      pullback.fst
+          (Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantTargetCoordinateRing W))))
+          (Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantTargetCoordinateRing W)))) ≫
+        (affineEquationSchemeIsoStandardChart W).hom := by
+  exact (standardAffineProductPullbackSquare W).isoIsPullback_hom_fst _ _ _
+
+/-- The canonical standard-product comparison preserves the second projection. -/
+@[reassoc]
+theorem standardAffineProductIsoProjectivePairChart_hom_snd
+    (W : WeierstrassCurve K) :
+    (standardAffineProductIsoProjectivePairChart W).hom ≫
+        pullback.snd
+          (coveringChartMap W true ≫ structureMap W)
+          (coveringChartMap W true ≫ structureMap W) =
+      pullback.snd
+          (Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantTargetCoordinateRing W))))
+          (Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantTargetCoordinateRing W)))) ≫
+        (affineEquationSchemeIsoStandardChart W).hom := by
+  exact (standardAffineProductPullbackSquare W).isoIsPullback_hom_snd _ _ _
+
+/-- The inverse standard-product comparison preserves the first projection. -/
+@[reassoc]
+theorem standardAffineProductIsoProjectivePairChart_inv_fst
+    (W : WeierstrassCurve K) :
+    (standardAffineProductIsoProjectivePairChart W).inv ≫
+        pullback.fst
+          (Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantTargetCoordinateRing W))))
+          (Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantTargetCoordinateRing W)))) =
+      pullback.fst
+          (coveringChartMap W true ≫ structureMap W)
+          (coveringChartMap W true ≫ structureMap W) ≫
+        (affineEquationSchemeIsoStandardChart W).inv := by
+  apply (affineEquationSchemeIsoStandardChart W).eq_comp_inv.mpr
+  change (standardAffineProductIsoStandardProjectivePairChart W).inv ≫
+      (pullback.fst (secantTargetStructureMap W)
+          (secantTargetStructureMap W) ≫
+        (affineEquationSchemeIsoStandardChart W).hom) =
+    pullback.fst
+      (standardSecantChartMap W ≫ structureMap W)
+      (standardSecantChartMap W ≫ structureMap W)
+  exact (standardAffineProductPullbackSquare W).isoIsPullback_inv_fst _ _ _
+
+/-- The inverse standard-product comparison preserves the second projection. -/
+@[reassoc]
+theorem standardAffineProductIsoProjectivePairChart_inv_snd
+    (W : WeierstrassCurve K) :
+    (standardAffineProductIsoProjectivePairChart W).inv ≫
+        pullback.snd
+          (Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantTargetCoordinateRing W))))
+          (Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantTargetCoordinateRing W)))) =
+      pullback.snd
+          (coveringChartMap W true ≫ structureMap W)
+          (coveringChartMap W true ≫ structureMap W) ≫
+        (affineEquationSchemeIsoStandardChart W).inv := by
+  apply (affineEquationSchemeIsoStandardChart W).eq_comp_inv.mpr
+  change (standardAffineProductIsoStandardProjectivePairChart W).inv ≫
+      (pullback.snd (secantTargetStructureMap W)
+          (secantTargetStructureMap W) ≫
+        (affineEquationSchemeIsoStandardChart W).hom) =
+    pullback.snd
+      (standardSecantChartMap W ≫ structureMap W)
+      (standardSecantChartMap W ≫ structureMap W)
+  exact (standardAffineProductPullbackSquare W).isoIsPullback_inv_snd _ _ _
 
 /-- The standard member of the projective-pair cover is the existing explicit
 four-coordinate affine-pair scheme. -/
@@ -164,6 +246,18 @@ theorem standardPairIsoAffinePair_inv_comp_standardPairAdditionMorphism
     (standardPairIsoAffinePair W).inv ≫ standardPairAdditionMorphism W =
       affinePairAdditionMorphism W := by
   simp [standardPairAdditionMorphism]
+
+/-- The transported standard-pair addition is a morphism over the
+coefficient field. -/
+@[reassoc]
+theorem standardPairAdditionMorphism_comp_structureMap
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    standardPairAdditionMorphism W ≫ structureMap W =
+      (standardPairIsoAffinePair W).hom ≫
+        Spec.map (CommRingCat.ofHom
+          (algebraMap K (secantPairCoordinateRing W))) := by
+  rw [standardPairAdditionMorphism, Category.assoc,
+    affinePairAdditionMorphism_comp_structureMap]
 
 end WeierstrassProjectiveCubic
 end MazurTorsion.ModularCurve.XZeroFiniteFlatModuli

@@ -643,5 +643,70 @@ theorem verticalChartToPair_comp_affinePairAdditionMorphism
     (affinePairAdditionOpenCover_compatible W)
     .vertical
 
+/-- The glued affine-pair addition is a morphism over the coefficient field. -/
+@[reassoc]
+theorem affinePairAdditionMorphism_comp_structureMap
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    affinePairAdditionMorphism W ≫ structureMap W =
+      Spec.map (CommRingCat.ofHom
+        (algebraMap K (secantPairCoordinateRing W))) := by
+  refine (affinePairAdditionOpenCover W).hom_ext _ _ ?_
+  intro c
+  cases c
+  · change productNeighborhoodToPair W ≫
+      (affinePairAdditionMorphism W ≫ structureMap W) =
+        productNeighborhoodToPair W ≫
+          Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantPairCoordinateRing W)))
+    rw [← Category.assoc,
+      productNeighborhoodToPair_comp_affinePairAdditionMorphism,
+      productNeighborhoodAdditionProjectiveMorphism_comp_structureMap]
+    rw [productNeighborhoodToPair,
+      productNeighborhoodStructureMap, ← Spec.map_comp,
+      Spec.map_inj, ← CommRingCat.ofHom_comp]
+    ext a
+    exact IsScalarTower.algebraMap_apply K
+      (secantPairCoordinateRing W) (productNeighborhoodCoordinateRing W) a
+  · change secantChartToPair W ≫
+      (affinePairAdditionMorphism W ≫ structureMap W) =
+        secantChartToPair W ≫
+          Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantPairCoordinateRing W)))
+    rw [← Category.assoc, secantChartToPair_comp_affinePairAdditionMorphism,
+      secantAdditionProjectiveMorphism_comp_structureMap]
+    rw [secantChartToPair,
+      secantChartStructureMap, ← Spec.map_comp,
+      Spec.map_inj, ← CommRingCat.ofHom_comp]
+    ext a
+    exact IsScalarTower.algebraMap_apply K
+      (secantPairCoordinateRing W) (secantChartCoordinateRing W) a
+  · change antidiagonalChartToPair W ≫
+      (affinePairAdditionMorphism W ≫ structureMap W) =
+        antidiagonalChartToPair W ≫
+          Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantPairCoordinateRing W)))
+    rw [← Category.assoc,
+      antidiagonalChartToPair_comp_affinePairAdditionMorphism,
+      antidiagonalAdditionProjectiveMorphism_comp_structureMap]
+    rw [antidiagonalChartToPair,
+      antidiagonalChartStructureMap, ← Spec.map_comp,
+      Spec.map_inj, ← CommRingCat.ofHom_comp]
+    ext a
+    exact IsScalarTower.algebraMap_apply K
+      (secantPairCoordinateRing W) (antidiagonalChartCoordinateRing W) a
+  · change verticalChartToPair W ≫
+      (affinePairAdditionMorphism W ≫ structureMap W) =
+        verticalChartToPair W ≫
+          Spec.map (CommRingCat.ofHom
+            (algebraMap K (secantPairCoordinateRing W)))
+    rw [← Category.assoc, verticalChartToPair_comp_affinePairAdditionMorphism,
+      verticalAdditionProjectiveMorphism_comp_structureMap]
+    rw [verticalChartToPair,
+      verticalChartStructureMap, ← Spec.map_comp,
+      Spec.map_inj, ← CommRingCat.ofHom_comp]
+    ext a
+    exact IsScalarTower.algebraMap_apply K
+      (secantPairCoordinateRing W) (verticalChartCoordinateRing W) a
+
 end WeierstrassProjectiveCubic
 end MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
