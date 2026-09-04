@@ -241,8 +241,13 @@ tensor square of the cubic chart overlap is proved to be the product-coordinate
 principal localization on both the standard and infinity pair charts, and
 both induced chart maps are open immersions. Each description recovers the
 two intrinsic cubic-overlap projections, so their maps into the full product
-are now proved equal. The remaining immediate boundary is the actual scheme
-atlas containing this open together with the regular and secant loci.
+are now proved equal. The infinity pair now carries the resulting actual
+three-member `Scheme.OpenCover`, using the double-standard source, the genuine
+regular output-`Y` source, and secant output `Z`. The residual prime proof
+forces both inputs to `[0:1:0]` and evaluates the regular output to `-1`; an
+indexed family supplies the genuine local morphism on all three members.
+Their remaining pairwise compatibilities and the mixed-chart covers are the
+immediate atlas boundary.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor

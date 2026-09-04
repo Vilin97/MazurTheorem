@@ -819,6 +819,18 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairDoubleOverlap_maps_eq`
   Prove that the standard-pair and infinity-pair descriptions of the exact double
   overlap have equal composites into the full projective product.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairActualAdditionOpens_cover`
+  Refine the coarse infinity-pair cover to the exact double-standard, genuine regular
+  output-Y, and secant output-Z source ranges.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairAdditionOpenCover`
+  Package the three genuine addition sources as a finite scheme-theoretic open cover of
+  the infinity-by-infinity pair chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairAdditionCoverMorphism`
+  Select the transported standard, regular neighborhood, or secant morphism on each
+  exact member of the infinity-pair addition cover.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as

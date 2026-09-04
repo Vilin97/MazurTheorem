@@ -129,7 +129,12 @@ slices without changing the 200-point headline:
   maps to the standard-by-standard and infinity-by-infinity charts are open
   immersions. Both maps recover the same intrinsic factor projections, and
   pullback extensionality proves that their composites into the full
-  projective product agree. Every product
+  projective product agree. The infinity-pair refinement is now an actual
+  three-member scheme open cover: the exact double-standard source, the
+  regular output-`Y` neighborhood, and the secant output-`Z` source. Outside
+  the first and third opens both inputs reduce to infinity, where the regular
+  output `Y` is proved to be `-1`; an indexed family assigns the corresponding
+  genuine addition morphism to each cover member. Every product
   member is now identified with the spectrum of the
   tensor product of its two chart coordinate rings. A checked constructor
   turns each `K`-algebra coordinate formula into an automatically over-base
