@@ -325,7 +325,8 @@ theorem projectiveInfinityPairNeighborhoodOriginAlgHom_algebraMap
   simp [projectiveInfinityPairNeighborhoodOriginAlgHom,
     IsLocalization.Away.liftAlgHom_apply, IsLocalization.Away.lift_eq]
 
-private theorem projectiveInfinityPairNeighborhoodSlope_mul_B12
+/-- The regular slope times the inverted denominator recovers its numerator. -/
+theorem projectiveInfinityPairNeighborhoodSlope_mul_B12
     (W : WeierstrassCurve K) :
     projectiveInfinityPairNeighborhoodSlope W *
         projectiveInfinityPairNeighborhoodB12 W =
