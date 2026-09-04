@@ -250,8 +250,12 @@ Both mixed pair charts now likewise carry actual two-member
 `Scheme.OpenCover`s. Their transition-to-standard members transport the
 standard-pair addition law, their secant output-`Z` members carry the
 normalized secant morphism, and indexed families select these genuine local
-morphisms. Pairwise compatibility on all three covers and global gluing are
-the immediate atlas boundary.
+morphisms. On both mixed charts, the exact input/output localization is now
+identified with the categorical pullback of the cover members. Compatibility
+of the two laws yields a genuine glued morphism on the whole chart, and its
+transition and secant restrictions recover the selected local laws.
+Compatibility of the infinity-pair cover and global four-chart gluing are the
+immediate atlas boundary.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor

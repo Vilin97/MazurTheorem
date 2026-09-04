@@ -95,8 +95,12 @@ family selects the genuine local addition morphism on every member. Both mixed
 pair charts now also have actual two-member scheme covers: their exact
 transition-to-standard sources carry the transported standard-pair law, while
 their secant output-`Z` sources carry the normalized secant law. Indexed
-families select these genuine local morphisms. Pairwise compatibility on the
-three new covers and global gluing are the next atlas step.
+families select these genuine local morphisms. On each mixed chart, the exact
+input/output localization is now identified with the categorical pullback of
+the two cover members. The local laws are compatible there and glue to a
+genuine morphism on the entire mixed chart, with both transition and secant
+restrictions checked. Compatibility on the infinity-pair cover and global
+four-chart gluing are the next atlas step.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
@@ -129,8 +133,9 @@ over-base addition morphism into the cubic. The old secant triple pulls back to
 `(x₁ - x₂)³` times the regular triple, and on `D(B∞ · Ysec)` the two source
 restrictions are open immersions with equal normalized points and equal actual
 cubic-valued morphisms. The remaining work is to prove pairwise compatibility
-on the actual infinity-pair and two mixed-chart addition covers and perform
-global gluing, then prove the group laws and coordinate-point compatibility.
+on the actual infinity-pair addition cover, establish compatibility of the
+four full chart morphisms, and perform global gluing, then prove the group laws
+and coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and
