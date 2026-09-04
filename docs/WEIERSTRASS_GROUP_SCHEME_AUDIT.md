@@ -1,6 +1,7 @@
 # Weierstrass group-scheme dependency audit
 
-Date: 2026-08-08. Chart-construction status updated 2026-08-15.
+Date: 2026-08-08. Chart-construction status updated 2026-08-15; group-law
+and order-49 consumer status updated 2026-09-04.
 
 This audit records the checked dependency boundary for constructing
 `WeierstrassGroupSchemeInterface` in
@@ -357,7 +358,10 @@ deliberately absent from Mathlib's nonsingular `Projective.Point` type.
 ## Remaining integration boundary
 
 The canonical group object and its coordinate-point comparison are complete.
-This work package now only needs the named order-49 consumer refactored to use
-them without supplied `GrpObj` or `CanonicalPointGroupLawCompatibility`
-shadows.  The subsequent exact-torsion finite-flat subgroup and represented
-cyclic quotient remain separate formalization packages.
+The named order-49 quotient consumer now constructs its point equivalence from
+`canonicalPointGroupLawCompatibility` and obtains `GrpObj (toOver E)` from the
+canonical instance; neither object remains a caller-supplied shadow. This
+completes the canonical Weierstrass group-scheme work package. The selected
+next package constructs the exact-torsion finite-flat subgroup and removes the
+arbitrary `WeierstrassGroupSchemeInterface` input from its named order-49
+consumer; the represented cyclic quotient remains a later package.

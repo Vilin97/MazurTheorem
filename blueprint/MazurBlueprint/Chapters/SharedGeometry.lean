@@ -1113,12 +1113,12 @@ order-49 consumers.
   `AlgebraicGeometry.FiniteTranslationQuotient.abelianVarietyOfAbelianVariety`
   Consume the generic quotient geometry to bundle a finite free-translation quotient of
   an actual abelian variety as an actual abelian variety.
-* `definition` (`proposed`):
-  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.canonicalCommGroupScheme`
-  Equip the concrete reduced projective Weierstrass cubic with its canonical commutative
-  group-scheme law and coordinate-point comparison by gluing the checked four-chart
-  affine-pair atlas, extending over input points at infinity, and proving the group
-  axioms.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveGrpObj`
+  Install the concrete reduced projective Weierstrass cubic as its canonical
+  commutative group object using the globally glued addition, infinity section,
+  negation, and checked group laws; `canonicalPointGroupLawCompatibility` and the
+  order-49 consumer exercise its coordinate-point comparison.
 * `structure` (`proposed`): `EllipticCurve.CyclicSubgroup`
   Package a finite cyclic subgroup with its order and rationality data.
 * `definition` (`proposed`): `EllipticCurve.Isogeny.quotientByCyclic`
