@@ -9,7 +9,7 @@ import MazurTorsion.NumberTheory.XZeroFortyNineReduction
 import MazurTorsion.Kubert.OrderSevenBacktrackingResultantObstruction
 import MazurTorsion.Kubert.OrderSevenCorrespondence
 import MazurTorsion.ModularCurve.XZeroGeometricCyclicQuotient
-import MazurTorsion.ModularCurve.XZeroWeierstrassCanonicalFiniteFlatSubgroup
+import MazurTorsion.ModularCurve.XZeroSplitGammaZeroObject
 
 /-!
 # The level-seven modular correspondence has no noncuspidal rational point
@@ -651,6 +651,37 @@ open ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic
 
 attribute [local instance] CategoryTheory.Over.cartesianMonoidalCategory
   CategoryTheory.Over.braidedCategory
+
+/-- An exact-order-49 point determines an intrinsic split `Gamma_0(49)`
+object: the canonical proper relative curve together with its genuine
+finite-flat cyclic subgroup.  This is the geometric source object for a
+future represented classifier; no Weierstrass presentation or point-set
+equivalence occurs in its type. -/
+noncomputable def splitGeometricDatumOfOrderFortyNineTorsion
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
+    ModularCurve.XZeroModuli.SplitGeometricDatum ℚ 49 :=
+  ModularCurve.XZeroModuli.SplitGeometricDatum.ofExactTorsion E P hP
+
+/-- The intrinsic order-49 subgroup has constant geometric order exactly
+`49`. -/
+theorem splitGeometricDatumOfOrderFortyNineTorsion_hasConstantOrder
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
+    (splitGeometricDatumOfOrderFortyNineTorsion E P hP).subgroup.carrier.HasConstantOrder
+      49 :=
+  ModularCurve.XZeroModuli.SplitGeometricDatum.ofExactTorsion_subgroup_hasConstantOrder
+    E P hP
+
+/-- An exact-order-49 point reaches the intrinsic field-valued split moduli
+set modulo subgroup-preserving group-scheme isomorphism.  Turning this class
+into a point of a represented open modular curve remains the representability
+boundary. -/
+noncomputable def splitGeometricModuliClassOfOrderFortyNineTorsion
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
+    ModularCurve.XZeroModuli.SplitGeometricDatum.IsomorphismClass ℚ 49 :=
+  ModularCurve.XZeroModuli.SplitGeometricDatum.classOfExactTorsion E P hP
 
 /-- An exact-order-49 rational point supplies the genuine split finite-flat
 source datum that a future coarse `X₀(49)` classifying morphism must consume.
