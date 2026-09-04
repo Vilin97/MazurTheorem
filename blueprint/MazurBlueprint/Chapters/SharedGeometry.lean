@@ -720,6 +720,30 @@ order-49 consumers.
   With the first chart unchanged, prove that changing the second normalized input scales
   the raw addition triple by the square of Y/Z.
 * `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairFirstOverlapToStandardPair`
+  Embed the first-factor tensor overlap as a principal open in the adjacent
+  standard-input pair chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairFirstOverlapToInfinityPair`
+  Embed the same first-factor overlap as a principal open in the adjacent infinity-input
+  pair chart.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairFirstOverlap_maps_eq`
+  Prove that the two first-factor overlap descriptions have equal composites into the
+  full projective product.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlapToStandardPair`
+  Embed the second-factor tensor overlap as a principal open in the adjacent
+  standard-input pair chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlapToInfinityPair`
+  Embed the same second-factor overlap as a principal open in the adjacent
+  infinity-input pair chart.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlap_maps_eq`
+  Prove that the two second-factor overlap descriptions have equal composites into the
+  full projective product.
+* `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as
   the polynomial replacement on the diagonal base locus.

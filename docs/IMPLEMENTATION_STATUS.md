@@ -112,8 +112,11 @@ slices without changing the 200-point headline:
   tensoring with an unchanged second chart, the first universal input scales
   by `Y/Z` and the raw homogeneous addition triple scales by `(Y/Z)²`.
   Tensoring the same overlap on the right proves the symmetric second-input
-  transition and the same square-scaling law. Every product member is now
-  identified with the spectrum of the
+  transition and the same square-scaling law. Localization survives both
+  tensor constructions, giving four actual open immersions into adjacent pair
+  charts. The two descriptions of each factorwise overlap are proved to have
+  equal composites into the full projective product. Every product member is
+  now identified with the spectrum of the
   tensor product of its two chart coordinate rings. A checked constructor
   turns each `K`-algebra coordinate formula into an automatically over-base
   scheme morphism, and its left/right inclusion consumers recover the two
@@ -145,10 +148,9 @@ slices without changing the 200-point headline:
   exact principal overlap `D(B∞ · Ysec)`, both source restrictions are open
   immersions into the same pair chart, their normalized output points agree,
   and the two actual cubic-valued morphisms are equal. The remaining overlap
-  equalities—starting with actual pair-chart maps for the two checked
-  factorwise transitions and compatibility of the normalized local
-  morphisms—and global gluing, the group laws, and coordinate-point
-  compatibility remain missing.
+  equalities—starting with compatibility of the normalized local morphisms on
+  the checked pair-chart overlaps—and global gluing, the group laws, and
+  coordinate-point compatibility remain missing.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

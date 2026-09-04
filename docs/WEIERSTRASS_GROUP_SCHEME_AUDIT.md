@@ -225,8 +225,11 @@ maps into the concrete cubic agree. Tensoring this ring with an unchanged
 second chart shows that the first normalized input changes by `Y/Z` and, by
 homogeneity, the raw addition triple changes by `(Y/Z)²`. Tensoring on the
 right proves the symmetric transition for the second normalized input and the
-same square-scaling law. Constructing the corresponding actual pair-chart
-overlap maps remains downstream.
+same square-scaling law. Tensor localization realizes all four restrictions
+as actual open immersions into adjacent projective-pair charts. Their
+projection factorizations prove that both descriptions of each factorwise
+overlap have the same composite into the full projective product. Comparing
+the normalized local addition morphisms on those sources remains downstream.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor
@@ -263,9 +266,8 @@ back to `(x₁ - x₂)³` times this regular triple. On the exact principal over
 `D(B∞ · Ysec)`, the two sources restrict by open immersions to the same open
 of the infinity-pair chart, and their normalized points and actual
 cubic-valued morphisms agree. The remaining projective-pair compatibility now
-starts with the actual pair-chart realization of the checked source
-transitions, compatibility of the normalized local morphisms, and global
-gluing.
+starts with the normalized local morphisms on the checked source overlaps and
+then global gluing.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -297,10 +299,10 @@ field:
 1. a global multiplication morphism obtained by proving that the genuine
    infinity-diagonal addition morphism agrees with the checked secant maps,
    transporting it across the remaining projective-product members meeting
-   infinity, promoting both checked factorwise `D(YZ)` transitions to actual
-   pair-chart overlaps, proving the normalized-morphism equalities, gluing the
-   local maps, and proving the group laws using the checked section at
-   infinity and homogeneous negation as the identity and inverse candidates;
+   infinity, proving the normalized-morphism equalities on both checked
+   factorwise pair-chart overlaps, gluing the local maps, and proving the group
+   laws using the checked section at infinity and homogeneous negation as the
+   identity and inverse candidates;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:

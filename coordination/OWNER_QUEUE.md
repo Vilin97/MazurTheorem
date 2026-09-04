@@ -71,8 +71,11 @@ the concrete cubic agree. Tensoring this overlap with an unchanged second
 chart proves that the first normalized input changes by `Y/Z` and that the raw
 addition triple changes by `(Y/Z)²`. Tensoring on the other side now proves
 the symmetric statement for the second input and the same square-scaling law
-for the raw triple. Actual pair-chart overlap maps are the next source-gluing
-step.
+for the raw triple. Tensor localization now realizes all four restrictions as
+actual open immersions into the adjacent pair charts; projection
+factorizations prove that the two descriptions of each factorwise overlap
+have the same composite into the full projective product. Compatibility of
+the normalized local addition laws on these sources is the next gluing step.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
@@ -104,10 +107,9 @@ coordinate gives an actual open neighborhood containing `(O, O)` and a genuine
 over-base addition morphism into the cubic. The old secant triple pulls back to
 `(x₁ - x₂)³` times the regular triple, and on `D(B∞ · Ysec)` the two source
 restrictions are open immersions with equal normalized points and equal actual
-cubic-valued morphisms. The remaining work is to promote the checked input
-transition laws to actual pair-chart overlap morphisms, prove compatibility
-of the normalized local laws and perform global gluing, then prove the group
-laws and coordinate-point compatibility.
+cubic-valued morphisms. The remaining work is to prove compatibility of the
+normalized local laws on the checked pair-chart overlaps and perform global
+gluing, then prove the group laws and coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and
