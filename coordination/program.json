@@ -5,7 +5,7 @@
     "revision": {
       "id": "canonical-foundations-v4",
       "date": "2026-08-15",
-      "summary": "Retain Mazur's degree-one formal-immersion route while recording checked but uncredited foundation slices: canonical-linear coherent H0/H1 with pointed proper-curve H1 finiteness; the associated fppf sheafification of the all-degree normalized Picard presheaf together with an honest absolute Picard degree kernel and splitting; a genuine four-chart affine Weierstrass addition cover with all six exact pairwise compatibilities and an actual glued affine-pair morphism, now identified with the standard member of an actual four-member cover of the full projective product; generic finite free-translation quotient geometry over affine noetherian bases; terminal proper-model specialization at five; and represented polynomial-cusp sections. Proper coherent H0 finiteness, linear connecting maps, Riemann-Roch, proper base change, a pullback-compatible relative degree and relative Pic⁰, Picard representability, addition formulas on the other three projective-product members and the group laws for the global Weierstrass law, actual canonical cyclic and Eisenstein quotient instances, torsion injectivity, represented X_0, and compactification remain open."
+      "summary": "Retain Mazur's degree-one formal-immersion route while recording checked but uncredited foundation slices: canonical-linear coherent H0/H1 with pointed proper-curve H1 finiteness and global-functions-linear Ext connecting maps; the associated fppf sheafification of the all-degree normalized Picard presheaf together with an honest absolute Picard degree kernel and splitting; a genuine four-chart affine Weierstrass addition cover with all six exact pairwise compatibilities and an actual glued affine-pair morphism, now identified with the standard member of an actual four-member cover of the full projective product; generic finite free-translation quotient geometry over affine noetherian bases; terminal proper-model specialization at five; and represented polynomial-cusp sections. Proper coherent H0 finiteness, Riemann-Roch, proper base change, a pullback-compatible relative degree and relative Pic⁰, Picard representability, addition formulas on the other three projective-product members and the group laws for the global Weierstrass law, actual canonical cyclic and Eisenstein quotient instances, torsion injectivity, represented X_0, and compactification remain open."
     },
     "canonical_target": {
       "name": "MazurTorsion.rationalTorsion_hasMazurClassification",
@@ -40,7 +40,7 @@
           "MT-TC-E1-JACOBIAN-VARIETY",
           "MT-TC-F1-ABEL-JACOBI"
         ],
-        "current_work_package": "WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE",
+        "current_work_package": "WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS",
         "exit_criterion": "A represented Jacobian and pointed Abel–Jacobi morphism compile with base-change consumers."
       },
       {
@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2072056,
-    "integrated_lean_modules": 1989,
+    "integrated_lean_lines": 2072217,
+    "integrated_lean_modules": 1990,
     "remaining_composite_orders": [
       25,
       35
@@ -1959,7 +1959,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Build the coherent-cohomology results needed for proper smooth curves. The checked H0/global-sections comparison is linear for the canonical global-functions action, agrees with the opt-in transported action, and has a canonical-field consumer. The affine-cover Cech comparison reaches genuine Ext-based H1 and is canonically linear, yielding canonical-field H1 finite-dimensionality for pointed smooth proper integral curves. Proper coherent H0 finiteness, linear connecting maps, and proper base change remain open. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
+      "summary": "Build the coherent-cohomology results needed for proper smooth curves. The checked H0/global-sections comparison is linear for the canonical global-functions action, agrees with the opt-in transported action, and has a canonical-field consumer. The affine-cover Cech comparison reaches genuine Ext-based H1 and is canonically linear, yielding canonical-field H1 finite-dimensionality for pointed smooth proper integral curves. The actual Ext connecting homomorphism of every short exact sequence is now global-functions-linear, with a canonical ground-field-linear H0-to-H1 facade and a finite-dimensional-image consumer for pointed proper curves. The coherent core package is integrated; proper coherent H0 finiteness and proper base change remain open in the active curve-finiteness package. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1969,7 +1969,7 @@
             "max": 55
           },
           "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, and closed-support induction compile. The H0/global-sections and affine-cover H1 comparisons are canonically linear, their transported and canonical H0 actions agree, and a rational section gives proper-curve H1 finite-dimensionality for the canonical structure-map field action. Proper coherent H0 finiteness, linear connecting maps, and proper cohomology base change remain absent.",
+          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, and closed-support induction compile. The H0/global-sections and affine-cover H1 comparisons are canonically linear, their transported and canonical H0 actions agree, a rational section gives proper-curve H1 finite-dimensionality for the canonical structure-map field action, and naturality of the actual Ext connecting class makes every short-exact-sequence boundary global-functions-linear. Proper coherent H0 finiteness and proper cohomology base change remain absent.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -1993,7 +1993,7 @@
           "kind": "theorem",
           "name": "TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional",
           "state": "proposed",
-          "description": "Package the checked canonical H0 comparison and pointed-curve canonical-field H1 finite-dimensionality theorem with the still-needed proper coherent H0 finiteness, linear connecting maps, affine acyclicity, and vanishing above degree one in the required curve-cohomology facade."
+          "description": "Package the checked canonical H0 comparison, linear connecting maps, pointed-curve canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above degree one with the still-needed proper coherent H0 finiteness in the required curve-cohomology facade."
         },
         {
           "kind": "definition",
@@ -2060,6 +2060,20 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomologyConnectingHom",
+          "state": "contract",
+          "description": "Expose the genuine Ext connecting homomorphism for a short exact sequence of scheme modules after passage to the underlying additive sheaves.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyConnectingLinear"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomologyConnectingLinearMap",
+          "state": "contract",
+          "description": "Bundle the actual Ext connecting homomorphism linearly for the canonical global-functions actions, using naturality under simultaneous scalar multiplication on the short complex.",
+          "module": "MazurTorsion.Upstream.SchemeModuleCohomologyConnectingLinear"
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalFieldModule",
           "state": "contract",
           "description": "Restrict the canonical global-functions action on genuine H0 along the actual structure morphism to obtain the opt-in ground-field action.",
@@ -2084,6 +2098,20 @@
           "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldLinearMap",
           "state": "contract",
           "description": "Make genuine H1 functoriality ground-field linear for the canonical structure-map actions; pointed proper-curve H1 finite-dimensionality now uses the same actions.",
+          "module": "MazurTorsion.Upstream.ProperCurveCohomologyFinite"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroHOneCanonicalFieldConnectingLinearMap",
+          "state": "contract",
+          "description": "Restrict the canonical global-functions-linear connecting homomorphism to the structure-map field action in degrees zero and one.",
+          "module": "MazurTorsion.Upstream.ProperCurveCohomologyFinite"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroHOneCanonicalFieldConnecting_range_finiteDimensional_of_rationalSection",
+          "state": "contract",
+          "description": "Consume the canonical field-linear connecting map and pointed proper-curve H1 finiteness to prove its image finite-dimensional.",
           "module": "MazurTorsion.Upstream.ProperCurveCohomologyFinite"
         },
         {
@@ -2158,8 +2186,8 @@
         "credit_percent": 0
       },
       "evidence": {
-        "recorded_artifact_count": 83,
-        "canonical_artifact_count": 23,
+        "recorded_artifact_count": 90,
+        "canonical_artifact_count": 27,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -2167,7 +2195,7 @@
           "id": "WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE",
           "title": "Coherent sheaves and finite cohomology core",
           "weight_points": 12,
-          "status": "active",
+          "status": "integrated",
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
@@ -2187,7 +2215,7 @@
           "id": "WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS",
           "title": "Proper-curve finiteness and base change inputs",
           "weight_points": 12,
-          "status": "blocked",
+          "status": "active",
           "depends_on": [
             "WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE",
             "WP-MT-TC-B1-COHERENT-COHOMOLOGY-CECH-COMPARISON"

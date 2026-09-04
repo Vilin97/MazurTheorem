@@ -115,10 +115,10 @@ line bundles on a smooth curve.
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology`
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
-  Package the checked canonical H0 comparison and pointed-curve canonical-field H1
-  finite-dimensionality theorem with the still-needed proper coherent H0 finiteness,
-  linear connecting maps, affine acyclicity, and vanishing above degree one in the
-  required curve-cohomology facade.
+  Package the checked canonical H0 comparison, linear connecting maps, pointed-curve
+  canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above
+  degree one with the still-needed proper coherent H0 finiteness in the required
+  curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -157,6 +157,15 @@ line bundles on a smooth curve.
   Bundle every coefficient-module morphism as a linear map for the canonical
   global-functions cohomology actions.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomologyConnectingHom`
+  Expose the genuine Ext connecting homomorphism for a short exact sequence of scheme
+  modules after passage to the underlying additive sheaves.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomologyConnectingLinearMap`
+  Bundle the actual Ext connecting homomorphism linearly for the canonical
+  global-functions actions, using naturality under simultaneous scalar multiplication on
+  the short complex.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalFieldModule`
   Restrict the canonical global-functions action on genuine H0 along the actual
   structure morphism to obtain the opt-in ground-field action.
@@ -172,6 +181,14 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldLinearMap`
   Make genuine H1 functoriality ground-field linear for the canonical structure-map
   actions; pointed proper-curve H1 finite-dimensionality now uses the same actions.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroHOneCanonicalFieldConnectingLinearMap`
+  Restrict the canonical global-functions-linear connecting homomorphism to the
+  structure-map field action in degrees zero and one.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroHOneCanonicalFieldConnecting_range_finiteDimensional_of_rationalSection`
+  Consume the canonical field-linear connecting map and pointed proper-curve H1
+  finiteness to prove its image finite-dimensional.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOneForgetIsoOfAffineOpenCover`
   Identify the underlying additive group of native base-Cech H1 with genuine Ext-based

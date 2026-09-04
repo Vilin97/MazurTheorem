@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
 - Ecosystem readiness is **20%**.
-- The audited baseline contains **1,950 Lean modules** and **1,966,429 Lean
+- The audited baseline contains **1,990 Lean modules** and **2,072,217 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -38,7 +38,7 @@ two current packages:
 
 | Lane | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|
-| Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-COHERENT-CORE` | Deliver a cover-independent canonical `K`-linear `H⁰`/`H¹` API, including `H⁰`/global-sections compatibility and coefficient-morphism and connecting-map linearity, to the proper-curve finiteness package. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
+| Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
 | Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Construct addition on the three remaining members of the full projective-product cover, prove the overlaps and global gluing, then prove the commutative group laws and coordinate-point compatibility and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Package status is scheduling metadata. Only the two `current_work_package`
@@ -50,7 +50,7 @@ Work-package weights partition their parent node and award no independent
 credit.
 
 Execution revision `canonical-foundations-v4` records checked foundation
-slices without changing the 172-point headline:
+slices without changing the 200-point headline:
 
 - In coherent cohomology, multiplication by global functions now gives a
   canonical cover-independent action in every degree. The `H⁰` comparison
@@ -58,11 +58,14 @@ slices without changing the 172-point headline:
   action is proved equal to that canonical action. The affine-cover Čech
   comparison is canonically linear in `H¹`, and a rational section now gives
   proper-curve `H¹` finite-dimensionality for the canonical structure-map field
-  action. The 12-point core remains `active` because proper coherent `H⁰`
-  finiteness and linear connecting maps are missing. The first genuine
-  Riemann--Roch consumer belongs to B2. The final 12-point finiteness/base-change
-  package remains `blocked`; no proper-cohomology base-change theorem is
-  present.
+  action. Coefficient morphisms are linear in `H¹`, and naturality of the
+  actual Ext connecting class makes every short-exact-sequence boundary linear
+  over global functions. Its canonical ground-field `H⁰ → H¹` specialization
+  has a pointed proper-curve finite-dimensional-image consumer. The 12-point
+  core is therefore integrated. The final 12-point finiteness/base-change
+  package is active: proper coherent `H⁰` finiteness and the exact low-degree
+  base-change comparison remain missing, while vanishing above degree one is
+  already checked. The first genuine Riemann--Roch consumer belongs to B2.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a
   field and a supplied divisor-class/Picard equivalence, the checked
