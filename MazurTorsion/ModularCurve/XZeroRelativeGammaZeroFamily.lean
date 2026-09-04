@@ -25,8 +25,10 @@ level.  This is the locus needed over `Q` and at the auxiliary residue
 characteristics used by the current Mazur argument, where the levels are
 prime to the residue characteristic.
 
-No pullback functor, isomorphism quotient, representing scheme, compactification,
-or point of `X_0(N)` is asserted here.  The named downstream consumer is
+Pullback along arbitrary base morphisms is constructed using genuine pullback
+fppf covers.  Coherence laws, an isomorphism quotient, a representing scheme,
+a compactification, and points of `X_0(N)` are not asserted here.  The named
+downstream consumer is
 `MazurTorsion.XZeroFortyNine.locallyConstantGammaZeroFamilyOfOrderFortyNineTorsion`.
 -/
 
@@ -67,6 +69,34 @@ noncomputable def finiteFlatBaseChangeIdIso
   ObjectProperty.isoMk (finiteFlatCommGroupSchemeProperty S)
     ((Functor.mapCommGrpNatIso Over.pullbackId).app G.obj ≪≫
       Functor.mapCommGrpIdIso.app G.obj)
+
+/-- Iterated base change of a finite-flat commutative group scheme agrees
+canonically with base change along the composite. -/
+noncomputable def finiteFlatBaseChangeCompIso
+    {R T : Scheme.{u}} (f : T ⟶ S) (g : S ⟶ R)
+    (G : FiniteFlatCommGroupScheme R) :
+    (FiniteFlatCommGroupScheme.baseChange (f ≫ g)).obj G ≅
+      (FiniteFlatCommGroupScheme.baseChange f).obj
+        ((FiniteFlatCommGroupScheme.baseChange g).obj G) :=
+  ObjectProperty.isoMk (finiteFlatCommGroupSchemeProperty T)
+    ((Functor.mapCommGrpNatIso (Over.pullbackComp f g)).app G.obj ≪≫
+      Functor.mapCommGrpCompIso.app G.obj)
+
+/-- Pulling the arbitrary-base constant cyclic group back along any scheme
+morphism gives the constant cyclic group over the new base. -/
+noncomputable def constantCyclicOverBaseChangeIso
+    {T : Scheme.{u}} (f : T ⟶ S) :
+    (FiniteFlatCommGroupScheme.baseChange f).obj
+        (constantCyclicOver S N) ≅
+      constantCyclicOver T N := by
+  let G := cyclicConstant (ULift.{u} ℤ) N
+  let tS := specULiftZIsTerminal.from S
+  let tT := specULiftZIsTerminal.from T
+  let ecomp := finiteFlatBaseChangeCompIso S f tS G
+  have hcomp : f ≫ tS = tT := specULiftZIsTerminal.hom_ext _ _
+  exact ecomp.symm ≪≫
+    eqToIso (congrArg
+      (fun q ↦ (FiniteFlatCommGroupScheme.baseChange q).obj G) hcomp)
 
 /-- The singleton identity fppf cover. -/
 def identityFppfCover : Scheme.Cover.{u} Scheme.fppfPrecoverage S :=
@@ -129,6 +159,50 @@ theorem hasConstantOrder (C : LocallyConstantCyclicSubgroup S N E) :
     _ = N := congrFun
       (constantCyclicOver_hasConstantOrder (C.trivializingCover.X i) N) t
 
+/-- Pull back a locally constant cyclic subgroup along an arbitrary morphism
+of base schemes.  The trivializing cover is the actual pullback fppf cover. -/
+noncomputable def baseChange {T : Scheme.{u}}
+    (C : LocallyConstantCyclicSubgroup S N E) (f : T ⟶ S) :
+    LocallyConstantCyclicSubgroup T N
+      ((Over.pullback f).mapCommGrp.obj E) := by
+  letI : MorphismProperty.IsStableUnderBaseChange
+      (@Flat ⊓ @LocallyOfFinitePresentation) :=
+    MorphismProperty.IsStableUnderBaseChange.inf
+  letI : Precoverage.IsStableUnderBaseChange Scheme.fppfPrecoverage :=
+    Scheme.instIsStableUnderBaseChangeFppfPrecoverage
+  refine
+    { toFiniteLocallyFreeSubgroup :=
+        C.toFiniteLocallyFreeSubgroup.baseChange f
+      trivializingCover := C.trivializingCover.pullback₁ f
+      localTrivialization := fun i ↦ ?_ }
+  obtain ⟨e⟩ := C.localTrivialization i
+  let V := C.trivializingCover.pullback₁ f
+  let q := C.trivializingCover.pullbackHom f i
+  have hsquare : V.f i ≫ f = q ≫ C.trivializingCover.f i :=
+    (C.trivializingCover.pullbackHom_map f i).symm
+  exact ⟨
+    (finiteFlatBaseChangeCompIso T (V.f i) f C.carrier).symm ≪≫
+      eqToIso (congrArg
+        (fun h ↦ (FiniteFlatCommGroupScheme.baseChange h).obj C.carrier)
+        hsquare) ≪≫
+      finiteFlatBaseChangeCompIso (C.trivializingCover.X i) q
+        (C.trivializingCover.f i) C.carrier ≪≫
+      (FiniteFlatCommGroupScheme.baseChange q).mapIso e ≪≫
+      constantCyclicOverBaseChangeIso (C.trivializingCover.X i) N q⟩
+
+@[simp]
+theorem baseChange_carrier {T : Scheme.{u}}
+    (C : LocallyConstantCyclicSubgroup S N E) (f : T ⟶ S) :
+    (C.baseChange f).carrier =
+      (FiniteFlatCommGroupScheme.baseChange f).obj C.carrier :=
+  rfl
+
+/-- The pullback carrier retains geometric order `N`. -/
+theorem baseChange_hasConstantOrder {T : Scheme.{u}}
+    (C : LocallyConstantCyclicSubgroup S N E) (f : T ⟶ S) :
+    (C.baseChange f).carrier.HasConstantOrder N :=
+  (C.baseChange f).hasConstantOrder
+
 end LocallyConstantCyclicSubgroup
 
 /-- Over an affine base, the arbitrary-base constant object agrees with the
@@ -179,6 +253,40 @@ variable {S N}
 attribute [instance] LocallyConstantGammaZeroFamily.isProper
   LocallyConstantGammaZeroFamily.geometricallyIntegral
   LocallyConstantGammaZeroFamily.smoothOfRelativeDimensionOne
+
+/-- Pullback of a locally constant relative `Gamma_0(N)` family along an
+arbitrary base morphism. -/
+noncomputable def baseChange {T : Scheme.{u}}
+    (D : LocallyConstantGammaZeroFamily S N) (f : T ⟶ S) :
+    LocallyConstantGammaZeroFamily T N where
+  curve := (Over.pullback f).mapCommGrp.obj D.curve
+  isProper := by
+    change IsProper (pullback.snd D.curve.X.hom f)
+    infer_instance
+  geometricallyIntegral := by
+    change GeometricallyIntegral (pullback.snd D.curve.X.hom f)
+    infer_instance
+  smoothOfRelativeDimensionOne := by
+    change SmoothOfRelativeDimension 1 ((Over.pullback f).obj D.curve.X).hom
+    letI : MorphismProperty.IsStableUnderBaseChangeAlong
+        (@SmoothOfRelativeDimension 1) f :=
+      ⟨fun pb h ↦
+        (smoothOfRelativeDimension_isStableUnderBaseChange 1).of_isPullback pb h⟩
+    exact MorphismProperty.baseChange_obj f D.curve.X
+      D.smoothOfRelativeDimensionOne
+  subgroup := D.subgroup.baseChange f
+
+@[simp]
+theorem baseChange_curve {T : Scheme.{u}}
+    (D : LocallyConstantGammaZeroFamily S N) (f : T ⟶ S) :
+    (D.baseChange f).curve = (Over.pullback f).mapCommGrp.obj D.curve :=
+  rfl
+
+@[simp]
+theorem baseChange_subgroup {T : Scheme.{u}}
+    (D : LocallyConstantGammaZeroFamily S N) (f : T ⟶ S) :
+    (D.baseChange f).subgroup = D.subgroup.baseChange f :=
+  rfl
 
 /-- The existing split field-valued datum is the field fiber of the relative
 locally constant moduli problem. -/

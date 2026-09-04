@@ -684,6 +684,27 @@ theorem locallyConstantGammaZeroFamilyOfOrderFortyNineTorsion_hasConstantOrder
       49 :=
   ModularCurve.XZeroModuli.LocallyConstantCyclicSubgroup.hasConstantOrder _
 
+/-- The order-49 relative family pulls back to every scheme over `Q`; its
+fppf trivializing cover is transported by the genuine cover pullback. -/
+noncomputable def locallyConstantGammaZeroFamilyOfOrderFortyNineTorsionBaseChange
+    (T : _root_.AlgebraicGeometry.Scheme)
+    (f : T ⟶ _root_.AlgebraicGeometry.Spec (.of ℚ))
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
+    ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily T 49 :=
+  (locallyConstantGammaZeroFamilyOfOrderFortyNineTorsion E P hP).baseChange f
+
+/-- Every pullback of the order-49 family retains geometric order exactly
+`49`. -/
+theorem locallyConstantGammaZeroFamilyOfOrderFortyNineTorsionBaseChange_hasConstantOrder
+    (T : _root_.AlgebraicGeometry.Scheme)
+    (f : T ⟶ _root_.AlgebraicGeometry.Spec (.of ℚ))
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
+    (locallyConstantGammaZeroFamilyOfOrderFortyNineTorsionBaseChange
+      T f E P hP).subgroup.carrier.HasConstantOrder 49 :=
+  ModularCurve.XZeroModuli.LocallyConstantCyclicSubgroup.hasConstantOrder _
+
 /-- The intrinsic order-49 subgroup has constant geometric order exactly
 `49`. -/
 theorem splitGeometricDatumOfOrderFortyNineTorsion_hasConstantOrder
