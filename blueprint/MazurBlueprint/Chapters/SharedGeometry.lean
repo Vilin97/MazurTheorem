@@ -971,6 +971,10 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinitySectionOver_projectiveAdditionOver_right_unit`
   Prove that the projective infinity section is a categorical right unit for global
   projective addition.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionOver_comm`
+  Prove that global projective addition is invariant under the cartesian braiding in
+  the slice over Spec K.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as
