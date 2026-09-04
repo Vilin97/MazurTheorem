@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2085002,
-    "integrated_lean_modules": 2015,
+    "integrated_lean_lines": 2086296,
+    "integrated_lean_modules": 2016,
     "remaining_composite_orders": [
       25,
       35
@@ -3632,6 +3632,62 @@
           "description": "Identify the secant-Z restriction of the glued infinity-pair law with the normalized secant morphism."
         },
         {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairFirstOverlap_standardInfinity_infinity_addition_eq",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductGlobalAddition",
+          "description": "Prove equality of the standard-by-infinity and infinity-by-infinity laws on their full explicit first-factor overlap by extending from the dense secant-Z localization."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlap_infinityStandard_infinity_addition_eq",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductGlobalAddition",
+          "description": "Prove equality of the infinity-by-standard and infinity-by-infinity laws on their full explicit second-factor overlap by extending from the dense secant-Z localization."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairStandardInfinityDiagonal_compatible",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductGlobalAddition",
+          "description": "Prove categorical compatibility of the standard-by-standard and infinity-by-infinity laws through the exact double input overlap."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairMixedDiagonal_compatible",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductGlobalAddition",
+          "description": "Factor the exact double overlap through both mixed charts and prove their two glued laws agree on the diagonal categorical intersection."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairAdditionChartMorphism_compatible",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductGlobalAddition",
+          "description": "Combine all six unordered chart intersections into the sixteen ordered compatibility cases for the four-member projective-pair cover."
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionMorphism",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductGlobalAddition",
+          "description": "Glue the standard, two mixed, and infinity-pair chart laws to an actual addition morphism on the full projective cubic fibre square."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartMap_comp_projectiveAdditionMorphism",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductGlobalAddition",
+          "description": "Recover the selected genuine local law by restricting global projective addition to any of the four pair-chart members."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionMorphism_comp_structureMap",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductGlobalAddition",
+          "description": "Prove that globally glued projective addition is a morphism over Spec K."
+        },
+        {
           "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates",
           "state": "contract",
@@ -3907,8 +3963,8 @@
         "revision": "sequence the canonical Weierstrass group scheme, exact-torsion finite-flat subgroup, and cyclic quotient APIs against named X_0 and order-49 consumers"
       },
       "evidence": {
-        "recorded_artifact_count": 681,
-        "canonical_artifact_count": 145,
+        "recorded_artifact_count": 689,
+        "canonical_artifact_count": 153,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -3920,7 +3976,7 @@
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
-          "exit_criterion": "Starting from the actual four-member cover of the full projective product, the integral affine tensor-product presentation of each member, the checked secant and doubling polynomial triples on its universal inputs, both pairs of output-coordinate principal-open morphisms, their joint nonvanishing cover of every pair member, the checked YZ compatibility of the secant formulas, the addition morphism on the standard-by-standard member together with its checked raw output-Z and output-Y restrictions, the actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)` with checked secant compatibility on its exact overlap, both exact factorwise pair-chart overlap schemes with raw addition transition laws and equal embeddings into the full product, normalized secant-morphism compatibility on every factorwise output overlap, the primewise replacement cover by standard, regular D(B-infinity), and secant-Z loci, the exact double input overlap embedded compatibly into both pair charts, both actual two-member mixed-chart open covers, and the actual three-member infinity-pair open cover now proved pairwise compatible and glued to genuine chart morphisms with checked restrictions, prove compatibility among the four full chart morphisms and glue globally. Prove the commutative group laws and coordinate-point compatibility, then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
+          "exit_criterion": "Starting from the actual four-member cover of the full projective product, the integral affine tensor-product presentation of each member, the checked secant and doubling polynomial triples on its universal inputs, both pairs of output-coordinate principal-open morphisms, their joint nonvanishing cover of every pair member, the checked YZ compatibility of the secant formulas, the addition morphism on the standard-by-standard member together with its checked raw output-Z and output-Y restrictions, the actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)` with checked secant compatibility on its exact overlap, both exact factorwise pair-chart overlap schemes with raw addition transition laws and equal embeddings into the full product, normalized secant-morphism compatibility on every factorwise output overlap, the primewise replacement cover by standard, regular D(B-infinity), and secant-Z loci, the exact double input overlap embedded compatibly into both pair charts, both actual two-member mixed-chart open covers, the actual three-member infinity-pair open cover, and the resulting four full chart morphisms now proved compatible on their categorical intersections and glued to a global over-base addition morphism with checked chart restrictions, prove the commutative group laws and coordinate-point compatibility, then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
         },
         {
           "id": "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP",

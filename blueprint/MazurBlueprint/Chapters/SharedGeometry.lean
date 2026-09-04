@@ -920,6 +920,37 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairSecantZOpen_comp_addition`
   Identify the secant-Z restriction of the glued infinity-pair law with the normalized
   secant morphism.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairFirstOverlap_standardInfinity_infinity_addition_eq`
+  Prove equality of the standard-by-infinity and infinity-by-infinity laws on their full
+  explicit first-factor overlap by extending from the dense secant-Z localization.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairSecondOverlap_infinityStandard_infinity_addition_eq`
+  Prove equality of the infinity-by-standard and infinity-by-infinity laws on their full
+  explicit second-factor overlap by extending from the dense secant-Z localization.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairStandardInfinityDiagonal_compatible`
+  Prove categorical compatibility of the standard-by-standard and infinity-by-infinity
+  laws through the exact double input overlap.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairMixedDiagonal_compatible`
+  Factor the exact double overlap through both mixed charts and prove their two glued
+  laws agree on the diagonal categorical intersection.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairAdditionChartMorphism_compatible`
+  Combine all six unordered chart intersections into the sixteen ordered compatibility
+  cases for the four-member projective-pair cover.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionMorphism`
+  Glue the standard, two mixed, and infinity-pair chart laws to an actual addition
+  morphism on the full projective cubic fibre square.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartMap_comp_projectiveAdditionMorphism`
+  Recover the selected genuine local law by restricting global projective addition to
+  any of the four pair-chart members.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionMorphism_comp_structureMap`
+  Prove that globally glued projective addition is a morphism over Spec K.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as

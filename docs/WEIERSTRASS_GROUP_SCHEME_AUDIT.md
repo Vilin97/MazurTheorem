@@ -258,8 +258,11 @@ On the infinity-pair cover, all three exact pairwise pullbacks have now been
 identified. The double-standard, regular-origin, and secant-`Z` laws are
 compatible in all ordered cases and glue to a genuine morphism on the entire
 infinity chart, with each selected local law recovered by restriction.
-Compatibility among the four full chart morphisms and global gluing are the
-immediate atlas boundary.
+The standard, two mixed, and infinity chart morphisms now agree on all six
+categorical intersections. Their sixteen ordered compatibility cases glue to
+a global addition morphism on the full projective fibre square, and all four
+chart restrictions and the structural-map equality over `Spec K` are checked.
+The group laws are the immediate boundary.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor

@@ -103,8 +103,11 @@ restrictions checked. On the infinity-pair cover, all three exact pairwise
 pullbacks are now identified and their local laws are compatible. The
 double-standard, regular-origin, and secant-`Z` laws therefore glue to a
 genuine morphism on the entire infinity chart, with all three restrictions
-checked. Compatibility among the four full chart morphisms and global gluing
-are the next atlas step.
+checked. The standard, both mixed, and infinity chart morphisms now agree on
+all six categorical chart intersections. The sixteen ordered compatibility
+cases glue to an actual addition morphism on the full projective fibre square;
+all four chart restrictions and compatibility with the structural morphism to
+`Spec K` are checked. The group laws are the next construction step.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
@@ -138,9 +141,10 @@ over-base addition morphism into the cubic. The old secant triple pulls back to
 restrictions are open immersions with equal normalized points and equal actual
 cubic-valued morphisms. The three local laws on the infinity-pair cover are
 now pairwise compatible on their exact pullbacks and glue across that entire
-chart. The remaining work is to establish compatibility of the four full
-chart morphisms and perform global gluing, then prove the group laws and
-coordinate-point compatibility.
+chart. The four resulting chart morphisms are now compatible on every
+categorical intersection and glue to a global addition morphism over
+`Spec K`, with every chart restriction checked. The remaining work is to
+prove the group laws and coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and
