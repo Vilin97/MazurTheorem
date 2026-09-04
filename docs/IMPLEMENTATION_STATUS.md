@@ -39,7 +39,7 @@ two current packages:
 | Lane | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|
 | Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Prove the new infinity-diagonal addition morphism agrees with secant addition on overlap, finish the projective-pair overlaps and glue globally, then prove the commutative group laws and coordinate-point compatibility and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
+| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Finish the remaining projective-pair overlaps and glue the checked local addition laws globally, then prove the commutative group laws and coordinate-point compatibility and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Package status is scheduling metadata. Only the two `current_work_package`
 entries above are selected WIP; one slot is intentionally unused. The generic
@@ -120,9 +120,13 @@ slices without changing the 200-point headline:
   `(O, O)` with slope zero. A denominator-free third-intersection calculation
   gives homogeneous addition coordinates satisfying the cubic throughout this
   neighborhood. Their output-`Y` principal open is an actual neighborhood of
-  `(O, O)` carrying a genuine over-base addition morphism. Its compatibility
-  with secant addition, the remaining overlap equalities and global gluing,
-  the group laws, and coordinate-point compatibility remain missing.
+  `(O, O)` carrying a genuine over-base addition morphism. The pulled-back raw
+  secant triple is exactly `(x₁ - x₂)³` times this regular triple. On the
+  exact principal overlap `D(B∞ · Ysec)`, both source restrictions are open
+  immersions into the same pair chart, their normalized output points agree,
+  and the two actual cubic-valued morphisms are equal. The remaining overlap
+  equalities and global gluing, the group laws, and coordinate-point
+  compatibility remain missing.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

@@ -741,6 +741,26 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairOriginAdditionMorphism_comp_structureMap`
   Prove that the infinity-diagonal local addition morphism lies over the base field.
 * `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairNeighborhood_rawAdditionCoordinates_eq_smul`
+  Identify the pulled-back raw secant triple with `(x₁ - x₂)³` times the regular
+  infinity-neighborhood addition triple.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairSecantOverlap_localY_isUnit`
+  Use the exact cubic scaling identity to prove that the regular formula's output Y
+  coordinate is invertible on `D(B∞ · Ysec)`.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairSecantOverlap_outputPoints_eq`
+  Prove coordinatewise equality of the Y-normalized regular and secant output points on
+  their exact overlap.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairSecantOverlap_open_eq`
+  Identify both source restrictions with the same intrinsic principal open of the
+  infinity-by-infinity projective-pair chart.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairSecantOverlap_morphisms_eq`
+  Prove that the regular infinity-neighborhood formula and the old secant formula agree
+  as actual cubic-valued morphisms on `D(B∞ · Ysec)`.
+* `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual
   finite free-translation quotient.

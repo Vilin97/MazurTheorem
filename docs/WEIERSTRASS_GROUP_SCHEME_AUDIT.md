@@ -234,7 +234,11 @@ third-intersection calculation now gives the denominator-free addition triple
 `[N : -D - a₁N - a₃M : M]` and proves it satisfies the mapped cubic without
 cancelling either `x₁ - x₂` or `D`. Its output-`Y` localization is an actual
 open neighborhood containing `(O, O)`, with a checked over-base addition
-morphism into the concrete cubic. Compatibility with secant addition and the
+morphism into the concrete cubic. The original homogeneous secant triple pulls
+back to `(x₁ - x₂)³` times this regular triple. On the exact principal overlap
+`D(B∞ · Ysec)`, the two sources restrict by open immersions to the same open
+of the infinity-pair chart, and their normalized points and actual
+cubic-valued morphisms agree. The remaining projective-pair compatibility and
 global gluing remain open.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
