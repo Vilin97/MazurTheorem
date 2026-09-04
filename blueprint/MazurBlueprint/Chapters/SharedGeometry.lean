@@ -831,6 +831,30 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairAdditionCoverMorphism`
   Select the transported standard, regular neighborhood, or secant morphism on each
   exact member of the infinity-pair addition cover.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairStandardInfinityActualAdditionOpens_cover`
+  Prove that the genuine second-input transition and secant output-Z source ranges cover
+  the standard-by-infinity chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairStandardInfinityAdditionOpenCover`
+  Package the transition and secant sources as a scheme-theoretic open cover of the
+  standard-by-infinity pair chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairStandardInfinityAdditionCoverMorphism`
+  Select the transported standard-pair law or secant output-Z law on each
+  standard-by-infinity cover member.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairInfinityStandardActualAdditionOpens_cover`
+  Prove that the genuine first-input transition and secant output-Z source ranges cover
+  the infinity-by-standard chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairInfinityStandardAdditionOpenCover`
+  Package the transition and secant sources as a scheme-theoretic open cover of the
+  infinity-by-standard pair chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairInfinityStandardAdditionCoverMorphism`
+  Select the transported standard-pair law or secant output-Z law on each
+  infinity-by-standard cover member.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as

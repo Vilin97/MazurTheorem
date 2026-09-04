@@ -91,8 +91,12 @@ projective product are equal. The infinity pair now has an actual finite open
 cover by this double-standard source, the genuine regular output-`Y` source,
 and the secant output-`Z` source. The residual prime calculation shows that
 the regular output is `-1` whenever the other two opens miss, and an indexed
-family selects the genuine local addition morphism on every member. Pairwise
-compatibility and the analogous mixed-chart covers are the next gluing step.
+family selects the genuine local addition morphism on every member. Both mixed
+pair charts now also have actual two-member scheme covers: their exact
+transition-to-standard sources carry the transported standard-pair law, while
+their secant output-`Z` sources carry the normalized secant law. Indexed
+families select these genuine local morphisms. Pairwise compatibility on the
+three new covers and global gluing are the next atlas step.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
@@ -125,9 +129,8 @@ over-base addition morphism into the cubic. The old secant triple pulls back to
 `(x₁ - x₂)³` times the regular triple, and on `D(B∞ · Ysec)` the two source
 restrictions are open immersions with equal normalized points and equal actual
 cubic-valued morphisms. The remaining work is to prove pairwise compatibility
-on the actual infinity-pair addition cover, construct the two mixed-chart
-covers, and perform global gluing, then prove the group laws and
-coordinate-point compatibility.
+on the actual infinity-pair and two mixed-chart addition covers and perform
+global gluing, then prove the group laws and coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and

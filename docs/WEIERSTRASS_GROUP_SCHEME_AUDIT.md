@@ -246,8 +246,12 @@ three-member `Scheme.OpenCover`, using the double-standard source, the genuine
 regular output-`Y` source, and secant output `Z`. The residual prime proof
 forces both inputs to `[0:1:0]` and evaluates the regular output to `-1`; an
 indexed family supplies the genuine local morphism on all three members.
-Their remaining pairwise compatibilities and the mixed-chart covers are the
-immediate atlas boundary.
+Both mixed pair charts now likewise carry actual two-member
+`Scheme.OpenCover`s. Their transition-to-standard members transport the
+standard-pair addition law, their secant output-`Z` members carry the
+normalized secant morphism, and indexed families select these genuine local
+morphisms. Pairwise compatibility on all three covers and global gluing are
+the immediate atlas boundary.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor
