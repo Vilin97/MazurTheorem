@@ -224,8 +224,14 @@ jointly cover every projective-pair member. The two secant output
 normalizations agree as actual cubic-valued morphisms on their exact `YZ`
 overlap. This does not turn the doubling morphisms into addition laws away
 from the diagonal: the four-open result is a nonvanishing certificate, not a
-four-open addition atlas. A genuine diagonal-neighborhood addition law, its
-compatibility with secant addition, and the global gluing remain open.
+four-open addition atlas. On the infinity-by-infinity member, subtracting the
+two universal cubic equations now gives the checked factorization
+`(z₁ - z₂) B∞ = (x₁ - x₂) A∞`. Hence `A∞ / B∞` is a regular slope on
+`D(B∞)`, including along the diagonal. There `B∞` is exactly the projective
+`Z` partial derivative; an explicit evaluation map through the localization
+proves `B∞(O, O) = 1` and slope `(O, O) = 0`. The genuine addition output
+formula on this neighborhood, its compatibility with secant addition, and the
+global gluing remain open.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -254,12 +260,13 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a global multiplication morphism obtained by constructing a genuine
-   addition law near the diagonal base locus of the secant formulas on each of
-   the three projective-product chart members meeting infinity, proving its
-   overlaps with the checked secant maps and the checked standard member,
-   gluing the local maps, and proving the group laws using the checked section
-   at infinity and homogeneous negation as the identity and inverse candidates;
+1. a global multiplication morphism obtained by constructing the genuine
+   addition output triple from the checked regular slope on the
+   infinity-by-infinity diagonal neighborhood, transporting it across the
+   remaining projective-product members meeting infinity, proving its overlaps
+   with the checked secant maps and the checked standard member, gluing the
+   local maps, and proving the group laws using the checked section at infinity
+   and homogeneous negation as the identity and inverse candidates;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:

@@ -706,6 +706,22 @@ order-49 consumers.
   Prove that the Y- and Z-normalized secant formulas agree as actual cubic-valued
   morphisms on their exact overlap.
 * `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPair_addition_coordinate_identity`
+  Factor the difference of the two universal infinity-chart cubic equations as `(z₁ -
+  z₂) B∞ = (x₁ - x₂) A∞`.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairDiagonalAlgHom_B12`
+  Identify `B∞` on the diagonal with the projective Z partial derivative at the
+  universal infinity-chart point.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairNeighborhoodOriginAlgHom`
+  Extend evaluation at `(O, O)` through `D(B∞)`, using the checked specialization `B∞(O,
+  O) = 1`.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveInfinityPairNeighborhoodSlope_mul_sub`
+  Prove on `D(B∞)` that the regular slope satisfies `slope * (x₁ - x₂) = z₁ - z₂`,
+  including along the diagonal.
+* `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual
   finite free-translation quotient.
