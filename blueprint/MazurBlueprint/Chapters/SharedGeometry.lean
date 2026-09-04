@@ -617,6 +617,22 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartSecondInput_eq`
   Verify on every chart pair that the tensor-product right inclusion reconstructs the
   second geometric input projection.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coveringChartUniversalPoint`
+  Construct the normalized universal homogeneous point in either quotient coordinate
+  chart of the projective cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.coveringChartUniversalPoint_equation`
+  Prove directly from the quotient ideal that the normalized universal chart point
+  satisfies the mapped homogeneous cubic equation.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstUniversalPoint_equation`
+  Prove that the tensor-left universal input satisfies the cubic equation over every
+  projective-pair chart ring.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartSecondUniversalPoint_equation`
+  Prove that the tensor-right universal input satisfies the cubic equation over every
+  projective-pair chart ring.
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual

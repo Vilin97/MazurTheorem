@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
 - Ecosystem readiness is **20%**.
-- The audited baseline contains **1,991 Lean modules** and **2,072,446 Lean
+- The audited baseline contains **1,992 Lean modules** and **2,072,616 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -97,9 +97,11 @@ slices without changing the 200-point headline:
   tensor product of its two chart coordinate rings. A checked constructor
   turns each `K`-algebra coordinate formula into an automatically over-base
   scheme morphism, and its left/right inclusion consumers recover the two
-  geometric projections. Addition formulas on the other three members, their
-  overlap equalities and global gluing, the group laws, and coordinate-point
-  compatibility remain missing.
+  geometric projections. Each quotient chart has a normalized universal
+  homogeneous point, and both tensor-embedded inputs satisfy the mapped cubic
+  equation in every pair ring. Addition formulas on the other three members,
+  their overlap equalities and global gluing, the group laws, and
+  coordinate-point compatibility remain missing.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

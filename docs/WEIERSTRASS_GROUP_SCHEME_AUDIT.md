@@ -206,8 +206,10 @@ and the standard member is canonically identified with the affine-pair source.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor
-inclusions are checked against the geometric projections. Addition formulas
-on the other three members and their global gluing remain open.
+inclusions are checked against the geometric projections. The normalized
+universal homogeneous point on each quotient chart satisfies its mapped cubic
+equation, as do both tensor-embedded inputs on every pair member. Addition
+formulas on the other three members and their global gluing remain open.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -236,8 +238,9 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a global multiplication morphism obtained by supplying addition formulas
-   through the checked affine coordinate-ring interface on the three
+1. a global multiplication morphism obtained by evaluating and regularizing
+   addition formulas on the checked universal tensor-ring inputs, supplying
+   them through the affine coordinate-ring interface on the three
    projective-product chart members meeting infinity, proving every overlap
    with the checked standard member and each other, gluing the four local maps,
    and proving the group laws using the checked section at infinity and

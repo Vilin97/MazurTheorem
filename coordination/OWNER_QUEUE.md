@@ -53,10 +53,13 @@ coordinate-chart cover, and its standard-by-standard member is identified
 with that affine-pair source. Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
-morphism, and its two projection consumers verify the orientation. The
-remaining work is to supply the three addition formulas through this
-interface, prove all new overlap equalities and global gluing, then prove the
-group laws and coordinate-point compatibility.
+morphism, and its two projection consumers verify the orientation. Each chart
+also carries its normalized universal homogeneous point; after tensoring, both
+universal inputs satisfy the mapped cubic equation. The remaining work is to
+evaluate and regularize addition formulas on those inputs, supply the three
+local morphisms through the coordinate interface, prove all new overlap
+equalities and global gluing, then prove the group laws and coordinate-point
+compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and
