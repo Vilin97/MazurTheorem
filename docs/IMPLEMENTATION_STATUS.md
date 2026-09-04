@@ -101,8 +101,12 @@ slices without changing the 200-point headline:
   localization, the resulting denominator cube induces the canonical map to
   the checked secant chart; both the source factorization and addition formula
   commute, proving that the normalized raw morphism is exactly the restriction
-  of the glued standard-pair addition. Every product member is now
-  identified with the spectrum of the
+  of the glued standard-pair addition. The universal denominator is nonzero,
+  so the exact output-`YZ` overlap is dense in the raw output-`Y` open.
+  Separatedness of the cubic over the coefficient field extends equality from
+  that overlap, proving that the entire output-`Y` morphism is the other
+  restriction of the same standard-pair addition law. Every product member is
+  now identified with the spectrum of the
   tensor product of its two chart coordinate rings. A checked constructor
   turns each `K`-algebra coordinate formula into an automatically over-base
   scheme morphism, and its left/right inclusion consumers recover the two

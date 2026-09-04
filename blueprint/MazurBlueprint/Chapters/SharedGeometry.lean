@@ -633,6 +633,18 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairStandardOutputOpen_comp_standardPairAdditionMorphism`
   Identify the localized raw standard-pair addition morphism with the exact restriction
   of the globally glued affine-pair addition law.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.secantDenominator_ne_zero`
+  Prove that the difference of the two universal affine abscissas is nonzero, using
+  effective descent along the faithfully flat affine coordinate ring.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairOutputOverlapToInfinity_isDominant`
+  Prove that the exact output-YZ overlap is dense in the standard-pair output-Y
+  principal open.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairInfinityOutputOpen_comp_standardPairAdditionMorphism`
+  Extend equality from the dense output-YZ overlap and identify the entire raw output-Y
+  morphism with the restriction of the checked standard-pair addition law.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartIsoSpecTensor`
   Identify every member of the four-chart projective-pair cover with the spectrum of the

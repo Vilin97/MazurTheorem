@@ -59,6 +59,11 @@ On the raw output-`Z` localization, the denominator cube gives a canonical map
 to the checked secant chart. Both its source map and its cubic-valued formula
 agree exactly, so the normalized raw morphism is now proved to be the
 restriction of the globally glued standard-pair addition law.
+The universal secant denominator is now also proved nonzero. This makes the
+exact output-`YZ` overlap dense in the raw output-`Y` open; separatedness over
+the coefficient field extends the overlap equality to that entire open. Thus
+both raw output normalizations on the standard input pair are checked
+restrictions of the same standard-pair addition law.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme

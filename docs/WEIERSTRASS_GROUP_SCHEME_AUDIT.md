@@ -212,7 +212,12 @@ transported denominator). Localizing at that raw output `Z` now gives a
 canonical map to the checked affine secant chart. Its source factorization and
 its cubic-valued formula both commute, so the normalized raw homogeneous
 morphism is exactly the restriction of the globally glued standard-pair
-addition morphism.
+addition morphism. The universal secant denominator is now proved nonzero as
+well. Consequently the exact output-`YZ` overlap is dense in the raw
+output-`Y` principal open, and separatedness over the coefficient field
+extends the checked overlap identity to the entire output-`Y` morphism. Both
+raw output normalizations on the standard input pair are therefore exact
+restrictions of the same standard-pair addition law.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor
