@@ -9,7 +9,7 @@ import MazurTorsion.NumberTheory.XZeroFortyNineReduction
 import MazurTorsion.Kubert.OrderSevenBacktrackingResultantObstruction
 import MazurTorsion.Kubert.OrderSevenCorrespondence
 import MazurTorsion.ModularCurve.XZeroGeometricCyclicQuotient
-import MazurTorsion.ModularCurve.XZeroRelativeGammaZeroFamily
+import MazurTorsion.ModularCurve.XZeroRelativeGammaZeroFunctor
 
 /-!
 # The level-seven modular correspondence has no noncuspidal rational point
@@ -724,6 +724,32 @@ noncomputable def splitGeometricModuliClassOfOrderFortyNineTorsion
     (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
     ModularCurve.XZeroModuli.SplitGeometricDatum.IsomorphismClass ℚ 49 :=
   ModularCurve.XZeroModuli.SplitGeometricDatum.classOfExactTorsion E P hP
+
+/-- The intrinsic order-49 split class reaches the actual contravariant
+locally constant `Gamma_0(49)` moduli functor.  The quotient map makes this
+independent of the chosen representative and its fppf trivializing witness.
+This is still not asserted to be a point of a representing modular curve. -/
+noncomputable def locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsion
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
+    (ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.locallyConstantGammaZeroModuliFunctor
+      49).obj
+        (Opposite.op (_root_.AlgebraicGeometry.Spec (.of ℚ))) :=
+  ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.IsomorphismClass.ofSplitGeometricClass
+    ℚ (splitGeometricModuliClassOfOrderFortyNineTorsion E P hP)
+
+/-- Reindex the order-49 moduli class to any scheme over `Q` using the checked
+contravariant functor. -/
+noncomputable def locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsionBaseChange
+    (T : _root_.AlgebraicGeometry.Scheme)
+    (f : T ⟶ _root_.AlgebraicGeometry.Spec (.of ℚ))
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
+    (ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.locallyConstantGammaZeroModuliFunctor
+      49).obj (Opposite.op T) :=
+  (ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.locallyConstantGammaZeroModuliFunctor
+    49).map f.op
+      (locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsion E P hP)
 
 /-- An exact-order-49 rational point supplies the genuine split finite-flat
 source datum that a future coarse `X₀(49)` classifying morphism must consume.
