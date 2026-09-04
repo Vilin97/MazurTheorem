@@ -338,9 +338,14 @@ order by descent along the cover. A proper geometrically integral smooth
 relative curve of dimension one together with such a subgroup forms
 `XZeroModuli.LocallyConstantGammaZeroFamily`; the split field datum and the
 exact-order-49 consumer map into it through the identity cover. The remaining
-functorial layer must construct pullback, compatible isomorphism classes, and
-then a representing open modular curve. Thus this is still source data for
-representability, not a represented `X₀(N)` point.
+pullback layer now transports the actual fppf cover along every base morphism.
+Canonical iterated-base-change isomorphisms and the pullback square carry each
+local cyclic trivialization to the new base, while properness, geometric
+integrality, smooth relative dimension one, and constant order persist. The
+order-49 family pulls back to every scheme over `Q`. Coherence laws and
+compatible arbitrary-base isomorphism classes must still be assembled before
+this becomes a set-valued functor, and no representing open modular curve is
+yet constructed.
 
 The point constructor must consume an actual finite-flat subgroup scheme and
 prove noncuspidality; a supplied equivalence of point sets is not sufficient.

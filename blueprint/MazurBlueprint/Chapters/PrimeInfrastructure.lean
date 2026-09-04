@@ -277,6 +277,24 @@ by checked admissible variable changes.
   `MazurTorsion.XZeroFortyNine.locallyConstantGammaZeroFamilyOfOrderFortyNineTorsion`
   Send exact order-49 torsion to the relative locally constant Gamma-zero family without
   a chosen generator or point-equivalence shadow.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.constantCyclicOverBaseChangeIso`
+  Identify pullback of the arbitrary-base constant cyclic group with the constant cyclic
+  group over the new base.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantCyclicSubgroup.baseChange`
+  Pull back a locally constant cyclic subgroup using the genuine pullback fppf cover and
+  its cartesian square.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.baseChange`
+  Pull back the relative curve and its locally constant Gamma-zero subgroup along an
+  arbitrary base morphism.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.locallyConstantGammaZeroFamilyOfOrderFortyNineTorsionBaseChange`
+  Pull the canonical order-49 relative family back to every scheme over Q.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.locallyConstantGammaZeroFamilyOfOrderFortyNineTorsionBaseChange_hasConstantOrder`
+  Prove that every base change of the order-49 relative family retains geometric order 49.
 * `structure` (`contract`): `MazurTorsion.ModularCurve.XZeroModuli.SplitGeometricDatum`
   Bundle a proper geometrically integral relative-dimension-one commutative group scheme
   with an actual split finite-flat cyclic subgroup of level N.

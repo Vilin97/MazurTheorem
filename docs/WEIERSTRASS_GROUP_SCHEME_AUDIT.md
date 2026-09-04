@@ -381,6 +381,10 @@ constant-cyclic isomorphisms. Its checked descent argument proves that the
 global carrier has order `N`. Bundling this with the relative curve produces
 an arbitrary-base locally constant `Gamma₀(N)` family, and the order-49
 consumer reaches it through the identity cover. Pullback functoriality and an
-arbitrary-base isomorphism quotient are not yet constructed, so this object
-assignment is not yet a scheme-valued moduli functor. The next boundary
-remains the represented open `X₀(N)` classifier.
+arbitrary-base isomorphism quotient were the next boundary. Pullback is now
+constructed along every base morphism: the fppf cover is pulled back, each
+local trivialization is transported through the cartesian square and the
+canonical comparison for iterated base change, and the order theorem persists.
+The order-49 family is a concrete consumer over every scheme over `Q`.
+Coherence and arbitrary-base isomorphism classes are still missing, so this is
+not yet a set-valued moduli functor or a represented open `X₀(N)` classifier.

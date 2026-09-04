@@ -176,9 +176,13 @@ The arbitrary-base object layer now supplies a constant cyclic group over any
 scheme, fppf-locally constant cyclic subgroups with a checked global-order
 descent theorem, and relative `Gamma₀(N)` families. Exact order-49 torsion
 reaches this interface on the identity cover. Pullback and arbitrary-base
-isomorphism classes remain the next prerequisites before representability, so
-the current package and its zero credit are unchanged. The generic Néron
-mapping-property and
+isomorphism classes were the next prerequisites. Pullback is now checked along
+every scheme morphism using the actual pullback fppf cover, and the transported
+family retains constant order. The order-49 family consumes this construction
+over every scheme over `Q`. Coherence laws and arbitrary-base isomorphism
+classes remain prerequisites for the set-valued functor, so the current
+package and its zero credit are unchanged. The generic Néron mapping-property
+and
 admissible-filtration packages are integrated. Their Eisenstein-quotient
 instantiation requires the actual Eisenstein quotient and its Néron model, so
 it is blocked and does not occupy the spare WIP slot.

@@ -216,9 +216,14 @@ slices at the 225-point headline:
   to a global constant-order theorem, and these subgroups are bundled with
   proper geometrically integral smooth relative curves of dimension one.
   Exact order-49 torsion reaches this arbitrary-base family interface on the
-  identity cover. Pullback, arbitrary-base isomorphism classes, and the
-  representing open scheme are still absent, so the represented `X₀(N)`
-  classifier remains selected and no additional roadmap credit is claimed.
+  identity cover. Pullback along every base morphism now uses the genuine
+  pullback fppf cover; the local cyclic isomorphisms are transported through
+  its cartesian square and canonical iterated-base-change comparisons. The
+  resulting family retains constant order, and the order-49 consumer pulls
+  back to every scheme over `Q`. Coherence laws, arbitrary-base isomorphism
+  classes, and the representing open scheme remain absent, so the represented
+  `X₀(N)` classifier stays selected and no additional roadmap credit is
+  claimed.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric
