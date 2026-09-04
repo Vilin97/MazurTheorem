@@ -216,9 +216,11 @@ the two input `Z` coordinates is exactly the cube of the cross-multiplied input
 `X` difference. A normalized-point constructor now gives a quotient-chart
 `K`-algebra map from either homogeneous solution. Inverting the secant output
 `Y` or `Z` coordinate therefore produces actual over-base morphisms from both
-principal opens of every projective-pair member into the concrete cubic. These
-opens need not cover the diagonal base locus, so its doubling regularization
-and the global gluing remain open.
+principal opens of every projective-pair member into the concrete cubic. The
+same construction now produces actual over-base first-input doubling morphisms
+on both doubling-output principal opens. Proving that these four opens jointly
+cover each relevant member, their compatibility, and the global gluing remain
+open.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -247,9 +249,8 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a global multiplication morphism obtained by covering the diagonal base
-   locus of the checked secant output morphisms with the doubling triples,
-   supplying the resulting maps on the three
+1. a global multiplication morphism obtained by proving that the checked
+   secant and doubling output opens jointly cover each of the three
    projective-product chart members meeting infinity, proving every overlap
    with the checked standard member and each other, gluing the four local maps,
    and proving the group laws using the checked section at infinity and

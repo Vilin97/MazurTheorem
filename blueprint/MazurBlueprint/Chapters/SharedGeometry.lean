@@ -674,6 +674,26 @@ order-49 consumers.
   Prove that every localized secant output morphism lies over the structural morphism to
   Spec K.
 * `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingOutputPoint_equation`
+  Prove that the normalized first-input doubling point satisfies the mapped cubic
+  equation on either output-coordinate localization.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingOutputAlgHom`
+  Instantiate the normalized-point quotient-chart constructor on the first universal
+  doubling triple.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingOutputOpen`
+  Embed either selected doubling-output localization as an actual open subscheme of its
+  projective-pair chart.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingOutputMorphism`
+  Define the regular first-input doubling morphism on either output-coordinate principal
+  open.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingOutputMorphism_comp_structureMap`
+  Prove that every localized first-input doubling morphism lies over the structural
+  morphism to Spec K.
+* `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual
   finite free-translation quotient.

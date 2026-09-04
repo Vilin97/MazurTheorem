@@ -22,7 +22,7 @@ are selected, leaving one slot unused:
 | Lane | Node slice | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|---|
 | Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Cover the diagonal base locus of the checked secant output morphisms by doubling, prove the overlaps and global gluing, then prove the group laws and coordinate-point compatibility and remove the supplied shadows from the named order-49 consumer. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
+| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Prove that the checked secant and doubling output opens jointly cover each relevant projective-pair member, prove the overlaps and global gluing, then prove the group laws and coordinate-point compatibility and remove the supplied shadows from the named order-49 consumer. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
 
 Only these two `current_work_package` values count as selected WIP. Other
 packages whose status is `active` are ready, not assigned. Package weights
@@ -62,10 +62,11 @@ and both doubling triples satisfy the cubic equation, while the secant output
 A normalized-point constructor now turns either quotient output chart into a
 `K`-algebra map. After inverting the secant output `Y` or `Z` coordinate, this
 supplies actual over-base morphisms from both principal opens of every pair
-member into the cubic. Those two opens need not cover the diagonal base locus,
-so the remaining work is to cover it with the checked doubling triples, prove
-all new overlap equalities and global gluing, then prove the group laws and
-coordinate-point compatibility.
+member into the cubic. The same construction supplies actual over-base
+morphisms from the two output-coordinate principal opens of the first-input
+doubling triple. The remaining work is to prove that these four opens jointly
+cover each relevant member, prove all new overlap equalities and global gluing,
+then prove the group laws and coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and
