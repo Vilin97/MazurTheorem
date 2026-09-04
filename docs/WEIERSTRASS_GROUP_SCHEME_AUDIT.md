@@ -269,7 +269,11 @@ categorical left and right unit. On the dense standard-pair output-`Z` open,
 the tensor-factor swap negates the raw secant triple by a common scalar and
 therefore fixes its normalized morphism. The swap is identified with the
 global fibre-product braiding, and separatedness extends this to categorical
-commutativity. Associativity and inverse are the remaining group-law boundary.
+commutativity. On the standard chart, the universal vertical derivative is
+nonzero by ellipticity. Its principal open is therefore dense, and there the
+inverse graph makes the raw addition triple a nonzero scalar multiple of
+`[0:1:0]`. Separatedness extends this equality globally, while commutativity
+gives the opposite ordering. Associativity is the remaining group-law boundary.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor
@@ -337,10 +341,10 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. associativity and inverse for the checked global multiplication morphism.
-   The section at infinity is already proved to be its categorical left and
-   right unit, commutativity is checked, and homogeneous negation remains the
-   checked inverse candidate;
+1. associativity for the checked global multiplication morphism. The section
+   at infinity is already proved to be its categorical left and right unit,
+   commutativity is checked, and homogeneous negation is proved to satisfy both
+   categorical inverse equations;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:

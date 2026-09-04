@@ -975,6 +975,13 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionOver_comm`
   Prove that global projective addition is invariant under the cartesian braiding in
   the slice over Spec K.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionOver_negation_right_inv`
+  Prove that global projective addition sends a point and its checked Weierstrass
+  negation to the projective infinity section.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionOver_negation_left_inv`
+  Prove the symmetric categorical inverse equation using checked commutativity.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as

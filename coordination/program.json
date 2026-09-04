@@ -70,7 +70,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2088196,
+    "integrated_lean_lines": 2089311,
     "integrated_lean_modules": 2017,
     "remaining_composite_orders": [
       25,
@@ -3730,6 +3730,20 @@
           "description": "Prove that global projective addition is invariant under the cartesian braiding in the slice over Spec K."
         },
         {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionOver_negation_right_inv",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveGroupLaw",
+          "description": "Prove that global projective addition sends a point and its checked Weierstrass negation to the projective infinity section."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionOver_negation_left_inv",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveGroupLaw",
+          "description": "Prove the symmetric categorical inverse equation using checked commutativity."
+        },
+        {
           "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates",
           "state": "contract",
@@ -4005,8 +4019,8 @@
         "revision": "sequence the canonical Weierstrass group scheme, exact-torsion finite-flat subgroup, and cyclic quotient APIs against named X_0 and order-49 consumers"
       },
       "evidence": {
-        "recorded_artifact_count": 695,
-        "canonical_artifact_count": 159,
+        "recorded_artifact_count": 697,
+        "canonical_artifact_count": 161,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -4018,7 +4032,7 @@
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
-          "exit_criterion": "Starting from the globally glued projective addition over Spec K, now with both categorical unit laws and commutativity checked by explicit chart calculations and dense extension, prove associativity and inverse, establish coordinate-point compatibility, and then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the resulting canonical group object without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
+          "exit_criterion": "Starting from the globally glued projective addition over Spec K, now with both categorical unit laws, commutativity, and both inverse laws checked by explicit chart calculations and dense extension, prove associativity, establish coordinate-point compatibility, and then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the resulting canonical group object without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
         },
         {
           "id": "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP",
