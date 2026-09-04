@@ -1882,6 +1882,1047 @@ private theorem projectivePairSwap_comp_addition
         (projectiveAdditionMorphism_comp_structureMap W).symm
   · exact standardPairOutputZ_swapped_addition_eq W
 
+/-! ## The inverse axis -/
+
+/-- The vertical derivative at the universal affine point.  It is also the
+raw `Y`-coordinate, up to sign, of the projective sum of that point and its
+Weierstrass inverse. -/
+private noncomputable def standardVerticalDerivative
+    (W : WeierstrassCurve K) : secantTargetCoordinateRing W :=
+  (Polynomial.C W.a₁ * Polynomial.X + Polynomial.C W.a₃) •
+      (1 : W.toAffine.CoordinateRing) +
+    Polynomial.C (2 : K) •
+      WeierstrassCurve.Affine.CoordinateRing.mk W.toAffine Polynomial.X
+
+/-- Ellipticity prevents the universal vertical derivative from vanishing
+identically on the standard affine chart. -/
+private theorem standardVerticalDerivative_ne_zero
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    standardVerticalDerivative W ≠ 0 := by
+  intro h
+  obtain ⟨hp, hq⟩ :=
+    WeierstrassCurve.Affine.CoordinateRing.smul_basis_eq_zero h
+  have htwo : (2 : K) = 0 := by
+    exact Polynomial.C_eq_zero.mp hq
+  have ha₁ : W.a₁ = 0 := by
+    simpa using congrArg (fun p : Polynomial K ↦ p.coeff 1) hp
+  have ha₃ : W.a₃ = 0 := by
+    simpa [ha₁] using congrArg (fun p : Polynomial K ↦ p.coeff 0) hp
+  letI : CharP K 2 :=
+    CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero htwo
+  apply W.isUnit_Δ.ne_zero
+  rw [W.Δ_of_char_two, ha₁, ha₃]
+  simp
+
+/-- The vertical derivative transported to the standard projective-chart
+coordinate ring. -/
+private noncomputable def standardChartVerticalDerivative
+    (W : WeierstrassCurve K) : coveringChartCoordinateRing W true :=
+  standardAffineChartAlgEquiv W (standardVerticalDerivative W)
+
+private theorem standardChartVerticalDerivative_ne_zero
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    standardChartVerticalDerivative W ≠ 0 := by
+  simpa [standardChartVerticalDerivative] using
+    (standardAffineChartAlgEquiv W).injective.ne
+      (standardVerticalDerivative_ne_zero W)
+
+private theorem standardVerticalDerivative_eq_coordinateExpression
+    (W : WeierstrassCurve K) :
+    standardVerticalDerivative W =
+      2 * secantTargetY W +
+        secantTargetCoefficientHom W W.a₁ * secantTargetX W +
+        secantTargetCoefficientHom W W.a₃ := by
+  have hmk :
+      (Ideal.Quotient.mk (Ideal.span {W.toAffine.polynomial})) =
+        WeierstrassCurve.Affine.CoordinateRing.mk W.toAffine := rfl
+  simp only [standardVerticalDerivative,
+    WeierstrassCurve.Affine.CoordinateRing.smul,
+    secantTargetY, secantTargetX, secantTargetCoefficientHom,
+    RingHom.comp_apply, map_add, map_mul, map_ofNat,
+    mul_one]
+  rw [hmk]
+  exact (add_comm _ _).trans (add_assoc _ _ _).symm
+
+private theorem standardChartVerticalDerivative_eq_pointExpression
+    (W : WeierstrassCurve K) :
+    standardChartVerticalDerivative W =
+      coveringChartUniversalPoint W true 1 -
+        (W.map (algebraMap K
+          (coveringChartCoordinateRing W true))).toProjective.negY
+            (coveringChartUniversalPoint W true) := by
+  rw [standardChartVerticalDerivative,
+    standardVerticalDerivative_eq_coordinateExpression]
+  simp only [map_add, map_mul, map_ofNat]
+  rw [
+    standardAffineChartAlgEquiv_X,
+    standardAffineChartAlgEquiv_Y]
+  rw [secantTargetCoefficientHom_eq_algebraMap]
+  rw [(standardAffineChartAlgEquiv W).commutes]
+  rw [(standardAffineChartAlgEquiv W).commutes]
+  simp only [WeierstrassCurve.Projective.negY]
+  have hPz : coveringChartUniversalPoint W true 2 = 1 := by
+    simpa only [coveringCoordinate] using
+      coveringChartUniversalPoint_normalized W true
+  rw [hPz]
+  simp only [WeierstrassCurve.map]
+  ring
+
+/-- The inverse of the normalized universal point on the standard chart. -/
+private noncomputable def standardChartNegatedUniversalPoint
+    (W : WeierstrassCurve K) :
+    Fin 3 → coveringChartCoordinateRing W true :=
+  (W.map (algebraMap K (coveringChartCoordinateRing W true))).toProjective.neg
+    (coveringChartUniversalPoint W true)
+
+@[simp]
+private theorem standardChartNegatedUniversalPoint_normalized
+    (W : WeierstrassCurve K) :
+    standardChartNegatedUniversalPoint W (2 : Fin 3) = 1 := by
+  rw [standardChartNegatedUniversalPoint,
+    WeierstrassCurve.Projective.neg_Z]
+  simpa only [coveringCoordinate] using
+    coveringChartUniversalPoint_normalized W true
+
+private theorem standardChartNegatedUniversalPoint_equation
+    (W : WeierstrassCurve K) :
+    (W.map (algebraMap K
+      (coveringChartCoordinateRing W true))).toProjective.Equation
+        (standardChartNegatedUniversalPoint W) := by
+  let W' := W.map (algebraMap K (coveringChartCoordinateRing W true))
+  let P := coveringChartUniversalPoint W true
+  have hP : W'.toProjective.Equation P := by
+    exact coveringChartUniversalPoint_equation W true
+  have hPz : P 2 = 1 := by
+    simpa only [coveringCoordinate] using
+      coveringChartUniversalPoint_normalized W true
+  have hP' : P = ![P 0, P 1, 1] := by
+    funext j
+    fin_cases j
+    · rfl
+    · rfl
+    · exact hPz
+  rw [hP'] at hP
+  have hneg : W'.toProjective.Equation
+      ![P 0, W'.toAffine.negY (P 0) (P 1), 1] := by
+    rw [W'.toProjective.equation_some,
+      W'.toAffine.equation_neg]
+    exact W'.toProjective.equation_some (P 0) (P 1) |>.mp hP
+  rw [standardChartNegatedUniversalPoint]
+  change W'.toProjective.Equation (W'.toProjective.neg P)
+  convert hneg using 1
+  funext j
+  fin_cases j
+  · rfl
+  · simp [WeierstrassCurve.Projective.neg,
+      WeierstrassCurve.Projective.negY,
+      WeierstrassCurve.Affine.negY,
+      hPz]
+  · exact hPz
+
+/-- Pullback on the standard chart induced by Weierstrass negation. -/
+private noncomputable def standardChartNegationAlgHom
+    (W : WeierstrassCurve K) :
+    coveringChartCoordinateRing W true →ₐ[K]
+      coveringChartCoordinateRing W true :=
+  coveringChartCoordinateRingAlgHomOfNormalizedPoint W true
+    (standardChartNegatedUniversalPoint W)
+    (standardChartNegatedUniversalPoint_equation W)
+    (standardChartNegatedUniversalPoint_normalized W)
+
+@[simp]
+private theorem standardChartNegationAlgHom_universalPoint
+    (W : WeierstrassCurve K) (j : Fin 3) :
+    standardChartNegationAlgHom W
+        (coveringChartUniversalPoint W true j) =
+      standardChartNegatedUniversalPoint W j := by
+  exact coveringChartCoordinateRingAlgHomOfNormalizedPoint_ratio
+    W true (standardChartNegatedUniversalPoint W)
+      (standardChartNegatedUniversalPoint_equation W)
+      (standardChartNegatedUniversalPoint_normalized W) j
+
+/-- The standard-chart graph `P ↦ (P, -P)` on coordinate rings. -/
+private noncomputable def inverseChartPairAlgHom
+    (W : WeierstrassCurve K) :
+    projectivePairChartCoordinateRing W (true, true) →ₐ[K]
+      coveringChartCoordinateRing W true :=
+  Algebra.TensorProduct.lift
+    (AlgHom.id K (coveringChartCoordinateRing W true))
+    (standardChartNegationAlgHom W)
+    (fun _ _ ↦ Commute.all _ _)
+
+@[simp]
+private theorem inverseChartPairAlgHom_firstUniversalPoint
+    (W : WeierstrassCurve K) (j : Fin 3) :
+    inverseChartPairAlgHom W
+        (projectivePairChartFirstUniversalPoint W (true, true) j) =
+      coveringChartUniversalPoint W true j := by
+  simp [inverseChartPairAlgHom,
+    projectivePairChartFirstUniversalPoint]
+
+@[simp]
+private theorem inverseChartPairAlgHom_secondUniversalPoint
+    (W : WeierstrassCurve K) (j : Fin 3) :
+    inverseChartPairAlgHom W
+        (projectivePairChartSecondUniversalPoint W (true, true) j) =
+      standardChartNegatedUniversalPoint W j := by
+  simp [inverseChartPairAlgHom,
+    projectivePairChartSecondUniversalPoint]
+
+/-- The raw addition triple on the inverse graph is the vertical derivative
+multiple of the projective origin. -/
+private theorem inverseChartPairAlgHom_additionCoordinates
+    (W : WeierstrassCurve K) (j : Fin 3) :
+    inverseChartPairAlgHom W
+        (projectivePairChartAdditionCoordinates W (true, true) j) =
+      (-((W.map (algebraMap K
+          (coveringChartCoordinateRing W true))).toProjective.dblZ
+            (coveringChartUniversalPoint W true)) •
+        (![0, 1, 0] : Fin 3 →
+          coveringChartCoordinateRing W true)) j := by
+  let f := (inverseChartPairAlgHom W).toRingHom
+  let P := projectivePairChartFirstUniversalPoint W (true, true)
+  let Q := projectivePairChartSecondUniversalPoint W (true, true)
+  have hmap := congrFun
+    (WeierstrassCurve.Projective.map_addXYZ
+      (W' := projectivePairChartMappedCurve W (true, true))
+      (P := P) (Q := Q) f) j
+  have hcurve :
+      (projectivePairChartMappedCurve W (true, true)).map f =
+        W.map (algebraMap K (coveringChartCoordinateRing W true)) := by
+    rw [projectivePairChartMappedCurve, WeierstrassCurve.map_map]
+    congr 1
+    ext r
+    exact (inverseChartPairAlgHom W).commutes r
+  have hP : f ∘ P = coveringChartUniversalPoint W true := by
+    funext k
+    exact inverseChartPairAlgHom_firstUniversalPoint W k
+  have hQ : f ∘ Q = standardChartNegatedUniversalPoint W := by
+    funext k
+    exact inverseChartPairAlgHom_secondUniversalPoint W k
+  change
+    ((projectivePairChartMappedCurve W (true, true)).map f).toProjective.addXYZ
+        (f ∘ P) (f ∘ Q) j =
+      (f ∘ (projectivePairChartMappedCurve W
+        (true, true)).toProjective.addXYZ P Q) j at hmap
+  rw [hcurve, hP, hQ] at hmap
+  have hformula :=
+    WeierstrassCurve.Projective.addXYZ_neg
+      (W' := (W.map (algebraMap K
+        (coveringChartCoordinateRing W true))).toProjective)
+      (P := coveringChartUniversalPoint W true)
+      (coveringChartUniversalPoint_equation W true)
+  rw [show standardChartNegatedUniversalPoint W =
+      (W.map (algebraMap K
+        (coveringChartCoordinateRing W true))).toProjective.neg
+          (coveringChartUniversalPoint W true) by rfl,
+    hformula] at hmap
+  simpa [P, Q, f, projectivePairChartAdditionCoordinates]
+    using hmap.symm
+
+private theorem standardChart_dblZ_eq_verticalDerivative_cube
+    (W : WeierstrassCurve K) :
+    (W.map (algebraMap K
+      (coveringChartCoordinateRing W true))).toProjective.dblZ
+        (coveringChartUniversalPoint W true) =
+      standardChartVerticalDerivative W ^ 3 := by
+  rw [WeierstrassCurve.Projective.dblZ,
+    ← standardChartVerticalDerivative_eq_pointExpression]
+  have hPz : coveringChartUniversalPoint W true 2 = 1 := by
+    simpa only [coveringCoordinate] using
+      coveringChartUniversalPoint_normalized W true
+  rw [hPz, one_mul]
+
+private theorem inverseChartPairAlgHom_additionY
+    (W : WeierstrassCurve K) :
+    inverseChartPairAlgHom W
+        (projectivePairChartAdditionCoordinates W (true, true)
+          (1 : Fin 3)) =
+      -(standardChartVerticalDerivative W ^ 3) := by
+  rw [inverseChartPairAlgHom_additionCoordinates,
+    standardChart_dblZ_eq_verticalDerivative_cube]
+  simp [Pi.smul_apply]
+
+/-- The dense principal open of the standard chart on which the universal
+vertical derivative is invertible. -/
+private abbrev inverseChartOpenRing (W : WeierstrassCurve K) :=
+  Localization.Away (standardChartVerticalDerivative W)
+
+private abbrev inverseChartOpenScheme (W : WeierstrassCurve K) :=
+  Spec (.of (inverseChartOpenRing W))
+
+/-- The inverse graph followed by the canonical map to its derivative
+principal open, on coordinate rings. -/
+private noncomputable def inverseChartPairToOpenAlgHom
+    (W : WeierstrassCurve K) :
+    projectivePairChartCoordinateRing W (true, true) →ₐ[K]
+      inverseChartOpenRing W :=
+  (IsScalarTower.toAlgHom K
+    (coveringChartCoordinateRing W true)
+    (inverseChartOpenRing W)).comp (inverseChartPairAlgHom W)
+
+@[simp]
+private theorem inverseChartPairToOpenAlgHom_apply
+    (W : WeierstrassCurve K)
+    (a : projectivePairChartCoordinateRing W (true, true)) :
+    inverseChartPairToOpenAlgHom W a =
+      algebraMap (coveringChartCoordinateRing W true)
+        (inverseChartOpenRing W) (inverseChartPairAlgHom W a) := by
+  rfl
+
+/-- The inverse graph lands in the raw output-`Y` open, because that output
+becomes the negative cube of the inverted vertical derivative. -/
+private noncomputable def inverseChartOutputAlgHom
+    (W : WeierstrassCurve K) :
+    projectivePairChartAdditionOutputRing W (true, true) false →ₐ[K]
+      inverseChartOpenRing W :=
+  IsLocalization.Away.liftAlgHom
+    (projectivePairChartAdditionCoordinates W (true, true)
+      (coveringCoordinate false))
+    (f := inverseChartPairToOpenAlgHom W) (by
+      change IsUnit (algebraMap
+        (coveringChartCoordinateRing W true)
+        (inverseChartOpenRing W)
+        (inverseChartPairAlgHom W
+          (projectivePairChartAdditionCoordinates W (true, true)
+            (coveringCoordinate false))))
+      rw [show coveringCoordinate false = (1 : Fin 3) by rfl,
+        inverseChartPairAlgHom_additionY, map_neg, map_pow]
+      exact (IsLocalization.Away.algebraMap_isUnit
+        (standardChartVerticalDerivative W)).pow 3 |>.neg)
+
+@[simp]
+private theorem inverseChartOutputAlgHom_algebraMap
+    (W : WeierstrassCurve K)
+    (a : projectivePairChartCoordinateRing W (true, true)) :
+    inverseChartOutputAlgHom W
+        (algebraMap (projectivePairChartCoordinateRing W (true, true))
+          (projectivePairChartAdditionOutputRing W
+            (true, true) false) a) =
+      inverseChartPairToOpenAlgHom W a := by
+  simp [inverseChartOutputAlgHom,
+    IsLocalization.Away.liftAlgHom_apply, IsLocalization.Away.lift_eq]
+
+private theorem inverseChartOutputAlgHom_outputPoint
+    (W : WeierstrassCurve K) [W.IsElliptic] (j : Fin 3) :
+    inverseChartOutputAlgHom W
+        (projectivePairChartAdditionOutputPoint W
+          (true, true) false j) =
+      (![0, 1, 0] : Fin 3 → inverseChartOpenRing W) j := by
+  fin_cases j
+  · rw [projectivePairChartAdditionOutputPoint, map_mul,
+      inverseChartOutputAlgHom_algebraMap,
+      inverseChartPairToOpenAlgHom_apply,
+      inverseChartPairAlgHom_additionCoordinates]
+    simp [Pi.smul_apply]
+  · have hnorm :=
+      projectivePairChartAdditionOutputPoint_normalized W
+        (true, true) false
+    change inverseChartOutputAlgHom W
+        (projectivePairChartAdditionOutputPoint W
+          (true, true) false (coveringCoordinate false)) = 1
+    rw [hnorm, map_one]
+  · rw [projectivePairChartAdditionOutputPoint, map_mul,
+      inverseChartOutputAlgHom_algebraMap,
+      inverseChartPairToOpenAlgHom_apply,
+      inverseChartPairAlgHom_additionCoordinates]
+    simp [Pi.smul_apply]
+
+private theorem inverseChartOutputAlgHom_comp_outputAlgHom
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    (inverseChartOutputAlgHom W).comp
+        (projectivePairChartAdditionOutputAlgHom W
+          (true, true) false) =
+      (Algebra.ofId K (inverseChartOpenRing W)).comp
+        (coveringInfinityChartOriginAlgHom W) := by
+  apply AlgHom.coe_ringHom_injective
+  apply Ideal.Quotient.ringHom_ext
+  apply chartRingHom_ext (K := K) (coveringCoordinate false)
+  · ext a
+    change inverseChartOutputAlgHom W
+        (projectivePairChartAdditionOutputAlgHom W
+          (true, true) false
+          (coveringChartStructureRingHom W false a)) =
+      (Algebra.ofId K (inverseChartOpenRing W))
+        (coveringInfinityChartOriginAlgHom W
+          (coveringChartStructureRingHom W false a))
+    rw [← coveringChartCoordinateRing_algebraMap,
+      (projectivePairChartAdditionOutputAlgHom W
+        (true, true) false).commutes,
+      (inverseChartOutputAlgHom W).commutes,
+      (coveringInfinityChartOriginAlgHom W).commutes]
+    rfl
+  · intro j
+    change inverseChartOutputAlgHom W
+        (projectivePairChartAdditionOutputAlgHom W
+          (true, true) false
+          (Ideal.Quotient.mk (coveringChartIdeal W false)
+            (coordinateChartRatio (coveringCoordinate false) j))) = _
+    rw [projectivePairChartAdditionOutputAlgHom_ratio,
+      inverseChartOutputAlgHom_outputPoint]
+    change (![0, 1, 0] : Fin 3 → inverseChartOpenRing W) j =
+      (Algebra.ofId K (inverseChartOpenRing W))
+        (coveringInfinityChartOriginAlgHom W
+          (coveringChartUniversalPoint W false j))
+    rw [coveringInfinityChartOriginAlgHom_universalPoint]
+    fin_cases j <;> simp
+
+/-- The derivative principal open mapped to the standard chart. -/
+private noncomputable def inverseChartOpenToStandardChart
+    (W : WeierstrassCurve K) :
+    inverseChartOpenScheme W ⟶ coveringChartScheme W true :=
+  Spec.map (CommRingCat.ofHom
+    (algebraMap (coveringChartCoordinateRing W true)
+      (inverseChartOpenRing W)))
+
+private instance inverseChartOpenToStandardChart_isOpenImmersion
+    (W : WeierstrassCurve K) :
+    IsOpenImmersion (inverseChartOpenToStandardChart W) := by
+  dsimp only [inverseChartOpenToStandardChart, inverseChartOpenRing]
+  infer_instance
+
+/-- The inverse graph on the derivative principal open, valued in the
+standard projective-pair chart. -/
+private noncomputable def inverseChartOpenToStandardPair
+    (W : WeierstrassCurve K) :
+    inverseChartOpenScheme W ⟶
+      projectivePairChartScheme W (true, true) :=
+  Spec.map (CommRingCat.ofHom
+      (inverseChartPairToOpenAlgHom W).toRingHom) ≫
+    (projectivePairChartIsoSpecTensor W (true, true)).inv
+
+/-- The inverse graph factored through the standard-pair raw output-`Y`
+principal open. -/
+private noncomputable def inverseChartOpenToOutputOpen
+    (W : WeierstrassCurve K) :
+    inverseChartOpenScheme W ⟶
+      Spec (.of (projectivePairChartAdditionOutputRing W
+        (true, true) false)) :=
+  Spec.map (CommRingCat.ofHom (inverseChartOutputAlgHom W).toRingHom)
+
+private theorem inverseChartOpenToOutputOpen_comp_open
+    (W : WeierstrassCurve K) :
+    inverseChartOpenToOutputOpen W ≫
+        projectivePairChartAdditionOutputOpen W
+          (true, true) false =
+      inverseChartOpenToStandardPair W := by
+  apply (cancel_mono
+    (projectivePairChartIsoSpecTensor W (true, true)).hom).1
+  rw [Category.assoc,
+    projectivePairChartAdditionOutputOpen_comp_iso_hom]
+  rw [inverseChartOpenToOutputOpen,
+    inverseChartOpenToStandardPair, Category.assoc,
+    Iso.inv_hom_id, Category.comp_id, ← Spec.map_comp]
+  rw [Spec.map_inj]
+  apply CommRingCat.hom_ext
+  apply RingHom.ext
+  intro a
+  exact inverseChartOutputAlgHom_algebraMap W a
+
+private theorem inverseChartOpenToOutputOpen_comp_addition
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    inverseChartOpenToOutputOpen W ≫
+        projectivePairChartAdditionOutputMorphism W
+          (true, true) false =
+      Spec.map (CommRingCat.ofHom
+          (algebraMap K (inverseChartOpenRing W))) ≫
+        infinityChartOriginMorphism W ≫ coveringChartMap W false := by
+  rw [inverseChartOpenToOutputOpen,
+    projectivePairChartAdditionOutputMorphism, ← Category.assoc,
+    ← Spec.map_comp]
+  change Spec.map (CommRingCat.ofHom
+      (((inverseChartOutputAlgHom W).comp
+        (projectivePairChartAdditionOutputAlgHom W
+          (true, true) false)).toRingHom)) ≫
+      coveringChartMap W false = _
+  have hring := inverseChartOutputAlgHom_comp_outputAlgHom W
+  rw [hring]
+  rw [infinityChartOriginMorphism, ← Category.assoc,
+    ← Spec.map_comp]
+  rfl
+
+private theorem negationGraded_standardCoordinate
+    (W : WeierstrassCurve K) :
+    negationGraded W (MvPolynomial.X (2 : Fin 3)) =
+      MvPolynomial.X (2 : Fin 3) := by
+  change negationRingHom W (MvPolynomial.X (2 : Fin 3)) = _
+  simp [negationRingHom_X, negationCoordinates,
+    WeierstrassCurve.Projective.neg]
+
+private noncomputable def negationAwayMapOfEq
+    (W : WeierstrassCurve K)
+    (s s' : MvPolynomial (Fin 3) K)
+    (hss : negationGraded W s = s') :
+    HomogeneousLocalization.Away (homogeneousPieces K) s →+*
+      HomogeneousLocalization.Away (homogeneousPieces K) s' :=
+  hss ▸ HomogeneousLocalization.Away.map (negationGraded W) s
+
+/-- The degree-zero standard-chart substitution induced directly by the
+homogeneous negation map. -/
+private noncomputable def standardNegationAwayRingHom
+    (W : WeierstrassCurve K) :
+    HomogeneousLocalization.Away (homogeneousPieces K)
+        (MvPolynomial.X (2 : Fin 3)) →+*
+    HomogeneousLocalization.Away (homogeneousPieces K)
+      (MvPolynomial.X (2 : Fin 3)) :=
+  negationAwayMapOfEq W
+    (MvPolynomial.X (2 : Fin 3)) (MvPolynomial.X (2 : Fin 3))
+    (negationGraded_standardCoordinate W)
+
+/-- The standard-chart quotient map with its source written using the
+literal homogeneous coordinate `Z = X 2`. -/
+private noncomputable def standardChartQuotientRingHom
+    (W : WeierstrassCurve K) :
+    HomogeneousLocalization.Away (homogeneousPieces K)
+        (MvPolynomial.X (2 : Fin 3)) →+*
+      coveringChartCoordinateRing W true := by
+  change coveringChartRing K true →+*
+    coveringChartCoordinateRing W true
+  exact Ideal.Quotient.mk (coveringChartIdeal W true)
+
+@[simp]
+private theorem standardChartQuotientRingHom_ratio
+    (W : WeierstrassCurve K) (j : Fin 3) :
+    standardChartQuotientRingHom W
+        (coordinateChartRatio (K := K) (2 : Fin 3) j) =
+      coveringChartUniversalPoint W true j := by
+  rfl
+
+private theorem standardChartQuotientRingHom_constant
+    (W : WeierstrassCurve K) (a : K) :
+    standardChartQuotientRingHom W
+        (coordinateChartConstantHom (K := K) (2 : Fin 3) a) =
+      algebraMap K (coveringChartCoordinateRing W true) a := by
+  exact DFunLike.congr_fun
+    (coveringChartCoordinateRing_algebraMap W true).symm a
+
+private theorem negationAwayMap_mk
+    (W : WeierstrassCurve K)
+    (s s' : MvPolynomial (Fin 3) K)
+    (hs : s ∈ homogeneousPieces K 1)
+    (hs' : s' ∈ homogeneousPieces K 1)
+    (hss : negationGraded W s = s') {n : ℕ}
+    (q : MvPolynomial (Fin 3) K) (hq : q ∈ homogeneousPieces K n) :
+    negationAwayMapOfEq W s s' hss
+        (HomogeneousLocalization.Away.mk (homogeneousPieces K) hs n q
+          (by simpa using hq)) =
+      HomogeneousLocalization.Away.mk (homogeneousPieces K) hs' n
+        (negationGraded W q)
+        (by simpa using (negationGraded W).map_mem hq) := by
+  unfold negationAwayMapOfEq
+  cases hss
+  rw [show hs' = (negationGraded W).map_mem hs from
+    Subsingleton.elim _ _]
+  simpa only using HomogeneousLocalization.Away.map_mk
+    (negationGraded W) s hs n q (by simpa using hq)
+
+private theorem standardNegationAwayRingHom_mk
+    (W : WeierstrassCurve K) {n : ℕ}
+    (q : MvPolynomial (Fin 3) K) (hq : q ∈ homogeneousPieces K n) :
+    standardNegationAwayRingHom W
+        (HomogeneousLocalization.Away.mk (homogeneousPieces K)
+          (MvPolynomial.isHomogeneous_X K (2 : Fin 3)) n q
+          (by simpa using hq)) =
+      HomogeneousLocalization.Away.mk (homogeneousPieces K)
+        (MvPolynomial.isHomogeneous_X K (2 : Fin 3)) n
+        (negationGraded W q)
+        (by simpa using (negationGraded W).map_mem hq) := by
+  change (negationAwayMapOfEq W
+      (MvPolynomial.X (2 : Fin 3)) (MvPolynomial.X (2 : Fin 3))
+      (negationGraded_standardCoordinate W) :
+        HomogeneousLocalization.Away (homogeneousPieces K)
+            (MvPolynomial.X (2 : Fin 3)) →+*
+          HomogeneousLocalization.Away (homogeneousPieces K)
+            (MvPolynomial.X (2 : Fin 3))) _ = _
+  exact negationAwayMap_mk W
+    (MvPolynomial.X (2 : Fin 3)) (MvPolynomial.X (2 : Fin 3))
+    (MvPolynomial.isHomogeneous_X K (2 : Fin 3))
+    (MvPolynomial.isHomogeneous_X K (2 : Fin 3))
+    (negationGraded_standardCoordinate W) q hq
+
+private theorem standardNegationAwayRingHom_ratio
+    (W : WeierstrassCurve K) (j : Fin 3) :
+    standardNegationAwayRingHom W
+        (coordinateChartRatio (K := K) (2 : Fin 3) j) =
+      MvPolynomial.eval₂Hom
+        (coordinateChartConstantHom (K := K) (2 : Fin 3))
+        (coordinateChartRatio (K := K) (2 : Fin 3))
+        (negationCoordinates W j) := by
+  have hj : MvPolynomial.X j ∈ homogeneousPieces K 1 := by
+    exact MvPolynomial.isHomogeneous_X K j
+  change standardNegationAwayRingHom W
+      (HomogeneousLocalization.Away.mk (homogeneousPieces K)
+        (MvPolynomial.isHomogeneous_X K (2 : Fin 3)) 1
+        (MvPolynomial.X j) hj) = _
+  rw [standardNegationAwayRingHom_mk]
+  · rw [coordinateChartAwayMk_eq_eval₂Hom
+      (K := K) (2 : Fin 3) (negationGraded W (MvPolynomial.X j))
+        ((negationGraded W).map_mem hj)]
+    exact congrArg
+      (MvPolynomial.eval₂Hom
+        (coordinateChartConstantHom (K := K) (2 : Fin 3))
+        (coordinateChartRatio (K := K) (2 : Fin 3)))
+      (negationRingHom_X W j)
+  · exact hj
+
+private theorem standardNegationAwayRingHom_constant
+    (W : WeierstrassCurve K) (a : K) :
+    standardNegationAwayRingHom W
+        (coordinateChartConstantHom (K := K) (2 : Fin 3) a) =
+      coordinateChartConstantHom (K := K) (2 : Fin 3) a := by
+  rw [coordinateChartConstantHom_apply]
+  rw [standardNegationAwayRingHom_mk]
+  · apply HomogeneousLocalization.val_injective
+    change Localization.mk
+        (negationRingHom W (MvPolynomial.C a)) _ =
+      Localization.mk (MvPolynomial.C a) _
+    rw [negationRingHom_C]
+  · exact MvPolynomial.isHomogeneous_C (Fin 3) a
+
+private theorem eval₂Hom_negationCoordinates
+    {A : Type u} [CommRing A] [Algebra K A]
+    (W : WeierstrassCurve K) (P : Fin 3 → A) :
+    (fun j ↦ MvPolynomial.eval₂Hom (algebraMap K A) P
+      (negationCoordinates W j)) =
+      (W.map (algebraMap K A)).toProjective.neg P := by
+  funext j
+  fin_cases j <;>
+    simp [negationCoordinates, WeierstrassCurve.Projective.neg,
+      WeierstrassCurve.Projective.negY, WeierstrassCurve.map]
+
+private theorem standardNegationAwayRingHom_ratio_quotient
+    (W : WeierstrassCurve K) (j : Fin 3) :
+    standardChartQuotientRingHom W
+        (standardNegationAwayRingHom W
+          (coordinateChartRatio (K := K) (2 : Fin 3) j)) =
+      standardChartNegatedUniversalPoint W j := by
+  rw [standardNegationAwayRingHom_ratio]
+  rw [MvPolynomial.map_eval₂Hom]
+  have hconst :
+      (standardChartQuotientRingHom W).comp
+          (coordinateChartConstantHom (K := K) (2 : Fin 3)) =
+        algebraMap K (coveringChartCoordinateRing W true) := by
+    ext a
+    exact standardChartQuotientRingHom_constant W a
+  have hratio :
+      (fun k ↦ standardChartQuotientRingHom W
+        (coordinateChartRatio (K := K) (2 : Fin 3) k)) =
+        coveringChartUniversalPoint W true := by
+    funext k
+    exact standardChartQuotientRingHom_ratio W k
+  rw [hconst, hratio]
+  exact congrFun
+    (eval₂Hom_negationCoordinates W
+      (coveringChartUniversalPoint W true)) j
+
+/-- The explicit normalized-point chart map is the quotient of the
+degree-zero homogeneous substitution induced by global negation. -/
+private theorem standardChartNegationAlgHom_comp_quotient
+    (W : WeierstrassCurve K) :
+    (standardChartNegationAlgHom W).toRingHom.comp
+        (standardChartQuotientRingHom W) =
+      (standardChartQuotientRingHom W).comp
+        (standardNegationAwayRingHom W) := by
+  apply chartRingHom_ext (K := K) (2 : Fin 3)
+  · ext a
+    change standardChartNegationAlgHom W
+        (standardChartQuotientRingHom W
+          (coordinateChartConstantHom (K := K) (2 : Fin 3) a)) =
+      standardChartQuotientRingHom W
+        (standardNegationAwayRingHom W
+          (coordinateChartConstantHom (K := K) (2 : Fin 3) a))
+    rw [standardNegationAwayRingHom_constant]
+    rw [standardChartQuotientRingHom_constant]
+    exact (standardChartNegationAlgHom W).commutes a
+  · intro j
+    change standardChartNegationAlgHom W
+        (coveringChartUniversalPoint W true j) =
+      standardChartQuotientRingHom W
+        (standardNegationAwayRingHom W
+          (coordinateChartRatio (K := K) (2 : Fin 3) j))
+    rw [standardChartNegationAlgHom_universalPoint,
+      standardNegationAwayRingHom_ratio_quotient]
+
+/-- Negation restricted to the standard affine chart. -/
+private noncomputable def standardChartNegationMorphism
+    (W : WeierstrassCurve K) :
+    coveringChartScheme W true ⟶ coveringChartScheme W true :=
+  Spec.map (CommRingCat.ofHom
+    (standardChartNegationAlgHom W).toRingHom)
+
+private theorem standardChartNegationMorphism_comp_quotientInclusion
+    (W : WeierstrassCurve K) :
+    standardChartNegationMorphism W ≫
+        coveringChartQuotientInclusion W true =
+      coveringChartQuotientInclusion W true ≫
+        Spec.map (CommRingCat.ofHom
+          (standardNegationAwayRingHom W)) := by
+  rw [standardChartNegationMorphism,
+    coveringChartQuotientInclusion, ← Spec.map_comp,
+    ← Spec.map_comp]
+  change Spec.map (CommRingCat.ofHom
+      ((standardChartNegationAlgHom W).toRingHom.comp
+        (standardChartQuotientRingHom W))) =
+    Spec.map (CommRingCat.ofHom
+      ((standardChartQuotientRingHom W).comp
+        (standardNegationAwayRingHom W)))
+  rw [standardChartNegationAlgHom_comp_quotient]
+
+private theorem negationAwayMap_specMap_comp_awayι
+    (W : WeierstrassCurve K)
+    (s s' : MvPolynomial (Fin 3) K)
+    (hs : s ∈ homogeneousPieces K 1)
+    (hs' : s' ∈ homogeneousPieces K 1)
+    (hss : negationGraded W s = s') :
+    Spec.map (CommRingCat.ofHom
+        (negationAwayMapOfEq W s s' hss)) ≫
+        Proj.awayι (homogeneousPieces K) s hs (by omega) =
+      Proj.awayι (homogeneousPieces K) s' hs' (by omega) ≫
+        ambientNegation W := by
+  unfold negationAwayMapOfEq ambientNegation
+  cases hss
+  rw [show hs' = (negationGraded W).map_mem hs from
+    Subsingleton.elim _ _]
+  exact (Proj.awayι_comp_map
+    (negationGraded W) (negation_irrelevant_le W) (by omega) s hs).symm
+
+private theorem standardNegationAway_comp_coveringChartAway
+    (W : WeierstrassCurve K) :
+    Spec.map (CommRingCat.ofHom
+        (standardNegationAwayRingHom W)) ≫
+        coveringChartAway K true =
+      coveringChartAway K true ≫ ambientNegation W := by
+  change Spec.map (CommRingCat.ofHom
+      (negationAwayMapOfEq W
+        (MvPolynomial.X (2 : Fin 3)) (MvPolynomial.X (2 : Fin 3))
+        (negationGraded_standardCoordinate W))) ≫
+      Proj.awayι (homogeneousPieces K) (MvPolynomial.X (2 : Fin 3))
+        (MvPolynomial.isHomogeneous_X K (2 : Fin 3)) (by omega) =
+    Proj.awayι (homogeneousPieces K) (MvPolynomial.X (2 : Fin 3))
+        (MvPolynomial.isHomogeneous_X K (2 : Fin 3)) (by omega) ≫
+      ambientNegation W
+  exact negationAwayMap_specMap_comp_awayι W
+    (MvPolynomial.X (2 : Fin 3)) (MvPolynomial.X (2 : Fin 3))
+    (MvPolynomial.isHomogeneous_X K (2 : Fin 3))
+    (MvPolynomial.isHomogeneous_X K (2 : Fin 3))
+    (negationGraded_standardCoordinate W)
+
+private theorem standardChartNegationMorphism_comp_ambientMap
+    (W : WeierstrassCurve K) :
+    standardChartNegationMorphism W ≫
+        coveringChartAmbientMap W true =
+      coveringChartAmbientMap W true ≫ ambientNegation W := by
+  calc
+    _ = (standardChartNegationMorphism W ≫
+          coveringChartQuotientInclusion W true) ≫
+        coveringChartAway K true := by
+          rw [coveringChartAmbientMap, Category.assoc]
+    _ = (coveringChartQuotientInclusion W true ≫
+          Spec.map (CommRingCat.ofHom
+            (standardNegationAwayRingHom W))) ≫
+        coveringChartAway K true := by
+          rw [standardChartNegationMorphism_comp_quotientInclusion]
+          rfl
+    _ = coveringChartQuotientInclusion W true ≫
+        (Spec.map (CommRingCat.ofHom
+            (standardNegationAwayRingHom W)) ≫
+          coveringChartAway K true) := Category.assoc _ _ _
+    _ = coveringChartQuotientInclusion W true ≫
+        (coveringChartAway K true ≫ ambientNegation W) :=
+      congrArg (fun f ↦ coveringChartQuotientInclusion W true ≫ f)
+        (standardNegationAway_comp_coveringChartAway W)
+    _ = _ := by
+      rw [coveringChartAmbientMap, Category.assoc]
+
+/-- The explicit standard-chart substitution really is the restriction of
+the globally defined cubic negation morphism. -/
+private theorem standardChartNegationMorphism_comp_chartMap
+    (W : WeierstrassCurve K) :
+    standardChartNegationMorphism W ≫ coveringChartMap W true =
+      coveringChartMap W true ≫ negation W := by
+  apply (cancel_mono (inclusion W)).1
+  calc
+    (standardChartNegationMorphism W ≫
+          coveringChartMap W true) ≫ inclusion W =
+      standardChartNegationMorphism W ≫
+        (coveringChartMap W true ≫ inclusion W) :=
+      Category.assoc _ _ _
+    _ = standardChartNegationMorphism W ≫
+        coveringChartAmbientMap W true := by
+          rw [coveringChartMap_comp_inclusion]
+    _ = coveringChartAmbientMap W true ≫ ambientNegation W :=
+      standardChartNegationMorphism_comp_ambientMap W
+    _ = (coveringChartMap W true ≫ inclusion W) ≫
+        ambientNegation W := by rw [coveringChartMap_comp_inclusion]
+    _ = coveringChartMap W true ≫
+        (inclusion W ≫ ambientNegation W) :=
+      Category.assoc _ _ _
+    _ = coveringChartMap W true ≫
+        (negation W ≫ inclusion W) := by
+          rw [negation_comp_inclusion]
+    _ = (coveringChartMap W true ≫ negation W) ≫ inclusion W :=
+      (Category.assoc _ _ _).symm
+
+private theorem inverseChartOpenToStandardPair_comp_firstInput
+    (W : WeierstrassCurve K) :
+    inverseChartOpenToStandardPair W ≫
+        projectivePairChartFirstInput W (true, true) =
+      inverseChartOpenToStandardChart W ≫ coveringChartMap W true := by
+  rw [inverseChartOpenToStandardPair,
+    projectivePairChartFirstInput,
+    projectivePairChartMorphismOfCoordinateRingHom]
+  simp only [Category.assoc, Iso.inv_hom_id_assoc]
+  rw [← Category.assoc, ← Spec.map_comp,
+    inverseChartOpenToStandardChart]
+  congr 1
+  rw [Spec.map_inj]
+  apply CommRingCat.hom_ext
+  apply RingHom.ext
+  intro a
+  simp [inverseChartPairToOpenAlgHom, inverseChartPairAlgHom]
+
+private theorem inverseChartOpenToStandardPair_comp_secondInput
+    (W : WeierstrassCurve K) :
+    inverseChartOpenToStandardPair W ≫
+        projectivePairChartSecondInput W (true, true) =
+      (inverseChartOpenToStandardChart W ≫
+        standardChartNegationMorphism W) ≫ coveringChartMap W true := by
+  rw [inverseChartOpenToStandardPair,
+    projectivePairChartSecondInput,
+    projectivePairChartMorphismOfCoordinateRingHom]
+  simp only [Category.assoc, Iso.inv_hom_id_assoc]
+  rw [← Category.assoc, ← Spec.map_comp,
+    inverseChartOpenToStandardChart, standardChartNegationMorphism,
+    ← Category.assoc, ← Spec.map_comp]
+  congr 1
+  rw [Spec.map_inj]
+  apply CommRingCat.hom_ext
+  apply RingHom.ext
+  intro a
+  simp [inverseChartPairToOpenAlgHom, inverseChartPairAlgHom]
+
+private theorem inverseChartOpenToStandardPair_comp_secondInput_eq_negation
+    (W : WeierstrassCurve K) :
+    inverseChartOpenToStandardPair W ≫
+        projectivePairChartSecondInput W (true, true) =
+      (inverseChartOpenToStandardChart W ≫ coveringChartMap W true) ≫
+        negation W := by
+  calc
+    _ = (inverseChartOpenToStandardChart W ≫
+          standardChartNegationMorphism W) ≫
+        coveringChartMap W true :=
+      inverseChartOpenToStandardPair_comp_secondInput W
+    _ = inverseChartOpenToStandardChart W ≫
+        (standardChartNegationMorphism W ≫
+          coveringChartMap W true) := Category.assoc _ _ _
+    _ = inverseChartOpenToStandardChart W ≫
+        (coveringChartMap W true ≫ negation W) := by
+          rw [standardChartNegationMorphism_comp_chartMap]
+    _ = _ := (Category.assoc _ _ _).symm
+
+/-- Insert a point and its checked Weierstrass inverse into the projective
+fiber square. -/
+private noncomputable def projectiveInverseInsertion
+    (W : WeierstrassCurve K) : scheme W ⟶ projectivePair W :=
+  pullback.lift (𝟙 (scheme W)) (negation W) (by simp)
+
+@[reassoc]
+private theorem projectiveInverseInsertion_fst
+    (W : WeierstrassCurve K) :
+    projectiveInverseInsertion W ≫
+        pullback.fst (structureMap W) (structureMap W) =
+      𝟙 (scheme W) := by
+  exact pullback.lift_fst _ _ _
+
+@[reassoc]
+private theorem projectiveInverseInsertion_snd
+    (W : WeierstrassCurve K) :
+    projectiveInverseInsertion W ≫
+        pullback.snd (structureMap W) (structureMap W) =
+      negation W := by
+  exact pullback.lift_snd _ _ _
+
+/-- The derivative principal open mapped into the projective cubic. -/
+private noncomputable def inverseChartOpenToCubic
+    (W : WeierstrassCurve K) :
+    inverseChartOpenScheme W ⟶ scheme W :=
+  inverseChartOpenToStandardChart W ≫ coveringChartMap W true
+
+private instance inverseChartOpenToCubic_isOpenImmersion
+    (W : WeierstrassCurve K) :
+    IsOpenImmersion (inverseChartOpenToCubic W) := by
+  dsimp only [inverseChartOpenToCubic]
+  infer_instance
+
+private theorem inverseChartOpenToStandardPair_comp_globalChart
+    (W : WeierstrassCurve K) :
+    inverseChartOpenToStandardPair W ≫
+        projectivePairChartMap W (true, true) =
+      inverseChartOpenToCubic W ≫ projectiveInverseInsertion W := by
+  apply pullback.hom_ext
+  · calc
+      _ = inverseChartOpenToStandardPair W ≫
+          projectivePairChartFirstInput W (true, true) := by
+            rw [Category.assoc, projectivePairChartMap_comp_fst,
+              ← projectivePairChartFirstInput_eq]
+      _ = inverseChartOpenToCubic W :=
+        inverseChartOpenToStandardPair_comp_firstInput W
+      _ = inverseChartOpenToCubic W ≫ 𝟙 (scheme W) :=
+        (Category.comp_id _).symm
+      _ = inverseChartOpenToCubic W ≫
+          (projectiveInverseInsertion W ≫
+            pullback.fst (structureMap W) (structureMap W)) := by
+              rw [projectiveInverseInsertion_fst]
+      _ = (inverseChartOpenToCubic W ≫
+            projectiveInverseInsertion W) ≫
+          pullback.fst (structureMap W) (structureMap W) :=
+        (Category.assoc _ _ _).symm
+  · calc
+      _ = inverseChartOpenToStandardPair W ≫
+          projectivePairChartSecondInput W (true, true) := by
+            rw [Category.assoc, projectivePairChartMap_comp_snd,
+              ← projectivePairChartSecondInput_eq]
+      _ = inverseChartOpenToCubic W ≫ negation W :=
+        inverseChartOpenToStandardPair_comp_secondInput_eq_negation W
+      _ = inverseChartOpenToCubic W ≫
+          (projectiveInverseInsertion W ≫
+            pullback.snd (structureMap W) (structureMap W)) := by
+              rw [projectiveInverseInsertion_snd]
+      _ = (inverseChartOpenToCubic W ≫
+            projectiveInverseInsertion W) ≫
+          pullback.snd (structureMap W) (structureMap W) :=
+        (Category.assoc _ _ _).symm
+
+private theorem inverseChartOpenToCubic_comp_structureMap
+    (W : WeierstrassCurve K) :
+    inverseChartOpenToCubic W ≫ structureMap W =
+      Spec.map (CommRingCat.ofHom
+        (algebraMap K (inverseChartOpenRing W))) := by
+  rw [inverseChartOpenToCubic, Category.assoc,
+    coveringChartMap_comp_structureMap,
+    inverseChartOpenToStandardChart, ← Spec.map_comp,
+    Spec.map_inj]
+  apply CommRingCat.hom_ext
+  ext a
+  exact (IsScalarTower.algebraMap_apply K
+    (coveringChartCoordinateRing W true)
+    (inverseChartOpenRing W) a).symm
+
+private theorem inverseChartOpen_projectiveInverseInsertion_addition
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    (inverseChartOpenToCubic W ≫ projectiveInverseInsertion W) ≫
+        projectiveAdditionMorphism W =
+      Spec.map (CommRingCat.ofHom
+          (algebraMap K (inverseChartOpenRing W))) ≫
+        infinityChartOriginMorphism W ≫ coveringChartMap W false := by
+  calc
+    _ = (inverseChartOpenToStandardPair W ≫
+          projectivePairChartMap W (true, true)) ≫
+        projectiveAdditionMorphism W := by
+          rw [inverseChartOpenToStandardPair_comp_globalChart]
+    _ = inverseChartOpenToStandardPair W ≫
+        (projectivePairChartMap W (true, true) ≫
+          projectiveAdditionMorphism W) := Category.assoc _ _ _
+    _ = inverseChartOpenToStandardPair W ≫
+        standardPairAdditionMorphism W := by
+          rw [projectivePairStandardChart_comp_projectiveAdditionMorphism]
+    _ = (inverseChartOpenToOutputOpen W ≫
+          projectivePairChartAdditionOutputOpen W
+            (true, true) false) ≫
+        standardPairAdditionMorphism W := by
+          rw [inverseChartOpenToOutputOpen_comp_open]
+    _ = inverseChartOpenToOutputOpen W ≫
+        (projectivePairChartAdditionOutputOpen W
+            (true, true) false ≫ standardPairAdditionMorphism W) :=
+      Category.assoc _ _ _
+    _ = inverseChartOpenToOutputOpen W ≫
+        projectivePairChartAdditionOutputMorphism W
+          (true, true) false := by
+            rw [projectivePairInfinityOutputOpen_comp_standardPairAdditionMorphism]
+    _ = _ := inverseChartOpenToOutputOpen_comp_addition W
+
+private noncomputable instance inverseChartOpen_nonempty
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    Nonempty (inverseChartOpenScheme W) := by
+  change Nonempty (Spec (.of (Localization.Away
+    (standardChartVerticalDerivative W))))
+  letI : IsDomain (coveringChartCoordinateRing W true) :=
+    coveringChartCoordinateRing_isDomain W true
+  letI : Nontrivial (coveringChartCoordinateRing W true) :=
+    (coveringChartCoordinateRing_isDomain W true).toNontrivial
+  have hinj : Function.Injective
+      (algebraMap (coveringChartCoordinateRing W true)
+        (Localization.Away (standardChartVerticalDerivative W))) :=
+    IsLocalization.injective
+      (Localization.Away (standardChartVerticalDerivative W))
+      (powers_le_nonZeroDivisors_of_noZeroDivisors
+        (standardChartVerticalDerivative_ne_zero W))
+  letI : Nontrivial
+      (Localization.Away (standardChartVerticalDerivative W)) :=
+    hinj.nontrivial
+  exact PrimeSpectrum.nonempty_iff_nontrivial.mpr inferInstance
+
+/-- Adding the checked inverse morphism gives the infinity section. -/
+private theorem projectiveInverseInsertion_comp_addition
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    projectiveInverseInsertion W ≫ projectiveAdditionMorphism W =
+      structureMap W ≫
+        (infinityChartOriginMorphism W ≫ coveringChartMap W false) := by
+  letI : IsIntegral (scheme W) :=
+    GeometricallyIntegral.isIntegral_of_subsingleton (structureMap W)
+  letI : IsDominant (inverseChartOpenToCubic W) := by
+    constructor
+    have hopen := (inverseChartOpenToCubic W).isOpenEmbedding.isOpenMap
+    exact hopen.denseRange_of_isPreirreducibleSpace _
+  apply ext_of_isDominant_of_isSeparated
+    (s := structureMap W) (ι := inverseChartOpenToCubic W)
+  · calc
+      (projectiveInverseInsertion W ≫
+          projectiveAdditionMorphism W) ≫ structureMap W =
+        projectiveInverseInsertion W ≫
+          (projectiveAdditionMorphism W ≫ structureMap W) :=
+        Category.assoc _ _ _
+      _ = projectiveInverseInsertion W ≫
+          projectivePairStructureMap W := by
+            rw [projectiveAdditionMorphism_comp_structureMap]
+      _ = (projectiveInverseInsertion W ≫
+            pullback.fst (structureMap W) (structureMap W)) ≫
+          structureMap W := by
+            rw [projectivePairStructureMap, Category.assoc]
+      _ = 𝟙 (scheme W) ≫ structureMap W := by
+        rw [projectiveInverseInsertion_fst]
+      _ = structureMap W := Category.id_comp _
+      _ = structureMap W ≫ 𝟙 (Spec (.of K)) :=
+        (Category.comp_id _).symm
+      _ = structureMap W ≫
+          ((infinityChartOriginMorphism W ≫
+              coveringChartMap W false) ≫ structureMap W) := by
+        rw [infinityChartOriginMorphism_comp_structureMap]
+      _ = (structureMap W ≫
+          (infinityChartOriginMorphism W ≫
+            coveringChartMap W false)) ≫ structureMap W :=
+        (Category.assoc _ _ _).symm
+  · calc
+      inverseChartOpenToCubic W ≫
+          (projectiveInverseInsertion W ≫
+            projectiveAdditionMorphism W) =
+        (inverseChartOpenToCubic W ≫
+          projectiveInverseInsertion W) ≫
+            projectiveAdditionMorphism W :=
+        (Category.assoc _ _ _).symm
+      _ = Spec.map (CommRingCat.ofHom
+            (algebraMap K (inverseChartOpenRing W))) ≫
+          infinityChartOriginMorphism W ≫ coveringChartMap W false :=
+        inverseChartOpen_projectiveInverseInsertion_addition W
+      _ = (inverseChartOpenToCubic W ≫ structureMap W) ≫
+          infinityChartOriginMorphism W ≫ coveringChartMap W false := by
+            rw [inverseChartOpenToCubic_comp_structureMap]
+      _ = inverseChartOpenToCubic W ≫
+          (structureMap W ≫
+            (infinityChartOriginMorphism W ≫
+              coveringChartMap W false)) := by
+                simp only [Category.assoc]
+
 /-! ## Categorical commutativity -/
 
 /-- The projective addition is commutative in the slice over the coefficient
@@ -1894,6 +2935,80 @@ theorem projectiveAdditionOver_comm
   simp only [Over.comp_left, Over.braiding_hom_left,
     projectiveAdditionOver_left]
   exact projectivePairSwap_comp_addition W
+
+/-! ## Categorical inverse laws -/
+
+/-- The concrete inverse-graph insertion as a morphism in the slice. -/
+private noncomputable def projectiveInverseInsertionOver
+    (W : WeierstrassCurve K) :
+    toOver W ⟶ toOver W ⊗ toOver W :=
+  Over.homMk (projectiveInverseInsertion W) (by
+    rw [tensorProjectiveCubic_hom]
+    change projectiveInverseInsertion W ≫
+        projectivePairStructureMap W = structureMap W
+    rw [projectivePairStructureMap, ← Category.assoc,
+      projectiveInverseInsertion_fst, Category.id_comp])
+
+@[simp]
+private theorem projectiveInverseInsertionOver_left
+    (W : WeierstrassCurve K) :
+    (projectiveInverseInsertionOver W).left =
+      projectiveInverseInsertion W :=
+  rfl
+
+private theorem projectiveInverseInsertionOver_eq_lift
+    (W : WeierstrassCurve K) :
+    projectiveInverseInsertionOver W =
+      lift (𝟙 (toOver W)) (negationOver W) := by
+  apply CartesianMonoidalCategory.hom_ext
+  · rw [lift_fst]
+    apply Over.OverMorphism.ext
+    simp only [Over.comp_left, Over.fst_left,
+      projectiveInverseInsertionOver_left]
+    exact projectiveInverseInsertion_fst W
+  · rw [lift_snd]
+    apply Over.OverMorphism.ext
+    simp only [Over.comp_left, Over.snd_left,
+      projectiveInverseInsertionOver_left]
+    exact projectiveInverseInsertion_snd W
+
+/-- Adding a point to its checked Weierstrass inverse gives the infinity
+section. -/
+theorem projectiveAdditionOver_negation_right_inv
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    lift (𝟙 (toOver W)) (negationOver W) ≫
+        projectiveAdditionOver W =
+      toUnit (toOver W) ≫ infinitySectionOver W := by
+  rw [← projectiveInverseInsertionOver_eq_lift]
+  apply Over.OverMorphism.ext
+  simp only [Over.comp_left, projectiveInverseInsertionOver_left,
+    projectiveAdditionOver_left, Over.toUnit_left]
+  change projectiveInverseInsertion W ≫
+      projectiveAdditionMorphism W =
+    structureMap W ≫ (infinitySectionOver W).left
+  rw [projectiveInverseInsertion_comp_addition,
+    infinityChartOriginMorphism_comp_coveringChartMap]
+  rfl
+
+private theorem inverseLift_eq_swapped_rightInverseLift
+    (W : WeierstrassCurve K) :
+    lift (negationOver W) (𝟙 (toOver W)) =
+      lift (𝟙 (toOver W)) (negationOver W) ≫
+        (β_ (toOver W) (toOver W)).hom := by
+  apply CartesianMonoidalCategory.hom_ext
+  · simp
+  · simp
+
+/-- The symmetric inverse equation, obtained from the checked
+commutativity of projective addition. -/
+theorem projectiveAdditionOver_negation_left_inv
+    (W : WeierstrassCurve K) [W.IsElliptic] :
+    lift (negationOver W) (𝟙 (toOver W)) ≫
+        projectiveAdditionOver W =
+      toUnit (toOver W) ≫ infinitySectionOver W := by
+  rw [inverseLift_eq_swapped_rightInverseLift,
+    Category.assoc, projectiveAdditionOver_comm,
+    projectiveAdditionOver_negation_right_inv]
 
 end WeierstrassProjectiveCubic
 end MazurTorsion.ModularCurve.XZeroFiniteFlatModuli
