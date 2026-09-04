@@ -262,7 +262,11 @@ The standard, two mixed, and infinity chart morphisms now agree on all six
 categorical intersections. Their sixteen ordered compatibility cases glue to
 a global addition morphism on the full projective fibre square, and all four
 chart restrictions and the structural-map equality over `Spec K` are checked.
-The group laws are the immediate boundary.
+The global morphism is now packaged in the slice over `Spec K`. Explicit
+specialization of the two mixed charts at `[0:1:0]`, including normalization
+by the right-axis output unit `-1`, proves that the infinity section is its
+categorical left and right unit. Associativity, inverse, and commutativity are
+the remaining group-law boundary.
 Each member is now explicitly the spectrum of the tensor product of its two
 chart coordinate rings. A `K`-algebra formula into that ring gives an
 automatically over-base morphism to either output chart, and the two tensor
@@ -330,13 +334,10 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a global multiplication morphism obtained by proving that the genuine
-   infinity-diagonal addition morphism agrees with the checked secant maps,
-   transporting it across the remaining projective-product members meeting
-   infinity, promoting the checked regular replacement cover to an actual
-   compatible scheme atlas and proving the remaining local comparisons,
-   gluing the local maps, and proving the group laws using the checked section
-   at infinity and homogeneous negation as the identity and inverse candidates;
+1. associativity, inverse, and commutativity for the checked global
+   multiplication morphism. The section at infinity is already proved to be
+   its categorical left and right unit, while homogeneous negation remains the
+   checked inverse candidate;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:
@@ -346,6 +347,6 @@ field:
    `canonicalProjectivePointEquiv` packages the multiplicative equivalence and
    the existing bridge derives the affine-coordinate comparison.
 
-No searched dependency supplies the missing global multiplication or pointed
+No searched dependency supplies the remaining group laws or pointed
 Picard/Jacobian comparison at the pinned revisions. They remain formalization
 work rather than external blockers.

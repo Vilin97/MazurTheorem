@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2086296,
-    "integrated_lean_modules": 2016,
+    "integrated_lean_lines": 2087663,
+    "integrated_lean_modules": 2017,
     "remaining_composite_orders": [
       25,
       35
@@ -3689,6 +3689,41 @@
         },
         {
           "kind": "definition",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionOver",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveGroupLaw",
+          "description": "Package globally glued projective addition as a morphism on the concrete cubic object in the slice over Spec K."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionOver_left",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveGroupLaw",
+          "description": "Identify the underlying scheme morphism of slice-level projective addition with the globally glued morphism."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tensorProjectiveCubic_hom",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveGroupLaw",
+          "description": "Identify the tensor-square structure map in the slice with the concrete projective-pair structure map."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinitySectionOver_projectiveAdditionOver_left_unit",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveGroupLaw",
+          "description": "Prove that the projective infinity section is a categorical left unit for global projective addition."
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinitySectionOver_projectiveAdditionOver_right_unit",
+          "state": "contract",
+          "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveGroupLaw",
+          "description": "Prove that the projective infinity section is a categorical right unit for global projective addition."
+        },
+        {
+          "kind": "definition",
           "name": "MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates",
           "state": "contract",
           "module": "MazurTorsion.ModularCurve.XZeroWeierstrassProjectiveProductAdditionCoordinates",
@@ -3963,8 +3998,8 @@
         "revision": "sequence the canonical Weierstrass group scheme, exact-torsion finite-flat subgroup, and cyclic quotient APIs against named X_0 and order-49 consumers"
       },
       "evidence": {
-        "recorded_artifact_count": 689,
-        "canonical_artifact_count": 153,
+        "recorded_artifact_count": 694,
+        "canonical_artifact_count": 158,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -3976,7 +4011,7 @@
           "depends_on": [
             "MT-BASE-INTEGRATED"
           ],
-          "exit_criterion": "Starting from the actual four-member cover of the full projective product, the integral affine tensor-product presentation of each member, the checked secant and doubling polynomial triples on its universal inputs, both pairs of output-coordinate principal-open morphisms, their joint nonvanishing cover of every pair member, the checked YZ compatibility of the secant formulas, the addition morphism on the standard-by-standard member together with its checked raw output-Z and output-Y restrictions, the actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)` with checked secant compatibility on its exact overlap, both exact factorwise pair-chart overlap schemes with raw addition transition laws and equal embeddings into the full product, normalized secant-morphism compatibility on every factorwise output overlap, the primewise replacement cover by standard, regular D(B-infinity), and secant-Z loci, the exact double input overlap embedded compatibly into both pair charts, both actual two-member mixed-chart open covers, the actual three-member infinity-pair open cover, and the resulting four full chart morphisms now proved compatible on their categorical intersections and glued to a global over-base addition morphism with checked chart restrictions, prove the commutative group laws and coordinate-point compatibility, then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the result without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
+          "exit_criterion": "Starting from the globally glued projective addition over Spec K, now with the projective infinity section proved to be its categorical left and right unit by explicit mixed-chart calculations and dense-chart extension, prove associativity, inverse, and commutativity, establish coordinate-point compatibility, and then refactor MazurTorsion.XZeroFortyNine.orderFortyNineConcreteGroupSchemeInterface to consume the resulting canonical group object without supplied [GrpObj (toOver E)] or CanonicalPointGroupLawCompatibility E shadow inputs."
         },
         {
           "id": "WP-MT-EC-ISOGENY-WEIL-EXACT-TORSION-SUBGROUP",

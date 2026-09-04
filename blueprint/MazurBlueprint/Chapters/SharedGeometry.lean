@@ -952,6 +952,26 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionMorphism_comp_structureMap`
   Prove that globally glued projective addition is a morphism over Spec K.
 * `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionOver`
+  Package globally glued projective addition as a morphism on the concrete cubic object
+  in the slice over Spec K.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectiveAdditionOver_left`
+  Identify the underlying scheme morphism of slice-level projective addition with the
+  globally glued morphism.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.tensorProjectiveCubic_hom`
+  Identify the tensor-square structure map in the slice with the concrete
+  projective-pair structure map.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinitySectionOver_projectiveAdditionOver_left_unit`
+  Prove that the projective infinity section is a categorical left unit for global
+  projective addition.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.infinitySectionOver_projectiveAdditionOver_right_unit`
+  Prove that the projective infinity section is a categorical right unit for global
+  projective addition.
+* `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstDoublingCoordinates`
   Evaluate the homogeneous doubling triple on the first normalized universal input as
   the polynomial replacement on the diagonal base locus.

@@ -22,7 +22,7 @@ are selected, leaving one slot unused:
 | Lane | Node slice | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|---|
 | Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Finish the remaining projective-pair overlaps and glue the checked local addition laws globally, then prove the group laws and coordinate-point compatibility and remove the supplied shadows from the named order-49 consumer. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
+| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Global projective addition and both categorical unit laws are checked; prove associativity, inverse, commutativity, and coordinate-point compatibility, then remove the supplied shadows from the named order-49 consumer. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
 
 Only these two `current_work_package` values count as selected WIP. Other
 packages whose status is `active` are ready, not assigned. Package weights
@@ -107,7 +107,9 @@ checked. The standard, both mixed, and infinity chart morphisms now agree on
 all six categorical chart intersections. The sixteen ordered compatibility
 cases glue to an actual addition morphism on the full projective fibre square;
 all four chart restrictions and compatibility with the structural morphism to
-`Spec K` are checked. The group laws are the next construction step.
+`Spec K` are checked. Explicit mixed-chart calculations now prove that the
+projective infinity section is both the categorical left and right unit. The
+remaining group laws are associativity, inverse, and commutativity.
 Every member is also identified with the spectrum
 of the tensor product of its two chart coordinate rings. The checked formula
 constructor turns a `K`-algebra map into an automatically over-base scheme
@@ -143,8 +145,9 @@ cubic-valued morphisms. The three local laws on the infinity-pair cover are
 now pairwise compatible on their exact pullbacks and glue across that entire
 chart. The four resulting chart morphisms are now compatible on every
 categorical intersection and glue to a global addition morphism over
-`Spec K`, with every chart restriction checked. The remaining work is to
-prove the group laws and coordinate-point compatibility.
+`Spec K`, with every chart restriction checked. Its projective infinity
+section is now a checked categorical left and right unit. The remaining work
+is associativity, inverse, commutativity, and coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and
