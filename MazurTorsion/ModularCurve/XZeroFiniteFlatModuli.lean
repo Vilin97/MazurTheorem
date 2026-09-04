@@ -126,7 +126,7 @@ end Subgroup
 
 section SplitCyclic
 
-variable (K : Type u) [Field K]
+variable (K : Type u) [CommRing K] [Nontrivial K]
   (N : ℕ) [NeZero N]
 
 /-- Universe-compatible indexing group for the constant cyclic scheme. -/
@@ -199,7 +199,7 @@ theorem hasConstantOrder (C : SplitCyclicSubgroup E (N := N)) :
   exact cyclicConstant_orderAt K N s
 
 /-- Scalar extension of a split cyclic subgroup remains split cyclic. -/
-def baseChange {L : Type u} [Field L] [Algebra K L]
+def baseChange {L : Type u} [CommRing L] [Nontrivial L] [Algebra K L]
     (C : SplitCyclicSubgroup E (N := N)) :
     SplitCyclicSubgroup
       ((Over.pullback

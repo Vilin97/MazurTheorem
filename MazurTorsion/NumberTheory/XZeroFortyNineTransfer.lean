@@ -9,7 +9,7 @@ import MazurTorsion.NumberTheory.XZeroFortyNineReduction
 import MazurTorsion.Kubert.OrderSevenBacktrackingResultantObstruction
 import MazurTorsion.Kubert.OrderSevenCorrespondence
 import MazurTorsion.ModularCurve.XZeroGeometricCyclicQuotient
-import MazurTorsion.ModularCurve.XZeroSplitGammaZeroObject
+import MazurTorsion.ModularCurve.XZeroRelativeGammaZeroFamily
 
 /-!
 # The level-seven modular correspondence has no noncuspidal rational point
@@ -662,6 +662,27 @@ noncomputable def splitGeometricDatumOfOrderFortyNineTorsion
     (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
     ModularCurve.XZeroModuli.SplitGeometricDatum ℚ 49 :=
   ModularCurve.XZeroModuli.SplitGeometricDatum.ofExactTorsion E P hP
+
+/-- An exact-order-49 point reaches the arbitrary-base moduli layer on its
+locally constant locus.  Over `Q` the intrinsic split subgroup is witnessed
+on the identity fppf cover, so this construction introduces no chosen
+generator or presentation-level point equivalence. -/
+noncomputable def locallyConstantGammaZeroFamilyOfOrderFortyNineTorsion
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
+    ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily
+      (_root_.AlgebraicGeometry.Spec (.of ℚ)) 49 :=
+  ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.ofSplitGeometricDatum
+    ℚ (splitGeometricDatumOfOrderFortyNineTorsion E P hP)
+
+/-- The carrier in the relative locally constant order-49 family has
+geometric order exactly `49`. -/
+theorem locallyConstantGammaZeroFamilyOfOrderFortyNineTorsion_hasConstantOrder
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
+    (locallyConstantGammaZeroFamilyOfOrderFortyNineTorsion E P hP).subgroup.carrier.HasConstantOrder
+      49 :=
+  ModularCurve.XZeroModuli.LocallyConstantCyclicSubgroup.hasConstantOrder _
 
 /-- The intrinsic order-49 subgroup has constant geometric order exactly
 `49`. -/
