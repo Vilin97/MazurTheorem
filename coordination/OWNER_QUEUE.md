@@ -22,7 +22,7 @@ are selected, leaving one slot unused:
 | Lane | Node slice | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|---|
 | Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Prove the overlap equalities for the checked four-open secant-and-doubling cover of every projective-pair member and glue globally, then prove the group laws and coordinate-point compatibility and remove the supplied shadows from the named order-49 consumer. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
+| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Construct a genuine addition law near the secant diagonal base locus, prove its overlaps with the checked secant charts and glue globally, then prove the group laws and coordinate-point compatibility and remove the supplied shadows from the named order-49 consumer. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
 
 Only these two `current_work_package` values count as selected WIP. Other
 packages whose status is `active` are ready, not assigned. Package weights
@@ -65,9 +65,13 @@ supplies actual over-base morphisms from both principal opens of every pair
 member into the cubic. The same construction supplies actual over-base
 morphisms from the two output-coordinate principal opens of the first-input
 doubling triple. A primewise fraction-field argument now proves that these four
-principal opens jointly cover every pair member. The remaining work is to prove
-all new overlap equalities and global gluing, then prove the group laws and
-coordinate-point compatibility.
+principal opens jointly cover every pair member, and the two secant
+normalizations agree as actual cubic-valued morphisms on their exact `YZ`
+overlap. First-input doubling agrees with addition only on the diagonal, so
+its unrestricted principal opens are a nonvanishing certificate rather than
+an addition atlas. The remaining work is to construct a genuine addition law
+near the secant diagonal base locus, prove its overlap equalities and global
+gluing, then prove the group laws and coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and

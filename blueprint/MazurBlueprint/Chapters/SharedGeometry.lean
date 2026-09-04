@@ -698,6 +698,14 @@ order-49 consumers.
   Prove that the two secant and two first-input doubling output-coordinate principal
   opens jointly cover every projective-pair chart.
 * `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartAdditionOutputOverlap_open_eq`
+  Identify the two restriction maps from the exact secant-output YZ overlap into their
+  common projective-pair chart.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartAdditionOutputOverlap_morphisms_eq`
+  Prove that the Y- and Z-normalized secant formulas agree as actual cubic-valued
+  morphisms on their exact overlap.
+* `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual
   finite free-translation quotient.

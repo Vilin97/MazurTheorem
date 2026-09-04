@@ -39,7 +39,7 @@ two current packages:
 | Lane | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|
 | Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Prove the overlap equalities for the checked four-open secant-and-doubling cover of every projective-pair member and glue globally, then prove the commutative group laws and coordinate-point compatibility and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
+| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Construct a genuine addition law near the secant diagonal base locus, prove its overlaps with the checked secant charts and glue globally, then prove the commutative group laws and coordinate-point compatibility and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Package status is scheduling metadata. Only the two `current_work_package`
 entries above are selected WIP; one slot is intentionally unused. The generic
@@ -109,9 +109,12 @@ slices without changing the 200-point headline:
   opens of every pair member into the cubic. The same construction gives
   actual over-base morphisms from both output-coordinate principal opens of
   the first-input doubling triple. A primewise fraction-field argument proves
-  that these four opens jointly cover every pair member. The overlap equalities
-  and global gluing, the group laws, and coordinate-point compatibility remain
-  missing.
+  that these four opens jointly cover every pair member. The two secant output
+  normalizations also agree as actual cubic-valued morphisms on their exact
+  `YZ` overlap. Since first-input doubling agrees with addition only on the
+  diagonal, its unrestricted opens are not an addition atlas. A genuine
+  diagonal-neighborhood addition law, its overlap equalities and global
+  gluing, the group laws, and coordinate-point compatibility remain missing.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

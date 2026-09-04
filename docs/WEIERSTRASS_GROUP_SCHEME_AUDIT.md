@@ -220,8 +220,12 @@ principal opens of every projective-pair member into the concrete cubic. The
 same construction now produces actual over-base first-input doubling morphisms
 on both doubling-output principal opens. A primewise argument through the
 fraction field of every prime quotient proves that these four principal opens
-jointly cover every projective-pair member. Their compatibility and the global
-gluing remain open.
+jointly cover every projective-pair member. The two secant output
+normalizations agree as actual cubic-valued morphisms on their exact `YZ`
+overlap. This does not turn the doubling morphisms into addition laws away
+from the diagonal: the four-open result is a nonvanishing certificate, not a
+four-open addition atlas. A genuine diagonal-neighborhood addition law, its
+compatibility with secant addition, and the global gluing remain open.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -250,12 +254,12 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a global multiplication morphism obtained by proving every overlap for the
-   checked four-open secant-and-doubling cover on each of the three
-   projective-product chart members meeting infinity, comparing with the
-   checked standard member, gluing the local maps, and proving the group laws
-   using the checked section at infinity and homogeneous negation as the
-   identity and inverse candidates;
+1. a global multiplication morphism obtained by constructing a genuine
+   addition law near the diagonal base locus of the secant formulas on each of
+   the three projective-product chart members meeting infinity, proving its
+   overlaps with the checked secant maps and the checked standard member,
+   gluing the local maps, and proving the group laws using the checked section
+   at infinity and homogeneous negation as the identity and inverse candidates;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:
