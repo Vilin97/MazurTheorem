@@ -386,5 +386,11 @@ constructed along every base morphism: the fppf cover is pulled back, each
 local trivialization is transported through the cartesian square and the
 canonical comparison for iterated base change, and the order theorem persists.
 The order-49 family is a concrete consumer over every scheme over `Q`.
-Coherence and arbitrary-base isomorphism classes are still missing, so this is
-not yet a set-valued moduli functor or a represented open `X₀(N)` classifier.
+Subgroup-preserving isomorphisms now discard the choice of cover and local
+trivializations. Pullback descends to these classes, and the canonical identity
+and composition isomorphisms prove the laws of an actual contravariant
+type-valued moduli functor. The intrinsic split field quotient maps into it
+without selecting representatives, and exact order-49 torsion reaches its
+value over `Q` and all reindexed values. A representing open scheme, universal
+family comparison, and bad-characteristic generalized cyclicity are still
+missing, so no represented `X₀(N)` classifier is claimed.

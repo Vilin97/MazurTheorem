@@ -220,10 +220,16 @@ slices at the 225-point headline:
   pullback fppf cover; the local cyclic isomorphisms are transported through
   its cartesian square and canonical iterated-base-change comparisons. The
   resulting family retains constant order, and the order-49 consumer pulls
-  back to every scheme over `Q`. Coherence laws, arbitrary-base isomorphism
-  classes, and the representing open scheme remain absent, so the represented
-  `X₀(N)` classifier stays selected and no additional roadmap credit is
-  claimed.
+  back to every scheme over `Q`. Relative families are now quotiented by
+  subgroup-preserving isomorphisms which ignore cover witnesses. Pullback
+  respects this relation, and canonical identity and composition isomorphisms
+  prove strict laws on the quotient, yielding an actual contravariant
+  type-valued moduli functor. The intrinsic field quotient maps into it without
+  choosing representatives, while exact order-49 torsion inhabits its `Q`
+  value and every reindexed value. The representing open scheme, its universal
+  comparison, and generalized bad-characteristic cyclicity remain absent, so
+  the represented `X₀(N)` classifier stays selected and no additional roadmap
+  credit is claimed.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

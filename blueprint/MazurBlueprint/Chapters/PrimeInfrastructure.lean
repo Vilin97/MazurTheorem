@@ -295,6 +295,36 @@ by checked admissible variable changes.
 * `theorem` (`contract`):
   `MazurTorsion.XZeroFortyNine.locallyConstantGammaZeroFamilyOfOrderFortyNineTorsionBaseChange_hasConstantOrder`
   Prove that every base change of the order-49 relative family retains geometric order 49.
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.Iso`
+  Express isomorphism of arbitrary-base Gamma-zero families by compatible
+  isomorphisms of curves and subgroup carriers.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.IsomorphismClass`
+  Quotient relative locally constant Gamma-zero families by genuine
+  subgroup-preserving isomorphisms.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.IsomorphismClass.ofSplitGeometricClass`
+  Map the intrinsic field-valued split quotient into the relative quotient without
+  choosing representatives.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.IsomorphismClass.baseChange_id`
+  Prove identity pullback on relative Gamma-zero isomorphism classes.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.IsomorphismClass.baseChange_comp`
+  Prove composite pullback equals iterated pullback on relative Gamma-zero isomorphism
+  classes.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.locallyConstantGammaZeroModuliFunctor`
+  Construct the contravariant type-valued functor of locally constant Gamma-zero family
+  isomorphism classes.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsion`
+  Send exact order-49 torsion into the Q-value of the checked relative Gamma-zero moduli
+  functor.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsionBaseChange`
+  Use the functor map to reindex the canonical order-49 moduli class to every scheme over Q.
 * `structure` (`contract`): `MazurTorsion.ModularCurve.XZeroModuli.SplitGeometricDatum`
   Bundle a proper geometrically integral relative-dimension-one commutative group scheme
   with an actual split finite-flat cyclic subgroup of level N.

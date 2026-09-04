@@ -343,9 +343,14 @@ Canonical iterated-base-change isomorphisms and the pullback square carry each
 local cyclic trivialization to the new base, while properness, geometric
 integrality, smooth relative dimension one, and constant order persist. The
 order-49 family pulls back to every scheme over `Q`. Coherence laws and
-compatible arbitrary-base isomorphism classes must still be assembled before
-this becomes a set-valued functor, and no representing open modular curve is
-yet constructed.
+compatible arbitrary-base isomorphism classes are now assembled: isomorphisms
+commute with subgroup inclusions, pullback preserves them, and canonical
+identity/composition isomorphisms prove the quotient-level functor laws. This
+gives `locallyConstantGammaZeroModuliFunctor : Schemeᵒᵖ ⥤ Type`, and the
+intrinsic split field quotient maps into it without choosing representatives.
+The exact-order-49 consumer inhabits the functor value over `Q` and uses its
+map on every base scheme. Representability, a universal-family comparison, and
+the generalized bad-characteristic moduli problem remain open.
 
 The point constructor must consume an actual finite-flat subgroup scheme and
 prove noncuspidality; a supplied equivalence of point sets is not sufficient.
