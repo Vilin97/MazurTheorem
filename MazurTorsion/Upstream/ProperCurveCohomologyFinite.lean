@@ -7,6 +7,7 @@ Authors: Vasily Ilin, Codex
 import MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection
 import MazurTorsion.Upstream.CurveCohomologyGrothendieckVanishing
 import MazurTorsion.Upstream.ProjectiveLineCechHOneFinite
+import MazurTorsion.Upstream.SchemeModuleCohomologyConnectingLinear
 import TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.ProductFormula.Finite
 
 /-!
@@ -121,6 +122,43 @@ theorem hOneCanonicalFieldLinearMap_apply
     letI := hOneCanonicalFieldModule K X f N
     hOneCanonicalFieldLinearMap K X f g x =
       (zariskiFunctor X 1).map g x := by
+  rfl
+
+/-- The degree-zero-to-degree-one connecting homomorphism of a short exact
+sequence is linear over the ground field for the canonical actions induced by
+the structure morphism.  This is the field-level consumer of
+`cohomologyConnectingLinearMap` used by proper-curve exact sequences. -/
+noncomputable def hZeroHOneCanonicalFieldConnectingLinearMap
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) {S : ShortComplex X.Modules}
+    (hS : S.ShortExact) :
+    letI := hZeroCanonicalFieldModule K X f S.X₃
+    letI := hOneCanonicalFieldModule K X f S.X₁
+    H S.X₃ 0 →ₗ[K] H S.X₁ 1 := by
+  letI : Module Γ(X, ⊤) (H S.X₃ 0) :=
+    globalSectionsCohomologyModule S.X₃ 0
+  letI : Module Γ(X, ⊤) (H S.X₁ 1) :=
+    globalSectionsCohomologyModule S.X₁ 1
+  letI := hZeroCanonicalFieldModule K X f S.X₃
+  letI := hOneCanonicalFieldModule K X f S.X₁
+  refine
+    { toFun := cohomologyConnectingLinearMap hS 0 1 rfl
+      map_add' := (cohomologyConnectingLinearMap hS 0 1 rfl).map_add
+      map_smul' := ?_ }
+  intro r x
+  exact (cohomologyConnectingLinearMap hS 0 1 rfl).map_smul
+    (f.appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom r)) x
+
+/-- The field-linear connecting map has the same underlying function as the
+Ext connecting homomorphism. -/
+theorem hZeroHOneCanonicalFieldConnectingLinearMap_apply
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) {S : ShortComplex X.Modules}
+    (hS : S.ShortExact) (x : H S.X₃ 0) :
+    letI := hZeroCanonicalFieldModule K X f S.X₃
+    letI := hOneCanonicalFieldModule K X f S.X₁
+    hZeroHOneCanonicalFieldConnectingLinearMap K X f hS x =
+      cohomologyConnectingHom hS 0 1 rfl x := by
   rfl
 
 /-- A non-global rational function on a smooth proper integral curve gives a
@@ -379,5 +417,27 @@ theorem genuineSheafHOneCanonical_finiteDimensional_of_rationalSection
     exact (Scheme.ΓSpecIso (.of K)).symm.commRingCatIsoToRingEquiv.finite
   letI : Module.Finite K R := RingHom.finite_algebraMap.mp hR
   exact Module.Finite.trans R (H M 1)
+
+/-- For a pointed smooth proper integral curve, the image of every canonical
+degree-zero-to-degree-one connecting map is finite-dimensional.  This named
+proper-curve consumer combines linearity of the actual connecting map with
+the checked finite-dimensionality of its coherent `H¹` target. -/
+theorem hZeroHOneCanonicalFieldConnecting_range_finiteDimensional_of_rationalSection
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    (s : SmoothCurveRationalSection K X f)
+    {S : ShortComplex X.Modules} (hS : S.ShortExact)
+    [S.X₁.IsQuasicoherent] [S.X₁.IsFiniteType] :
+    letI := hZeroCanonicalFieldModule K X f S.X₃
+    letI := hOneCanonicalFieldModule K X f S.X₁
+    FiniteDimensional K
+      (LinearMap.range
+        (hZeroHOneCanonicalFieldConnectingLinearMap K X f hS)) := by
+  letI := hZeroCanonicalFieldModule K X f S.X₃
+  letI := hOneCanonicalFieldModule K X f S.X₁
+  letI : FiniteDimensional K (H S.X₁ 1) :=
+    genuineSheafHOneCanonical_finiteDimensional_of_rationalSection
+      K X f s S.X₁
+  infer_instance
 
 end MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology
