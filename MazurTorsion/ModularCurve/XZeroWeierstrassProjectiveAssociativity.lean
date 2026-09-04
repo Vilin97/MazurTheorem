@@ -1503,12 +1503,6 @@ private theorem pairTwentyThreeToF_left
   apply DFunLike.ext _ _
   intro a
   simp [pairTwentyThreeToF, twentyThreeToT, AlgHom.comp_apply]
-  calc
-    (toF W) ((secondToT W) a) * (toF W) ((thirdToT W) 1) =
-        (toF W) ((secondToT W) a) * 1 :=
-      congrArg ((toF W) ((secondToT W) a) * ·)
-        ((toF W).comp (thirdToT W)).map_one
-    _ = _ := mul_one _
 
 private theorem pairTwentyThreeToF_right
     (W : WeierstrassCurve K) [W.IsElliptic] :
@@ -1518,12 +1512,6 @@ private theorem pairTwentyThreeToF_right
   apply DFunLike.ext _ _
   intro a
   simp [pairTwentyThreeToF, twentyThreeToT, AlgHom.comp_apply]
-  calc
-    (toF W) ((secondToT W) 1) * (toF W) ((thirdToT W) a) =
-        1 * (toF W) ((thirdToT W) a) :=
-      congrArg (· * (toF W) ((thirdToT W) a))
-        ((toF W).comp (secondToT W)).map_one
-    _ = _ := one_mul _
 
 private theorem leftOuterPairToF_left
     (W : WeierstrassCurve K) [W.IsElliptic] :
