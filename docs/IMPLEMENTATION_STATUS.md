@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **20.0%**: 200 of the fixed 1,000 points.
 - Ecosystem readiness is **20%**.
-- The audited baseline contains **1,990 Lean modules** and **2,072,217 Lean
+- The audited baseline contains **1,991 Lean modules** and **2,072,446 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -39,7 +39,7 @@ two current packages:
 | Lane | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|
 | Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Construct addition on the three remaining members of the full projective-product cover, prove the overlaps and global gluing, then prove the commutative group laws and coordinate-point compatibility and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
+| Represented `X₀(N)` vertical slice | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Use the checked affine tensor-product presentation of every projective-pair member to construct addition on the three members meeting infinity, prove the overlaps and global gluing, then prove the commutative group laws and coordinate-point compatibility and remove the supplied group-object and point-compatibility shadows from the named order-49 consumer. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Package status is scheduling metadata. Only the two `current_work_package`
 entries above are selected WIP; one slot is intentionally unused. The generic
@@ -93,9 +93,13 @@ slices without changing the 200-point headline:
   The full projective product is covered by the four products of the genuine
   `Y ≠ 0` and `Z ≠ 0` cubic charts; its standard-by-standard member is
   canonically identified with the affine-pair source and consumes that glued
-  morphism. Addition on the other three members, their overlap equalities and
-  global gluing, the group laws, and coordinate-point compatibility remain
-  missing.
+  morphism. Every product member is now identified with the spectrum of the
+  tensor product of its two chart coordinate rings. A checked constructor
+  turns each `K`-algebra coordinate formula into an automatically over-base
+  scheme morphism, and its left/right inclusion consumers recover the two
+  geometric projections. Addition formulas on the other three members, their
+  overlap equalities and global gluing, the group laws, and coordinate-point
+  compatibility remain missing.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

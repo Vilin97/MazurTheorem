@@ -597,6 +597,26 @@ order-49 consumers.
   `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardPairAdditionMorphism`
   Transport the checked glued affine-pair addition to the genuine standard-by-standard
   member of the full projective-product cover.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartIsoSpecTensor`
+  Identify every member of the four-chart projective-pair cover with the spectrum of the
+  tensor product of its two chart coordinate rings.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartMorphismOfCoordinateRingHom`
+  Turn a K-algebra coordinate formula on any projective-pair chart into a morphism to a
+  chosen output chart of the concrete cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartMorphismOfCoordinateRingHom_comp_structureMap`
+  Prove automatically that every morphism produced by the coordinate-formula constructor
+  lies over Spec K.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartFirstInput_eq`
+  Verify on every chart pair that the tensor-product left inclusion reconstructs the
+  first geometric input projection.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.projectivePairChartSecondInput_eq`
+  Verify on every chart pair that the tensor-product right inclusion reconstructs the
+  second geometric input projection.
 * `theorem` (`contract`):
   `AlgebraicGeometry.FiniteTranslationQuotient.structureMap_geometricallyIntegral`
   Descend geometric integrality from a supplied commutative group scheme to its actual

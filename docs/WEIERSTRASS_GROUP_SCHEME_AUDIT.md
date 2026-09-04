@@ -203,7 +203,11 @@ restrictions are glued to an actual affine-pair addition morphism, but its
 source is only the standard-by-standard member of the full projective product.
 That full product now has its actual four-member `Y ≠ 0`/`Z ≠ 0` chart cover,
 and the standard member is canonically identified with the affine-pair source.
-Addition on the other three members and their global gluing remain open.
+Each member is now explicitly the spectrum of the tensor product of its two
+chart coordinate rings. A `K`-algebra formula into that ring gives an
+automatically over-base morphism to either output chart, and the two tensor
+inclusions are checked against the geometric projections. Addition formulas
+on the other three members and their global gluing remain open.
 
 The alternative pointed-Picard route is also genuinely unfinished in the
 pinned dependencies.  Tau Ceti's divisor and Abel--Jacobi files explicitly
@@ -232,11 +236,12 @@ The full `MT-X0-MODULI` acceptance boundary still requires the following
 checked constructions for every elliptic Weierstrass curve over the relevant
 field:
 
-1. a global multiplication morphism obtained by constructing addition on the
-   three projective-product chart members meeting infinity, proving every
-   overlap with the checked standard member and each other, gluing the four
-   local maps, and proving the group laws using the checked section at infinity
-   and homogeneous negation as the identity and inverse candidates;
+1. a global multiplication morphism obtained by supplying addition formulas
+   through the checked affine coordinate-ring interface on the three
+   projective-product chart members meeting infinity, proving every overlap
+   with the checked standard member and each other, gluing the four local maps,
+   and proving the group laws using the checked section at infinity and
+   homogeneous negation as the identity and inverse candidates;
 2. compatibility of the canonical forward coordinate-point map with the
    scheme group law.  Injectivity, surjectivity, and therefore bijectivity are
    now checked.  The ellipticity hypothesis used for surjectivity is essential:

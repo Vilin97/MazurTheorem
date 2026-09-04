@@ -22,7 +22,7 @@ are selected, leaving one slot unused:
 | Lane | Node slice | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|---|
 | Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
-| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Construct addition on the three remaining members of the full projective-product cover, prove the overlaps and global gluing, then prove the group laws and coordinate-point compatibility and remove the supplied shadows from the named order-49 consumer. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
+| Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-EC-ISOGENY-WEIL-WEIERSTRASS-GROUP-SCHEME` | Use the checked affine tensor-product presentation of every projective-pair member to construct addition on the three members meeting infinity, prove the overlaps and global gluing, then prove the group laws and coordinate-point compatibility and remove the supplied shadows from the named order-49 consumer. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
 
 Only these two `current_work_package` values count as selected WIP. Other
 packages whose status is `active` are ready, not assigned. Package weights
@@ -50,9 +50,13 @@ doubling. All six pairwise restrictions of the four charts agree on their
 exact pullbacks, and the resulting cover is glued to an actual affine-pair
 addition morphism. The full projective product now has its actual four-member
 coordinate-chart cover, and its standard-by-standard member is identified
-with that affine-pair source. The remaining work is addition on the other
-three members, all new overlap equalities and global gluing, the group laws,
-and coordinate-point compatibility.
+with that affine-pair source. Every member is also identified with the spectrum
+of the tensor product of its two chart coordinate rings. The checked formula
+constructor turns a `K`-algebra map into an automatically over-base scheme
+morphism, and its two projection consumers verify the orientation. The
+remaining work is to supply the three addition formulas through this
+interface, prove all new overlap equalities and global gluing, then prove the
+group laws and coordinate-point compatibility.
 
 The represented-moduli package now waits on the exact-torsion finite-flat
 subgroup package. The generic Néron mapping-property and
