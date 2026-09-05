@@ -11,6 +11,7 @@ import MazurTorsion.Upstream.CurveAffineChart
 import MazurTorsion.Upstream.CurveCohomologyGrothendieckVanishing
 import MazurTorsion.Upstream.CurveDivisorDescent
 import MazurTorsion.Upstream.CurveDivisorGlobalLineBundle
+import MazurTorsion.Upstream.CurveDivisorRawTensorAddDescent
 import MazurTorsion.Upstream.CurveDivisorPicardDescent
 import MazurTorsion.Upstream.CurveDivisorRationalBoundary
 import MazurTorsion.Upstream.CurveDivisorTensorAddRestriction

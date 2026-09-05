@@ -282,6 +282,24 @@ lemma descentDataOfLineBundleIsoCocycleCondition_obj
     (descentDataOfLineBundleIsoCocycleCondition L overlapIso h).obj i = (L i).obj :=
   rfl
 
+/-- On a chosen pairwise overlap, the full datum attached to a named-face line-bundle cocycle
+uses the supplied overlap isomorphism without changing its Hom. -/
+@[simp]
+lemma descentDataOfLineBundleIsoCocycleCondition_hom_on_overlap
+    {X : Scheme.{u}} {cov : X.OpenCover.{0}}
+    (L : ∀ i : cov.I₀, InvertibleSheaf (cov.X i))
+    (overlapIso : ∀ i j,
+      (modulesPseudofunctor.map (overlap cov i j).p₁.op.toLoc).toFunctor.obj (L i).obj ≅
+        (modulesPseudofunctor.map (overlap cov i j).p₂.op.toLoc).toFunctor.obj (L j).obj)
+    (h : LineBundleIsoCocycleCondition cov L overlapIso) (i j : cov.I₀) :
+    (descentDataOfLineBundleIsoCocycleCondition L overlapIso h).hom
+        (overlap cov i j).p (overlap cov i j).p₁ (overlap cov i j).p₂ =
+      (overlapIso i j).hom :=
+  descentDataOfIsoCocycleCondition_hom_on_overlap
+    (F := modulesPseudofunctor) (g := cov.f)
+    (sq := overlap cov) (sq₃ := tripleOverlap cov)
+    (fun i ↦ (L i).obj) overlapIso h.toIsoCocycleCondition i j
+
 /-- A named-face line-bundle cocycle as coherent locally invertible descent data. -/
 noncomputable def invertibleDescentDataOfLineBundleIsoCocycleCondition
     {X : Scheme.{u}} {cov : X.OpenCover.{0}}
