@@ -187,10 +187,14 @@ consumers. A precise coarse-moduli interface now records the natural
 classifier, algebraically closed geometric-point bijectivity, and the universal
 factorization property for scheme-valued invariants. It proves canonical
 uniqueness and sends order-49 torsion to an actual point of every supplied
-coarse scheme, compatibly with base change. No coarse-space instance or
-identification with the explicit `X₀(49)` model is constructed, so the current
-package and its zero credit are unchanged. The generic Néron mapping-property and
-admissible-filtration packages are integrated. Their Eisenstein-quotient
+coarse scheme, compatibly with base change. Independently, the explicit
+rational `X₀(49)` equation is now realized as the reduced projective cubic
+scheme; all of its `Spec Q` morphisms are checked to be exactly two distinct
+cusp morphisms, and the eta chart consumes this represented classification.
+No coarse-space instance or rational-fibre identification with that target is
+constructed, so the current package and its zero credit are unchanged. The
+generic Néron mapping-property and admissible-filtration packages are
+integrated. Their Eisenstein-quotient
 instantiation requires the actual Eisenstein quotient and its Néron model, so
 it is blocked and does not occupy the spare WIP slot.
 

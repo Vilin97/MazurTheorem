@@ -349,6 +349,22 @@ by checked admissible variable changes.
   `MazurTorsion.XZeroFortyNine.coarseModuliPointOfOrderFortyNineTorsionBaseChange_eq`
   Identify the coarse point of every pulled-back order-49 family with the pullback of
   its rational coarse point.
+* `definition` (`contract`): `MazurTorsion.XZeroFortyNine.SchemeModel.scheme`
+  Realize the explicit rational X\_0(49) equation as the reduced projective Weierstrass
+  cubic scheme.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.rationalPointEquiv`
+  Identify coordinate points with all actual Spec Q morphisms into the represented
+  projective cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.point_eq_infinityCusp_or_finiteCusp`
+  Classify every rational scheme-valued point of the explicit target as one of two
+  distinct cusp morphisms.
+* `definition` (`contract`): `MazurTorsion.XZeroFortyNine.etaPointToScheme`
+  Map the explicit eta chart to an actual rational point of the represented projective
+  cubic.
+* `theorem` (`contract`): `MazurTorsion.XZeroFortyNine.etaPointToScheme_ne_cusps`
+  Prove that the noncuspidal eta locus avoids both represented rational cusp morphisms.
 * `structure` (`contract`): `MazurTorsion.ModularCurve.XZeroModuli.SplitGeometricDatum`
   Bundle a proper geometrically integral relative-dimension-one commutative group scheme
   with an actual split finite-flat cyclic subgroup of level N.

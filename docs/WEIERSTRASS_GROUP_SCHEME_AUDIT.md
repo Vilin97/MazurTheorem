@@ -397,5 +397,11 @@ a natural classifier, an algebraically closed geometric-point bijection, and
 the universal factorization property for maps to schemes. Classification
 commutes with arbitrary base change, any two supplied coarse schemes are
 canonically isomorphic, and order-49 torsion produces an actual rational point
-of one. No coarse-space instance, explicit `X₀(N)` comparison, universal-family
-comparison, or bad-characteristic generalized cyclicity is yet constructed.
+of one. The explicit rational level-49 target is now the actual reduced
+projective cubic scheme rather than only a coordinate point type. The canonical
+coordinate-to-scheme map is bijective on `Q`-points, so the checked two-point
+classification gives two distinct cusp morphisms which exhaust all `Spec Q`
+points; the eta open is a represented downstream consumer. No coarse-space
+instance, rational-fibre comparison with this target, universal-family
+comparison, modular noncuspidality theorem, or bad-characteristic generalized
+cyclicity is yet constructed.

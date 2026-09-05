@@ -232,10 +232,16 @@ slices at the 225-point headline:
   invariants with values in schemes. Naturality gives actual classifying
   morphisms compatible with base change, while the universal property makes
   any two such coarse schemes canonically isomorphic. Exact order-49 torsion is
-  a named point-level consumer. No coarse-space instance, explicit modular
-  curve identification, universal-family comparison, or generalized
-  bad-characteristic cyclicity is constructed, so the represented `X₀(N)`
-  classifier stays selected and no additional roadmap credit is claimed.
+  a named point-level consumer. On the target side, the explicit rational
+  `X₀(49)` equation now defines the actual reduced projective cubic scheme. A
+  checked equivalence identifies all of its `Spec Q` morphisms with the
+  coordinate point group, upgrading the two-cusp classification to two
+  distinct scheme morphisms; the eta open maps to this scheme and avoids both.
+  No coarse-space instance, identification of its rational fibre with this
+  target, universal-family comparison, modular noncuspidality theorem, or
+  generalized bad-characteristic cyclicity is constructed. The represented
+  `X₀(N)` classifier therefore stays selected with no additional roadmap
+  credit.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

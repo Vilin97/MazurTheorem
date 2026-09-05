@@ -356,9 +356,15 @@ closed fields, and the initial factorization property among scheme-valued
 natural invariants. The resulting point constructor is natural under arbitrary
 base change, and the universal property gives a canonical isomorphism between
 any two supplied coarse schemes. Exact order-49 torsion reaches an actual
-rational point of such a supplied scheme. Constructing a coarse-space instance,
-identifying it with the explicit modular curve, comparing universal families,
-and extending cyclicity through bad characteristic remain open.
+rational point of such a supplied scheme. The explicit level-49 target is now
+also scheme-theoretic: `XZeroFortyNine.SchemeModel.scheme` is the reduced
+projective cubic, and `rationalPointEquiv` proves that its `Spec Q` morphisms
+are exactly the coordinate points. Thus the two rational cusps are actual,
+distinct scheme morphisms and exhaust the rational points; the eta-chart map
+now consumes this result. Constructing a coarse-space instance, identifying
+its rational fibre with the explicit cubic, comparing universal families,
+proving modular noncuspidality, and extending cyclicity through bad
+characteristic remain open.
 
 The point constructor must consume an actual finite-flat subgroup scheme and
 prove noncuspidality; a supplied equivalence of point sets is not sufficient.
