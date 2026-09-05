@@ -5,7 +5,7 @@ Authors: Vasily Ilin, OpenAI Codex
 -/
 
 import MazurTorsion.NumberTheory.XZeroFortyNineTransfer
-import MazurTorsion.NumberTheory.XZeroFortyNineSchemeModel
+import MazurTorsion.NumberTheory.XZeroFortyNineRationalCuspOpen
 
 /-!
 # Comparing the coarse `Gamma_0(49)` fibre with the explicit cubic
@@ -16,15 +16,16 @@ rational point of the global coarse space lifts canonically to that fibre.
 
 `RationalFiberOpenComparison` states the remaining comparison with the
 explicit projective cubic at the correct geometric level: an open immersion
-over `Spec Q` whose rational image avoids both cusp morphisms.  Combined with
-the represented two-cusp classification, such a comparison makes both the
-rational fibre and the global coarse scheme empty on `Q`-points.  The exact
-order-49 moduli class is a named consumer, yielding the modular-route
-order-49 contradiction.
+over `Spec Q` into the actual `D(X)` open.  Factoring through this open is
+proved here to avoid both rational cusp morphisms, rather than recorded as an
+extra field.  Combined with the represented two-cusp classification, such a
+comparison makes both the rational fibre and the global coarse scheme empty
+on `Q`-points.  The exact order-49 moduli class is a named consumer, yielding
+the modular-route order-49 contradiction.
 
 No `CoarseModuliSpace` or `RationalFiberOpenComparison` is constructed here.
-In particular, the open-immersion and noncuspidality fields are the honest
-remaining modular-geometry obligations; the already checked explicit
+In particular, the factorization through `D(X)` and open-immersion field are
+honest remaining modular-geometry obligations; the already checked explicit
 isogeny-tower proof of the order-49 theorem is not used to manufacture them.
 -/
 
@@ -78,27 +79,38 @@ theorem rationalFiberPointMorphism_left_fst (M : CoarseSpace)
   exact pullback.lift_fst _ _ _
 
 /-- The honest comparison required between the rational fibre of the open
-coarse moduli space and the noncuspidal locus in the explicit projective
-cubic.  The map is an actual open immersion over `Spec Q`; the final field
-records that all of its rational points avoid both represented cusps. -/
+coarse moduli space and the rational-cusp-avoiding `D(X)` locus in the
+explicit projective cubic.  The target is an actual open subscheme over
+`Spec Q`, and the map is an open immersion into it. -/
 structure RationalFiberOpenComparison (M : CoarseSpace) where
   /-- The comparison morphism over `Spec Q`. -/
-  map : rationalFiberOver M ⟶ WeierstrassProjectiveCubic.toOver curve
+  map : rationalFiberOver M ⟶ SchemeModel.rationalCuspAvoidingOver
   /-- The comparison identifies the coarse fibre with an open part of the
-  explicit cubic. -/
+  rational-cusp-avoiding locus. -/
   map_isOpenImmersion : IsOpenImmersion map.left
-  /-- Rational points of the open moduli fibre map away from both cusps. -/
-  noncuspidal : ∀ p : Over.mk (𝟙 (Spec (.of ℚ))) ⟶ rationalFiberOver M,
-    SchemeModel.IsNoncuspidal (p ≫ map).left
 
 namespace RationalFiberOpenComparison
+
+/-- Composing the comparison with the inclusion of `D(X)` gives an open
+immersion into the represented projective cubic. -/
+theorem map_comp_rationalCuspAvoidingInclusion_isOpenImmersion
+    {M : CoarseSpace} (C : RationalFiberOpenComparison M) :
+    IsOpenImmersion
+      (C.map.left ≫ SchemeModel.rationalCuspAvoidingInclusion) := by
+  unfold SchemeModel.rationalCuspAvoidingInclusion
+  exact @IsOpenImmersion.comp _ _ _ C.map.left
+    SchemeModel.rationalCuspAvoidingOpen.ι C.map_isOpenImmersion
+    (Scheme.Opens.instIsOpenImmersionι
+      SchemeModel.rationalCuspAvoidingOpen)
 
 /-- A rational point of the coarse fibre would give a forbidden noncuspidal
 rational point of the explicit cubic. -/
 theorem no_rationalFiberPoint {M : CoarseSpace}
     (C : RationalFiberOpenComparison M)
     (p : Over.mk (𝟙 (Spec (.of ℚ))) ⟶ rationalFiberOver M) : False :=
-  SchemeModel.not_isNoncuspidal _ (C.noncuspidal p)
+  SchemeModel.not_isNoncuspidal _
+    (SchemeModel.comp_rationalCuspAvoidingInclusion_isNoncuspidal
+      (p ≫ C.map).left)
 
 /-- The supplied open comparison makes the rational fibre empty on
 `Q`-points. -/
@@ -121,14 +133,15 @@ fibre and the explicit open comparison. -/
 def pointOnScheme {M : CoarseSpace} (C : RationalFiberOpenComparison M)
     (p : Spec (.of ℚ) ⟶ M.scheme) :
     Spec (.of ℚ) ⟶ SchemeModel.scheme :=
-  (rationalFiberPointMorphism M p ≫ C.map).left
+  (rationalFiberPointMorphism M p ≫ C.map).left ≫
+    SchemeModel.rationalCuspAvoidingInclusion
 
 /-- Points sent through the comparison avoid both represented cusps. -/
 theorem pointOnScheme_isNoncuspidal {M : CoarseSpace}
     (C : RationalFiberOpenComparison M)
     (p : Spec (.of ℚ) ⟶ M.scheme) :
     SchemeModel.IsNoncuspidal (pointOnScheme C p) :=
-  C.noncuspidal (rationalFiberPointMorphism M p)
+  SchemeModel.comp_rationalCuspAvoidingInclusion_isNoncuspidal _
 
 /-- The exact-order-49 family classifies to the explicit projective cubic
 through a supplied coarse space and rational-fibre comparison. -/
