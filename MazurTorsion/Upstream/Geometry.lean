@@ -30,6 +30,7 @@ import MazurTorsion.Upstream.CurveLineBundleNormalizedTransition
 import MazurTorsion.Upstream.CurveLineBundleNamedTripleCocycle
 import MazurTorsion.Upstream.CurveLineBundleRawCocyclePrime
 import MazurTorsion.Upstream.CurveLineBundleCompatibleFamilies
+import MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite
 import MazurTorsion.Upstream.ProperCurveCohomologyFinite
 import MazurTorsion.Upstream.SchemeModuleBaseCechHZeroFinite
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
@@ -50,4 +51,8 @@ the actual underlying additive sheaf of a smooth proper integral curve module.
 For degree one, a private DVR uniformizer at a supplied codimension-one point
 constructs the finite map to `P¹` consumed by the genuine sheaf-cohomology
 finite-dimensionality theorem.
+Properness also makes the global-function ring finite over the ground field;
+the resulting canonical degree-zero theorem and its arbitrary-cover Cech
+comparison certify finite free sheaves as low-degree-good ordered Cech
+targets for the remaining coherent-support construction.
 -/
