@@ -380,6 +380,18 @@ by checked admissible variable changes.
   `MazurTorsion.XZeroFortyNine.SchemeModel.rationalCuspAvoidingScheme_rationalPoints_isEmpty`
   Combine D(X) cusp avoidance with the represented two-point classification to exclude
   all rational points of this open.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.rationalCuspAvoidingOpen_isAffine`
+  Prove that D(X) is affine by pulling back the affine Proj basic open along the cubic's
+  closed immersion.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.rationalCuspAvoidingIsoSpec`
+  Present the rational-cusp-avoiding open canonically as the spectrum of its coordinate
+  ring.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.rationalCuspAvoidingCoordinateRing_hom_rat_isEmpty`
+  Translate rational-point emptiness into the absence of ring homomorphisms from the
+  affine coordinate ring to Q.
 * `definition` (`contract`):
   `MazurTorsion.XZeroFortyNine.CoarseComparison.rationalFiber`
   Form the rational fibre of a supplied global coarse moduli scheme by pullback from

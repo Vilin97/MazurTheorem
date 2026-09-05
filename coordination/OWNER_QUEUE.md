@@ -194,10 +194,12 @@ cusp morphisms, and the eta chart consumes this represented classification.
 The rational fibre of every supplied global coarse scheme is now formed by an
 actual pullback over `Spec Z`, and every rational coarse point lifts to it. A
 projective `D(X)` chart is now an actual open subscheme of the explicit cubic,
-and homogeneous-coordinate calculations prove that both rational cusps lie
-outside it. The comparison interface therefore asks for an open immersion into
-this rational-cusp-avoiding open; noncuspidality is derived rather than supplied
-as a separate field. This yields emptiness of coarse rational points and the
+is proved affine, and has a canonical presentation as the spectrum of its
+coordinate ring. Homogeneous-coordinate calculations prove that both rational
+cusps lie outside it; consequently the coordinate ring has no homomorphism to
+`Q`. The comparison interface therefore asks for an open immersion into this
+rational-cusp-avoiding open; noncuspidality is derived rather than supplied as
+a separate field. This yields emptiness of coarse rational points and the
 modular-route order-49 endpoint. No coarse-space or comparison instance is
 constructed, so the current package and its zero credit are unchanged. The
 generic Néron mapping-property and

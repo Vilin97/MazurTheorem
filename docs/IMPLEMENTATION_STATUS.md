@@ -240,11 +240,13 @@ slices at the 225-point headline:
   The rational fibre of any supplied global coarse scheme is now its actual
   pullback from `Spec Z` to `Spec Q`, and every global rational point lifts
   canonically. The projective `D(X)` chart has now been pulled back to an
-  actual open subscheme of the cubic. Direct homogeneous-coordinate proofs
-  place both rational cusp morphisms outside this open, so every rational
-  point factoring through it is noncuspidal and the open has no `Spec Q`
-  points. `RationalFiberOpenComparison` now states the missing comparison as
-  an open immersion over `Q` into this rational-cusp-avoiding open; no separate
+  actual affine open subscheme of the cubic, canonically presented as the
+  spectrum of its coordinate ring. Direct homogeneous-coordinate proofs place
+  both rational cusp morphisms outside this open, so every rational point
+  factoring through it is noncuspidal, the open has no `Spec Q` points, and
+  its coordinate ring has no ring homomorphism to `Q`.
+  `RationalFiberOpenComparison` now states the missing comparison as an open
+  immersion over `Q` into this rational-cusp-avoiding open; no separate
   noncuspidality hypothesis remains. From such supplied data the code proves
   emptiness of coarse rational points and the modular-route order-49 endpoint.
   No coarse-space or comparison instance, universal-family comparison, or
