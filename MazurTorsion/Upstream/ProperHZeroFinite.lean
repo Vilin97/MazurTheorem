@@ -5,6 +5,7 @@ Authors: Vasily Ilin, Codex
 -/
 
 import Mathlib.AlgebraicGeometry.Morphisms.Proper
+import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleQuasicoherent
 import MazurTorsion.Upstream.ProperCurveCohomologyFinite
 import MazurTorsion.Upstream.SchemeModuleBaseCechHZeroComparison
@@ -18,9 +19,10 @@ the finiteness of the module of global sections over the global-function
 ring: properness makes that ring finite over the ground field, and no
 coherence hypothesis is otherwise needed here.
 
-The first named downstream consumer is a finite free sheaf.  Such sheaves
-are the generic full-support targets expected in the proper-curve comodel
-construction.
+The first named downstream consumer is a finite free sheaf.  The second is
+any module admitting a monomorphism into a finite free sheaf.  Such coherent
+free lattices are the `H⁰`-finite sources expected in the proper-curve
+generic-generator construction.
 -/
 
 noncomputable section
@@ -113,5 +115,52 @@ theorem freeHZeroCanonical_finiteDimensional_of_proper
   exact hZeroCanonical_finiteDimensional_of_globalSections_module_finite
     K X f (SheafOfModules.free I (R := X.ringCatSheaf))
       (Scheme.Modules.free_globalSections_module_finite X I)
+
+/-- A module which embeds into a finite free sheaf on an integral proper
+scheme has finite-dimensional canonical `H⁰`.  Degree-zero cohomology is
+identified with global sections, where a monomorphism of sheaves is
+sectionwise injective.
+
+The named downstream consumer is the full-support free-lattice reduction in
+`ProperCurveFiniteSupportCech`: its geometric producer may construct a
+coherent sublattice of a finite free sheaf instead of proving `H⁰`
+finiteness separately. -/
+theorem hZeroCanonical_finiteDimensional_of_mono_to_free
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (f : X ⟶ Spec (.of K)) [IsProper f]
+    (E : X.Modules) (I : Type u) [Finite I]
+    (g : E ⟶ SheafOfModules.free I (R := X.ringCatSheaf)) [Mono g] :
+    letI := hZeroCanonicalFieldModule K X f E
+    FiniteDimensional K (H E 0) := by
+  letI := hZeroCanonicalFieldModule K X f E
+  letI := hZeroCanonicalFieldModule K X f
+    (SheafOfModules.free I (R := X.ringCatSheaf))
+  letI : FiniteDimensional K
+      (H (SheafOfModules.free I (R := X.ringCatSheaf)) 0) :=
+    freeHZeroCanonical_finiteDimensional_of_proper K X f I
+  apply FiniteDimensional.of_injective
+    (hZeroCanonicalFieldLinearMap K X f g)
+  intro x y hxy
+  apply (hZeroCanonicalFieldLinearEquivGlobalSections K X f E).injective
+  have happ : Function.Injective (g.app (⊤ : X.Opens)) := by
+    haveI : Mono ((Scheme.Modules.toPresheaf X).map g) := by
+      exact (inferInstance :
+        (Scheme.Modules.toPresheaf X).PreservesMonomorphisms).preserves g
+    have hi : Function.Injective
+        (((Scheme.Modules.toPresheaf X).map g).app
+          (.op (⊤ : X.Opens))) := by
+      haveI : Mono (((Scheme.Modules.toPresheaf X).map g).app
+          (.op (⊤ : X.Opens))) := by infer_instance
+      exact (AddCommGrpCat.mono_iff_injective _).mp inferInstance
+    exact hi
+  apply happ
+  change g.app ⊤ (hZeroEquivGlobalSections E x) =
+    g.app ⊤ (hZeroEquivGlobalSections E y)
+  have hxy' : (zariskiFunctor X 0).map g x =
+      (zariskiFunctor X 0).map g y := hxy
+  exact (hZeroEquivGlobalSections_naturality g x).trans <|
+    (congrArg (hZeroEquivGlobalSections
+      (SheafOfModules.free I (R := X.ringCatSheaf))) hxy').trans <|
+      (hZeroEquivGlobalSections_naturality g y).symm
 
 end MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology

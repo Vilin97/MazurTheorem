@@ -6,6 +6,7 @@ Authors: Vasily Ilin, Codex
 
 import MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite
 import MazurTorsion.Upstream.ProperCurveFiniteSupport
+import MazurTorsion.Upstream.ProperHZeroFinite
 import MazurTorsion.Upstream.SchemeModuleBaseCechHZeroFinite
 import MazurTorsion.Upstream.SchemeModuleComparisonSupportEpi
 
@@ -213,6 +214,33 @@ theorem hZeroCanonical_finiteDimensional_of_fullSupportSource_of_epi_restrict
           (by rw [hEtop]; trivial)
   exact hZeroCanonical_finiteDimensional_of_strictCokernel
     K X f s E M g hE hQ
+
+/-- A coherent full-support sublattice of a finite free sheaf which
+surjects onto `M` after restriction to one nonempty open forces finite
+canonical `H⁰(M)`.  The finite-free monomorphism supplies `H⁰` finiteness of
+the source, while the open-local epimorphism supplies strict support of the
+cokernel.
+
+This is the exact design boundary for the remaining pole-clearing producer:
+it only has to place finitely many extended generic generators in one
+coherent full-support submodule of a finite free sheaf. -/
+theorem hZeroCanonical_finiteDimensional_of_fullSupportLattice_of_epi_restrict
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    (s : SmoothCurveRationalSection K X f)
+    (E M : X.Modules) [E.IsFiniteType] [E.IsQuasicoherent]
+    [M.IsFiniteType] [M.IsQuasicoherent]
+    (g : E ⟶ M) {Y : Scheme.{u}} (j : Y ⟶ X)
+    [IsOpenImmersion j] [Nonempty Y]
+    [Epi ((restrictFunctor j).map g)]
+    (I : Type u) [Finite I]
+    (e : E ⟶ SheafOfModules.free I (R := X.ringCatSheaf)) [Mono e]
+    (hEtop : closedStalkSupport E = ⊤) :
+    letI := hZeroCanonicalFieldModule K X f M
+    FiniteDimensional K (H M 0) := by
+  apply hZeroCanonical_finiteDimensional_of_fullSupportSource_of_epi_restrict
+    K X f s E M g j hEtop
+  exact hZeroCanonical_finiteDimensional_of_mono_to_free K X f E I e
 
 /-- On a pointed smooth proper integral curve, it is enough to construct
 support comodels for coherent modules whose closed stalk support is the whole
