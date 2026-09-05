@@ -47,7 +47,11 @@ private theorem raw_pullHom'₁₂_eq_transition
         (LineBundleDescent.tripleOverlap
           (coordinateCover U hcover hU) i j k).p₁
         (LineBundleDescent.tripleOverlap
-          (coordinateCover U hcover hU) i j k).p₂ =
+          (coordinateCover U hcover hU) i j k).p₂
+        (hf₁ := (LineBundleDescent.tripleOverlap
+          (coordinateCover U hcover hU) i j k).w₁)
+        (hf₂ := (LineBundleDescent.tripleOverlap
+          (coordinateCover U hcover hU) i j k).w₂) =
       localLineBundleRawTransition₁₂
         K X f U hnonempty hcover hU h D i j k := by
   exact Pseudofunctor.DescentData'.pullHom'_eq_pullHom
@@ -95,7 +99,11 @@ private theorem raw_pullHom'₂₃_eq_transition
         (LineBundleDescent.tripleOverlap
           (coordinateCover U hcover hU) i j k).p₂
         (LineBundleDescent.tripleOverlap
-          (coordinateCover U hcover hU) i j k).p₃ =
+          (coordinateCover U hcover hU) i j k).p₃
+        (hf₁ := (LineBundleDescent.tripleOverlap
+          (coordinateCover U hcover hU) i j k).w₂)
+        (hf₂ := (LineBundleDescent.tripleOverlap
+          (coordinateCover U hcover hU) i j k).w₃) =
       localLineBundleRawTransition₂₃
         K X f U hnonempty hcover hU h D i j k := by
   exact Pseudofunctor.DescentData'.pullHom'_eq_pullHom
@@ -143,7 +151,11 @@ private theorem raw_pullHom'₁₃_eq_transition
         (LineBundleDescent.tripleOverlap
           (coordinateCover U hcover hU) i j k).p₁
         (LineBundleDescent.tripleOverlap
-          (coordinateCover U hcover hU) i j k).p₃ =
+          (coordinateCover U hcover hU) i j k).p₃
+        (hf₁ := (LineBundleDescent.tripleOverlap
+          (coordinateCover U hcover hU) i j k).w₁)
+        (hf₂ := (LineBundleDescent.tripleOverlap
+          (coordinateCover U hcover hU) i j k).w₃) =
       localLineBundleRawTransition₁₃
         K X f U hnonempty hcover hU h D i j k := by
   exact Pseudofunctor.DescentData'.pullHom'_eq_pullHom
@@ -189,15 +201,15 @@ theorem localLineBundleChosenOverlapHom_raw_cocycle_prime
     Pseudofunctor.DescentData'.pullHom'
           (F := LineBundleDescent.modulesPseudofunctor)
           (sq := LineBundleDescent.overlap (coordinateCover U hcover hU))
-          raw T.p T.p₁ T.p₂ ≫
+          raw T.p T.p₁ T.p₂ (hf₁ := T.w₁) (hf₂ := T.w₂) ≫
         Pseudofunctor.DescentData'.pullHom'
           (F := LineBundleDescent.modulesPseudofunctor)
           (sq := LineBundleDescent.overlap (coordinateCover U hcover hU))
-          raw T.p T.p₂ T.p₃ =
+          raw T.p T.p₂ T.p₃ (hf₁ := T.w₂) (hf₂ := T.w₃) =
       Pseudofunctor.DescentData'.pullHom'
         (F := LineBundleDescent.modulesPseudofunctor)
         (sq := LineBundleDescent.overlap (coordinateCover U hcover hU))
-        raw T.p T.p₁ T.p₃ := by
+        raw T.p T.p₁ T.p₃ (hf₁ := T.w₁) (hf₂ := T.w₃) := by
   dsimp only
   rw [raw_pullHom'₁₂_eq_transition, raw_pullHom'₂₃_eq_transition,
     raw_pullHom'₁₃_eq_transition]
@@ -222,15 +234,18 @@ theorem localLineBundleChosenOverlapIso_raw_cocycle_prime
     Pseudofunctor.DescentData'.pullHom'
           (F := LineBundleDescent.modulesPseudofunctor)
           (sq := LineBundleDescent.overlap (coordinateCover U hcover hU))
-          (fun i j ↦ (rawIso i j).hom) T.p T.p₁ T.p₂ ≫
+          (fun i j ↦ (rawIso i j).hom) T.p T.p₁ T.p₂
+            (hf₁ := T.w₁) (hf₂ := T.w₂) ≫
         Pseudofunctor.DescentData'.pullHom'
           (F := LineBundleDescent.modulesPseudofunctor)
           (sq := LineBundleDescent.overlap (coordinateCover U hcover hU))
-          (fun i j ↦ (rawIso i j).hom) T.p T.p₂ T.p₃ =
+          (fun i j ↦ (rawIso i j).hom) T.p T.p₂ T.p₃
+            (hf₁ := T.w₂) (hf₂ := T.w₃) =
       Pseudofunctor.DescentData'.pullHom'
         (F := LineBundleDescent.modulesPseudofunctor)
         (sq := LineBundleDescent.overlap (coordinateCover U hcover hU))
-        (fun i j ↦ (rawIso i j).hom) T.p T.p₁ T.p₃ := by
+        (fun i j ↦ (rawIso i j).hom) T.p T.p₁ T.p₃
+          (hf₁ := T.w₁) (hf₂ := T.w₃) := by
   simpa only [localLineBundleChosenOverlapIsoOnProperSmoothCurve_hom] using
     localLineBundleChosenOverlapHom_raw_cocycle_prime
       K X f U hnonempty hcover hU h D i j k
@@ -266,22 +281,51 @@ theorem localLineBundleRawOverlapIsoFamily_cocycle_prime
     (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
     (D : WeilDivisor (CodimensionOnePoint X))
     (i j k : (coordinateCover U hcover hU).I₀) :
-    let T := LineBundleDescent.tripleOverlap
-      (coordinateCover U hcover hU) i j k
-    let rawIso := localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve
-      K X f U hnonempty hcover hU h D
     Pseudofunctor.DescentData'.pullHom'
           (F := LineBundleDescent.modulesPseudofunctor)
           (sq := LineBundleDescent.overlap (coordinateCover U hcover hU))
-          (fun i j ↦ (rawIso i j).hom) T.p T.p₁ T.p₂ ≫
+          (fun i j ↦ (localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve
+            K X f U hnonempty hcover hU h D i j).hom)
+          (LineBundleDescent.tripleOverlap
+            (coordinateCover U hcover hU) i j k).p
+          (LineBundleDescent.tripleOverlap
+            (coordinateCover U hcover hU) i j k).p₁
+          (LineBundleDescent.tripleOverlap
+            (coordinateCover U hcover hU) i j k).p₂
+          (hf₁ := (LineBundleDescent.tripleOverlap
+            (coordinateCover U hcover hU) i j k).w₁)
+          (hf₂ := (LineBundleDescent.tripleOverlap
+            (coordinateCover U hcover hU) i j k).w₂) ≫
         Pseudofunctor.DescentData'.pullHom'
           (F := LineBundleDescent.modulesPseudofunctor)
           (sq := LineBundleDescent.overlap (coordinateCover U hcover hU))
-          (fun i j ↦ (rawIso i j).hom) T.p T.p₂ T.p₃ =
+          (fun i j ↦ (localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve
+            K X f U hnonempty hcover hU h D i j).hom)
+          (LineBundleDescent.tripleOverlap
+            (coordinateCover U hcover hU) i j k).p
+          (LineBundleDescent.tripleOverlap
+            (coordinateCover U hcover hU) i j k).p₂
+          (LineBundleDescent.tripleOverlap
+            (coordinateCover U hcover hU) i j k).p₃
+          (hf₁ := (LineBundleDescent.tripleOverlap
+            (coordinateCover U hcover hU) i j k).w₂)
+          (hf₂ := (LineBundleDescent.tripleOverlap
+            (coordinateCover U hcover hU) i j k).w₃) =
       Pseudofunctor.DescentData'.pullHom'
         (F := LineBundleDescent.modulesPseudofunctor)
         (sq := LineBundleDescent.overlap (coordinateCover U hcover hU))
-        (fun i j ↦ (rawIso i j).hom) T.p T.p₁ T.p₃ := by
+        (fun i j ↦ (localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve
+          K X f U hnonempty hcover hU h D i j).hom)
+        (LineBundleDescent.tripleOverlap
+          (coordinateCover U hcover hU) i j k).p
+        (LineBundleDescent.tripleOverlap
+          (coordinateCover U hcover hU) i j k).p₁
+        (LineBundleDescent.tripleOverlap
+          (coordinateCover U hcover hU) i j k).p₃
+        (hf₁ := (LineBundleDescent.tripleOverlap
+          (coordinateCover U hcover hU) i j k).w₁)
+        (hf₂ := (LineBundleDescent.tripleOverlap
+          (coordinateCover U hcover hU) i j k).w₃) := by
   simpa only [localLineBundleRawOverlapIsoFamilyOnProperSmoothCurve_def] using
     localLineBundleChosenOverlapIso_raw_cocycle_prime
       K X f U hnonempty hcover hU h D i j k
