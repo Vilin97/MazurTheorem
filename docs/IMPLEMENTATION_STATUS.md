@@ -253,8 +253,12 @@ slices at the 225-point headline:
   eta open into the explicit `D(X)` presentation. Explicit inverse ring maps
   identify it with the target denominator-open `D(x² + 7x + 7)`, prove this
   morphism is an open immersion, and compute its exact image in both the
-  presentation and the actual cusp-avoiding subscheme. It therefore has no
-  `Spec Q` points or coordinate-ring homomorphisms to `Q`.
+  presentation and the actual cusp-avoiding subscheme. Constructive quotient
+  evaluation and localization equivalences also identify the original
+  rational eta-pair types with coordinate-ring maps and honest `Spec Q`
+  points of these schemes; these maps do not use empty-type elimination. The
+  eta open therefore has no `Spec Q` points or coordinate-ring homomorphisms
+  to `Q`.
   `RationalFiberOpenComparison` now states the missing comparison as an open
   immersion over `Q` into this rational-cusp-avoiding open; no separate
   noncuspidality hypothesis remains. From such supplied data the code proves

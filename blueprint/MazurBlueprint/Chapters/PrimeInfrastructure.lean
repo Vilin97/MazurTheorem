@@ -439,6 +439,18 @@ by checked admissible variable changes.
   Transport the exact eta-chart image through the presentation isomorphism into the
   actual rational-cusp-avoiding open subscheme.
 * `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.EtaSchemeModel.coordinateRingHomEquivEtaAffinePoint`
+  Identify rational affine eta pairs constructively with ring homomorphisms from the
+  eta-equation quotient ring to Q.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.EtaSchemeModel.openRingHomEquivEtaOpenPoint`
+  Identify the point-level condition x nonzero with rational points of the full
+  scheme-theoretic regularity localization.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.EtaSchemeModel.openSchemeRationalPointEquiv`
+  Identify open eta pairs with honest Spec Q morphisms into the eta regularity scheme by
+  explicit coordinate evaluation and Spec full faithfulness.
+* `definition` (`contract`):
   `MazurTorsion.XZeroFortyNine.CoarseComparison.rationalFiber`
   Form the rational fibre of a supplied global coarse moduli scheme by pullback from
   Spec Z to Spec Q.

@@ -380,9 +380,13 @@ morphism from this open into the explicit `D(X)` presentation. Explicit
 inverse ring maps identify its coordinate ring with the target presentation
 localized once more at `x² + 7x + 7`. Thus the eta morphism is an open
 immersion with exact image that denominator-open, both before and after
-transport to the actual rational-cusp-avoiding subscheme. It follows that the
-eta open has no `Spec Q` points and its coordinate ring has no homomorphism to
-`Q`.
+transport to the actual rational-cusp-avoiding subscheme. Independently of
+emptiness, explicit quotient evaluation identifies rational affine eta pairs
+with coordinate-ring maps, and the no-rational-zero result for the quadratic
+denominator upgrades `x != 0` to the full localization condition. Full
+faithfulness of `Spec` therefore identifies the original open eta-point type
+with honest rational scheme points. It follows that the eta open has no
+`Spec Q` points and its coordinate ring has no homomorphism to `Q`.
 `RationalFiberOpenComparison` asks for the geometrically correct bridge: an
 open immersion of the coarse fibre into this rational-cusp-avoiding open.
 Noncuspidality is now derived from the factorization rather than supplied as a
