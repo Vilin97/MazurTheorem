@@ -9,7 +9,7 @@ import MazurTorsion.NumberTheory.XZeroFortyNineReduction
 import MazurTorsion.Kubert.OrderSevenBacktrackingResultantObstruction
 import MazurTorsion.Kubert.OrderSevenCorrespondence
 import MazurTorsion.ModularCurve.XZeroGeometricCyclicQuotient
-import MazurTorsion.ModularCurve.XZeroRelativeGammaZeroFunctor
+import MazurTorsion.ModularCurve.XZeroRelativeGammaZeroCoarseModuli
 
 /-!
 # The level-seven modular correspondence has no noncuspidal rational point
@@ -750,6 +750,45 @@ noncomputable def locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsionBase
   (ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.locallyConstantGammaZeroModuliFunctor
     49).map f.op
       (locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsion E P hP)
+
+/-- A supplied coarse moduli space turns the intrinsic order-49 moduli class
+into an actual rational point of its underlying scheme.  Constructing such a
+coarse space, and identifying it with the explicit `X_0(49)` model, remain
+separate geometric obligations. -/
+noncomputable def coarseModuliPointOfOrderFortyNineTorsion
+    (M : ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.CoarseModuliSpace 49)
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
+    _root_.AlgebraicGeometry.Spec (.of ℚ) ⟶ M.scheme :=
+  M.point (locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsion E P hP)
+
+/-- Classify the pullback of an order-49 family over an arbitrary scheme over
+`Q`. -/
+noncomputable def coarseModuliPointOfOrderFortyNineTorsionBaseChange
+    (M : ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.CoarseModuliSpace 49)
+    (T : _root_.AlgebraicGeometry.Scheme)
+    (f : T ⟶ _root_.AlgebraicGeometry.Spec (.of ℚ))
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) : T ⟶ M.scheme :=
+  M.point
+    (locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsionBaseChange
+      T f E P hP)
+
+/-- The coarse point of a pulled-back order-49 family is the pullback of its
+rational coarse point. -/
+theorem coarseModuliPointOfOrderFortyNineTorsionBaseChange_eq
+    (M : ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.CoarseModuliSpace 49)
+    (T : _root_.AlgebraicGeometry.Scheme)
+    (f : T ⟶ _root_.AlgebraicGeometry.Spec (.of ℚ))
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (P : E.toAffine.Point) (hP : addOrderOf P = 49) :
+    coarseModuliPointOfOrderFortyNineTorsionBaseChange M T f E P hP =
+      f ≫ coarseModuliPointOfOrderFortyNineTorsion M E P hP := by
+  unfold coarseModuliPointOfOrderFortyNineTorsionBaseChange
+    locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsionBaseChange
+    coarseModuliPointOfOrderFortyNineTorsion
+  exact M.point_baseChange f
+    (locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsion E P hP)
 
 /-- An exact-order-49 rational point supplies the genuine split finite-flat
 source datum that a future coarse `X₀(49)` classifying morphism must consume.
