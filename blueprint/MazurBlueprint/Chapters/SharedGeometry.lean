@@ -390,6 +390,14 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_fullSupportSource_of_epi_restrict`
   Derive finite-dimensional canonical H0 from an H0-finite coherent full-support source
   which becomes epic onto the target on a nonempty open.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_mono_to_free`
+  Prove canonical H0 finite for any module admitting a monomorphism into a finite free
+  sheaf on an integral proper scheme.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_fullSupportLattice_of_epi_restrict`
+  Reduce finite canonical H0 of a coherent target to a full-support coherent sublattice
+  of a finite free sheaf which maps epically onto it on one nonempty open.
 
 :::
 

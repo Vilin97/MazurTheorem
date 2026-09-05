@@ -707,7 +707,9 @@ The strongest concrete reuse candidates are:
   extending generic generators from a full-support source can bypass
   construction of a comodel in the opposite direction; a project-original
   support lemma derives strict cokernel support directly from epimorphy on a
-  nonempty open. An
+  nonempty open, and a project-original subobject theorem makes the source's
+  `H⁰` finite whenever it embeds into a finite free sheaf. Thus the remaining
+  direct producer is a coherent full-support free lattice. An
   audit of historical AINTLIB
   commit `d78d10a74577e28840d21eb4e07395d87c44370f` found the preferable direct
   degree-zero/degree-one support induction before the later all-degree

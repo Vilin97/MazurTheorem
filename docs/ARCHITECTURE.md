@@ -92,9 +92,11 @@ canonical `H⁰` and `H⁰`-to-`H¹` windows gives a shorter direct boundary: a
 coherent map `E ⟶ M` with finite `H⁰(E)` and strict-support cokernel forces
 finite `H⁰(M)`, because pointed-curve `H¹` controls its kernel. If `E` has
 full support, epimorphy after restriction to any nonempty open now supplies
-the strict cokernel hypothesis automatically. Constructing such an
-`H⁰`-finite source and open-local epimorphism (or the alternative nonempty-open
-full-support comodel) and proper base change keep the final package open. The
+the strict cokernel hypothesis automatically. A monomorphism from `E` into a
+finite free sheaf also supplies finite `H⁰(E)`, so the direct producer is now
+exactly a coherent full-support free lattice mapping epically on one nonempty
+open. Constructing that lattice (or the alternative nonempty-open full-support
+comodel) and proper base change keep the final package open. The
 first genuine
 Riemann--Roch consumer belongs to B2, downstream of this foundation.
 

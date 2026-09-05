@@ -189,16 +189,17 @@ divisor/line-bundle dictionary. The checked core now contains:
   consumer reduces finite `H⁰(M)` to a coherent map `E ⟶ M` with finite
   `H⁰(E)` and strict-support cokernel, together with the open-local-
   epimorphism lemma making that strictness automatic for a full-support
-  source on a nonempty open; and
+  source on a nonempty open, and the finite-free-lattice lemma making
+  `H⁰(E)` automatic from a monomorphism `E ⟶ 𝒪_X^I`; and
 - `smoothProperCurve_H_eq_zero` above degree one, plus pointed proper-curve
   `H¹` finite-dimensionality for the canonical base and field actions.
 
 The 11-point Čech package and 12-point canonical core are integrated. The
 final 12-point package remains active but the parent node receives no credit:
-either a full-support `H⁰`-finite coherent source with an epimorphism onto the
-target on a nonempty open or a comparison to a low-degree-good target must
-still be constructed, and the exact low-degree cohomology base-change
-comparison is still absent. General
+either a coherent full-support sublattice of a finite free sheaf mapping
+epically onto the target on a nonempty open or a comparison to a
+low-degree-good target must still be constructed, and the exact low-degree
+cohomology base-change comparison is still absent. General
 proper-flat base change and semicontinuity remain owned by
 `MT-TC-C1-RELATIVE-COHOMOLOGY`; the first genuine Riemann--Roch consumer belongs
 to B2. Work-package status does not change the B1 node's zero credit.
