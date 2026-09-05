@@ -291,4 +291,12 @@ theorem openSchemeRationalPointEquiv_apply_y
       (Spec.homEquiv p).hom openY :=
   rfl
 
+/-- The scheme point associated to an open eta pair is `Spec.map` applied to
+the explicit localized evaluation homomorphism. -/
+@[simp]
+theorem openSchemeRationalPointEquiv_symm_eq_specMap (P : EtaOpenPoint) :
+    openSchemeRationalPointEquiv.symm P =
+      Spec.map (CommRingCat.ofHom (etaOpenPointToOpenRingHom P)) :=
+  rfl
+
 end MazurTorsion.XZeroFortyNine.EtaSchemeModel

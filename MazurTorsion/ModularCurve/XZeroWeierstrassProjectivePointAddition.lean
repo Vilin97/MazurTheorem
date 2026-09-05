@@ -18,9 +18,12 @@ output localization; equal abscissas away from the inverse locus use the
 inverse cases then complete the pointwise group-law comparison.
 
 The public boundary is `projectivePointOverMorphism_add_canonical` together
-with `canonicalPointGroupLawCompatibility`.  The named downstream consumer
-is the order-49 split `Gamma₀` construction, which no longer needs a supplied
-group-law compatibility hypothesis.
+with `canonicalPointGroupLawCompatibility`.  It also exposes
+`standardChartSpecMap_comp_coveringChartMap`, identifying evaluation on the
+standard affine chart with the corresponding projective coordinate point.
+The named downstream consumers are the order-49 split `Gamma₀` construction,
+which no longer needs a supplied group-law compatibility hypothesis, and the
+level-49 eta scheme-point compatibility square.
 -/
 
 noncomputable section
@@ -135,6 +138,25 @@ private theorem standardChartPointOver_eq_pointOver
         exact φ.commutes a
       rw [hconst]
       rfl
+
+/-- Evaluating the represented standard-chart coordinate ring at a field
+point and mapping into the projective cubic gives the projective point whose
+homogeneous coordinates are the three evaluated chart ratios. -/
+theorem standardChartSpecMap_comp_coveringChartMap
+    (W : WeierstrassCurve K)
+    (φ : coveringChartCoordinateRing W true →ₐ[K] K)
+    (hP : W.toProjective.Nonsingular
+      (φ ∘ coveringChartUniversalPoint W true)) :
+    Spec.map (CommRingCat.ofHom φ.toRingHom) ≫ coveringChartMap W true =
+      pointOfNonsingularRepresentative W
+        (φ ∘ coveringChartUniversalPoint W true) hP := by
+  have h := congrArg (fun f => f.left)
+    (standardChartPointOver_eq_pointOver W φ hP)
+  change Spec.map (CommRingCat.ofHom φ.toRingHom) ≫
+      coveringChartMap W true =
+    pointOfNonsingularRepresentative W
+      (φ ∘ coveringChartUniversalPoint W true) hP at h
+  exact h
 
 private theorem affineStandardPoint_equation
     (W : WeierstrassCurve K) (x y : K)

@@ -107,8 +107,16 @@ private lemma etaZ_sq (P : EtaAffinePoint) :
   rw [div_pow, div_eq_iff (pow_ne_zero 2 hden)]
   linear_combination heta
 
+/-- The ordinate on the checked Weierstrass model obtained from an affine eta
+point. -/
+def etaWeierstrassOrdinate (P : EtaAffinePoint) : ℚ :=
+  8 * ((P.y - (7 / 2) * P.x * (P.x ^ 2 + 5 * P.x + 7)) /
+    (P.x ^ 2 + 7 * P.x + 7))
+
 private lemma etaPoint_nonsingular (P : EtaAffinePoint) :
-    curve.toAffine.Nonsingular (4 * P.x) (8 * etaZ P) := by
+    curve.toAffine.Nonsingular (4 * P.x) (etaWeierstrassOrdinate P) := by
+  rw [show etaWeierstrassOrdinate P = 8 * etaZ P by
+    rfl]
   apply curve.toAffine.equation_iff_nonsingular.mp
   rw [WeierstrassCurve.Affine.equation_iff]
   norm_num [curve]
@@ -119,7 +127,7 @@ to the checked rational `X₀(49)` curve. -/
 noncomputable def etaPointToCurve (P : EtaAffinePoint) :
     curve.toAffine.Point :=
   WeierstrassCurve.Affine.Point.some
-    (4 * P.x) (8 * etaZ P) (etaPoint_nonsingular P)
+    (4 * P.x) (etaWeierstrassOrdinate P) (etaPoint_nonsingular P)
 
 /-- An affine eta-model point never maps to the point at infinity. -/
 theorem etaPointToCurve_ne_zero (P : EtaAffinePoint) :
