@@ -205,9 +205,10 @@ divisor/line-bundle dictionary. The checked core now contains:
 
 The 11-point Čech package and 12-point canonical core are integrated. The
 final 12-point package remains active but the parent node receives no credit:
-canonical `H⁰` and pointed canonical `H¹` are finite-dimensional and higher
-cohomology vanishes, but the exact low-degree cohomology base-change comparison
-is still absent. General
+canonical `H⁰` and pointed canonical `H¹` are finite-dimensional, higher
+cohomology vanishes, and exact `H⁰`/`H¹` field-extension base change is checked
+through the scalar-extended Cech complex for a supplied finite affine cover.
+The remaining B1 boundary is a cover-independent proper-curve facade. General
 proper-flat base change and semicontinuity remain owned by
 `MT-TC-C1-RELATIVE-COHOMOLOGY`; the first genuine Riemann--Roch consumer belongs
 to B2. Work-package status does not change the B1 node's zero credit.

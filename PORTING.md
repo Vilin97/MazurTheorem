@@ -778,9 +778,21 @@ combine the retained long exact sequence with pointed-curve `H¹` finiteness:
 a coherent map from an `H⁰`-finite source with strict-support cokernel forces
 finite `H⁰` of its target. A project-original open-local-epimorphism support
 lemma now derives that strictness automatically from full support of the
-source and a nonempty comparison open. Constructing such a generic-generator
-extension, the alternative comparison target, and the exact low-degree
-base-change facade remain open.
+source and a nonempty comparison open. The project-original affine-open
+presentation constructs the needed generic-generator extension, and its
+strict kernel together with its finite-free image closes unconditional
+canonical `H⁰` finiteness.
+
+The project-original `SchemeModuleBaseChangeCech` assembles the canonical
+affine Cartesian section maps into a morphism of base-linear Cech complexes.
+It proves every component is extension of scalars, constructs the resulting
+scalar-extended complex and flat-homology isomorphisms, and combines the native
+Cech comparisons into genuine `H⁰` and `H¹` base-change equivalences. Its named
+field-spectrum facade requires a supplied finite affine cover. Two small public
+naturality/evaluation lemmas were added to the retained open-unit and
+restriction--pushforward modules for this consumer; no proof is copied from an
+omitted cone. A cover-independent proper-curve facade, general proper-flat base
+change, and semicontinuity remain open.
 
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`

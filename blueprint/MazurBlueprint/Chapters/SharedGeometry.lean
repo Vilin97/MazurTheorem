@@ -116,9 +116,10 @@ line bundles on a smooth curve.
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
   Package the checked unconditional canonical H0 finite-dimensionality, pointed
-  canonical H1 finite-dimensionality, and vanishing above degree one for coherent
-  modules on pointed smooth proper integral curves, together with the still-needed exact
-  low-degree cohomology base-change comparison, in the required curve-cohomology facade.
+  canonical H1 finite-dimensionality, vanishing above degree one, and
+  supplied-finite-affine-cover low-degree field-extension base-change comparison for
+  coherent modules on pointed smooth proper integral curves in a cover-independent
+  curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -436,6 +437,28 @@ line bundles on a smooth curve.
   `AlgebraicGeometry.Scheme.Modules.pullbackUnitBaseLinearMap_isBaseChange_of_isPullback`
   For an affine Cartesian square, cancel the coordinate-ring pushout and prove that the
   canonical base-linear section map is extension of scalars along the opposite side.
+* `definition` (`contract`):
+  `ModuleCat.homologicalComplexExtendScalarsIsoOfIsBaseChange`
+  Upgrade a componentwise extension-of-scalars morphism of cochain complexes to an
+  isomorphism after scalar extension.
+* `definition` (`contract`): `AlgebraicGeometry.Scheme.Modules.baseChangeCechHom`
+  Assemble the canonical Cartesian pullback maps on affine intersections into a morphism
+  of base-linear Cech complexes.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.baseChangeCechHom_component_isBaseChange`
+  Prove every component of the canonical Cech morphism is extension of scalars by
+  reducing its product factors to affine pullback.
+* `definition` (`contract`): `AlgebraicGeometry.Scheme.Modules.baseChangeCechComplexIso`
+  Identify the scalar extension of the source base-Cech complex with the pulled-back
+  base-Cech complex.
+* `definition` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.baseChangeCechHomologyIso`
+  Commute flat scalar extension with base-Cech homology through the componentwise
+  base-change isomorphism.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.fieldExtensionLowDegreeBaseChange`
+  Package the genuine H0 and H1 field-extension comparisons obtained from a supplied
+  finite affine cover of a separated scheme.
 
 :::
 

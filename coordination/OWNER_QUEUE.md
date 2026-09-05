@@ -61,10 +61,14 @@ constructs such an `H⁰`-finite source and open-local epimorphism from finite
 local generators, and the strict/full-support split now proves canonical
 `H⁰` finite-dimensional for every coherent module. The canonical section map
 in an affine Cartesian square is also checked to be extension of scalars by
-cancelling the coordinate-ring pushout. It must next assemble these local maps
-into the base-linear Cech complex and prove the induced exact low-degree
-cohomology base-change comparison; `H¹` finiteness and vanishing above degree
-one are already checked.
+cancelling the coordinate-ring pushout. These local maps are now assembled
+termwise into the base-linear Cech complex; every component is extension of
+scalars, so flat scalar extension commutes with its homology. The affine-cover
+comparisons consequently give genuine `H⁰` and `H¹` base change over field
+spectra from a supplied finite affine cover. The package must next eliminate
+that supplied-cover parameter in its proper-curve facade; `H¹` finiteness and
+vanishing above degree one are already checked, while general proper-flat base
+change and semicontinuity remain in C1.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and
 `A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂`. The identity
