@@ -24,6 +24,73 @@ namespace AlgebraicGeometry.Scheme.Modules
 
 variable {X : Scheme.{u}}
 
+/-- Isomorphisms of scheme modules can be detected after restriction along a jointly surjective
+family of open immersions.
+
+This interface deliberately accepts the chart maps themselves, rather than replacing every
+chart by its canonical open range.  Its named consumer is `compatibleFamilyUnit_isIso` in
+`CurveLineBundleFullyFaithful`. -/
+theorem isIso_of_isIso_restrict_openCoverFamily
+    {M N : X.Modules} (α : M ⟶ N)
+    {ι : Type v} {Y : ι → Scheme.{u}} (f : ∀ i, Y i ⟶ X)
+    [∀ i, IsOpenImmersion (f i)]
+    (hcover : ∀ x : X, ∃ i y, f i y = x)
+    [∀ i, IsIso ((restrictFunctor (f i)).map α)] :
+    IsIso α := by
+  let FM : TopCat.Sheaf Ab X := ⟨M.presheaf, M.isSheaf⟩
+  let FN : TopCat.Sheaf Ab X := ⟨N.presheaf, N.isSheaf⟩
+  let a : FM ⟶ FN :=
+    ObjectProperty.homMk ((toPresheaf X).map α)
+  letI (x : X) :
+      IsIso
+        ((TopCat.Presheaf.stalkFunctor Ab x).map
+          a.1) := by
+    change IsIso
+      ((toPresheaf X ⋙
+        TopCat.Presheaf.stalkFunctor
+          (X := X.toPresheafedSpace) Ab x).map α)
+    obtain ⟨i, y, rfl⟩ := hcover x
+    let E := restrictStalkNatIso (f i) y
+    haveI hEM : IsIso (E.hom.app M) := (E.app M).isIso_hom
+    haveI hEN : IsIso (E.hom.app N) := (E.app N).isIso_hom
+    haveI hLocal :
+        IsIso
+          ((restrictFunctor (f i) ⋙ toPresheaf (Y i) ⋙
+            TopCat.Presheaf.stalkFunctor
+              (X := (Y i).toPresheafedSpace) Ab y).map α) := by
+      change IsIso
+        ((TopCat.Presheaf.stalkFunctor
+            (X := (Y i).toPresheafedSpace) Ab y).map
+          ((toPresheaf (Y i)).map
+            ((restrictFunctor (f i)).map α)))
+      infer_instance
+    have hAtImage :
+        IsIso
+          ((toPresheaf X ⋙
+            TopCat.Presheaf.stalkFunctor
+              (X := X.toPresheafedSpace) Ab (f i y)).map α) := by
+      haveI hcomp :
+          IsIso
+            (E.hom.app M ≫
+              (toPresheaf X ⋙
+                TopCat.Presheaf.stalkFunctor
+                  (X := X.toPresheafedSpace) Ab (f i y)).map α) := by
+        rw [← E.hom.naturality α]
+        exact IsIso.comp_isIso' hLocal hEN
+      exact @IsIso.of_isIso_comp_left _ _ _ _ _ _ _ hEM hcomp
+    exact hAtImage
+  haveI ha : IsIso a :=
+    TopCat.Presheaf.isIso_of_stalkFunctor_map_iso a
+  haveI haPresheaf : IsIso a.1 := by
+    change IsIso ((TopCat.Sheaf.forget Ab X).map a)
+    infer_instance
+  rw [Hom.isIso_iff_isIso_app]
+  intro V
+  haveI haV : IsIso (a.1.app (Opposite.op V)) := by
+    infer_instance
+  simpa only [a, FM, FN, ObjectProperty.homMk, toPresheaf_map,
+    mapPresheaf_app] using haV
+
 /-- Isomorphisms of scheme modules can be detected on a pointwise open cover. -/
 theorem isIso_of_isIso_restrict_openCover
     {M N : X.Modules} (α : M ⟶ N)

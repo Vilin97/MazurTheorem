@@ -5,6 +5,7 @@ Authors: Vasily Ilin
 -/
 
 import MazurTorsion.Upstream.CurveLineBundleTensorDescent
+import MazurTorsion.Upstream.CurveLineBundleFullyFaithful
 import MazurTorsion.Upstream.CurveDivisorGlobalLineBundle
 import MazurTorsion.Upstream.CurveDivisorRawTensorAddDescent
 
@@ -17,10 +18,11 @@ two effectivity isomorphisms and then inverts the local divisor-addition isomorp
 factorwise descent square and the raw addition square prove compatibility on chosen overlaps,
 which lifts to an unconditional isomorphism of full coherent descent data.
 
-The design boundary is explicit: the monoidal coherence calculation is unconditional, while
-lifting its result to an isomorphism of global module sheaves requires
-`ModuleDescentFullyFaithfulFor`.  The named downstream consumer is the divisor-to-Picard
-homomorphism in `CurveDivisorPicardEquivalence`.
+The design boundary is explicit: this file consumes fully faithful module descent on the
+universe-zero coordinate cover, proved by the compatible-family equalizer in
+`CurveLineBundleFullyFaithful`.  The resulting global tensor comparison is unconditional.  Its
+named downstream consumer is the divisor-to-Picard homomorphism in
+`CurveDivisorPicardEquivalence`.
 -/
 
 noncomputable section
@@ -408,6 +410,28 @@ noncomputable def globalDivisorLineBundleAddIsoOnProperSmoothCurve_of_fullyFaith
     K X f U hnonempty hcover hU h (D + E)).preimageIso hfaithful
       (rawDivisorAddToGlobalTensorDescentIsoOnProperSmoothCurve
         K X f U hnonempty hcover hU h D E)
+
+/-- The global divisor line bundle of a sum is the tensor product of the two global divisor line
+bundles.  Fully faithful descent on the coordinate cover is supplied unconditionally by the
+compatible-family reconstruction theorem. -/
+noncomputable def globalDivisorLineBundleAddIsoOnProperSmoothCurve
+    (K : Type u) [Field K]
+    (X : Scheme.{u}) [IsIntegral X] [IsLocallyNoetherian X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    {I : Type} (U : I → X.Opens) (hnonempty : ∀ i, Nonempty (U i))
+    (hcover : IsOpenCover U) (hU : ∀ i, IsAffineOpen (U i))
+    (h : ∀ i, AffineChart.DedekindOrderCompatibility X (U i) (hU i))
+    (D E : WeilDivisor (CodimensionOnePoint X)) :
+    (globalDivisorLineBundleOnProperSmoothCurve
+        K X f U hnonempty hcover hU h (D + E)).obj ≅
+      (globalDivisorLineBundleOnProperSmoothCurve
+          K X f U hnonempty hcover hU h D).obj ⊗
+        (globalDivisorLineBundleOnProperSmoothCurve
+          K X f U hnonempty hcover hU h E).obj :=
+  globalDivisorLineBundleAddIsoOnProperSmoothCurve_of_fullyFaithful
+    K X f U hnonempty hcover hU h D E
+      (moduleDescentFullyFaithfulForOpenCover
+        (coordinateCover U hcover hU))
 
 end MazurTorsion.AlgebraicGeometry.CurveDivisorDescent
 

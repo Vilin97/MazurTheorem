@@ -33,6 +33,7 @@ import MazurTorsion.Upstream.CurveLineBundleNormalizedTransition
 import MazurTorsion.Upstream.CurveLineBundleNamedTripleCocycle
 import MazurTorsion.Upstream.CurveLineBundleRawCocyclePrime
 import MazurTorsion.Upstream.CurveLineBundleCompatibleFamilies
+import MazurTorsion.Upstream.CurveLineBundleFullyFaithful
 import MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite
 import MazurTorsion.Upstream.ProperCurveCohomologyFinite
 import MazurTorsion.Upstream.ProperCurveFiniteSupport
