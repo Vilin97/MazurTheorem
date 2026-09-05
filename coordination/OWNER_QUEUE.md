@@ -55,8 +55,10 @@ closed-support induction. Canonical `H⁰` maps and both needed long-exact-
 sequence windows are now ground-field-linear, and their finite-dimensional
 transfer gives a direct alternative: a coherent map `E ⟶ M` with finite
 `H⁰(E)` and strict-support cokernel suffices, with pointed-curve `H¹`
-controlling the kernel. It must next construct such a generically surjective
-source (or the low-degree-good full-support comodel) and prove the exact
+controlling the kernel. Full support of `E` and epimorphy on a nonempty open
+now imply that strictness automatically. It must next construct such an
+`H⁰`-finite source and open-local epimorphism (or the low-degree-good
+full-support comodel) and prove the exact
 low-degree base-change comparison; `H¹` finiteness and vanishing above degree
 one are already checked.
 

@@ -81,10 +81,13 @@ slices at the 225-point headline:
   sequence windows are also ground-field-linear, with finite-dimensional
   transfers. Consequently, a coherent map `E ⟶ M` with finite `H⁰(E)` and
   strict-support cokernel already gives finite `H⁰(M)`; pointed-curve `H¹`
-  handles its arbitrary coherent kernel. The 12-point core is integrated.
-  The final 12-point finiteness/base-change package is active: construction
-  of such a generically surjective source (or the alternative full-support
-  comodel) and the exact low-degree base-change comparison remain missing,
+  handles its arbitrary coherent kernel. An epimorphism after restriction to
+  a nonempty open now gives that strict cokernel support automatically when
+  the source has full support. The 12-point core is integrated. The final
+  12-point finiteness/base-change package is active: construction of such a
+  full-support `H⁰`-finite source and open-local epimorphism (or the
+  alternative full-support comodel) and the exact low-degree base-change
+  comparison remain missing,
   while vanishing above degree one is already checked. The first genuine
   Riemann--Roch consumer belongs to B2.
 - The all-degree zero-section-normalized relative Picard presheaf now has its

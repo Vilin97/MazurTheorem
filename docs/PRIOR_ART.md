@@ -704,8 +704,10 @@ The strongest concrete reuse candidates are:
   sequence as canonical field-linear exact pairs: finite `H⁰` of a coherent
   source and strict support of the cokernel imply finite `H⁰` of the target,
   because the pointed-curve theorem supplies finite `H¹` of the kernel. Thus
-  extending generic generators to a generically surjective coherent map can
-  bypass construction of a comodel in the opposite direction. An
+  extending generic generators from a full-support source can bypass
+  construction of a comodel in the opposite direction; a project-original
+  support lemma derives strict cokernel support directly from epimorphy on a
+  nonempty open. An
   audit of historical AINTLIB
   commit `d78d10a74577e28840d21eb4e07395d87c44370f` found the preferable direct
   degree-zero/degree-one support induction before the later all-degree

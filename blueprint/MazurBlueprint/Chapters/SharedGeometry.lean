@@ -118,10 +118,10 @@ line bundles on a smooth curve.
   Package the checked canonical H0 comparisons, field-linear exact-sequence transfers,
   finite-free ordered low-degree targets, coherent finite strict-support models with
   finite global sections and direct canonical H0/pointed Cech H0-H1 finiteness
-  consumers, both the generic quotient-presentation and full-support comodel reductions,
-  pointed-curve canonical-field H1 finite-dimensionality, affine acyclicity, and
-  vanishing above degree one with the still-needed geometric producer in the required
-  curve-cohomology facade.
+  consumers, the full-support-source/open-local-epimorphism presentation reduction and
+  alternative full-support comodel reduction, pointed-curve canonical-field H1
+  finite-dimensionality, affine acyclicity, and vanishing above degree one with the
+  still-needed geometric producer in the required curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -378,6 +378,18 @@ line bundles on a smooth curve.
   Derive finite-dimensional canonical H0 from a coherent map whose source has finite H0
   and whose cokernel has strict support, using pointed-curve H1 finiteness for the
   kernel.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.isZero_restrict_cokernel_image_ι_of_epi_map`
+  Make the image cokernel vanish where the original module morphism restricts to an
+  epimorphism.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.closedStalkSupport_cokernel_image_ι_lt_of_epi_map`
+  Turn an open-local epimorphism meeting the source support into strict support decrease
+  for its coherent cokernel residual.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_fullSupportSource_of_epi_restrict`
+  Derive finite-dimensional canonical H0 from an H0-finite coherent full-support source
+  which becomes epic onto the target on a nonempty open.
 
 :::
 

@@ -259,7 +259,9 @@ reduction then discharge the strict branch of support induction without
 copying a comparison producer or proper-cohomology proof. Its additional
 project-original exact-pair wrappers and strict-cokernel consumer only compose
 the already retained long exact sequence, finite-module transfer, and checked
-pointed-curve `H¹`; they copy no omitted geometric producer.
+pointed-curve `H¹`. Its open-local-epimorphism support lemma is likewise a
+project-original weakening of the cokernel-side hypothesis and copies no
+omitted geometric producer.
 The finite-pushforward comparison extension retains the inverse-image-cover
 complex isomorphisms, their low-degree finiteness transport, and the
 support-only pushforward/pullback result; it omits the all-degree and

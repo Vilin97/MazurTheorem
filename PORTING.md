@@ -776,9 +776,11 @@ There the support conditions are automatic on any nonempty comparison open;
 The project-original canonical field-linear exact-pair wrappers now also
 combine the retained long exact sequence with pointed-curve `H¹` finiteness:
 a coherent map from an `H⁰`-finite source with strict-support cokernel forces
-finite `H⁰` of its target. Constructing such a generic-generator extension,
-the alternative comparison target, and the exact low-degree base-change
-facade remain open.
+finite `H⁰` of its target. A project-original open-local-epimorphism support
+lemma now derives that strictness automatically from full support of the
+source and a nonempty comparison open. Constructing such a generic-generator
+extension, the alternative comparison target, and the exact low-degree
+base-change facade remain open.
 
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`

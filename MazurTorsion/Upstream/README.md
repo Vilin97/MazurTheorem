@@ -31,6 +31,7 @@ Downstream project code should prefer the narrowest applicable boundary:
 | [`SchemeModuleBaseCechHOneModule.lean`](SchemeModuleBaseCechHOneModule.lean) | explicit global-functions-linear `H¹` comparison |
 | [`ProjectiveLineCechHOneFinite.lean`](ProjectiveLineCechHOneFinite.lean) | finite-dimensional two-chart `H¹` calculation on the projective line |
 | [`ProperCurveCohomologyFinite.lean`](ProperCurveCohomologyFinite.lean) | canonical field-linear exact-sequence transfers and pointed smooth-proper-curve finite-dimensional `H¹` |
+| [`SchemeModuleComparisonSupportEpi.lean`](SchemeModuleComparisonSupportEpi.lean) | strict cokernel-support drop from an epimorphism on a support-meeting open |
 | [`ProperCurveFiniteSupportCech.lean`](ProperCurveFiniteSupportCech.lean) | strict-support consumers plus direct generic-presentation and full-support-comodel reductions for coherent `H⁰` |
 | [`CurveCohomologyGrothendieckVanishing.lean`](CurveCohomologyGrothendieckVanishing.lean) | curve specialization of the retained LeanPool vanishing theorem |
 
