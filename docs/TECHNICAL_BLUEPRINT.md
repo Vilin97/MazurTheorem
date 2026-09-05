@@ -180,13 +180,17 @@ divisor/line-bundle dictionary. The checked core now contains:
   comparison isomorphism to make strict-support global sections finite;
 - direct consumers giving finite canonical `H⁰` and pointed ordered base-Cech
   `H⁰`/`H¹` under strict support; and
+- identity comodels and a conditional endpoint which reduce the entire
+  closed-support induction to constructing comodels for full-support modules,
+  with support containment and the support-meeting point automatic on any
+  nonempty comparison open; and
 - `smoothProperCurve_H_eq_zero` above degree one, plus pointed proper-curve
   `H¹` finite-dimensionality for the canonical base and field actions.
 
 The 11-point Čech package and 12-point canonical core are integrated. The
 final 12-point package remains active but the parent node receives no credit:
-the required open-local comparison to a low-degree-good target must still be
-constructed for full-support coherent sheaves, and the exact low-degree
+the required comparison to a low-degree-good target on a nonempty open must
+still be constructed for full-support coherent sheaves, and the exact low-degree
 cohomology base-change comparison is still absent. General
 proper-flat base change and semicontinuity remain owned by
 `MT-TC-C1-RELATIVE-COHOMOLOGY`; the first genuine Riemann--Roch consumer belongs

@@ -76,8 +76,10 @@ slices at the 225-point headline:
   finite type, making the canonical support model coherent; finite pushforward
   now proves finite global sections for strict support, and direct consumers
   expose finite canonical `H⁰` and pointed ordered Cech `H⁰`/`H¹`. The
-  12-point core is integrated. The final 12-point finiteness/base-change package is active:
-  construction of comparison data for full-support coherent sheaves and the
+  strict branch is now fed back into closed-support induction by identity
+  comodels. The 12-point core is integrated. The final 12-point
+  finiteness/base-change package is active: construction of a comparison
+  target on a nonempty open for full-support coherent sheaves and the
   exact low-degree base-change comparison remain missing, while vanishing
   above degree one is already checked. The first genuine Riemann--Roch
   consumer belongs to B2.

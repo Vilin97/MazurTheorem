@@ -31,7 +31,7 @@ Downstream project code should prefer the narrowest applicable boundary:
 | [`SchemeModuleBaseCechHOneModule.lean`](SchemeModuleBaseCechHOneModule.lean) | explicit global-functions-linear `H¹` comparison |
 | [`ProjectiveLineCechHOneFinite.lean`](ProjectiveLineCechHOneFinite.lean) | finite-dimensional two-chart `H¹` calculation on the projective line |
 | [`ProperCurveCohomologyFinite.lean`](ProperCurveCohomologyFinite.lean) | pointed smooth-proper-curve finite-dimensional `H¹` consumer |
-| [`ProperCurveFiniteSupportCech.lean`](ProperCurveFiniteSupportCech.lean) | strict-support canonical `H⁰` and pointed ordered base-Cech `H⁰`/`H¹` finiteness consumers |
+| [`ProperCurveFiniteSupportCech.lean`](ProperCurveFiniteSupportCech.lean) | strict-support cohomology consumers and the reduction of arbitrary coherent finiteness to full-support comodels |
 | [`CurveCohomologyGrothendieckVanishing.lean`](CurveCohomologyGrothendieckVanishing.lean) | curve specialization of the retained LeanPool vanishing theorem |
 
 Import a file below `AINTLIB/` or `LeanPool/` directly only when extending or

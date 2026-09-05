@@ -117,8 +117,9 @@ line bundles on a smooth curve.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
   Package the checked canonical H0 comparisons, finite-free ordered low-degree targets,
   coherent finite strict-support models with finite global sections and direct canonical
-  H0/pointed Cech H0-H1 finiteness consumers, open-local support-comodel assembly,
-  conditional coherent-support H0 endpoint, linear connecting maps, pointed-curve
+  H0/pointed Cech H0-H1 finiteness consumers, identity comodels reducing the induction
+  to full support, full-support open-local support-comodel assembly, the resulting
+  conditional coherent H0 endpoint, linear connecting maps, pointed-curve
   canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above
   degree one with the still-needed comparison producer in the required curve-cohomology
   facade.
@@ -331,6 +332,28 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.CanonicalSupportThickening.orderedBaseCechLowDegreeFinite_of_rationalSection_of_closedStalkSupport_lt_top`
   Expose ordered base-Cech finiteness in degrees zero and one for strict support on a
   pointed smooth proper integral curve.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.IsCoherentLowDegreeSupportComodel.identity`
+  Make every already low-degree-finite coherent module its own support comodel through
+  the identity comparison.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.isCoherentLowDegreeSupportComodel_of_rationalSection_of_fullSupport`
+  On full support, assemble a low-degree support comodel from a finite-sections target
+  and a comparison invertible on any nonempty open, with both support side conditions
+  automatic.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.finiteFreeTarget_isCoherentLowDegreeSupportComodel_of_fullSupport`
+  Specialize the full-support assembler to a finite free target and a nonempty
+  open-local isomorphism.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.orderedBaseCechLowDegreeFinite_of_fullSupportComodels`
+  Discharge the strict-support branch by canonical finite thickenings and identity
+  comodels, reducing arbitrary coherent low-degree finiteness to full-support comodels
+  only.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_fullSupportComodels`
+  Expose finite-dimensional canonical H0 for every coherent module from the isolated
+  full-support-only comodel producer boundary.
 
 :::
 

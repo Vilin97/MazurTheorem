@@ -32,8 +32,9 @@ The route itself did not change in this audit. The architecture did:
 - the immutable `ncard ≤ 16` challenge is recorded separately;
 - canonical coherent-cohomology actions, finite-free proper-curve low-degree
   targets, coherent finite strict-support models with finite global sections
-  and direct canonical `H⁰`/pointed Cech `H⁰`-`H¹` consumers, and open-local
-  support-comodel assembly, one Weierstrass secant chart, and
+  and direct canonical `H⁰`/pointed Cech `H⁰`-`H¹` consumers, identity
+  comodels reducing induction to full support, and open-local support-comodel
+  assembly, one Weierstrass secant chart, and
   the represented polynomial-cusp collision are recorded as checked
   prerequisites without promoting them to Riemann--Roch, a group scheme, or
   represented `X₀`; and

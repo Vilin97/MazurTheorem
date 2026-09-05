@@ -50,8 +50,10 @@ ground field. Pullback along affine morphisms now preserves quasicoherence and
 finite type, so the canonical model is coherent; finite pushforward proves
 finite global sections for every strict-support coherent module. The package
 now also exposes finite canonical `H⁰` and pointed ordered Cech `H⁰`/`H¹`
-under strict support. It must next construct comparison data for full-support
-coherent sheaves and prove the exact low-degree base-change comparison; `H¹` finiteness and
+under strict support. Identity comodels discharge that branch inside the
+closed-support induction. It must next construct a low-degree-good comparison
+target on a nonempty open for full-support coherent sheaves and prove the
+exact low-degree base-change comparison; `H¹` finiteness and
 vanishing above degree one are already checked.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and

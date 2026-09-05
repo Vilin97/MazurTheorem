@@ -70,7 +70,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2097874,
+    "integrated_lean_lines": 2098014,
     "integrated_lean_modules": 2040,
     "remaining_composite_orders": [
       25,
@@ -1959,7 +1959,7 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Build the coherent-cohomology results needed for proper smooth curves. The checked H0/global-sections comparison is linear for the canonical global-functions action, agrees with the opt-in transported action, and has a canonical-field consumer. For any open cover, native base-Cech H0 is naturally and canonically base-linear equivalent to genuine Ext-based H0. Properness now makes canonical H0 finite whenever global sections are finite over the source global-function ring; combined with pointed-curve H1 finiteness, this proves ordered low-degree Cech finiteness for every such coherent sheaf and in particular for finite free sheaves. A supplied comparison to such a target which is invertible on a support-meeting open and does not enlarge support is assembled into the exact coherent support-comodel required by closed-support induction. Strict closed stalk support is finite, its canonical support thickening is finite over the ground field, and affine-morphism pullback coherence makes the canonical model coherent; finite pushforward proves finite global sections, hence canonical H0 and pointed ordered Cech H0/H1 finiteness, for every strict-support coherent module. The actual Ext connecting homomorphism of every short exact sequence is global-functions-linear, with a canonical ground-field-linear H0-to-H1 facade and a finite-dimensional-image consumer for pointed proper curves. The coherent core package is integrated; construction of the required open-local comparison for full-support sheaves and proper base change remain open in the active curve-finiteness package. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
+      "summary": "Build the coherent-cohomology results needed for proper smooth curves. The checked H0/global-sections comparison is linear for the canonical global-functions action, agrees with the opt-in transported action, and has a canonical-field consumer. For any open cover, native base-Cech H0 is naturally and canonically base-linear equivalent to genuine Ext-based H0. Properness now makes canonical H0 finite whenever global sections are finite over the source global-function ring; combined with pointed-curve H1 finiteness, this proves ordered low-degree Cech finiteness for every such coherent sheaf and in particular for finite free sheaves. A supplied comparison to such a target which is invertible on a support-meeting open and does not enlarge support is assembled into the exact coherent support-comodel required by closed-support induction. Strict closed stalk support is finite, its canonical support thickening is finite over the ground field, and affine-morphism pullback coherence makes the canonical model coherent; finite pushforward proves finite global sections, hence canonical H0 and pointed ordered Cech H0/H1 finiteness, for every strict-support coherent module. Identity comodels now discharge that strict-support branch inside the closed-support induction, reducing arbitrary coherent low-degree and canonical-H0 finiteness exactly to construction of comodels for full-support modules; on a nonempty comparison open their support side conditions are automatic. The actual Ext connecting homomorphism of every short exact sequence is global-functions-linear, with a canonical ground-field-linear H0-to-H1 facade and a finite-dimensional-image consumer for pointed proper curves. The coherent core package is integrated; construction of the required nonempty-open comparison target for full-support sheaves and proper base change remain open in the active curve-finiteness package. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1969,7 +1969,7 @@
             "max": 55
           },
           "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "Only audited option-free slices are retained from the selected prior-art source. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, comparison-residual support drop, and closed-support induction compile. The augmented native Cech short complex and forgotten base-linear homology comparison support a local arbitrary-cover H0 comparison. A project-original properness argument proves canonical H0 finite from finite global sections over the source ring and certifies finite free sheaves as ordered low-degree-good targets by combining that result with canonical pointed-curve H1 finiteness. A project-original assembler turns supplied open-local comparison data into the exact coherent support-comodel. A project wrapper around Tau Ceti's proper-closed-subset theorem makes every strict closed stalk support finite and upgrades its retained canonical thickening to a finite structure morphism. Project-original affine-morphism pullback theorems make that support model quasicoherent and finite type, so finite pushforward over the affine field spectrum proves finite global sections for strict support. Direct project-original consumers now expose canonical H0 and pointed ordered Cech H0/H1 finiteness under that strict-support hypothesis. Naturality of the actual Ext connecting class makes every short-exact-sequence boundary global-functions-linear. Construction of the required full-support comparison and proper cohomology base change remain absent.",
+          "boundary": "Only audited option-free slices are retained from the selected prior-art source. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, comparison-residual support drop, and closed-support induction compile. The augmented native Cech short complex and forgotten base-linear homology comparison support a local arbitrary-cover H0 comparison. A project-original properness argument proves canonical H0 finite from finite global sections over the source ring and certifies finite free sheaves as ordered low-degree-good targets by combining that result with canonical pointed-curve H1 finiteness. A project-original assembler turns supplied open-local comparison data into the exact coherent support-comodel. A project wrapper around Tau Ceti's proper-closed-subset theorem makes every strict closed stalk support finite and upgrades its retained canonical thickening to a finite structure morphism. Project-original affine-morphism pullback theorems make that support model quasicoherent and finite type, so finite pushforward over the affine field spectrum proves finite global sections for strict support. Direct project-original consumers expose canonical H0 and pointed ordered Cech H0/H1 finiteness under that strict-support hypothesis. An identity-comodel constructor now feeds these results back into closed-support induction, so arbitrary coherent finiteness is reduced to full-support comodels only; full support makes support containment and a support-meeting point automatic on every nonempty isomorphism open. Naturality of the actual Ext connecting class makes every short-exact-sequence boundary global-functions-linear. Construction of the comparison and low-degree-good target on such a full-support open, and proper cohomology base change, remain absent.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -1993,7 +1993,7 @@
           "kind": "theorem",
           "name": "TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional",
           "state": "proposed",
-          "description": "Package the checked canonical H0 comparisons, finite-free ordered low-degree targets, coherent finite strict-support models with finite global sections and direct canonical H0/pointed Cech H0-H1 finiteness consumers, open-local support-comodel assembly, conditional coherent-support H0 endpoint, linear connecting maps, pointed-curve canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above degree one with the still-needed comparison producer in the required curve-cohomology facade."
+          "description": "Package the checked canonical H0 comparisons, finite-free ordered low-degree targets, coherent finite strict-support models with finite global sections and direct canonical H0/pointed Cech H0-H1 finiteness consumers, identity comodels reducing the induction to full support, full-support open-local support-comodel assembly, the resulting conditional coherent H0 endpoint, linear connecting maps, pointed-curve canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above degree one with the still-needed comparison producer in the required curve-cohomology facade."
         },
         {
           "kind": "definition",
@@ -2351,6 +2351,41 @@
           "state": "contract",
           "description": "Expose ordered base-Cech finiteness in degrees zero and one for strict support on a pointed smooth proper integral curve.",
           "module": "MazurTorsion.Upstream.ProperCurveFiniteSupportCech"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.IsCoherentLowDegreeSupportComodel.identity",
+          "state": "contract",
+          "description": "Make every already low-degree-finite coherent module its own support comodel through the identity comparison.",
+          "module": "MazurTorsion.Upstream.SchemeModuleOrderedBaseCechLowDegreeSupport"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.isCoherentLowDegreeSupportComodel_of_rationalSection_of_fullSupport",
+          "state": "contract",
+          "description": "On full support, assemble a low-degree support comodel from a finite-sections target and a comparison invertible on any nonempty open, with both support side conditions automatic.",
+          "module": "MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.finiteFreeTarget_isCoherentLowDegreeSupportComodel_of_fullSupport",
+          "state": "contract",
+          "description": "Specialize the full-support assembler to a finite free target and a nonempty open-local isomorphism.",
+          "module": "MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.orderedBaseCechLowDegreeFinite_of_fullSupportComodels",
+          "state": "contract",
+          "description": "Discharge the strict-support branch by canonical finite thickenings and identity comodels, reducing arbitrary coherent low-degree finiteness to full-support comodels only.",
+          "module": "MazurTorsion.Upstream.ProperCurveFiniteSupportCech"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_fullSupportComodels",
+          "state": "contract",
+          "description": "Expose finite-dimensional canonical H0 for every coherent module from the isolated full-support-only comodel producer boundary.",
+          "module": "MazurTorsion.Upstream.ProperCurveFiniteSupportCech"
         }
       ],
       "depends_on": [
@@ -2368,8 +2403,8 @@
         "credit_percent": 0
       },
       "evidence": {
-        "recorded_artifact_count": 133,
-        "canonical_artifact_count": 53,
+        "recorded_artifact_count": 138,
+        "canonical_artifact_count": 58,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [

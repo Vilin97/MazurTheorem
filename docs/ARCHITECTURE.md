@@ -86,8 +86,10 @@ finite, its canonical thickening is finite over the ground field, and
 affine-morphism pullback coherence makes the support model coherent. Finite
 pushforward now recovers finite global sections for every strict-support
 coherent module, with direct canonical `H⁰` and pointed ordered Cech
-`H⁰`/`H¹` finiteness consumers. Construction of comparison data for full-support sheaves and
-proper base change keep the final package open. The first genuine
+`H⁰`/`H¹` finiteness consumers. Identity comodels discharge this strict branch
+of closed-support induction, leaving only a nonempty-open comparison target
+for full-support sheaves. That construction and proper base change keep the
+final package open. The first genuine
 Riemann--Roch consumer belongs to B2, downstream of this foundation.
 
 The Picard lane likewise separates an honest absolute construction from the

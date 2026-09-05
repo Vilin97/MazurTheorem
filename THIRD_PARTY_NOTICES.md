@@ -254,7 +254,9 @@ pushforward and the retained comparison isomorphism to prove finite global
 sections for strict support. The project-original
 `ProperCurveFiniteSupportCech` merely composes that result with checked local
 cohomology interfaces to expose canonical `H⁰` and pointed ordered Cech
-`H⁰`/`H¹` finiteness; it introduces no copied proof.
+`H⁰`/`H¹` finiteness. Its project-original identity-comodel and full-support
+reduction then discharge the strict branch of support induction without
+copying a comparison producer or proper-cohomology proof.
 The finite-pushforward comparison extension retains the inverse-image-cover
 complex isomorphisms, their low-degree finiteness transport, and the
 support-only pushforward/pullback result; it omits the all-degree and
