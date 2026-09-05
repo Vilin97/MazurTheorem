@@ -183,9 +183,13 @@ over every scheme over `Q`. Subgroup-preserving relative-family isomorphisms
 now define the arbitrary-base quotient, pullback descends to it, and canonical
 identity/composition isomorphisms prove an actual contravariant type-valued
 moduli functor. The intrinsic split quotient and the order-49 class are named
-consumers. Representability and its universal comparison remain prerequisites,
-so the current package and its zero credit are unchanged. The generic Néron
-mapping-property and
+consumers. A precise coarse-moduli interface now records the natural
+classifier, algebraically closed geometric-point bijectivity, and the universal
+factorization property for scheme-valued invariants. It proves canonical
+uniqueness and sends order-49 torsion to an actual point of every supplied
+coarse scheme, compatibly with base change. No coarse-space instance or
+identification with the explicit `X₀(49)` model is constructed, so the current
+package and its zero credit are unchanged. The generic Néron mapping-property and
 admissible-filtration packages are integrated. Their Eisenstein-quotient
 instantiation requires the actual Eisenstein quotient and its Néron model, so
 it is blocked and does not occupy the spare WIP slot.

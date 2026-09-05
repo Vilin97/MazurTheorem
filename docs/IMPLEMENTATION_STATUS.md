@@ -226,10 +226,16 @@ slices at the 225-point headline:
   prove strict laws on the quotient, yielding an actual contravariant
   type-valued moduli functor. The intrinsic field quotient maps into it without
   choosing representatives, while exact order-49 torsion inhabits its `Q`
-  value and every reindexed value. The representing open scheme, its universal
-  comparison, and generalized bad-characteristic cyclicity remain absent, so
-  the represented `X₀(N)` classifier stays selected and no additional roadmap
-  credit is claimed.
+  value and every reindexed value. The next interface packages a coarse scheme,
+  a natural classifying transformation, bijectivity on algebraically closed
+  field-valued points, and the universal factorization property for natural
+  invariants with values in schemes. Naturality gives actual classifying
+  morphisms compatible with base change, while the universal property makes
+  any two such coarse schemes canonically isomorphic. Exact order-49 torsion is
+  a named point-level consumer. No coarse-space instance, explicit modular
+  curve identification, universal-family comparison, or generalized
+  bad-characteristic cyclicity is constructed, so the represented `X₀(N)`
+  classifier stays selected and no additional roadmap credit is claimed.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

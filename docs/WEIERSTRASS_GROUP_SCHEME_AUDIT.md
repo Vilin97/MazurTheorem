@@ -391,6 +391,11 @@ trivializations. Pullback descends to these classes, and the canonical identity
 and composition isomorphisms prove the laws of an actual contravariant
 type-valued moduli functor. The intrinsic split field quotient maps into it
 without selecting representatives, and exact order-49 torsion reaches its
-value over `Q` and all reindexed values. A representing open scheme, universal
-family comparison, and bad-characteristic generalized cyclicity are still
-missing, so no represented `X₀(N)` classifier is claimed.
+value over `Q` and all reindexed values. The coarse-moduli boundary is now
+formalized separately from representability: a supplied coarse scheme carries
+a natural classifier, an algebraically closed geometric-point bijection, and
+the universal factorization property for maps to schemes. Classification
+commutes with arbitrary base change, any two supplied coarse schemes are
+canonically isomorphic, and order-49 torsion produces an actual rational point
+of one. No coarse-space instance, explicit `X₀(N)` comparison, universal-family
+comparison, or bad-characteristic generalized cyclicity is yet constructed.

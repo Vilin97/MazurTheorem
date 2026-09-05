@@ -349,8 +349,16 @@ identity/composition isomorphisms prove the quotient-level functor laws. This
 gives `locallyConstantGammaZeroModuliFunctor : Schemeᵒᵖ ⥤ Type`, and the
 intrinsic split field quotient maps into it without choosing representatives.
 The exact-order-49 consumer inhabits the functor value over `Q` and uses its
-map on every base scheme. Representability, a universal-family comparison, and
-the generalized bad-characteristic moduli problem remain open.
+map on every base scheme. `CoarseModuliSpace` now states the correct boundary
+without asserting literal representability: it supplies a natural map to a
+universe-lifted Yoneda functor, a geometric-point bijection over algebraically
+closed fields, and the initial factorization property among scheme-valued
+natural invariants. The resulting point constructor is natural under arbitrary
+base change, and the universal property gives a canonical isomorphism between
+any two supplied coarse schemes. Exact order-49 torsion reaches an actual
+rational point of such a supplied scheme. Constructing a coarse-space instance,
+identifying it with the explicit modular curve, comparing universal families,
+and extending cyclicity through bad characteristic remain open.
 
 The point constructor must consume an actual finite-flat subgroup scheme and
 prove noncuspidality; a supplied equivalence of point sets is not sufficient.

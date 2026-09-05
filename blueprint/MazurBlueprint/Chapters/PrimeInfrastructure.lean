@@ -253,10 +253,9 @@ by checked admissible variable changes.
 
 *Canonical artifacts:*
 
-* `definition` (`contract`):
-  `MazurTorsion.ModularCurve.XZeroModuli.constantCyclicOver`
-  Construct the universe-compatible constant cyclic finite-flat group of order N over
-  an arbitrary base scheme.
+* `definition` (`contract`): `MazurTorsion.ModularCurve.XZeroModuli.constantCyclicOver`
+  Construct the universe-compatible constant cyclic finite-flat group of order N over an
+  arbitrary base scheme.
 * `structure` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantCyclicSubgroup`
   Bundle a finite-flat closed subgroup together with an fppf cover on which it is
@@ -267,8 +266,8 @@ by checked admissible variable changes.
   global carrier.
 * `structure` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily`
-  Bundle a proper geometrically integral smooth relative curve of dimension one with
-  an fppf-locally constant cyclic subgroup.
+  Bundle a proper geometrically integral smooth relative curve of dimension one with an
+  fppf-locally constant cyclic subgroup.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.ofSplitGeometricDatum`
   Embed the intrinsic split field-valued datum into the arbitrary-base family interface
@@ -294,15 +293,16 @@ by checked admissible variable changes.
   Pull the canonical order-49 relative family back to every scheme over Q.
 * `theorem` (`contract`):
   `MazurTorsion.XZeroFortyNine.locallyConstantGammaZeroFamilyOfOrderFortyNineTorsionBaseChange_hasConstantOrder`
-  Prove that every base change of the order-49 relative family retains geometric order 49.
+  Prove that every base change of the order-49 relative family retains geometric order
+  49.
 * `structure` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.Iso`
-  Express isomorphism of arbitrary-base Gamma-zero families by compatible
-  isomorphisms of curves and subgroup carriers.
+  Express isomorphism of arbitrary-base Gamma-zero families by compatible isomorphisms
+  of curves and subgroup carriers.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.IsomorphismClass`
-  Quotient relative locally constant Gamma-zero families by genuine
-  subgroup-preserving isomorphisms.
+  Quotient relative locally constant Gamma-zero families by genuine subgroup-preserving
+  isomorphisms.
 * `definition` (`contract`):
   `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.IsomorphismClass.ofSplitGeometricClass`
   Map the intrinsic field-valued split quotient into the relative quotient without
@@ -324,7 +324,31 @@ by checked admissible variable changes.
   functor.
 * `definition` (`contract`):
   `MazurTorsion.XZeroFortyNine.locallyConstantGammaZeroModuliClassOfOrderFortyNineTorsionBaseChange`
-  Use the functor map to reindex the canonical order-49 moduli class to every scheme over Q.
+  Use the functor map to reindex the canonical order-49 moduli class to every scheme
+  over Q.
+* `structure` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.CoarseModuliSpace`
+  Package a coarse scheme, its natural classifier, geometric-point bijectivity, and the
+  universal factorization property for scheme-valued invariants.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.CoarseModuliSpace.point`
+  Turn a relative Gamma-zero moduli class into an actual morphism to the supplied coarse
+  scheme.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.CoarseModuliSpace.point_baseChange`
+  Prove that coarse classification commutes with pullback along every base morphism.
+* `definition` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroModuli.LocallyConstantGammaZeroFamily.CoarseModuliSpace.uniqueIso`
+  Construct the canonical isomorphism between any two coarse schemes satisfying the
+  interface.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.coarseModuliPointOfOrderFortyNineTorsion`
+  Send exact order-49 torsion to an actual rational point of every supplied coarse
+  Gamma-zero moduli space.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.coarseModuliPointOfOrderFortyNineTorsionBaseChange_eq`
+  Identify the coarse point of every pulled-back order-49 family with the pullback of
+  its rational coarse point.
 * `structure` (`contract`): `MazurTorsion.ModularCurve.XZeroModuli.SplitGeometricDatum`
   Bundle a proper geometrically integral relative-dimension-one commutative group scheme
   with an actual split finite-flat cyclic subgroup of level N.
