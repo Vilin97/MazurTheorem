@@ -30,8 +30,8 @@ Downstream project code should prefer the narrowest applicable boundary:
 | [`SchemeModuleBaseCechHOneComparison.lean`](SchemeModuleBaseCechHOneComparison.lean) | native Čech-to-genuine-sheaf `H¹` comparison |
 | [`SchemeModuleBaseCechHOneModule.lean`](SchemeModuleBaseCechHOneModule.lean) | explicit global-functions-linear `H¹` comparison |
 | [`ProjectiveLineCechHOneFinite.lean`](ProjectiveLineCechHOneFinite.lean) | finite-dimensional two-chart `H¹` calculation on the projective line |
-| [`ProperCurveCohomologyFinite.lean`](ProperCurveCohomologyFinite.lean) | pointed smooth-proper-curve finite-dimensional `H¹` consumer |
-| [`ProperCurveFiniteSupportCech.lean`](ProperCurveFiniteSupportCech.lean) | strict-support cohomology consumers and the reduction of arbitrary coherent finiteness to full-support comodels |
+| [`ProperCurveCohomologyFinite.lean`](ProperCurveCohomologyFinite.lean) | canonical field-linear exact-sequence transfers and pointed smooth-proper-curve finite-dimensional `H¹` |
+| [`ProperCurveFiniteSupportCech.lean`](ProperCurveFiniteSupportCech.lean) | strict-support consumers plus direct generic-presentation and full-support-comodel reductions for coherent `H⁰` |
 | [`CurveCohomologyGrothendieckVanishing.lean`](CurveCohomologyGrothendieckVanishing.lean) | curve specialization of the retained LeanPool vanishing theorem |
 
 Import a file below `AINTLIB/` or `LeanPool/` directly only when extending or

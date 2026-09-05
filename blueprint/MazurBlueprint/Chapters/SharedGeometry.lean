@@ -115,14 +115,13 @@ line bundles on a smooth curve.
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology`
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
-  Package the checked canonical H0 comparisons, finite-free ordered low-degree targets,
-  coherent finite strict-support models with finite global sections and direct canonical
-  H0/pointed Cech H0-H1 finiteness consumers, identity comodels reducing the induction
-  to full support, full-support open-local support-comodel assembly, the resulting
-  conditional coherent H0 endpoint, linear connecting maps, pointed-curve
-  canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above
-  degree one with the still-needed comparison producer in the required curve-cohomology
-  facade.
+  Package the checked canonical H0 comparisons, field-linear exact-sequence transfers,
+  finite-free ordered low-degree targets, coherent finite strict-support models with
+  finite global sections and direct canonical H0/pointed Cech H0-H1 finiteness
+  consumers, both the generic quotient-presentation and full-support comodel reductions,
+  pointed-curve canonical-field H1 finite-dimensionality, affine acyclicity, and
+  vanishing above degree one with the still-needed geometric producer in the required
+  curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -201,6 +200,10 @@ line bundles on a smooth curve.
   Consume the canonical H0 comparison in the proper-curve layer and identify it linearly
   with global sections carrying the same structure-map field action.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalFieldLinearMap`
+  Bundle canonical H0 functoriality as a ground-field-linear map for the structure-map
+  actions.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroBaseSectionsLinearEquivGlobalSections`
   Restrict the canonical H0/global-sections comparison linearly along an arbitrary base
   morphism.
@@ -224,6 +227,22 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroHOneCanonicalFieldConnectingLinearMap`
   Restrict the canonical global-functions-linear connecting homomorphism to the
   structure-map field action in degrees zero and one.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonicalFieldLinearMap_exact`
+  Express exactness at canonical H0 of the middle term of every short exact sequence
+  using ground-field-linear maps.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroHOneCanonicalFieldLinearMap_exact`
+  Express the canonical field-linear H0-to-H1 window of every short exact sequence as an
+  exact pair.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_X2_of_shortExact`
+  Transfer finite-dimensional canonical H0 from both ends of a short exact sequence to
+  its middle term.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_X3_of_shortExact`
+  Transfer finite-dimensional H0 of the middle term and H1 of the first term to
+  canonical H0 of the third term.
 * `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroHOneCanonicalFieldConnecting_range_finiteDimensional_of_rationalSection`
   Consume the canonical field-linear connecting map and pointed proper-curve H1
@@ -354,6 +373,11 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_fullSupportComodels`
   Expose finite-dimensional canonical H0 for every coherent module from the isolated
   full-support-only comodel producer boundary.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_strictCokernel`
+  Derive finite-dimensional canonical H0 from a coherent map whose source has finite H0
+  and whose cokernel has strict support, using pointed-curve H1 finiteness for the
+  kernel.
 
 :::
 

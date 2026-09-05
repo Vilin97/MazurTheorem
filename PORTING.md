@@ -773,7 +773,11 @@ low-degree theorem, exposing finite canonical `H⁰` and ordered base-Cech
 strict branch back into the retained closed-support induction, reducing the
 arbitrary coherent endpoint exactly to comodels for full-support modules.
 There the support conditions are automatic on any nonempty comparison open;
-constructing the comparison target and the exact low-degree base-change
+The project-original canonical field-linear exact-pair wrappers now also
+combine the retained long exact sequence with pointed-curve `H¹` finiteness:
+a coherent map from an `H⁰`-finite source with strict-support cokernel forces
+finite `H⁰` of its target. Constructing such a generic-generator extension,
+the alternative comparison target, and the exact low-degree base-change
 facade remain open.
 
 The new project-facing consumer

@@ -699,12 +699,19 @@ The strongest concrete reuse candidates are:
   and pointed ordered Cech `H⁰`/`H¹`. Identity comodels now discharge this
   strict-support case inside closed-support induction, so the genuine-`H⁰`
   endpoint needs comparison data only for full-support modules. On any
-  nonempty isomorphism open, their support side conditions are automatic. An
+  nonempty isomorphism open, their support side conditions are automatic.
+  A project-original alternative now packages the retained long exact
+  sequence as canonical field-linear exact pairs: finite `H⁰` of a coherent
+  source and strict support of the cokernel imply finite `H⁰` of the target,
+  because the pointed-curve theorem supplies finite `H¹` of the kernel. Thus
+  extending generic generators to a generically surjective coherent map can
+  bypass construction of a comodel in the opposite direction. An
   audit of historical AINTLIB
   commit `d78d10a74577e28840d21eb4e07395d87c44370f` found the preferable direct
   degree-zero/degree-one support induction before the later all-degree
   rewrite; that is the route being ported. The proper/projective support
-  comodel producer and exact low-degree base-change facade remain open. Nor
+  generic-generator extension, the alternative comodel producer, and exact
+  low-degree base-change facade remain open. Nor
   does this prior art provide the relative base-change or semicontinuity APIs
   required by the roadmap.
 * elliptic finite-flat subgroups, the quotient-scheme universal property,

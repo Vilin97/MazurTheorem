@@ -76,7 +76,9 @@ assembled by `SchemeModuleOrderedBaseCechLowDegreeSupport`, while
 global sections finite. `ProperCurveFiniteSupportCech` exposes the resulting
 canonical `H⁰` and pointed ordered base-Cech `H⁰`/`H¹` finiteness, then uses
 identity comodels to reduce the arbitrary coherent endpoint to full-support
-comparison data only. The
+comparison data. It also consumes the field-linear long exact sequence to
+reduce canonical `H⁰` directly to a coherent map from an `H⁰`-finite source
+with strict-support cokernel. The
 Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual

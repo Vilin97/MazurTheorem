@@ -51,10 +51,14 @@ finite type, so the canonical model is coherent; finite pushforward proves
 finite global sections for every strict-support coherent module. The package
 now also exposes finite canonical `H⁰` and pointed ordered Cech `H⁰`/`H¹`
 under strict support. Identity comodels discharge that branch inside the
-closed-support induction. It must next construct a low-degree-good comparison
-target on a nonempty open for full-support coherent sheaves and prove the
-exact low-degree base-change comparison; `H¹` finiteness and
-vanishing above degree one are already checked.
+closed-support induction. Canonical `H⁰` maps and both needed long-exact-
+sequence windows are now ground-field-linear, and their finite-dimensional
+transfer gives a direct alternative: a coherent map `E ⟶ M` with finite
+`H⁰(E)` and strict-support cokernel suffices, with pointed-curve `H¹`
+controlling the kernel. It must next construct such a generically surjective
+source (or the low-degree-good full-support comodel) and prove the exact
+low-degree base-change comparison; `H¹` finiteness and vanishing above degree
+one are already checked.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and
 `A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂`. The identity

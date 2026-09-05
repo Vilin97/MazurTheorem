@@ -87,9 +87,13 @@ affine-morphism pullback coherence makes the support model coherent. Finite
 pushforward now recovers finite global sections for every strict-support
 coherent module, with direct canonical `H⁰` and pointed ordered Cech
 `H⁰`/`H¹` finiteness consumers. Identity comodels discharge this strict branch
-of closed-support induction, leaving only a nonempty-open comparison target
-for full-support sheaves. That construction and proper base change keep the
-final package open. The first genuine
+of closed-support induction. In parallel, field-linear exactness of the
+canonical `H⁰` and `H⁰`-to-`H¹` windows gives a shorter direct boundary: a
+coherent map `E ⟶ M` with finite `H⁰(E)` and strict-support cokernel forces
+finite `H⁰(M)`, because pointed-curve `H¹` controls its kernel. Constructing
+such a generically surjective source (or the alternative nonempty-open
+full-support comodel) and proper base change keep the final package open. The
+first genuine
 Riemann--Roch consumer belongs to B2, downstream of this foundation.
 
 The Picard lane likewise separates an honest absolute construction from the

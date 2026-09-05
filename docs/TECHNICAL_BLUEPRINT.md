@@ -183,15 +183,20 @@ divisor/line-bundle dictionary. The checked core now contains:
 - identity comodels and a conditional endpoint which reduce the entire
   closed-support induction to constructing comodels for full-support modules,
   with support containment and the support-meeting point automatic on any
-  nonempty comparison open; and
+  nonempty comparison open;
+- canonical field-linear `H⁰` functoriality, exact `H⁰`-`H⁰` and
+  `H⁰`-`H¹` windows, and finite-dimensional transfers whose proper-curve
+  consumer reduces finite `H⁰(M)` to a coherent map `E ⟶ M` with finite
+  `H⁰(E)` and strict-support cokernel; and
 - `smoothProperCurve_H_eq_zero` above degree one, plus pointed proper-curve
   `H¹` finite-dimensionality for the canonical base and field actions.
 
 The 11-point Čech package and 12-point canonical core are integrated. The
 final 12-point package remains active but the parent node receives no credit:
-the required comparison to a low-degree-good target on a nonempty open must
-still be constructed for full-support coherent sheaves, and the exact low-degree
-cohomology base-change comparison is still absent. General
+either a generically surjective coherent map from an `H⁰`-finite source or a
+comparison to a low-degree-good target on a nonempty open must still be
+constructed, and the exact low-degree cohomology base-change comparison is
+still absent. General
 proper-flat base change and semicontinuity remain owned by
 `MT-TC-C1-RELATIVE-COHOMOLOGY`; the first genuine Riemann--Roch consumer belongs
 to B2. Work-package status does not change the B1 node's zero credit.
