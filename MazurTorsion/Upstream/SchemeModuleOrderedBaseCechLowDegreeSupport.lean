@@ -4,6 +4,8 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin
 -/
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleOrderedBaseCechLowDegreeFinite
+import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleComparisonCoherent
+import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleComparisonSupport
 
 /-!
 # A coherent-support interface for low-degree Cech finiteness
@@ -15,6 +17,12 @@ on AINTLIB's much larger general quasicoherent-closure module.
 
 The proper Chow construction is a downstream producer of this interface; no
 properness assertion is made here.
+
+`IsCoherentLowDegreeSupportComodel.of_isIso_restrict` is the assembly
+boundary: a coherent low-degree-good target which agrees with the source on
+one support-meeting open automatically has the required coherent,
+support-decreasing residuals. Its named proper-curve consumer is in
+`ProperCurveCechLowDegreeFinite`.
 -/
 
 noncomputable section
@@ -47,6 +55,45 @@ def IsCoherentLowDegreeSupportComodel
     (IsZero (cokernel (Abelian.image.ι f)) ∨
       closedStalkSupport (cokernel (Abelian.image.ι f)) <
         closedStalkSupport M)
+
+namespace IsCoherentLowDegreeSupportComodel
+
+/-- Assemble the coherent support-comodel interface from a comparison which
+is invertible on an open meeting the source support and whose target support
+is contained in the source support. -/
+theorem of_isIso_restrict
+    {X S Y : Scheme.{u}} (π : X ⟶ S)
+    [IsLocallyNoetherian X]
+    {ι : Type u} [LinearOrder ι] (U : ι → X.Opens)
+    {M E : X.Modules} [M.IsFiniteType] [M.IsQuasicoherent]
+    [E.IsFiniteType] [E.IsQuasicoherent]
+    (hE : OrderedBaseCechLowDegreeFinite π U E)
+    (f : M ⟶ E) (j : Y ⟶ X) [IsOpenImmersion j]
+    [IsIso ((restrictFunctor j).map f)]
+    (hEM : closedStalkSupport E ≤ closedStalkSupport M)
+    (x : Y) (hxM : j x ∈ closedStalkSupport M) :
+    IsCoherentLowDegreeSupportComodel π U M E f := by
+  letI : (Abelian.image f).IsQuasicoherent :=
+    Scheme.Modules.isQuasicoherent_image f
+  have hresidual :=
+    Scheme.Modules.comparisonResidual_isFiniteType_and_isQuasicoherent f
+  letI : (kernel (Abelian.factorThruImage f)).IsFiniteType :=
+    hresidual.1.1
+  letI : (kernel (Abelian.factorThruImage f)).IsQuasicoherent :=
+    hresidual.1.2
+  letI : (cokernel (Abelian.image.ι f)).IsFiniteType :=
+    hresidual.2.1
+  letI : (cokernel (Abelian.image.ι f)).IsQuasicoherent :=
+    hresidual.2.2
+  have hdrop :=
+    Scheme.Modules.comparisonResidual_closedStalkSupport_lt
+      j f hEM x hxM
+  exact
+    ⟨inferInstance, inferInstance, hE, inferInstance,
+      inferInstance, inferInstance, inferInstance, inferInstance,
+      Or.inr hdrop.1, Or.inr hdrop.2⟩
+
+end IsCoherentLowDegreeSupportComodel
 
 private def CoherentPredicate
     {X : Scheme.{u}} (M : X.Modules) : Prop :=
