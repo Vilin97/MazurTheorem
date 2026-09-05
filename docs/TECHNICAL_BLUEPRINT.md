@@ -174,16 +174,18 @@ divisor/line-bundle dictionary. The checked core now contains:
 - `finite_closedStalkSupport_of_lt_top` and
   `CanonicalSupportThickening.isFinite_comp_structureMap_of_closedStalkSupport_lt_top`,
   which make the canonical model of strict support finite over the ground
-  field; and
+  field;
+- affine-morphism pullback preservation of quasicoherence and finite type,
+  whose canonical-support consumer combines finite pushforward with the
+  comparison isomorphism to make strict-support global sections finite; and
 - `smoothProperCurve_H_eq_zero` above degree one, plus pointed proper-curve
   `H¹` finite-dimensionality for the canonical base and field actions.
 
 The 11-point Čech package and 12-point canonical core are integrated. The
 final 12-point package remains active but the parent node receives no credit:
-the finite support model still needs pullback coherence, the required
-open-local comparison to a low-degree-good target must still be constructed
-for full-support coherent sheaves, and the exact low-degree cohomology
-base-change comparison is still absent. General
+the required open-local comparison to a low-degree-good target must still be
+constructed for full-support coherent sheaves, and the exact low-degree
+cohomology base-change comparison is still absent. General
 proper-flat base change and semicontinuity remain owned by
 `MT-TC-C1-RELATIVE-COHOMOLOGY`; the first genuine Riemann--Roch consumer belongs
 to B2. Work-package status does not change the B1 node's zero credit.

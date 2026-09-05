@@ -245,8 +245,13 @@ The project-original `ProperCurveFiniteSupport` directly consumes Tau Ceti's
 checked finiteness theorem for proper closed subsets of a Noetherian smooth
 relative curve, supplies Noetherianity from properness, and combines it with
 the retained canonical support-thickening range identity and Mathlib's
-Zariski's Main Theorem. It does not copy a proper-cohomology proof or claim
-coherence of the pulled-back support model.
+Zariski's Main Theorem. The project-original
+`SchemeModulePullbackCoherent` uses Mathlib's pullback adjunction and the
+already attributed affine base-change and open-restriction APIs to prove
+affine-morphism pullback coherence; it copies no omitted proper-cohomology
+proof. Its canonical-model consumer lets `ProperCurveFiniteSupport` use finite
+pushforward and the retained comparison isomorphism to prove finite global
+sections for strict support.
 The finite-pushforward comparison extension retains the inverse-image-cover
 complex isomorphisms, their low-degree finiteness transport, and the
 support-only pushforward/pullback result; it omits the all-degree and

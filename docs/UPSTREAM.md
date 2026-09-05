@@ -71,8 +71,9 @@ cohomology lane exposes smaller boundaries such as
 low-degree target boundaries are `ProperHZeroFinite` and
 `ProperCurveCechLowDegreeFinite`; supplied open-local comparison data is
 assembled by `SchemeModuleOrderedBaseCechLowDegreeSupport`, while
-`ProperCurveFiniteSupport` makes strict canonical support thickenings finite
-over the ground field. The Hilbert-94 cone is consumed through
+`SchemeModulePullbackCoherent` proves the canonical model coherent and
+`ProperCurveFiniteSupport` uses its finite pushforward to make strict-support
+global sections finite. The Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual
 development. See the [Upstream directory map](../MazurTorsion/Upstream/README.md)

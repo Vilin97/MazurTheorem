@@ -116,10 +116,11 @@ line bundles on a smooth curve.
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
   Package the checked canonical H0 comparisons, finite-free ordered low-degree targets,
-  finite strict-support thickenings, open-local support-comodel assembly, conditional
-  coherent-support H0 endpoint, linear connecting maps, pointed-curve canonical-field H1
-  finite-dimensionality, affine acyclicity, and vanishing above degree one with the
-  still-needed comparison producer in the required curve-cohomology facade.
+  coherent finite strict-support models with finite global sections, open-local
+  support-comodel assembly, conditional coherent-support H0 endpoint, linear connecting
+  maps, pointed-curve canonical-field H1 finite-dimensionality, affine acyclicity, and
+  vanishing above degree one with the still-needed comparison producer in the required
+  curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -297,6 +298,30 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.CanonicalSupportThickening.isFinite_comp_structureMap_of_closedStalkSupport_lt_top`
   Upgrade the finite carrier of a strict canonical support thickening to a finite
   structure morphism over the ground field.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.isQuasicoherent_pullback_of_isAffineHom`
+  Prove that scheme-module pullback along an affine morphism preserves quasicoherence by
+  gluing the checked affine-spectrum base-change comparison.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.isFiniteType_pullback_of_isAffineHom`
+  Prove that affine-morphism pullback preserves finite type for quasicoherent modules
+  using finite local generators on inverse-image affine opens.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.CanonicalSupportThickening.modelModule_isQuasicoherent`
+  Apply affine-morphism pullback coherence to the closed immersion defining the
+  canonical support model.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.CanonicalSupportThickening.modelModule_isFiniteType`
+  Apply affine-morphism finite-type preservation to the canonical support model consumed
+  by finite pushforward.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.CanonicalSupportThickening.baseSections_finite_of_closedStalkSupport_lt_top`
+  Factor strict-support base-linear sections through the coherent canonical model and
+  its finite pushforward to the affine field spectrum.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.CanonicalSupportThickening.globalSections_module_finite_of_closedStalkSupport_lt_top`
+  Prove finite generation of global sections over the curve's global-function ring for
+  every coherent module with strict closed stalk support.
 
 :::
 

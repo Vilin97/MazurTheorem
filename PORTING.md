@@ -758,8 +758,16 @@ curve is finite. Properness supplies the Noetherian instance; the wrapper then
 shows that strict closed stalk support, and hence the carrier of the retained
 canonical support thickening, is finite. Zariski's Main Theorem upgrades the
 thickening's proper locally finite-type structure morphism to a finite
-morphism. The next boundary is coherence of the pulled-back model module,
-which is needed before finite pushforward yields finite global sections.
+morphism. The project-original `SchemeModulePullbackCoherent` then derives
+quasicoherence and finite-type preservation for affine-morphism pullback from
+Mathlib's pullback adjunction, the retained affine tilde/base-change
+isomorphism, and the retained open-restriction square. Its named closed-
+immersion consumer makes the canonical support model coherent. No proof is
+copied from the omitted properness cone. `ProperCurveFiniteSupport` applies
+finite pushforward over the affine field spectrum and the retained comparison
+isomorphism to prove finite global sections for every strict-support coherent
+module. The full-support comparison producer and exact low-degree base-change
+facade remain open.
 
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`

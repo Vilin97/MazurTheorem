@@ -72,12 +72,14 @@ slices at the 225-point headline:
   support-meeting open now yields the exact coherent support-comodel, with a
   named finite-free proper-curve specialization. Strict closed stalk support
   is finite, and the retained canonical support thickening is now finite over
-  the ground field. The 12-point core is integrated. The final 12-point
-  finiteness/base-change package is active: pullback coherence for the support
-  model, construction of comparison data for full-support coherent sheaves,
-  and the exact low-degree base-change comparison remain missing, while
-  vanishing above degree one is already checked. The first genuine
-  Riemann--Roch consumer belongs to B2.
+  the ground field. Affine-morphism pullback preserves quasicoherence and
+  finite type, making the canonical support model coherent; finite pushforward
+  now proves finite global sections for strict support. The 12-point core is
+  integrated. The final 12-point finiteness/base-change package is active:
+  construction of comparison data for full-support coherent sheaves and the
+  exact low-degree base-change comparison remain missing, while vanishing
+  above degree one is already checked. The first genuine Riemann--Roch
+  consumer belongs to B2.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a
   field and a supplied divisor-class/Picard equivalence, the checked
