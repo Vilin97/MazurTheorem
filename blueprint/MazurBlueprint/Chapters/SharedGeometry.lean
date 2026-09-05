@@ -387,6 +387,11 @@ line bundles on a smooth curve.
   Turn an open-local epimorphism meeting the source support into strict support decrease
   for its coherent cokernel residual.
 * `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.closedStalkSupport_eq_top_of_epi_restrict`
+  Show that an open-local epimorphism from a coherent source to a full-support coherent
+  target over a nonempty open of a preirreducible scheme forces the source to have full
+  support.
+* `theorem` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_fullSupportSource_of_epi_restrict`
   Derive finite-dimensional canonical H0 from an H0-finite coherent full-support source
   which becomes epic onto the target on a nonempty open.
@@ -398,6 +403,11 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_fullSupportLattice_of_epi_restrict`
   Reduce finite canonical H0 of a coherent target to a full-support coherent sublattice
   of a finite free sheaf which maps epically onto it on one nonempty open.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_fullSupportTarget_lattice_of_epi_restrict`
+  For a full-support coherent target, reduce finite canonical H0 to a coherent submodule
+  of a finite free sheaf mapping epically onto the target on one nonempty open, with
+  source full support inferred automatically.
 
 :::
 

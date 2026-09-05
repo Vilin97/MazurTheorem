@@ -80,9 +80,12 @@ comparison data. It also consumes the field-linear long exact sequence to
 reduce canonical `H⁰` directly to a coherent map from an `H⁰`-finite source
 with strict-support cokernel; `SchemeModuleComparisonSupportEpi` obtains that
 strictness from an epimorphism on a nonempty open when the source has full
-support. `ProperHZeroFinite` proves that a monomorphism from this source into
-a finite free sheaf supplies its canonical `H⁰` finiteness, leaving the
-direct producer as a coherent full-support free lattice. The
+support, and conversely infers source full support from an open-local
+epimorphism to a full-support target on an integral scheme. `ProperHZeroFinite`
+proves that a monomorphism from this source into a finite free sheaf supplies
+its canonical `H⁰` finiteness, leaving the direct producer for a full-support
+target as any coherent free sublattice mapping epically on one nonempty open;
+no separate source-support proof remains. The
 Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual

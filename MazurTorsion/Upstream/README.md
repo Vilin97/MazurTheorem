@@ -31,9 +31,9 @@ Downstream project code should prefer the narrowest applicable boundary:
 | [`SchemeModuleBaseCechHOneModule.lean`](SchemeModuleBaseCechHOneModule.lean) | explicit global-functions-linear `H¹` comparison |
 | [`ProjectiveLineCechHOneFinite.lean`](ProjectiveLineCechHOneFinite.lean) | finite-dimensional two-chart `H¹` calculation on the projective line |
 | [`ProperCurveCohomologyFinite.lean`](ProperCurveCohomologyFinite.lean) | canonical field-linear exact-sequence transfers and pointed smooth-proper-curve finite-dimensional `H¹` |
-| [`SchemeModuleComparisonSupportEpi.lean`](SchemeModuleComparisonSupportEpi.lean) | strict cokernel-support drop from an epimorphism on a support-meeting open |
+| [`SchemeModuleComparisonSupportEpi.lean`](SchemeModuleComparisonSupportEpi.lean) | strict cokernel-support drop and dense-open source-support propagation for restricted epimorphisms |
 | [`ProperHZeroFinite.lean`](ProperHZeroFinite.lean) | proper degree-zero finiteness for finite free sheaves and their subobjects |
-| [`ProperCurveFiniteSupportCech.lean`](ProperCurveFiniteSupportCech.lean) | strict-support consumers plus direct free-lattice and full-support-comodel reductions for coherent `H⁰` |
+| [`ProperCurveFiniteSupportCech.lean`](ProperCurveFiniteSupportCech.lean) | strict-support consumers plus target-full-support free-lattice and full-support-comodel reductions for coherent `H⁰` |
 | [`CurveCohomologyGrothendieckVanishing.lean`](CurveCohomologyGrothendieckVanishing.lean) | curve specialization of the retained LeanPool vanishing theorem |
 
 Import a file below `AINTLIB/` or `LeanPool/` directly only when extending or
