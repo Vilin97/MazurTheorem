@@ -75,7 +75,8 @@ functoriality in `H¹`. That action is distinct from the older `hZeroModule` and
 affine-cover/finite-map actions, which were transported across chosen
 equivalences. The 11-point Čech comparison package is integrated because its
 additive comparison is consumed by genuine-`H¹` finite-generation transfer;
-the parent node receives no credit. Canonical `H⁰` compatibility, linear
+the canonical core and pointed proper-curve packages are integrated as well,
+so B1 receives its full 35 points. Canonical `H⁰` compatibility, linear
 connecting maps, and pointed proper-curve canonical-action `H¹` finiteness are
 checked. Properness reduces canonical `H⁰` finiteness to finite global
 sections over the source ring, and finite free sheaves are certified as
@@ -103,9 +104,10 @@ every coherent module on the pointed proper curve. The exact low-degree
 field-extension comparison now compiles without a cover parameter for proper
 schemes: the canonical maps assemble into a base-linear Cech map, are termwise
 extension of scalars, and induce the required `H⁰`/`H¹` isomorphisms after flat
-scalar extension on the finite subcover of the canonical affine cover. A final
-proper-curve facade must co-package this with finiteness and higher vanishing;
-general proper-flat base change and semicontinuity remain in C1.
+scalar extension on the finite subcover of the canonical affine cover.
+`PointedProperCurveCohomology.ofRationalSection` co-packages this with canonical
+`H⁰`/`H¹` finite-dimensionality and higher vanishing, completing B1. General
+proper-flat base change and semicontinuity remain in C1.
 The first genuine Riemann--Roch consumer belongs to B2, downstream of this
 foundation.
 

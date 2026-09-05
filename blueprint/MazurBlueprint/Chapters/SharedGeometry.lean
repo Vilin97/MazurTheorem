@@ -102,23 +102,29 @@ line bundles on a smooth curve.
 
 :::
 
-:::theorem "MT-TC-B1-COHERENT-COHOMOLOGY" (parent := "shared_geometry") (uses := "MT-BASE-INTEGRATED") (tags := "upstream, blocked, nouns-missing, tau-ceti")
+:::theorem "MT-TC-B1-COHERENT-COHOMOLOGY" (parent := "shared_geometry") (uses := "MT-BASE-INTEGRATED") (tags := "upstream, done, integrated, tau-ceti")
 *Coherent cohomology of proper curves.*
 
-*Status:* `blocked`; *readiness:* `nouns_missing`; *kind:* `upstream`; *backend:*
-`tauceti`; *risk:* `extreme`; *weight:* 35 points.
+*Status:* `done`; *readiness:* `integrated`; *kind:* `upstream`; *backend:* `tauceti`;
+*risk:* `extreme`; *weight:* 35 points.
 
 *Summary:* Build the coherent-cohomology results needed for proper smooth curves.
 
 *Canonical artifacts:*
 
-* `definition` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology`
-  Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
-* `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
-  Package the checked unconditional canonical H0 finite-dimensionality, pointed
-  canonical H1 finite-dimensionality, vanishing above degree one, and cover-independent
-  low-degree field-extension base-change comparison for coherent modules on pointed
-  smooth proper integral curves in one curve-cohomology facade.
+* `structure` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.PointedProperCurveCohomology`
+  Package canonical finite-dimensional H0 and H1, vanishing above degree one, and
+  cover-independent low-degree field-extension base change for a coherent module on a
+  pointed smooth proper integral curve.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.PointedProperCurveCohomology.ofRationalSection`
+  Construct the complete pointed proper-curve cohomology facade from the checked
+  finiteness, Grothendieck-vanishing, and canonical-cover base-change theorems.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.PointedProperCurveCohomology.higher_eq_zero`
+  Expose elementwise vanishing in every cohomological degree at least two from the
+  packaged facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an

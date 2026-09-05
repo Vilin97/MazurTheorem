@@ -95,10 +95,11 @@ free sheaf and epic toward the target after restriction. The resulting
 kernel/image exact-sequence argument in `ProperCurveFiniteSupportCech`, followed
 by the strict/full-support split at an affine neighborhood of the generic
 point, proves canonical `H⁰` finite-dimensional for every coherent module on
-the pointed proper curve. A unified facade combining those finiteness and
-higher-vanishing results with the now cover-independent exact low-degree
-comparison remains outside this boundary; general proper-flat base change and
-semicontinuity remain downstream. The
+the pointed proper curve. `PointedProperCurveCohomology` is the unified absolute
+boundary combining those finiteness and higher-vanishing results with the
+cover-independent exact low-degree comparison; its named constructor is
+`PointedProperCurveCohomology.ofRationalSection`. General proper-flat base change
+and semicontinuity remain downstream. The
 Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual

@@ -21,7 +21,7 @@ are selected, leaving one slot unused:
 
 | Lane | Node slice | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|---|
-| Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
+| Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-GLOBAL-EFFECTIVITY` | Construct the global line bundle and prove descent without a caller-supplied effectivity witness. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
 | Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-X0-MODULI-REPRESENTED-MODULI` | Map the honest subgroup scheme to the represented open modular curve without assuming missing group-law or quotient data. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
 
 Only these two `current_work_package` values count as selected WIP. Other
@@ -67,9 +67,12 @@ scalars, so flat scalar extension commutes with its homology. The affine-cover
 comparisons consequently give genuine `H⁰` and `H¹` base change over field
 spectra. Properness now selects the finite subcover of the canonical affine
 cover internally, so the smooth proper integral-curve consumer has no cover
-parameter. The package must next co-package this comparison with the checked
-`H⁰`/`H¹` finiteness and vanishing-above-one results; general proper-flat base
-change and semicontinuity remain in C1.
+parameter. `PointedProperCurveCohomology.ofRationalSection` now co-packages
+this comparison with canonical `H⁰`/`H¹` finite-dimensionality and
+vanishing above degree one. All three B1 packages are integrated; general
+proper-flat base change and semicontinuity remain in C1. The selected lane now
+returns to A3 to construct the global divisor-associated line bundle and its
+descent without a caller-supplied effectivity witness.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and
 `A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂`. The identity

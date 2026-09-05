@@ -17,9 +17,9 @@ finite/infinite split, but it does not replace the full classification.
 
 ## Ledger-derived snapshot
 
-- Integrated completion is **22.5%**: 225 of the fixed 1,000 points.
-- Ecosystem readiness is **23%**.
-- The audited baseline contains **2,044 Lean modules** and **2,101,565 Lean
+- Integrated completion is **26.0%**: 260 of the fixed 1,000 points.
+- Ecosystem readiness is **26%**.
+- The audited baseline contains **2,046 Lean modules** and **2,102,122 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -38,7 +38,7 @@ two current packages:
 
 | Lane | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|
-| Canonical curve cohomology to Jacobians | `WP-MT-TC-B1-COHERENT-COHOMOLOGY-CURVE-FINITENESS` | Using the canonical core actions, expose proper coherent `H⁰`/`H¹` finite-dimensionality and `Hⁿ`-vanishing for `n ≥ 2` together with the exact low-degree cohomology base-change comparison consumed downstream. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
+| Canonical curve cohomology to Jacobians | `WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-GLOBAL-EFFECTIVITY` | Construct the global line bundle and prove descent without a caller-supplied effectivity witness. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
 | Represented `X₀(N)` vertical slice | `WP-MT-X0-MODULI-REPRESENTED-MODULI` | Map the honest subgroup scheme to the represented open modular curve without assuming missing group-law or quotient data. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Package status is scheduling metadata. Only the two `current_work_package`
@@ -50,7 +50,7 @@ Work-package weights partition their parent node and award no independent
 credit.
 
 Execution revision `canonical-foundations-v4` records checked foundation
-slices at the 225-point headline:
+slices at the 260-point headline:
 
 - In coherent cohomology, multiplication by global functions now gives a
   canonical cover-independent action in every degree. The `H⁰` comparison
@@ -91,8 +91,8 @@ slices at the 225-point headline:
   canonical `H⁰` for every full-support target. Choosing an affine
   neighborhood of the generic point and splitting strict from full support
   proves canonical `H⁰` finite-dimensional for every coherent module on the
-  pointed proper curve. The 12-point core is integrated. The final 12-point
-  finiteness/base-change package is active. The canonical section map in an
+  pointed proper curve. The 12-point core is integrated. In the final 12-point
+  finiteness/base-change package, the canonical section map in an
   affine Cartesian square is now proved to be extension of scalars by
   cancelling the coordinate-ring pushout. The termwise base-Cech map, its
   componentwise extension-of-scalars proof, the resulting scalar-extended
@@ -100,10 +100,12 @@ slices at the 225-point headline:
   the affine-cover comparisons, they give genuine `H⁰` and `H¹` base change
   over field spectra. Properness now chooses a finite subcover of the canonical
   affine cover internally, and the smooth proper integral-curve specialization
-  has no cover parameter. The remaining B1 step is a single facade combining
-  this comparison with the checked finiteness and higher vanishing results;
-  general proper-flat base change and semicontinuity belong to C1. The first
-  genuine Riemann--Roch consumer belongs to B2.
+  has no cover parameter. `PointedProperCurveCohomology.ofRationalSection`
+  combines this comparison with the checked canonical `H⁰`/`H¹` finiteness
+  and higher-vanishing results. B1 and all three of its packages are now
+  integrated. General proper-flat base change and semicontinuity belong to C1;
+  the first genuine Riemann--Roch consumer belongs to B2. The selected lane has
+  returned to A3 global line-bundle effectivity and descent.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a
   field and a supplied divisor-class/Picard equivalence, the checked

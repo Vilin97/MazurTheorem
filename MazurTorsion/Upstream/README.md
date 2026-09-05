@@ -1,14 +1,14 @@
 # Reviewed ports and integration adapters
 
 This directory is the boundary between project code and selected external
-developments. It is intentionally not a vendor dump. At this revision its 173
+developments. It is intentionally not a vendor dump. At this revision its 174
 Lean modules divide into three layout groups:
 
 | Tree | Modules | Meaning |
 |---|---:|---|
 | [`AINTLIB/`](AINTLIB/) | 101 | reviewed exact-pin ports and narrow adaptations: 91 `ForMathlib`, four `Picard`, and six `FltRegular` modules |
 | [`LeanPool/`](LeanPool/) | 15 | the attributed Grothendieck-vanishing cone migrated to the project pin |
-| files directly in `Upstream/` | 57 | project-facing adapters, comparisons, consumers, and semantic facades over selected upstream APIs |
+| files directly in `Upstream/` | 58 | project-facing adapters, comparisons, consumers, and semantic facades over selected upstream APIs |
 
 Directory placement records dependency direction, not authorship. Neither a
 top-level path nor an AINTLIB path by itself determines whether a file is an
@@ -37,6 +37,7 @@ Downstream project code should prefer the narrowest applicable boundary:
 | [`SchemeModuleAffinePullbackSections.lean`](SchemeModuleAffinePullbackSections.lean) | canonical affine Cartesian pullback on quasicoherent sections as extension of scalars; consumed termwise by the Cech base-change layer |
 | [`SchemeModuleBaseChangeCech.lean`](SchemeModuleBaseChangeCech.lean) | termwise Cartesian base-Cech map, scalar-extended complex and homology isomorphisms, and genuine `H⁰`/`H¹` field-extension base change from a supplied finite affine cover |
 | [`SchemeModuleProperBaseChange.lean`](SchemeModuleProperBaseChange.lean) | cover-independent `H⁰`/`H¹` field-extension base change for proper schemes and coherent modules on smooth proper integral curves |
+| [`PointedProperCurveCohomology.lean`](PointedProperCurveCohomology.lean) | unified pointed proper-curve package for canonical `H⁰`/`H¹` finite-dimensionality, higher vanishing, and cover-independent low-degree field-extension base change |
 | [`ProperCurveFiniteSupportCech.lean`](ProperCurveFiniteSupportCech.lean) | strict-support transfers and unconditional canonical `H⁰` finite-dimensionality for coherent modules on pointed proper curves |
 | [`CurveCohomologyGrothendieckVanishing.lean`](CurveCohomologyGrothendieckVanishing.lean) | curve specialization of the retained LeanPool vanishing theorem |
 

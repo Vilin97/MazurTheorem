@@ -201,18 +201,21 @@ divisor/line-bundle dictionary. The checked core now contains:
   and generic-point support split prove canonical `H⁰` finite-dimensional for
   every coherent module on the pointed proper curve; and
 - `smoothProperCurve_H_eq_zero` above degree one, plus pointed proper-curve
-  `H¹` finite-dimensionality for the canonical base and field actions.
+  `H¹` finite-dimensionality for the canonical base and field actions; and
+- `PointedProperCurveCohomology.ofRationalSection`, which packages those
+  finiteness and vanishing results with the cover-independent exact `H⁰`/`H¹`
+  field-extension comparison.
 
-The 11-point Čech package and 12-point canonical core are integrated. The
-final 12-point package remains active but the parent node receives no credit:
+The 11-point Čech package, 12-point canonical core, and final 12-point
+proper-curve package are integrated, so B1 receives its full 35 points:
 canonical `H⁰` and pointed canonical `H¹` are finite-dimensional, higher
 cohomology vanishes, and exact `H⁰`/`H¹` field-extension base change is checked
 through the scalar-extended Cech complex. Properness now selects the finite
-subcover of the canonical affine cover internally. The remaining B1 boundary
-is a unified proper-curve facade packaging base change with finiteness and
-higher vanishing. General proper-flat base change and semicontinuity remain owned by
+subcover of the canonical affine cover internally, and the unified facade
+exposes all three results to downstream consumers. General proper-flat base
+change and semicontinuity remain owned by
 `MT-TC-C1-RELATIVE-COHOMOLOGY`; the first genuine Riemann--Roch consumer belongs
-to B2. Work-package status does not change the B1 node's zero credit.
+to B2.
 
 ### Divisors and line bundles
 

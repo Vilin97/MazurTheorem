@@ -795,8 +795,10 @@ absolute separatedness, and the named curve consumer specializes to coherent
 modules on smooth proper integral curves. Two small public
 naturality/evaluation lemmas were added to the retained open-unit and
 restriction--pushforward modules for this consumer; no proof is copied from an
-omitted cone. A unified finiteness/vanishing/base-change curve facade, general
-proper-flat base change, and semicontinuity remain open.
+omitted cone. The project-original `PointedProperCurveCohomology` facade now
+packages canonical `H⁰`/`H¹` finite-dimensionality, vanishing above degree one,
+and that cover-independent low-degree comparison. General proper-flat base
+change and semicontinuity remain open in the relative-cohomology lane.
 
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`
