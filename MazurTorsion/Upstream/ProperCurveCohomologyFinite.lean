@@ -5,6 +5,7 @@ Authors: Vasily Ilin, Codex
 -/
 
 import MazurTorsion.AlgebraicGeometry.SmoothCurveRationalSection
+import MazurTorsion.Upstream.AINTLIB.ForMathlib.FiniteHomologySequence
 import MazurTorsion.Upstream.CurveCohomologyGrothendieckVanishing
 import MazurTorsion.Upstream.ProjectiveLineCechHOneFinite
 import MazurTorsion.Upstream.SchemeModuleCohomologyConnectingLinear
@@ -74,6 +75,41 @@ noncomputable def hZeroCanonicalFieldLinearEquivGlobalSections
   intro r x
   exact (hZeroCanonicalLinearEquivGlobalSections M).map_smul
     (f.appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom r)) x
+
+/-- A morphism of coefficient modules induces a ground-field-linear map on
+canonical `H⁰`.  This is the degree-zero functoriality used by proper-curve
+presentation arguments. -/
+noncomputable def hZeroCanonicalFieldLinearMap
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) {M N : X.Modules} (g : M ⟶ N) :
+    letI := hZeroCanonicalFieldModule K X f M
+    letI := hZeroCanonicalFieldModule K X f N
+    H M 0 →ₗ[K] H N 0 := by
+  letI : Module Γ(X, ⊤) (H M 0) :=
+    globalSectionsCohomologyModule M 0
+  letI : Module Γ(X, ⊤) (H N 0) :=
+    globalSectionsCohomologyModule N 0
+  letI := hZeroCanonicalFieldModule K X f M
+  letI := hZeroCanonicalFieldModule K X f N
+  refine
+    { toFun := (zariskiFunctor X 0).map g
+      map_add' := ((zariskiFunctor X 0).map g).hom.map_add
+      map_smul' := ?_ }
+  intro r x
+  exact (cohomologyLinearMap 0 g).map_smul
+    (f.appTop.hom ((Scheme.ΓSpecIso (.of K)).inv.hom r)) x
+
+/-- The canonical field-linear `H⁰` map has the same underlying function as
+the genuine Ext-based cohomology functor. -/
+theorem hZeroCanonicalFieldLinearMap_apply
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) {M N : X.Modules} (g : M ⟶ N)
+    (x : H M 0) :
+    letI := hZeroCanonicalFieldModule K X f M
+    letI := hZeroCanonicalFieldModule K X f N
+    hZeroCanonicalFieldLinearMap K X f g x =
+      (zariskiFunctor X 0).map g x := by
+  rfl
 
 /-- The canonical ground-field action on genuine `H¹`, obtained by
 restricting the global-functions action along the actual structure morphism.
@@ -160,6 +196,108 @@ theorem hZeroHOneCanonicalFieldConnectingLinearMap_apply
     hZeroHOneCanonicalFieldConnectingLinearMap K X f hS x =
       cohomologyConnectingHom hS 0 1 rfl x := by
   rfl
+
+/-- Ground-field-linear `H⁰` maps are exact at the middle term of a short
+exact sequence.  This is the same-degree window of genuine sheaf
+cohomology, with only the scalar structure repackaged. -/
+theorem hZeroCanonicalFieldLinearMap_exact
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) {S : ShortComplex X.Modules}
+    (hS : S.ShortExact) :
+    letI := hZeroCanonicalFieldModule K X f S.X₁
+    letI := hZeroCanonicalFieldModule K X f S.X₂
+    letI := hZeroCanonicalFieldModule K X f S.X₃
+    Function.Exact
+      (hZeroCanonicalFieldLinearMap K X f S.f)
+      (hZeroCanonicalFieldLinearMap K X f S.g) := by
+  letI := hZeroCanonicalFieldModule K X f S.X₁
+  letI := hZeroCanonicalFieldModule K X f S.X₂
+  letI := hZeroCanonicalFieldModule K X f S.X₃
+  let T := S.map (Scheme.Modules.toSheaf X)
+  have hT : T.ShortExact :=
+    ShortComplex.ShortExact.map_of_exact hS
+      (Scheme.Modules.toSheaf X)
+  intro x
+  constructor
+  · intro hx
+    obtain ⟨y, hy⟩ :=
+      CategoryTheory.Sheaf.H.longSequence_exact₂ hT 0 x hx
+    exact ⟨y, hy⟩
+  · rintro ⟨y, rfl⟩
+    exact CategoryTheory.Sheaf.H.longSequence_comp_zero₂ (S := T) 0 y
+
+/-- The ground-field-linear maps `H⁰(X₂) ⟶ H⁰(X₃) ⟶ H¹(X₁)` form an
+exact pair for every short exact sequence of scheme modules. -/
+theorem hZeroHOneCanonicalFieldLinearMap_exact
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) {S : ShortComplex X.Modules}
+    (hS : S.ShortExact) :
+    letI := hZeroCanonicalFieldModule K X f S.X₂
+    letI := hZeroCanonicalFieldModule K X f S.X₃
+    letI := hOneCanonicalFieldModule K X f S.X₁
+    Function.Exact
+      (hZeroCanonicalFieldLinearMap K X f S.g)
+      (hZeroHOneCanonicalFieldConnectingLinearMap K X f hS) := by
+  letI := hZeroCanonicalFieldModule K X f S.X₂
+  letI := hZeroCanonicalFieldModule K X f S.X₃
+  letI := hOneCanonicalFieldModule K X f S.X₁
+  let T := S.map (Scheme.Modules.toSheaf X)
+  have hT : T.ShortExact :=
+    ShortComplex.ShortExact.map_of_exact hS
+      (Scheme.Modules.toSheaf X)
+  intro x
+  constructor
+  · intro hx
+    obtain ⟨y, hy⟩ :=
+      CategoryTheory.Sheaf.H.longSequence_exact₃ hT 0 1 rfl x hx
+    exact ⟨y, hy⟩
+  · rintro ⟨y, rfl⟩
+    exact CategoryTheory.Sheaf.H.longSequence_comp_zero₃ hT 0 1 rfl y
+
+/-- Finite-dimensional canonical `H⁰` of both ends of a short exact
+sequence implies finite-dimensional canonical `H⁰` of its middle term. -/
+theorem hZeroCanonical_finiteDimensional_X2_of_shortExact
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) {S : ShortComplex X.Modules}
+    (hS : S.ShortExact)
+    (h₁ : letI := hZeroCanonicalFieldModule K X f S.X₁
+      FiniteDimensional K (H S.X₁ 0))
+    (h₃ : letI := hZeroCanonicalFieldModule K X f S.X₃
+      FiniteDimensional K (H S.X₃ 0)) :
+    letI := hZeroCanonicalFieldModule K X f S.X₂
+    FiniteDimensional K (H S.X₂ 0) := by
+  letI := hZeroCanonicalFieldModule K X f S.X₁
+  letI := hZeroCanonicalFieldModule K X f S.X₂
+  letI := hZeroCanonicalFieldModule K X f S.X₃
+  letI : FiniteDimensional K (H S.X₁ 0) := h₁
+  letI : FiniteDimensional K (H S.X₃ 0) := h₃
+  exact ModularCurves.Module.Finite.of_exact_of_finite
+    (hZeroCanonicalFieldLinearMap K X f S.f)
+    (hZeroCanonicalFieldLinearMap K X f S.g)
+    (hZeroCanonicalFieldLinearMap_exact K X f hS)
+
+/-- In a short exact sequence, finite-dimensional `H⁰` of the middle term
+and finite-dimensional `H¹` of the first term imply finite-dimensional
+canonical `H⁰` of the third term. -/
+theorem hZeroCanonical_finiteDimensional_X3_of_shortExact
+    (K : Type u) [Field K] (X : Scheme.{u})
+    (f : X ⟶ Spec (.of K)) {S : ShortComplex X.Modules}
+    (hS : S.ShortExact)
+    (h₂ : letI := hZeroCanonicalFieldModule K X f S.X₂
+      FiniteDimensional K (H S.X₂ 0))
+    (h₁ : letI := hOneCanonicalFieldModule K X f S.X₁
+      FiniteDimensional K (H S.X₁ 1)) :
+    letI := hZeroCanonicalFieldModule K X f S.X₃
+    FiniteDimensional K (H S.X₃ 0) := by
+  letI := hZeroCanonicalFieldModule K X f S.X₂
+  letI := hZeroCanonicalFieldModule K X f S.X₃
+  letI := hOneCanonicalFieldModule K X f S.X₁
+  letI : FiniteDimensional K (H S.X₂ 0) := h₂
+  letI : FiniteDimensional K (H S.X₁ 1) := h₁
+  exact ModularCurves.Module.Finite.of_exact_of_finite
+    (hZeroCanonicalFieldLinearMap K X f S.g)
+    (hZeroHOneCanonicalFieldConnectingLinearMap K X f hS)
+    (hZeroHOneCanonicalFieldLinearMap_exact K X f hS)
 
 /-- A non-global rational function on a smooth proper integral curve gives a
 finite morphism to `P¹`.  This wrapper derives the Noetherian hypothesis from
