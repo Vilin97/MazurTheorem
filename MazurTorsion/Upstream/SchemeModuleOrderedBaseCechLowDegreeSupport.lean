@@ -1,7 +1,7 @@
 /-
 Copyright (c) 2026 Vasily Ilin. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Vasily Ilin
+Authors: Vasily Ilin, Codex
 -/
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleOrderedBaseCechLowDegreeFinite
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleComparisonCoherent
@@ -92,6 +92,40 @@ theorem of_isIso_restrict
     ⟨inferInstance, inferInstance, hE, inferInstance,
       inferInstance, inferInstance, inferInstance, inferInstance,
       Or.inr hdrop.1, Or.inr hdrop.2⟩
+
+/-- A coherent module which is already low-degree finite is its own support
+comodel via the identity comparison.  The strict-support branch of
+`ProperCurveFiniteSupportCech` is the named downstream consumer. -/
+theorem identity
+    {X S : Scheme.{u}} (π : X ⟶ S) [IsLocallyNoetherian X]
+    {ι : Type u} [LinearOrder ι] (U : ι → X.Opens)
+    (M : X.Modules) [M.IsFiniteType] [M.IsQuasicoherent]
+    (hM : OrderedBaseCechLowDegreeFinite π U M) :
+    IsCoherentLowDegreeSupportComodel π U M M (𝟙 M) := by
+  have hresidual :=
+    Scheme.Modules.comparisonResidual_isFiniteType_and_isQuasicoherent
+      (𝟙 M)
+  letI : (Abelian.image (𝟙 M)).IsQuasicoherent :=
+    Scheme.Modules.isQuasicoherent_image (𝟙 M)
+  have hfac :
+      Abelian.factorThruImage (𝟙 M) ≫ Abelian.image.ι (𝟙 M) =
+        𝟙 M :=
+    Abelian.image.fac (𝟙 M)
+  letI : Mono (Abelian.factorThruImage (𝟙 M)) :=
+    mono_of_mono_fac hfac
+  letI : Epi (Abelian.image.ι (𝟙 M)) :=
+    epi_of_epi_fac hfac
+  have hkernel : IsZero
+      (kernel (Abelian.factorThruImage (𝟙 M))) :=
+    isZero_kernel_of_mono _
+  have hcokernel : IsZero
+      (cokernel (Abelian.image.ι (𝟙 M))) :=
+    isZero_cokernel_of_epi _
+  exact
+    ⟨inferInstance, inferInstance, hM, inferInstance,
+      hresidual.1.1, hresidual.1.2,
+      hresidual.2.1, hresidual.2.2,
+      Or.inl hkernel, Or.inl hcokernel⟩
 
 end IsCoherentLowDegreeSupportComodel
 

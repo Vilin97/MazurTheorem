@@ -113,6 +113,30 @@ theorem isCoherentLowDegreeSupportComodel_of_rationalSection_of_globalSections_m
         K X f s E U hU hUaff hE)
       g j hEM x hxM
 
+/-- For a full-support coherent source, a comparison which is invertible on
+any nonempty open automatically satisfies both support side conditions of the
+low-degree comodel assembler.  This is the design boundary used by the named
+finite-free consumer below: a future geometric producer only has to construct
+the comparison and exhibit a nonempty isomorphism open. -/
+theorem isCoherentLowDegreeSupportComodel_of_rationalSection_of_fullSupport
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    (s : SmoothCurveRationalSection K X f)
+    {I : Type u} [LinearOrder I] (U : I → X.Opens)
+    (hU : IsOpenCover U) (hUaff : ∀ i, IsAffineOpen (U i))
+    {M E : X.Modules} [M.IsFiniteType] [M.IsQuasicoherent]
+    [E.IsFiniteType] [E.IsQuasicoherent]
+    (g : M ⟶ E) {Y : Scheme.{u}} (j : Y ⟶ X) [IsOpenImmersion j]
+    [Nonempty Y] [IsIso ((restrictFunctor j).map g)]
+    (hM : closedStalkSupport M = ⊤)
+    (hE : Module.Finite Γ(X, ⊤) Γ(E, ⊤)) :
+    IsCoherentLowDegreeSupportComodel f U M E g := by
+  let x : Y := Classical.choice (inferInstance : Nonempty Y)
+  exact
+    isCoherentLowDegreeSupportComodel_of_rationalSection_of_globalSections_module_finite
+      K X f s U hU hUaff g j
+        (by rw [hM]; exact le_top) x (by rw [hM]; trivial) hE
+
 /-- Finite free sheaves have finite ordered base-Cech homology in degrees
 zero and one on a pointed smooth proper integral curve.  This is the first
 low-degree-good comodel target. -/
@@ -161,6 +185,31 @@ theorem finiteFreeTarget_isCoherentLowDegreeSupportComodel_of_isIso_restrict
       K X f s U hU hUaff g j hEM x hxM
         (Scheme.Modules.free_globalSections_module_finite X J)
 
+/-- A full-support coherent sheaf with a generically invertible comparison to
+a finite free sheaf has the required low-degree support comodel.  This is the
+named consumer of the full-support assembler boundary above. -/
+theorem finiteFreeTarget_isCoherentLowDegreeSupportComodel_of_fullSupport
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    (s : SmoothCurveRationalSection K X f)
+    {I : Type u} [LinearOrder I] (U : I → X.Opens)
+    (hU : IsOpenCover U) (hUaff : ∀ i, IsAffineOpen (U i))
+    (M : X.Modules) [M.IsFiniteType] [M.IsQuasicoherent]
+    (J : Type u) [Finite J]
+    (g : M ⟶ SheafOfModules.free J)
+    {Y : Scheme.{u}} (j : Y ⟶ X) [IsOpenImmersion j] [Nonempty Y]
+    [IsIso ((restrictFunctor j).map g)]
+    (hM : closedStalkSupport M = ⊤) :
+    IsCoherentLowDegreeSupportComodel f U M
+      (SheafOfModules.free J) g := by
+  let E : X.Modules := SheafOfModules.free J
+  letI : E.IsFiniteType := free_isFiniteType X J
+  letI : E.IsQuasicoherent := inferInstance
+  exact
+    isCoherentLowDegreeSupportComodel_of_rationalSection_of_fullSupport
+      K X f s U hU hUaff g j hM
+        (Scheme.Modules.free_globalSections_module_finite X J)
+
 /-- A finite free sheaf is an actual coherent low-degree support comodel of
 itself.  Both residuals are zero; this packages the finite-free target against
 the exact interface consumed by closed-support codévissage. -/
@@ -178,32 +227,9 @@ theorem free_isCoherentLowDegreeSupportComodel_identity
   letI : M.IsQuasicoherent := inferInstance
   letI : IsLocallyNoetherian X :=
     LocallyOfFiniteType.isLocallyNoetherian f
-  have hresidual :=
-    Scheme.Modules.comparisonResidual_isFiniteType_and_isQuasicoherent
-      (𝟙 M)
-  letI : (Abelian.image (𝟙 M)).IsQuasicoherent :=
-    Scheme.Modules.isQuasicoherent_image (𝟙 M)
-  have hfac :
-      Abelian.factorThruImage (𝟙 M) ≫ Abelian.image.ι (𝟙 M) =
-        𝟙 M :=
-    Abelian.image.fac (𝟙 M)
-  letI : Mono (Abelian.factorThruImage (𝟙 M)) :=
-    mono_of_mono_fac hfac
-  letI : Epi (Abelian.image.ι (𝟙 M)) :=
-    epi_of_epi_fac hfac
-  have hkernel : IsZero
-      (kernel (Abelian.factorThruImage (𝟙 M))) :=
-    isZero_kernel_of_mono _
-  have hcokernel : IsZero
-      (cokernel (Abelian.image.ι (𝟙 M))) :=
-    isZero_cokernel_of_epi _
   exact
-    ⟨inferInstance, inferInstance,
-      free_orderedBaseCechLowDegreeFinite_of_rationalSection
-        K X f s J U hU hUaff,
-      inferInstance,
-      hresidual.1.1, hresidual.1.2,
-      hresidual.2.1, hresidual.2.2,
-      Or.inl hkernel, Or.inl hcokernel⟩
+    IsCoherentLowDegreeSupportComodel.identity f U M
+      (free_orderedBaseCechLowDegreeFinite_of_rationalSection
+        K X f s J U hU hUaff)
 
 end MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology
