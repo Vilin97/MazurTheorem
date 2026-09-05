@@ -167,15 +167,18 @@ divisor/line-bundle dictionary. The checked core now contains:
   sections over the source global-function ring;
 - `orderedBaseCechLowDegreeFinite_of_rationalSection_of_globalSections_module_finite`
   and its finite-free consumer, which give the first checked
-  low-degree-good targets for support codévissage; and
+  low-degree-good targets for support codévissage;
+- `IsCoherentLowDegreeSupportComodel.of_isIso_restrict` and its proper-curve
+  consumers, which turn supplied support-controlled open-local comparisons
+  into the exact coherent residual-support interface; and
 - `smoothProperCurve_H_eq_zero` above degree one, plus pointed proper-curve
   `H¹` finite-dimensionality for the canonical base and field actions.
 
 The 11-point Čech package and 12-point canonical core are integrated. The
 final 12-point package remains active but the parent node receives no credit:
-an arbitrary coherent sheaf still needs a generically isomorphic comparison
-to a low-degree-good target with strictly smaller residual supports, and the
-exact low-degree cohomology base-change comparison is still absent. General
+the required open-local, support-controlled comparison to a low-degree-good
+target must still be constructed for every coherent sheaf, and the exact
+low-degree cohomology base-change comparison is still absent. General
 proper-flat base change and semicontinuity remain owned by
 `MT-TC-C1-RELATIVE-COHOMOLOGY`; the first genuine Riemann--Roch consumer belongs
 to B2. Work-package status does not change the B1 node's zero credit.

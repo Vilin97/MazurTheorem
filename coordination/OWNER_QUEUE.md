@@ -42,10 +42,12 @@ Ext-based `H⁰`; ordered `H⁰` finite generation transfers through it, and the
 coherent-support induction has a checked genuine-`H⁰` endpoint. The selected
 package now also reduces proper canonical `H⁰` finiteness to finite global
 sections and certifies finite free sheaves as ordered low-degree-good targets.
-It must still construct a generically isomorphic comparison from every
-coherent sheaf to such a target, with strict residual support decrease, and
-prove the exact low-degree base-change comparison; `H¹` finiteness and
-vanishing above degree one are already checked.
+A supplied comparison which is invertible on a support-meeting open and does
+not enlarge support is now assembled into the exact coherent support-comodel,
+including the finite-free proper-curve specialization. The package must still
+construct that comparison data for every coherent sheaf and prove the exact
+low-degree base-change comparison; `H¹` finiteness and vanishing above degree
+one are already checked.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and
 `A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂`. The identity

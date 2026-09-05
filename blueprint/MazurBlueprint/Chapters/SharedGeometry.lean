@@ -116,9 +116,9 @@ line bundles on a smooth curve.
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
   Package the checked canonical H0 comparisons, finite-free ordered low-degree targets,
-  conditional coherent-support H0 endpoint, linear connecting maps, pointed-curve
-  canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above
-  degree one with the still-needed generically isomorphic support-decreasing comparison
+  open-local support-comodel assembly, conditional coherent-support H0 endpoint, linear
+  connecting maps, pointed-curve canonical-field H1 finite-dimensionality, affine
+  acyclicity, and vanishing above degree one with the still-needed comparison producer
   in the required curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
@@ -273,6 +273,18 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.free_orderedBaseCechLowDegreeFinite_of_rationalSection`
   Certify finite free sheaves as coherent ordered low-degree-good targets on pointed
   smooth proper integral curves.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.IsCoherentLowDegreeSupportComodel.of_isIso_restrict`
+  Assemble the exact coherent support-comodel from a low-degree-good target and a
+  support-controlled comparison which is invertible on a support-meeting open.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.isCoherentLowDegreeSupportComodel_of_rationalSection_of_globalSections_module_finite`
+  Apply the assembler on a pointed proper curve when the coherent target has finite
+  global sections over the source global-function ring.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.finiteFreeTarget_isCoherentLowDegreeSupportComodel_of_isIso_restrict`
+  Package a support-controlled open-local comparison to a finite free sheaf as the
+  proper-curve support comodel consumed by closed-support induction.
 
 :::
 

@@ -79,10 +79,12 @@ the parent node receives no credit. Canonical `H⁰` compatibility, linear
 connecting maps, and pointed proper-curve canonical-action `H¹` finiteness are
 checked. Properness reduces canonical `H⁰` finiteness to finite global
 sections over the source ring, and finite free sheaves are certified as
-ordered low-degree-good targets. The missing generically isomorphic
-support-decreasing comparison for arbitrary coherent sheaves and proper base
-change keep the final package open. The first genuine Riemann--Roch consumer
-belongs to B2, downstream of this foundation.
+ordered low-degree-good targets. Supplied open-local, support-controlled
+comparisons to those targets now assemble into the exact coherent
+support-comodel consumed by induction. Constructing such comparison data for
+every coherent sheaf and proving proper base change keep the final package
+open. The first genuine Riemann--Roch consumer belongs to B2, downstream of
+this foundation.
 
 The Picard lane likewise separates an honest absolute construction from the
 missing represented object. For one smooth proper integral curve over a field

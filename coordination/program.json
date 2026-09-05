@@ -5,7 +5,7 @@
     "revision": {
       "id": "canonical-foundations-v4",
       "date": "2026-08-15",
-      "summary": "Retain Mazur's degree-one formal-immersion route while recording checked but uncredited foundation slices: canonical-linear coherent H0/H1 with pointed proper-curve H1 finiteness, global-functions-linear Ext connecting maps, an arbitrary-cover base-Cech H0 comparison, and finite free sheaves certified as ordered low-degree-good targets on pointed proper curves; the associated fppf sheafification of the all-degree normalized Picard presheaf together with an honest absolute Picard degree kernel and splitting; a genuine four-chart affine Weierstrass addition cover with all six exact pairwise compatibilities and an actual glued affine-pair morphism, now identified with the standard member of an actual four-member cover of the full projective product whose members have integral affine tensor-product coordinate rings, normalized universal input points, evaluated secant and doubling triples satisfying the cubic equation, actual over-base secant and doubling morphisms on both output-coordinate principal opens, a proof that those four opens jointly cover every pair member, exact agreement of the two secant output normalizations on their YZ overlap, and an actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)`; generic finite free-translation quotient geometry over affine noetherian bases; terminal proper-model specialization at five; and represented polynomial-cusp sections. The generically isomorphic support-decreasing comparison for arbitrary coherent sheaves, Riemann-Roch, proper base change, a pullback-compatible relative degree and relative Pic⁰, Picard representability, actual Eisenstein quotient instances, torsion injectivity, represented X_0, and compactification remain open."
+      "summary": "Retain Mazur's degree-one formal-immersion route while recording checked but uncredited foundation slices: canonical-linear coherent H0/H1 with pointed proper-curve H1 finiteness, global-functions-linear Ext connecting maps, an arbitrary-cover base-Cech H0 comparison, finite free sheaves certified as ordered low-degree-good targets on pointed proper curves, and an exact support-comodel assembler for supplied open-local comparisons; the associated fppf sheafification of the all-degree normalized Picard presheaf together with an honest absolute Picard degree kernel and splitting; a genuine four-chart affine Weierstrass addition cover with all six exact pairwise compatibilities and an actual glued affine-pair morphism, now identified with the standard member of an actual four-member cover of the full projective product whose members have integral affine tensor-product coordinate rings, normalized universal input points, evaluated secant and doubling triples satisfying the cubic equation, actual over-base secant and doubling morphisms on both output-coordinate principal opens, a proof that those four opens jointly cover every pair member, exact agreement of the two secant output normalizations on their YZ overlap, and an actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)`; generic finite free-translation quotient geometry over affine noetherian bases; terminal proper-model specialization at five; and represented polynomial-cusp sections. Constructing the required open-local comparison for every coherent sheaf, Riemann-Roch, proper base change, a pullback-compatible relative degree and relative Pic⁰, Picard representability, actual Eisenstein quotient instances, torsion injectivity, represented X_0, and compactification remain open."
     },
     "canonical_target": {
       "name": "MazurTorsion.rationalTorsion_hasMazurClassification",
@@ -70,7 +70,7 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2097116,
+    "integrated_lean_lines": 2097267,
     "integrated_lean_modules": 2037,
     "remaining_composite_orders": [
       25,
@@ -1959,17 +1959,17 @@
       "weight_points": 35,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Build the coherent-cohomology results needed for proper smooth curves. The checked H0/global-sections comparison is linear for the canonical global-functions action, agrees with the opt-in transported action, and has a canonical-field consumer. For any open cover, native base-Cech H0 is naturally and canonically base-linear equivalent to genuine Ext-based H0. Properness now makes canonical H0 finite whenever global sections are finite over the source global-function ring; combined with pointed-curve H1 finiteness, this proves ordered low-degree Cech finiteness for every such coherent sheaf and in particular for finite free sheaves. The actual Ext connecting homomorphism of every short exact sequence is global-functions-linear, with a canonical ground-field-linear H0-to-H1 facade and a finite-dimensional-image consumer for pointed proper curves. The coherent core package is integrated; constructing a generically isomorphic comparison from an arbitrary coherent sheaf to a low-degree-good target, and proper base change, remain open in the active curve-finiteness package. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
+      "summary": "Build the coherent-cohomology results needed for proper smooth curves. The checked H0/global-sections comparison is linear for the canonical global-functions action, agrees with the opt-in transported action, and has a canonical-field consumer. For any open cover, native base-Cech H0 is naturally and canonically base-linear equivalent to genuine Ext-based H0. Properness now makes canonical H0 finite whenever global sections are finite over the source global-function ring; combined with pointed-curve H1 finiteness, this proves ordered low-degree Cech finiteness for every such coherent sheaf and in particular for finite free sheaves. A supplied comparison to such a target which is invertible on a support-meeting open and does not enlarge support is now assembled into the exact coherent support-comodel required by closed-support induction. The actual Ext connecting homomorphism of every short exact sequence is global-functions-linear, with a canonical ground-field-linear H0-to-H1 facade and a finite-dimensional-image consumer for pointed proper curves. The coherent core package is integrated; constructing the required open-local comparison for an arbitrary coherent sheaf, and proper base change, remain open in the active curve-finiteness package. This foundation is independent of the divisor-to-line-bundle dictionary; only the later Picard representability layer joins the two lanes.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
-          "status": "low-degree exactness and closed-support induction retained; proper producer under audit",
+          "status": "low-degree exactness, residual support, and closed-support induction retained; proper comparison producer under construction",
           "estimated_node_savings_percent": {
             "min": 40,
             "max": 55
           },
           "summary": "The option-free long exact sequence and exact additive-sheaf forgetful functor are retained as attributed ports with a checked dimension-shift consumer. AINTLIB also has affine acyclicity, Cech comparison, and proper low-degree finiteness results.",
-          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, and closed-support induction compile. The augmented native Cech short complex and forgotten base-linear homology comparison support a local arbitrary-cover H0 comparison. A project-original properness argument now proves canonical H0 finite from finite global sections over the source ring and certifies finite free sheaves as ordered low-degree-good targets by combining that result with canonical pointed-curve H1 finiteness. Naturality of the actual Ext connecting class makes every short-exact-sequence boundary global-functions-linear. The generically isomorphic proper/projective comparison needed to turn those targets into support-decreasing comodels for arbitrary coherent sheaves, and proper cohomology base change, remain absent.",
+          "boundary": "Only audited option-free slices are retained from AINTLIB. All finite local killing and affine quasicoherent acyclicity results are independently derived from pinned Mathlib; proper-curve higher vanishing comes from the attributed LeanPool Grothendieck-vanishing port. The ordered/native H1 bridge, additive sheaf-H1 comparison, low-degree exactness, comparison-residual support drop, and closed-support induction compile. The augmented native Cech short complex and forgotten base-linear homology comparison support a local arbitrary-cover H0 comparison. A project-original properness argument proves canonical H0 finite from finite global sections over the source ring and certifies finite free sheaves as ordered low-degree-good targets by combining that result with canonical pointed-curve H1 finiteness. A project-original assembler now turns supplied open-local comparison data into the exact coherent support-comodel. Naturality of the actual Ext connecting class makes every short-exact-sequence boundary global-functions-linear. Construction of the required comparison for arbitrary coherent sheaves, and proper cohomology base change, remain absent.",
           "declarations": [
             {
               "name": "affine_subsingleton_H",
@@ -1993,7 +1993,7 @@
           "kind": "theorem",
           "name": "TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional",
           "state": "proposed",
-          "description": "Package the checked canonical H0 comparisons, finite-free ordered low-degree targets, conditional coherent-support H0 endpoint, linear connecting maps, pointed-curve canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above degree one with the still-needed generically isomorphic support-decreasing comparison in the required curve-cohomology facade."
+          "description": "Package the checked canonical H0 comparisons, finite-free ordered low-degree targets, open-local support-comodel assembly, conditional coherent-support H0 endpoint, linear connecting maps, pointed-curve canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above degree one with the still-needed comparison producer in the required curve-cohomology facade."
         },
         {
           "kind": "definition",
@@ -2253,6 +2253,27 @@
           "state": "contract",
           "description": "Certify finite free sheaves as coherent ordered low-degree-good targets on pointed smooth proper integral curves.",
           "module": "MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.IsCoherentLowDegreeSupportComodel.of_isIso_restrict",
+          "state": "contract",
+          "description": "Assemble the exact coherent support-comodel from a low-degree-good target and a support-controlled comparison which is invertible on a support-meeting open.",
+          "module": "MazurTorsion.Upstream.SchemeModuleOrderedBaseCechLowDegreeSupport"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.isCoherentLowDegreeSupportComodel_of_rationalSection_of_globalSections_module_finite",
+          "state": "contract",
+          "description": "Apply the assembler on a pointed proper curve when the coherent target has finite global sections over the source global-function ring.",
+          "module": "MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.finiteFreeTarget_isCoherentLowDegreeSupportComodel_of_isIso_restrict",
+          "state": "contract",
+          "description": "Package a support-controlled open-local comparison to a finite free sheaf as the proper-curve support comodel consumed by closed-support induction.",
+          "module": "MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite"
         }
       ],
       "depends_on": [
@@ -2270,8 +2291,8 @@
         "credit_percent": 0
       },
       "evidence": {
-        "recorded_artifact_count": 113,
-        "canonical_artifact_count": 39,
+        "recorded_artifact_count": 117,
+        "canonical_artifact_count": 42,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [

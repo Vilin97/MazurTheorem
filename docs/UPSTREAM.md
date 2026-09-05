@@ -69,7 +69,9 @@ cohomology lane exposes smaller boundaries such as
 `SchemeModuleCohomologyHZero`, `SchemeModuleBaseCechHOneComparison`, and
 `ProperCurveCohomologyFinite`. The proper degree-zero and finite-free ordered
 low-degree target boundaries are `ProperHZeroFinite` and
-`ProperCurveCechLowDegreeFinite`; the Hilbert-94 cone is consumed through
+`ProperCurveCechLowDegreeFinite`; supplied open-local comparison data is
+assembled by `SchemeModuleOrderedBaseCechLowDegreeSupport`. The Hilbert-94
+cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual
 development. See the [Upstream directory map](../MazurTorsion/Upstream/README.md)

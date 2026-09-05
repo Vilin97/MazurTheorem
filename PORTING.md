@@ -742,9 +742,15 @@ sheaf's global sections are finite over the source global-function ring, with
 a finite-free consumer. `ProperCurveCechLowDegreeFinite` combines this with
 the existing pointed proper-curve `H¹` theorem and the retained ordered/native
 homology retract to certify finite free sheaves as ordered low-degree-good
-targets. No proof is copied from the omitted properness cone: constructing a
-generically isomorphic map from an arbitrary coherent sheaf to such a target,
-with strict residual support decrease, remains open.
+targets. The project-original
+`IsCoherentLowDegreeSupportComodel.of_isIso_restrict` then combines the retained
+comparison-residual coherence and support-drop APIs into the exact comodel
+interface: it needs a comparison which is invertible on one support-meeting
+open and whose target support is contained in the source support. Its named
+proper-curve and finite-free consumers are in
+`ProperCurveCechLowDegreeFinite`. No proof is copied from the omitted
+properness cone: constructing that comparison data for every coherent sheaf
+remains open.
 
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`
@@ -813,7 +819,9 @@ finite-generation consumer
 `MazurTorsion.Upstream.SchemeModuleBaseCechHZeroFinite`.
 The proper degree-zero and finite-free low-degree target boundaries are
 `MazurTorsion.Upstream.ProperHZeroFinite` and
-`MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite`.
+`MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite`; the comparison-data
+assembly boundary is
+`MazurTorsion.Upstream.SchemeModuleOrderedBaseCechLowDegreeSupport`.
 `MazurTorsion.lean` is the named checked consumer of the earlier geometry
 boundaries. The geometry boundary also imports Tau Ceti's line-bundle and
 Abel--Jacobi layers from the root package's exact dependency.
