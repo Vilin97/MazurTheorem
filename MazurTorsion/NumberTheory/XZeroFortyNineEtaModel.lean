@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin, OpenAI Codex
 -/
 
-import MazurTorsion.NumberTheory.XZeroFortyNineReduction
+import MazurTorsion.NumberTheory.XZeroFortyNineSchemeModel
 
 /-!
 # The eta-quotient plane model of `X₀(49)`
@@ -143,14 +143,34 @@ theorem etaPointToCurve_ne_cusps (P : EtaOpenPoint) :
     etaPointToCurve P.1 ≠ 0 ∧ etaPointToCurve P.1 ≠ T :=
   ⟨etaPointToCurve_ne_zero P.1, etaPointToCurve_ne_T P.1 P.2⟩
 
+/-- The eta-model coordinate change as an actual rational point of the
+represented projective cubic. -/
+noncomputable def etaPointToScheme (P : EtaAffinePoint) :
+    _root_.AlgebraicGeometry.Spec (.of ℚ) ⟶ SchemeModel.scheme :=
+  SchemeModel.rationalPointEquiv (etaPointToCurve P)
+
+/-- The open eta locus maps away from both rational cusp morphisms of the
+represented projective cubic. -/
+theorem etaPointToScheme_ne_cusps (P : EtaOpenPoint) :
+    etaPointToScheme P.1 ≠ SchemeModel.infinityCusp ∧
+      etaPointToScheme P.1 ≠ SchemeModel.finiteCusp := by
+  constructor
+  · intro h
+    exact (etaPointToCurve_ne_cusps P).1
+      (SchemeModel.rationalPointEquiv.injective h)
+  · intro h
+    exact (etaPointToCurve_ne_cusps P).2
+      (SchemeModel.rationalPointEquiv.injective h)
+
 /-- There is no rational point on the open eta-quotient locus.  This is a
 target-side consumer of the checked two-cusp classification, not a modular
 classifying-map construction. -/
 theorem etaOpenPoint_isEmpty : IsEmpty EtaOpenPoint := by
   constructor
   intro P
-  rcases point_eq_zero_or_T (etaPointToCurve P.1) with hzero | hT
-  · exact (etaPointToCurve_ne_cusps P).1 hzero
-  · exact (etaPointToCurve_ne_cusps P).2 hT
+  rcases SchemeModel.point_eq_infinityCusp_or_finiteCusp
+      (etaPointToScheme P.1) with hzero | hT
+  · exact (etaPointToScheme_ne_cusps P).1 hzero
+  · exact (etaPointToScheme_ne_cusps P).2 hT
 
 end MazurTorsion.XZeroFortyNine
