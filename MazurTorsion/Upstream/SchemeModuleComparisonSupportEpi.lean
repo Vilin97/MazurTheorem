@@ -59,6 +59,49 @@ theorem isZero_restrict_cokernel_image_ι_of_epi_map
   exact hzero.of_iso
     (PreservesCokernel.iso F (Abelian.image.ι f))
 
+/-- On a preirreducible scheme, a coherent source which surjects onto a
+full-support coherent target over a nonempty open also has full support.
+
+The proof is stalkwise: the epimorphism prevents a target stalk on the open
+from being nonzero when the corresponding source stalk vanishes.  Thus the
+source support contains the open immersion's range, which is dense by
+preirreducibility, and coherence makes that support closed.  The named
+downstream consumer is
+`hZeroCanonical_finiteDimensional_of_fullSupportTarget_lattice_of_epi_restrict`
+in `ProperCurveFiniteSupportCech`. -/
+theorem closedStalkSupport_eq_top_of_epi_restrict
+    (j : U ⟶ X) [IsOpenImmersion j] [Nonempty U]
+    [PreirreducibleSpace X]
+    {M N : X.Modules} [M.IsFiniteType] [M.IsQuasicoherent]
+    [N.IsFiniteType] [N.IsQuasicoherent]
+    (f : M ⟶ N) [Epi ((restrictFunctor j).map f)]
+    (hN : closedStalkSupport N = ⊤) :
+    closedStalkSupport M = ⊤ := by
+  have hRange : Set.range j ⊆ stalkSupport M := by
+    rintro _ ⟨y, rfl⟩
+    intro hMy
+    let Fy := underlyingStalkFunctor y
+    let eM := (restrictStalkNatIso j y).app M
+    let eN := (restrictStalkNatIso j y).app N
+    have hMres : IsZero (Fy.obj (M.restrict j)) :=
+      eM.isZero_iff.mpr hMy
+    haveI : Epi (Fy.map ((restrictFunctor j).map f)) := by
+      dsimp [Fy]
+      infer_instance
+    have hNres : IsZero (Fy.obj (N.restrict j)) :=
+      IsZero.of_epi (Fy.map ((restrictFunctor j).map f)) hMres
+    have hNy : IsZero ((underlyingStalkFunctor (j y)).obj N) :=
+      eN.isZero_iff.mp hNres
+    have hyN : j y ∈ stalkSupport N := by
+      rw [← coe_closedStalkSupport_eq_stalkSupport N, hN]
+      trivial
+    exact hyN hNy
+  apply Closeds.ext
+  change closure (stalkSupport M) = Set.univ
+  apply dense_iff_closure_eq.mp
+  exact Dense.mono hRange
+    (j.isOpenEmbedding.isOpen_range.dense (Set.range_nonempty j))
+
 /-- The cokernel residual has strictly smaller support when the comparison
 is epic on an open meeting the source support and the target support is
 contained in the source support. -/

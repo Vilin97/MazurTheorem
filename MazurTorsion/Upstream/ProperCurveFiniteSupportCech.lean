@@ -242,6 +242,32 @@ theorem hZeroCanonical_finiteDimensional_of_fullSupportLattice_of_epi_restrict
     K X f s E M g j hEtop
   exact hZeroCanonical_finiteDimensional_of_mono_to_free K X f E I e
 
+/-- If the target itself has full support, the source lattice in the preceding
+criterion does not need a separate full-support certificate.  An epimorphism
+on a nonempty open forces its coherent source to contain that dense open in
+its support, hence to have full support as well.
+
+This is the reduced design boundary for the remaining pole-clearing
+producer: for a full-support target it only has to construct a coherent
+submodule of a finite free sheaf which surjects on one nonempty open. -/
+theorem hZeroCanonical_finiteDimensional_of_fullSupportTarget_lattice_of_epi_restrict
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    (s : SmoothCurveRationalSection K X f)
+    (E M : X.Modules) [E.IsFiniteType] [E.IsQuasicoherent]
+    [M.IsFiniteType] [M.IsQuasicoherent]
+    (g : E ⟶ M) {Y : Scheme.{u}} (j : Y ⟶ X)
+    [IsOpenImmersion j] [Nonempty Y]
+    [Epi ((restrictFunctor j).map g)]
+    (I : Type u) [Finite I]
+    (e : E ⟶ SheafOfModules.free I (R := X.ringCatSheaf)) [Mono e]
+    (hMtop : closedStalkSupport M = ⊤) :
+    letI := hZeroCanonicalFieldModule K X f M
+    FiniteDimensional K (H M 0) := by
+  apply hZeroCanonical_finiteDimensional_of_fullSupportLattice_of_epi_restrict
+    K X f s E M g j I e
+  exact Scheme.Modules.closedStalkSupport_eq_top_of_epi_restrict j g hMtop
+
 /-- On a pointed smooth proper integral curve, it is enough to construct
 support comodels for coherent modules whose closed stalk support is the whole
 curve.  Strict support is discharged by the canonical finite thickening and
