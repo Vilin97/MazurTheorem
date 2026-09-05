@@ -788,11 +788,15 @@ affine Cartesian section maps into a morphism of base-linear Cech complexes.
 It proves every component is extension of scalars, constructs the resulting
 scalar-extended complex and flat-homology isomorphisms, and combines the native
 Cech comparisons into genuine `H⁰` and `H¹` base-change equivalences. Its named
-field-spectrum facade requires a supplied finite affine cover. Two small public
+field-spectrum facade accepts a supplied finite affine cover. The project-original
+`SchemeModuleProperBaseChange` removes that parameter using the finite subcover
+of Mathlib's canonical affine cover; properness supplies compactness and
+absolute separatedness, and the named curve consumer specializes to coherent
+modules on smooth proper integral curves. Two small public
 naturality/evaluation lemmas were added to the retained open-unit and
 restriction--pushforward modules for this consumer; no proof is copied from an
-omitted cone. A cover-independent proper-curve facade, general proper-flat base
-change, and semicontinuity remain open.
+omitted cone. A unified finiteness/vanishing/base-change curve facade, general
+proper-flat base change, and semicontinuity remain open.
 
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`

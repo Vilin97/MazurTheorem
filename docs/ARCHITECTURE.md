@@ -100,11 +100,12 @@ strict-support kernel and finite-free image prove finite canonical `H⁰` for a
 full-support target; the affine generic-point neighborhood and the existing
 strict-support theorem then give unconditional canonical `H⁰` finiteness for
 every coherent module on the pointed proper curve. The exact low-degree
-field-extension comparison now compiles from a supplied finite affine cover:
-the canonical maps assemble into a base-linear Cech map, are termwise extension
-of scalars, and induce the required `H⁰`/`H¹` isomorphisms after flat scalar
-extension. Only a cover-independent proper-curve facade keeps the final B1
-package open; general proper-flat base change and semicontinuity remain in C1.
+field-extension comparison now compiles without a cover parameter for proper
+schemes: the canonical maps assemble into a base-linear Cech map, are termwise
+extension of scalars, and induce the required `H⁰`/`H¹` isomorphisms after flat
+scalar extension on the finite subcover of the canonical affine cover. A final
+proper-curve facade must co-package this with finiteness and higher vanishing;
+general proper-flat base change and semicontinuity remain in C1.
 The first genuine Riemann--Roch consumer belongs to B2, downstream of this
 foundation.
 

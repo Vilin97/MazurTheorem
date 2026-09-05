@@ -36,6 +36,7 @@ Downstream project code should prefer the narrowest applicable boundary:
 | [`SchemeModuleAffineOpenPresentation.lean`](SchemeModuleAffineOpenPresentation.lean) | coherent pullback presentations from finite generators on an affine open, monic toward a finite free sheaf and epic toward the target locally |
 | [`SchemeModuleAffinePullbackSections.lean`](SchemeModuleAffinePullbackSections.lean) | canonical affine Cartesian pullback on quasicoherent sections as extension of scalars; consumed termwise by the Cech base-change layer |
 | [`SchemeModuleBaseChangeCech.lean`](SchemeModuleBaseChangeCech.lean) | termwise Cartesian base-Cech map, scalar-extended complex and homology isomorphisms, and genuine `H⁰`/`H¹` field-extension base change from a supplied finite affine cover |
+| [`SchemeModuleProperBaseChange.lean`](SchemeModuleProperBaseChange.lean) | cover-independent `H⁰`/`H¹` field-extension base change for proper schemes and coherent modules on smooth proper integral curves |
 | [`ProperCurveFiniteSupportCech.lean`](ProperCurveFiniteSupportCech.lean) | strict-support transfers and unconditional canonical `H⁰` finite-dimensionality for coherent modules on pointed proper curves |
 | [`CurveCohomologyGrothendieckVanishing.lean`](CurveCohomologyGrothendieckVanishing.lean) | curve specialization of the retained LeanPool vanishing theorem |
 

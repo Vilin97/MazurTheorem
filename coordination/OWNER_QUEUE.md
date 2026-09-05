@@ -65,9 +65,10 @@ cancelling the coordinate-ring pushout. These local maps are now assembled
 termwise into the base-linear Cech complex; every component is extension of
 scalars, so flat scalar extension commutes with its homology. The affine-cover
 comparisons consequently give genuine `H⁰` and `H¹` base change over field
-spectra from a supplied finite affine cover. The package must next eliminate
-that supplied-cover parameter in its proper-curve facade; `H¹` finiteness and
-vanishing above degree one are already checked, while general proper-flat base
+spectra. Properness now selects the finite subcover of the canonical affine
+cover internally, so the smooth proper integral-curve consumer has no cover
+parameter. The package must next co-package this comparison with the checked
+`H⁰`/`H¹` finiteness and vanishing-above-one results; general proper-flat base
 change and semicontinuity remain in C1.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and

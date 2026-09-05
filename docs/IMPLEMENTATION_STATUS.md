@@ -98,10 +98,12 @@ slices at the 225-point headline:
   componentwise extension-of-scalars proof, the resulting scalar-extended
   complex isomorphism, and flat homology transport now compile. Combined with
   the affine-cover comparisons, they give genuine `H⁰` and `H¹` base change
-  over field spectra from a supplied finite affine cover. A cover-independent
-  proper-curve facade remains; general proper-flat base change and
-  semicontinuity belong to C1. The first genuine Riemann--Roch consumer belongs
-  to B2.
+  over field spectra. Properness now chooses a finite subcover of the canonical
+  affine cover internally, and the smooth proper integral-curve specialization
+  has no cover parameter. The remaining B1 step is a single facade combining
+  this comparison with the checked finiteness and higher vanishing results;
+  general proper-flat base change and semicontinuity belong to C1. The first
+  genuine Riemann--Roch consumer belongs to B2.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a
   field and a supplied divisor-class/Picard equivalence, the checked

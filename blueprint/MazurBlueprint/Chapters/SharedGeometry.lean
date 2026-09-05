@@ -116,10 +116,9 @@ line bundles on a smooth curve.
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
   Package the checked unconditional canonical H0 finite-dimensionality, pointed
-  canonical H1 finite-dimensionality, vanishing above degree one, and
-  supplied-finite-affine-cover low-degree field-extension base-change comparison for
-  coherent modules on pointed smooth proper integral curves in a cover-independent
-  curve-cohomology facade.
+  canonical H1 finite-dimensionality, vanishing above degree one, and cover-independent
+  low-degree field-extension base-change comparison for coherent modules on pointed
+  smooth proper integral curves in one curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -459,6 +458,11 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.fieldExtensionLowDegreeBaseChange`
   Package the genuine H0 and H1 field-extension comparisons obtained from a supplied
   finite affine cover of a separated scheme.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.properCurveFieldExtensionLowDegreeBaseChange`
+  Choose the finite subcover of the canonical affine cover internally and expose
+  cover-independent genuine H0/H1 field-extension base change for coherent modules on
+  smooth proper integral curves.
 
 :::
 

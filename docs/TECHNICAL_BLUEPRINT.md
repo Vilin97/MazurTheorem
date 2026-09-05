@@ -207,9 +207,10 @@ The 11-point Čech package and 12-point canonical core are integrated. The
 final 12-point package remains active but the parent node receives no credit:
 canonical `H⁰` and pointed canonical `H¹` are finite-dimensional, higher
 cohomology vanishes, and exact `H⁰`/`H¹` field-extension base change is checked
-through the scalar-extended Cech complex for a supplied finite affine cover.
-The remaining B1 boundary is a cover-independent proper-curve facade. General
-proper-flat base change and semicontinuity remain owned by
+through the scalar-extended Cech complex. Properness now selects the finite
+subcover of the canonical affine cover internally. The remaining B1 boundary
+is a unified proper-curve facade packaging base change with finiteness and
+higher vanishing. General proper-flat base change and semicontinuity remain owned by
 `MT-TC-C1-RELATIVE-COHOMOLOGY`; the first genuine Riemann--Roch consumer belongs
 to B2. Work-package status does not change the B1 node's zero credit.
 

@@ -70,7 +70,9 @@ cohomology lane exposes smaller boundaries such as
 `ProperCurveCohomologyFinite`. `SchemeModuleBaseChangeCech` assembles the
 canonical Cartesian pullback map over a finite affine cover, identifies the
 scalar-extended complex and its homology, and exposes genuine `H⁰`/`H¹`
-field-extension base change. The proper degree-zero and finite-free ordered
+field-extension base change. `SchemeModuleProperBaseChange` applies it to the
+finite subcover of the canonical affine cover, giving proper schemes and the
+smooth proper integral-curve consumer a cover-independent API. The proper degree-zero and finite-free ordered
 low-degree target boundaries are `ProperHZeroFinite` and
 `ProperCurveCechLowDegreeFinite`; supplied open-local comparison data is
 assembled by `SchemeModuleOrderedBaseCechLowDegreeSupport`, while
@@ -93,9 +95,10 @@ free sheaf and epic toward the target after restriction. The resulting
 kernel/image exact-sequence argument in `ProperCurveFiniteSupportCech`, followed
 by the strict/full-support split at an affine neighborhood of the generic
 point, proves canonical `H⁰` finite-dimensional for every coherent module on
-the pointed proper curve. Only the cover-independent proper-curve packaging of
-the exact low-degree comparison remains outside this boundary; general
-proper-flat base change and semicontinuity remain downstream. The
+the pointed proper curve. A unified facade combining those finiteness and
+higher-vanishing results with the now cover-independent exact low-degree
+comparison remains outside this boundary; general proper-flat base change and
+semicontinuity remain downstream. The
 Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual
