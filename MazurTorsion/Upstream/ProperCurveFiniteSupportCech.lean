@@ -8,6 +8,7 @@ import MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite
 import MazurTorsion.Upstream.ProperCurveFiniteSupport
 import MazurTorsion.Upstream.ProperHZeroFinite
 import MazurTorsion.Upstream.SchemeModuleBaseCechHZeroFinite
+import MazurTorsion.Upstream.SchemeModuleAffineOpenPresentation
 import MazurTorsion.Upstream.SchemeModuleComparisonSupportEpi
 
 /-!
@@ -267,6 +268,163 @@ theorem hZeroCanonical_finiteDimensional_of_fullSupportTarget_lattice_of_epi_res
   apply hZeroCanonical_finiteDimensional_of_fullSupportLattice_of_epi_restrict
     K X f s E M g j I e
   exact Scheme.Modules.closedStalkSupport_eq_top_of_epi_restrict j g hMtop
+
+/-- The affine-open presentation of a full-support coherent module has
+finite-dimensional canonical `H⁰`.  Its kernel toward the finite free sheaf
+has strict support because that map is monic on the chosen open, while its
+image embeds in the finite free sheaf.  The resulting kernel-image short
+exact sequence gives finite `H⁰` of the presentation source, and its
+open-local epimorphism to the target finishes the comparison.
+
+This is the named proper-curve consumer of `AffineOpenPresentation`. -/
+theorem hZeroCanonical_finiteDimensional_of_affineOpenPresentation
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    (s : SmoothCurveRationalSection K X f)
+    (M : X.Modules) [M.IsFiniteType] [M.IsQuasicoherent]
+    (U : X.Opens) [Nonempty U.toScheme]
+    (P : Scheme.Modules.AffineOpenPresentation M U)
+    (hMtop : closedStalkSupport M = ⊤) :
+    letI := hZeroCanonicalFieldModule K X f M
+    FiniteDimensional K (H M 0) := by
+  letI : IsNoetherian X :=
+    isNoetherian_of_proper_smoothRelativeDimension_one K X f
+  letI : Finite P.I := P.finite_I
+  let E := P.source
+  let A : X.Modules :=
+    SheafOfModules.free P.I (R := X.ringCatSheaf)
+  let e : E ⟶ A := P.toFree
+  let g : E ⟶ M := P.toModule
+  letI : E.IsFiniteType := P.source_isFiniteType
+  letI : E.IsQuasicoherent := P.source_isQuasicoherent
+  letI : A.IsFiniteType := by
+    dsimp [A]
+    exact Scheme.Modules.free_isFiniteType X P.I
+  letI : A.IsQuasicoherent := by
+    dsimp [A]
+    infer_instance
+  letI : Mono ((restrictFunctor U.ι).map e) :=
+    P.mono_restrict_toFree
+  letI : Epi ((restrictFunctor U.ι).map g) :=
+    P.epi_restrict_toModule
+  have hEtop : closedStalkSupport E = ⊤ :=
+    Scheme.Modules.closedStalkSupport_eq_top_of_epi_restrict
+      U.ι g hMtop
+  let R := kernel (Abelian.factorThruImage e)
+  let J := Abelian.image e
+  have hresidual :=
+    Scheme.Modules.comparisonResidual_isFiniteType_and_isQuasicoherent e
+  letI : R.IsFiniteType := by
+    change (kernel (Abelian.factorThruImage e)).IsFiniteType
+    exact hresidual.1.1
+  letI : R.IsQuasicoherent := by
+    change (kernel (Abelian.factorThruImage e)).IsQuasicoherent
+    exact hresidual.1.2
+  letI : J.IsQuasicoherent := by
+    change (Abelian.image e).IsQuasicoherent
+    exact Scheme.Modules.isQuasicoherent_image e
+  have hRzero : IsZero (R.restrict U.ι) := by
+    change IsZero
+      ((kernel (Abelian.factorThruImage e)).restrict U.ι)
+    exact
+      Scheme.Modules.isZero_restrict_kernel_factorThruImage_of_mono_map
+        U.ι e
+  let x : U.toScheme := Classical.choice (inferInstance : Nonempty U.toScheme)
+  have hRstrict : closedStalkSupport R < ⊤ := by
+    rw [← hEtop]
+    refine Scheme.Modules.closedStalkSupport_lt_of_le_of_isZero_restrict
+      U.ι R E ?_ hRzero x ?_
+    · exact Scheme.Modules.closedStalkSupport_le_of_mono
+        (kernel.ι (Abelian.factorThruImage e))
+    · rw [hEtop]
+      trivial
+  have hR :
+      letI := hZeroCanonicalFieldModule K X f R
+      FiniteDimensional K (H R 0) := by
+    let T : CanonicalSupportThickening R :=
+      CanonicalSupportThickening.ofFiniteType R
+    exact
+      hZeroCanonical_finiteDimensional_of_closedStalkSupport_lt_top
+        K X f R T hRstrict
+  have hJ :
+      letI := hZeroCanonicalFieldModule K X f J
+      FiniteDimensional K (H J 0) := by
+    let i : J ⟶ A := Abelian.image.ι e
+    letI : Mono i := by
+      dsimp [i, J]
+      infer_instance
+    apply hZeroCanonical_finiteDimensional_of_mono_to_free
+      K X f J P.I i
+  let S := ShortComplex.kernelSequence (Abelian.factorThruImage e)
+  haveI : Epi S.g := by
+    dsimp [S, ShortComplex.kernelSequence]
+    infer_instance
+  have hS : S.ShortExact :=
+    { exact :=
+        ShortComplex.kernelSequence_exact
+          (Abelian.factorThruImage e) }
+  have hE :
+      letI := hZeroCanonicalFieldModule K X f E
+      FiniteDimensional K (H E 0) := by
+    apply hZeroCanonical_finiteDimensional_X2_of_shortExact K X f hS
+    · change
+        letI := hZeroCanonicalFieldModule K X f R
+        FiniteDimensional K (H R 0)
+      exact hR
+    · change
+        letI := hZeroCanonicalFieldModule K X f J
+        FiniteDimensional K (H J 0)
+      exact hJ
+  exact
+    hZeroCanonical_finiteDimensional_of_fullSupportSource_of_epi_restrict
+      K X f s E M g U.ι hEtop hE
+
+/-- A full-support coherent module on a pointed smooth proper integral curve
+has finite-dimensional canonical `H⁰`.  An affine neighborhood of the
+generic point supplies the affine-open presentation consumed above. -/
+theorem hZeroCanonical_finiteDimensional_of_fullSupport
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    (s : SmoothCurveRationalSection K X f)
+    (M : X.Modules) [M.IsFiniteType] [M.IsQuasicoherent]
+    (hMtop : closedStalkSupport M = ⊤) :
+    letI := hZeroCanonicalFieldModule K X f M
+    FiniteDimensional K (H M 0) := by
+  letI : IsNoetherian X :=
+    isNoetherian_of_proper_smoothRelativeDimension_one K X f
+  letI : X.IsSeparated :=
+    ⟨by rw [← terminal.comp_from f]; infer_instance⟩
+  obtain ⟨U, hUaff, hxU, -⟩ :=
+    exists_isAffineOpen_mem_and_subset
+      (X := X) (x := genericPoint X) (U := ⊤) (by trivial)
+  letI : Nonempty U.toScheme :=
+    ⟨⟨genericPoint X, hxU⟩⟩
+  obtain ⟨P⟩ :=
+    Scheme.Modules.exists_affineOpenPresentation M U hUaff
+  exact hZeroCanonical_finiteDimensional_of_affineOpenPresentation
+    K X f s M U P hMtop
+
+/-- Canonical `H⁰` of every coherent module on a pointed smooth proper
+integral curve is finite-dimensional.  Strict support is handled by the
+canonical finite thickening; full support is handled by the affine-open
+presentation. -/
+theorem hZeroCanonical_finiteDimensional_of_coherent
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    (s : SmoothCurveRationalSection K X f)
+    (M : X.Modules) [M.IsFiniteType] [M.IsQuasicoherent] :
+    letI := hZeroCanonicalFieldModule K X f M
+    FiniteDimensional K (H M 0) := by
+  letI : IsNoetherian X :=
+    isNoetherian_of_proper_smoothRelativeDimension_one K X f
+  by_cases hMtop : closedStalkSupport M = ⊤
+  · exact hZeroCanonical_finiteDimensional_of_fullSupport
+      K X f s M hMtop
+  · let A : CanonicalSupportThickening M :=
+      CanonicalSupportThickening.ofFiniteType M
+    exact
+      hZeroCanonical_finiteDimensional_of_closedStalkSupport_lt_top
+        K X f M A (lt_top_iff_ne_top.mpr hMtop)
 
 /-- On a pointed smooth proper integral curve, it is enough to construct
 support comodels for coherent modules whose closed stalk support is the whole
