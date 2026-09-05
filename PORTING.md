@@ -752,6 +752,15 @@ proper-curve and finite-free consumers are in
 properness cone: constructing that comparison data for every coherent sheaf
 remains open.
 
+The project-original `ProperCurveFiniteSupport` wraps Tau Ceti's checked
+theorem that a proper closed subset of a Noetherian smooth integral relative
+curve is finite. Properness supplies the Noetherian instance; the wrapper then
+shows that strict closed stalk support, and hence the carrier of the retained
+canonical support thickening, is finite. Zariski's Main Theorem upgrades the
+thickening's proper locally finite-type structure morphism to a finite
+morphism. The next boundary is coherence of the pulled-back model module,
+which is needed before finite pushforward yields finite global sections.
+
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`
 takes finite generation of ordered degree-one homology and proves finite
@@ -821,7 +830,9 @@ The proper degree-zero and finite-free low-degree target boundaries are
 `MazurTorsion.Upstream.ProperHZeroFinite` and
 `MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite`; the comparison-data
 assembly boundary is
-`MazurTorsion.Upstream.SchemeModuleOrderedBaseCechLowDegreeSupport`.
+`MazurTorsion.Upstream.SchemeModuleOrderedBaseCechLowDegreeSupport`, and the
+strict-support finite-morphism boundary is
+`MazurTorsion.Upstream.ProperCurveFiniteSupport`.
 `MazurTorsion.lean` is the named checked consumer of the earlier geometry
 boundaries. The geometry boundary also imports Tau Ceti's line-bundle and
 Abel--Jacobi layers from the root package's exact dependency.

@@ -44,10 +44,12 @@ package now also reduces proper canonical `H⁰` finiteness to finite global
 sections and certifies finite free sheaves as ordered low-degree-good targets.
 A supplied comparison which is invertible on a support-meeting open and does
 not enlarge support is now assembled into the exact coherent support-comodel,
-including the finite-free proper-curve specialization. The package must still
-construct that comparison data for every coherent sheaf and prove the exact
-low-degree base-change comparison; `H¹` finiteness and vanishing above degree
-one are already checked.
+including the finite-free proper-curve specialization. Strict closed stalk
+support is finite, and its canonical support thickening is now finite over the
+ground field. The package must next prove coherence of the pulled-back support
+model, construct comparison data for full-support coherent sheaves, and prove
+the exact low-degree base-change comparison; `H¹` finiteness and vanishing
+above degree one are already checked.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and
 `A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂`. The identity

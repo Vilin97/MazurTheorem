@@ -688,8 +688,11 @@ The strongest concrete reuse candidates are:
   target is now connected to the retained comparison-residual APIs by a
   project-original assembler: an open-local isomorphism and target-support
   containment produce the exact coherent residual support drops. The new
-  genuine-`H⁰` endpoint remains conditional on constructing that comparison
-  data for an arbitrary coherent sheaf. An
+  proper-curve support boundary also directly consumes Tau Ceti's checked
+  finiteness of proper closed subsets on a Noetherian smooth relative curve.
+  It proves that strict stalk support has a canonical thickening finite over
+  the ground field. The genuine-`H⁰` endpoint still needs coherence of that
+  pulled-back model and comparison data in the full-support case. An
   audit of historical AINTLIB
   commit `d78d10a74577e28840d21eb4e07395d87c44370f` found the preferable direct
   degree-zero/degree-one support induction before the later all-degree

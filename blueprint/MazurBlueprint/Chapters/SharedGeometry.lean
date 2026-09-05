@@ -116,10 +116,10 @@ line bundles on a smooth curve.
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
   Package the checked canonical H0 comparisons, finite-free ordered low-degree targets,
-  open-local support-comodel assembly, conditional coherent-support H0 endpoint, linear
-  connecting maps, pointed-curve canonical-field H1 finite-dimensionality, affine
-  acyclicity, and vanishing above degree one with the still-needed comparison producer
-  in the required curve-cohomology facade.
+  finite strict-support thickenings, open-local support-comodel assembly, conditional
+  coherent-support H0 endpoint, linear connecting maps, pointed-curve canonical-field H1
+  finite-dimensionality, affine acyclicity, and vanishing above degree one with the
+  still-needed comparison producer in the required curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -285,6 +285,18 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.finiteFreeTarget_isCoherentLowDegreeSupportComodel_of_isIso_restrict`
   Package a support-controlled open-local comparison to a finite free sheaf as the
   proper-curve support comodel consumed by closed-support induction.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.finite_closedStalkSupport_of_lt_top`
+  Prove that strict closed stalk support on a smooth proper integral curve is a finite
+  underlying set.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.CanonicalSupportThickening.finite_supportScheme_of_closedStalkSupport_lt_top`
+  Transfer finite strict stalk support through the canonical closed immersion to make
+  the support thickening's underlying type finite.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.CanonicalSupportThickening.isFinite_comp_structureMap_of_closedStalkSupport_lt_top`
+  Upgrade the finite carrier of a strict canonical support thickening to a finite
+  structure morphism over the ground field.
 
 :::
 

@@ -241,6 +241,12 @@ comparison-residual coherence and support-drop interfaces to package supplied
 open-local comparison data, with a named finite-free proper-curve consumer.
 These files do not copy the omitted AINTLIB properness cone or claim the still
 missing construction of such comparison data for an arbitrary coherent sheaf.
+The project-original `ProperCurveFiniteSupport` directly consumes Tau Ceti's
+checked finiteness theorem for proper closed subsets of a Noetherian smooth
+relative curve, supplies Noetherianity from properness, and combines it with
+the retained canonical support-thickening range identity and Mathlib's
+Zariski's Main Theorem. It does not copy a proper-cohomology proof or claim
+coherence of the pulled-back support model.
 The finite-pushforward comparison extension retains the inverse-image-cover
 complex isomorphisms, their low-degree finiteness transport, and the
 support-only pushforward/pullback result; it omits the all-degree and
