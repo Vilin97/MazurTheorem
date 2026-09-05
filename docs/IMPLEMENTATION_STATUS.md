@@ -241,10 +241,13 @@ slices at the 225-point headline:
   pullback from `Spec Z` to `Spec Q`, and every global rational point lifts
   canonically. The projective `D(X)` chart has now been pulled back to an
   actual affine open subscheme of the cubic, canonically presented as the
-  spectrum of its coordinate ring. Direct homogeneous-coordinate proofs place
-  both rational cusp morphisms outside this open, so every rational point
-  factoring through it is noncuspidal, the open has no `Spec Q` points, and
-  its coordinate ring has no ring homomorphism to `Q`.
+  spectrum of its coordinate ring. An explicit presentation localizes the
+  represented standard-chart quotient at `X/Z`; the homogeneous equation
+  proves that `X != 0` forces `Z != 0`, so its open range is exactly `D(X)`.
+  Direct homogeneous-coordinate proofs place both rational cusp morphisms
+  outside this open, so every rational point factoring through it is
+  noncuspidal, the open has no `Spec Q` points, and its coordinate ring has no
+  ring homomorphism to `Q`.
   `RationalFiberOpenComparison` now states the missing comparison as an open
   immersion over `Q` into this rational-cusp-avoiding open; no separate
   noncuspidality hypothesis remains. From such supplied data the code proves

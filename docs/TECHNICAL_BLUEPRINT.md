@@ -366,11 +366,14 @@ fibre is constructed as the categorical pullback along
 `Spec Q ⟶ Spec Z`, and every rational coarse point has a canonical lift.
 The projective basic open `D(X)` is now pulled back to an actual affine open
 subscheme of the cubic, with a canonical presentation as the spectrum of its
-coordinate ring. Homogeneous-coordinate computations show that the infinity
-cusp `[0 : 1 : 0]` and finite cusp `[0 : 0 : 1]` both lie outside it. Thus
-every rational point factoring through this open avoids the two represented
-cusps, the two-point classification makes the open empty on `Q`-points, and
-the coordinate ring has no ring homomorphism to `Q`.
+coordinate ring. More concretely, localizing the represented standard-chart
+quotient at `X/Z` gives an open immersion with exactly this range: the
+homogeneous cubic equation proves that `X != 0` forces `Z != 0` on the curve.
+Homogeneous-coordinate computations show that the infinity cusp
+`[0 : 1 : 0]` and finite cusp `[0 : 0 : 1]` both lie outside it. Thus every
+rational point factoring through this open avoids the two represented cusps,
+the two-point classification makes the open empty on `Q`-points, and the
+coordinate ring has no ring homomorphism to `Q`.
 `RationalFiberOpenComparison` asks for the geometrically correct bridge: an
 open immersion of the coarse fibre into this rational-cusp-avoiding open.
 Noncuspidality is now derived from the factorization rather than supplied as a

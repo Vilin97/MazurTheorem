@@ -195,7 +195,10 @@ The rational fibre of every supplied global coarse scheme is now formed by an
 actual pullback over `Spec Z`, and every rational coarse point lifts to it. A
 projective `D(X)` chart is now an actual open subscheme of the explicit cubic,
 is proved affine, and has a canonical presentation as the spectrum of its
-coordinate ring. Homogeneous-coordinate calculations prove that both rational
+coordinate ring. It also has an explicit presentation by localizing the
+represented standard-chart quotient at `X/Z`: the homogeneous cubic equation
+proves that `X != 0` forces `Z != 0`, so this localization has exactly the
+`D(X)` range. Homogeneous-coordinate calculations prove that both rational
 cusps lie outside it; consequently the coordinate ring has no homomorphism to
 `Q`. The comparison interface therefore asks for an open immersion into this
 rational-cusp-avoiding open; noncuspidality is derived rather than supplied as

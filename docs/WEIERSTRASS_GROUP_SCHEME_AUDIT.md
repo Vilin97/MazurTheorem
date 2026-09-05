@@ -405,11 +405,14 @@ points; the eta open is a represented downstream consumer. The rational fibre
 of a supplied global coarse space is now an actual pullback over `Spec Z`, and
 every rational point lifts to it. The projective `D(X)` chart is now an actual
 affine open subscheme of the represented cubic and is canonically presented as
-the spectrum of its coordinate ring. Coordinate calculations place both
-rational cusp morphisms outside it, so factorization through this open proves
-rational noncuspidality, the represented point classification makes the open
-empty on `Q`-points, and the coordinate ring has no ring homomorphism to `Q`.
-The remaining geometric comparison has a precise
+the spectrum of its coordinate ring. It is also identified with the explicit
+localization of the represented standard-chart quotient at `X/Z`; the cubic
+equation proves that `X != 0` forces `Z != 0`, so the localization has exactly
+the `D(X)` range. Coordinate calculations place both rational cusp morphisms
+outside it, so factorization through this open proves rational noncuspidality,
+the represented point classification makes the open empty on `Q`-points, and
+the coordinate ring has no ring homomorphism to `Q`. The remaining geometric
+comparison has a precise
 interface: an open immersion of the coarse rational fibre into this
 rational-cusp-avoiding open. It implies emptiness of coarse rational points and
 the modular-route order-49 endpoint without a separate noncuspidality field.

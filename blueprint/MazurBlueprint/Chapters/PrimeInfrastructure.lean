@@ -393,6 +393,22 @@ by checked admissible variable changes.
   Translate rational-point emptiness into the absence of ring homomorphisms from the
   affine coordinate ring to Q.
 * `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.rationalCuspAffinePresentationRing`
+  Present D(X) explicitly by localizing the represented standard-chart quotient at the
+  class of X/Z.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.standardChart_preimage_rationalCuspAvoidingOpen`
+  Identify the pullback of D(X) to the standard cubic chart with the principal open
+  where X/Z is nonzero.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.rationalCuspAffinePresentationMap_opensRange`
+  Prove that the explicit localization map has exactly the represented
+  rational-cusp-avoiding open as its range.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.rationalCuspAffinePresentationIso`
+  Identify the spectrum of the explicit standard-chart localization with the actual D(X)
+  open subscheme.
+* `definition` (`contract`):
   `MazurTorsion.XZeroFortyNine.CoarseComparison.rationalFiber`
   Form the rational fibre of a supplied global coarse moduli scheme by pullback from
   Spec Z to Spec Q.
