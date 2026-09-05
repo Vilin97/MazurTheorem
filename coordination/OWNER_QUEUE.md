@@ -202,9 +202,12 @@ proves that `X != 0` forces `Z != 0`, so this localization has exactly the
 cusps lie outside it; consequently the coordinate ring has no homomorphism to
 `Q`. The eta equation is now an affine scheme, and its exact regularity domain
 `D(x(x^2+7x+7))` maps by the checked coordinate formulas into the explicit
-`D(X)` presentation. This eta open consequently has no `Spec Q` points or
-coordinate-ring homomorphisms to `Q`. The comparison interface therefore asks
-for an open immersion into this
+`D(X)` presentation. Explicit inverse coordinate-ring maps identify this
+regularity domain with the further target open `D(x^2+7x+7)`, so the eta map
+is an open immersion and its exact image is checked both in the affine
+presentation and in the actual cusp-avoiding subscheme. This eta open
+consequently has no `Spec Q` points or coordinate-ring homomorphisms to `Q`.
+The comparison interface therefore asks for an open immersion into this
 rational-cusp-avoiding open; noncuspidality is derived rather than supplied as
 a separate field. This yields emptiness of coarse rational points and the
 modular-route order-49 endpoint. No modular eta-function map, coarse-space, or

@@ -423,6 +423,22 @@ by checked admissible variable changes.
   Exclude all Spec Q points of the eta regularity domain through its morphism into the
   classified D(X) open.
 * `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.EtaSchemeModel.targetDenominator`
+  Express the quadratic eta denominator x^2+7x+7 inside the explicit target D(X)
+  coordinate ring, with x=X/4.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.EtaSchemeModel.openRingEquivTargetOpen`
+  Identify the eta regularity coordinate ring with the localization of the explicit
+  target D(X) ring at the quadratic denominator.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.EtaSchemeModel.toAffinePresentation_opensRange`
+  Prove that the eta coordinate morphism is an open immersion with exact image
+  D(x^2+7x+7) in the explicit affine presentation.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.EtaSchemeModel.toRationalCuspOpen_opensRange`
+  Transport the exact eta-chart image through the presentation isomorphism into the
+  actual rational-cusp-avoiding open subscheme.
+* `definition` (`contract`):
   `MazurTorsion.XZeroFortyNine.CoarseComparison.rationalFiber`
   Form the rational fibre of a supplied global coarse moduli scheme by pullback from
   Spec Z to Spec Q.

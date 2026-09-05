@@ -376,9 +376,13 @@ the two-point classification makes the open empty on `Q`-points, and the
 coordinate ring has no ring homomorphism to `Q`. The eta plane equation is now
 represented by an affine scheme as well. Its exact scheme-theoretic regularity
 domain is `D(x(x² + 7x + 7))`, and the checked coordinate formulas define a
-morphism from this open into the explicit `D(X)` presentation. It follows that
-the eta open has no `Spec Q` points and its coordinate ring has no homomorphism
-to `Q`.
+morphism from this open into the explicit `D(X)` presentation. Explicit
+inverse ring maps identify its coordinate ring with the target presentation
+localized once more at `x² + 7x + 7`. Thus the eta morphism is an open
+immersion with exact image that denominator-open, both before and after
+transport to the actual rational-cusp-avoiding subscheme. It follows that the
+eta open has no `Spec Q` points and its coordinate ring has no homomorphism to
+`Q`.
 `RationalFiberOpenComparison` asks for the geometrically correct bridge: an
 open immersion of the coarse fibre into this rational-cusp-avoiding open.
 Noncuspidality is now derived from the factorization rather than supplied as a

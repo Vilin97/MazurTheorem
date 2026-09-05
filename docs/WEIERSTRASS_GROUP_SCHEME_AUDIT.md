@@ -414,7 +414,10 @@ the represented point classification makes the open empty on `Q`-points, and
 the coordinate ring has no ring homomorphism to `Q`. The eta equation is now
 an affine scheme with exact regularity domain `D(x(x² + 7x + 7))`; its checked
 coordinate change is an actual morphism from that principal open into the
-explicit `D(X)` presentation. Hence the eta open also has no `Spec Q` points or
+explicit `D(X)` presentation. Explicit inverse coordinate maps identify this
+source with the further target open `D(x² + 7x + 7)`, prove the morphism is an
+open immersion, and compute its exact image after transport to the actual
+cusp-avoiding subscheme. Hence the eta open also has no `Spec Q` points or
 coordinate-ring homomorphisms to `Q`. The remaining geometric comparison has a
 precise
 interface: an open immersion of the coarse rational fibre into this

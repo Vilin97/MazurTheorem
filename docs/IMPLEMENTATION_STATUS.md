@@ -250,7 +250,10 @@ slices at the 225-point headline:
   ring homomorphism to `Q`. The eta equation now defines an affine scheme whose
   exact coordinate-change domain is the principal open
   `D(x(x² + 7x + 7))`. The checked regular formulas give a morphism from this
-  eta open into the explicit `D(X)` presentation, proving that it too has no
+  eta open into the explicit `D(X)` presentation. Explicit inverse ring maps
+  identify it with the target denominator-open `D(x² + 7x + 7)`, prove this
+  morphism is an open immersion, and compute its exact image in both the
+  presentation and the actual cusp-avoiding subscheme. It therefore has no
   `Spec Q` points or coordinate-ring homomorphisms to `Q`.
   `RationalFiberOpenComparison` now states the missing comparison as an open
   immersion over `Q` into this rational-cusp-avoiding open; no separate
