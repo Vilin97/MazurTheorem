@@ -239,13 +239,18 @@ slices at the 225-point headline:
   distinct scheme morphisms; the eta open maps to this scheme and avoids both.
   The rational fibre of any supplied global coarse scheme is now its actual
   pullback from `Spec Z` to `Spec Q`, and every global rational point lifts
-  canonically. `RationalFiberOpenComparison` states the missing comparison as
-  an open immersion over `Q` whose rational image avoids both cusp morphisms.
-  From such supplied data the code proves emptiness of coarse rational points
-  and the modular-route order-49 endpoint. No coarse-space or comparison
-  instance, universal-family comparison, or generalized bad-characteristic
-  cyclicity is constructed. The represented `X₀(N)` classifier therefore
-  stays selected with no additional roadmap credit.
+  canonically. The projective `D(X)` chart has now been pulled back to an
+  actual open subscheme of the cubic. Direct homogeneous-coordinate proofs
+  place both rational cusp morphisms outside this open, so every rational
+  point factoring through it is noncuspidal and the open has no `Spec Q`
+  points. `RationalFiberOpenComparison` now states the missing comparison as
+  an open immersion over `Q` into this rational-cusp-avoiding open; no separate
+  noncuspidality hypothesis remains. From such supplied data the code proves
+  emptiness of coarse rational points and the modular-route order-49 endpoint.
+  No coarse-space or comparison instance, universal-family comparison, or
+  generalized bad-characteristic cyclicity is constructed. The represented
+  `X₀(N)` classifier therefore stays selected with no additional roadmap
+  credit.
 - The generic finite-translation layer constructs the actual quotient of a
   supplied commutative group scheme from an affine diagonal, a finite section
   action, an invariant affine atlas, and scheme-theoretic freeness. Geometric

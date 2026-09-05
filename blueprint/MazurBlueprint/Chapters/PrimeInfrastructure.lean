@@ -366,6 +366,21 @@ by checked admissible variable changes.
 * `theorem` (`contract`): `MazurTorsion.XZeroFortyNine.etaPointToScheme_ne_cusps`
   Prove that the noncuspidal eta locus avoids both represented rational cusp morphisms.
 * `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.rationalCuspAvoidingOpen`
+  Pull the projective basic open D(X) back to an actual open of the represented level-49
+  cubic.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.rationalCuspAvoidingOver`
+  Regard the rational-cusp-avoiding open as an actual scheme over Spec Q.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.comp_rationalCuspAvoidingInclusion_isNoncuspidal`
+  Prove from homogeneous coordinates that every rational point factoring through D(X)
+  avoids both represented rational cusps.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.SchemeModel.rationalCuspAvoidingScheme_rationalPoints_isEmpty`
+  Combine D(X) cusp avoidance with the represented two-point classification to exclude
+  all rational points of this open.
+* `definition` (`contract`):
   `MazurTorsion.XZeroFortyNine.CoarseComparison.rationalFiber`
   Form the rational fibre of a supplied global coarse moduli scheme by pullback from
   Spec Z to Spec Q.
@@ -375,8 +390,12 @@ by checked admissible variable changes.
   fibre.
 * `structure` (`contract`):
   `MazurTorsion.XZeroFortyNine.CoarseComparison.RationalFiberOpenComparison`
-  Package an open immersion of the coarse rational fibre into the explicit cubic whose
-  rational image avoids both cusps.
+  Package an open immersion of the coarse rational fibre into the actual D(X)
+  rational-cusp-avoiding open.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.CoarseComparison.RationalFiberOpenComparison.map_comp_rationalCuspAvoidingInclusion_isOpenImmersion`
+  Compose the comparison with the represented D(X) inclusion to obtain an open immersion
+  into the projective cubic.
 * `theorem` (`contract`):
   `MazurTorsion.XZeroFortyNine.CoarseComparison.RationalFiberOpenComparison.coarseRationalPoints_isEmpty`
   Deduce that the supplied coarse moduli scheme has no rational points from the

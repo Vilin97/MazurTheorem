@@ -364,13 +364,18 @@ distinct scheme morphisms and exhaust the rational points; the eta-chart map
 now consumes this result. For a supplied global coarse scheme, the rational
 fibre is constructed as the categorical pullback along
 `Spec Q ⟶ Spec Z`, and every rational coarse point has a canonical lift.
-`RationalFiberOpenComparison` then asks for the geometrically correct bridge:
-an open immersion of this fibre into the explicit projective cubic whose
-rational image avoids the two cusps. This exact hypothesis makes both the
-fibre and global coarse scheme empty on rational points and gives the modular
-order-49 contradiction. Constructing the coarse space and comparison,
-comparing universal families, and extending cyclicity through bad
-characteristic remain open.
+The projective basic open `D(X)` is now pulled back to an actual open subscheme
+of the cubic. Homogeneous-coordinate computations show that the infinity cusp
+`[0 : 1 : 0]` and finite cusp `[0 : 0 : 1]` both lie outside it. Thus every
+rational point factoring through this open avoids the two represented cusps,
+and the two-point classification makes the open empty on `Q`-points.
+`RationalFiberOpenComparison` asks for the geometrically correct bridge: an
+open immersion of the coarse fibre into this rational-cusp-avoiding open.
+Noncuspidality is now derived from the factorization rather than supplied as a
+separate hypothesis. This comparison makes both the fibre and global coarse
+scheme empty on rational points and gives the modular order-49 contradiction.
+Constructing the coarse space and comparison, comparing universal families,
+and extending cyclicity through bad characteristic remain open.
 
 The point constructor must consume an actual finite-flat subgroup scheme and
 prove noncuspidality; a supplied equivalence of point sets is not sufficient.

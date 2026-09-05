@@ -403,9 +403,13 @@ coordinate-to-scheme map is bijective on `Q`-points, so the checked two-point
 classification gives two distinct cusp morphisms which exhaust all `Spec Q`
 points; the eta open is a represented downstream consumer. The rational fibre
 of a supplied global coarse space is now an actual pullback over `Spec Z`, and
-every rational point lifts to it. The remaining geometric comparison has a
-precise interface: an open immersion over `Spec Q` whose rational image avoids
-both cusp morphisms. It implies emptiness of coarse rational points and the
-modular-route order-49 endpoint. No coarse-space or open-comparison instance,
-universal-family comparison, or bad-characteristic generalized cyclicity is
-yet constructed.
+every rational point lifts to it. The projective `D(X)` chart is now an actual
+open subscheme of the represented cubic. Coordinate calculations place both
+rational cusp morphisms outside it, so factorization through this open proves
+rational noncuspidality and the represented point classification makes the
+open empty on `Q`-points. The remaining geometric comparison has a precise
+interface: an open immersion of the coarse rational fibre into this
+rational-cusp-avoiding open. It implies emptiness of coarse rational points and
+the modular-route order-49 endpoint without a separate noncuspidality field.
+No coarse-space or open-comparison instance, universal-family comparison, or
+bad-characteristic generalized cyclicity is yet constructed.
