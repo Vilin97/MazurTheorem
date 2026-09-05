@@ -67,7 +67,9 @@ consumer of each cone.
 `MazurTorsion.Upstream.Geometry` is the broad geometry boundary. The coherent
 cohomology lane exposes smaller boundaries such as
 `SchemeModuleCohomologyHZero`, `SchemeModuleBaseCechHOneComparison`, and
-`ProperCurveCohomologyFinite`; the Hilbert-94 cone is consumed through
+`ProperCurveCohomologyFinite`. The proper degree-zero and finite-free ordered
+low-degree target boundaries are `ProperHZeroFinite` and
+`ProperCurveCechLowDegreeFinite`; the Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual
 development. See the [Upstream directory map](../MazurTorsion/Upstream/README.md)

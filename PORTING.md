@@ -735,6 +735,17 @@ genuine `H⁰` and then apply the coherent-support comodel induction. These
 theorems make no properness claim; the proper/projective comodel producer is
 still absent.
 
+The project-original `ProperHZeroFinite` uses Mathlib's checked finiteness of
+the global-function map for an integral universally closed finite-type scheme.
+It proves canonical base-linear `H⁰` finite whenever the coefficient
+sheaf's global sections are finite over the source global-function ring, with
+a finite-free consumer. `ProperCurveCechLowDegreeFinite` combines this with
+the existing pointed proper-curve `H¹` theorem and the retained ordered/native
+homology retract to certify finite free sheaves as ordered low-degree-good
+targets. No proof is copied from the omitted properness cone: constructing a
+generically isomorphic map from an arbitrary coherent sheaf to such a target,
+with strict residual support decrease, remains open.
+
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`
 takes finite generation of ordered degree-one homology and proves finite
@@ -800,6 +811,9 @@ The corresponding arbitrary-cover degree-zero boundaries are
 `MazurTorsion.Upstream.SchemeModuleBaseCechHZeroComparison` and its named
 finite-generation consumer
 `MazurTorsion.Upstream.SchemeModuleBaseCechHZeroFinite`.
+The proper degree-zero and finite-free low-degree target boundaries are
+`MazurTorsion.Upstream.ProperHZeroFinite` and
+`MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite`.
 `MazurTorsion.lean` is the named checked consumer of the earlier geometry
 boundaries. The geometry boundary also imports Tau Ceti's line-bundle and
 Abel--Jacobi layers from the root package's exact dependency.

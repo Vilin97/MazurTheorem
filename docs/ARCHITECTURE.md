@@ -75,10 +75,14 @@ functoriality in `H¹`. That action is distinct from the older `hZeroModule` and
 affine-cover/finite-map actions, which were transported across chosen
 equivalences. The 11-point Čech comparison package is integrated because its
 additive comparison is consumed by genuine-`H¹` finite-generation transfer;
-the parent node receives no credit. Canonical `H⁰` compatibility, proper
-coherent `H⁰` finiteness, linear connecting maps, canonical-action
-proper-curve finiteness, and proper base change remain open. The first genuine
-Riemann--Roch consumer belongs to B2, downstream of this foundation.
+the parent node receives no credit. Canonical `H⁰` compatibility, linear
+connecting maps, and pointed proper-curve canonical-action `H¹` finiteness are
+checked. Properness reduces canonical `H⁰` finiteness to finite global
+sections over the source ring, and finite free sheaves are certified as
+ordered low-degree-good targets. The missing generically isomorphic
+support-decreasing comparison for arbitrary coherent sheaves and proper base
+change keep the final package open. The first genuine Riemann--Roch consumer
+belongs to B2, downstream of this foundation.
 
 The Picard lane likewise separates an honest absolute construction from the
 missing represented object. For one smooth proper integral curve over a field

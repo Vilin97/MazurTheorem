@@ -233,6 +233,12 @@ AINTLIB degree-one argument and is recorded in `PORTING.md`. The separate
 canonical-support extension stops at
 the canonical thickening/full-support model and strict support-drop API; it
 does not retain or claim the Chow/projective producer or properness endpoint.
+The project-original `ProperHZeroFinite` and
+`ProperCurveCechLowDegreeFinite` consume Mathlib properness and the retained
+ordered/native homology retract to certify finite free low-degree targets.
+They do not copy the excluded AINTLIB properness cone or claim the still
+missing generically isomorphic support-decreasing comparison for an arbitrary
+coherent sheaf.
 The finite-pushforward comparison extension retains the inverse-image-cover
 complex isomorphisms, their low-degree finiteness transport, and the
 support-only pushforward/pullback result; it omits the all-degree and

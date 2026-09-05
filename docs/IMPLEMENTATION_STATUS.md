@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **22.5%**: 225 of the fixed 1,000 points.
 - Ecosystem readiness is **23%**.
-- The audited baseline contains **2,035 Lean modules** and **2,096,879 Lean
+- The audited baseline contains **2,037 Lean modules** and **2,097,116 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -64,12 +64,16 @@ slices at the 225-point headline:
   has a pointed proper-curve finite-dimensional-image consumer. Native
   base-Čech `H⁰` on every open cover is canonically base-linear equivalent to
   genuine Ext-based `H⁰`; finite generation transfers from ordered `H⁰`, and
-  the coherent-support induction now has a checked genuine-`H⁰` endpoint. The
-  12-point core is integrated. The final 12-point finiteness/base-change
-  package is active: the proper/projective support-comodel producer needed for
-  unconditional coherent `H⁰` finiteness and the exact low-degree base-change
-  comparison remain missing, while vanishing above degree one is already
-  checked. The first genuine Riemann--Roch consumer belongs to B2.
+  the coherent-support induction now has a checked genuine-`H⁰` endpoint.
+  Properness makes canonical `H⁰` finite whenever global sections are finite
+  over the source global-function ring; combining this with pointed-curve
+  `H¹` finiteness certifies finite free sheaves as ordered low-degree-good
+  targets. The 12-point core is integrated. The final 12-point
+  finiteness/base-change package is active: a generically isomorphic
+  comparison from an arbitrary coherent sheaf to such a target, with strict
+  residual support decrease, and the exact low-degree base-change comparison
+  remain missing, while vanishing above degree one is already checked. The
+  first genuine Riemann--Roch consumer belongs to B2.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a
   field and a supplied divisor-class/Picard equivalence, the checked

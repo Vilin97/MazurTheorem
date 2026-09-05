@@ -162,17 +162,21 @@ divisor/line-bundle dictionary. The checked core now contains:
 - the additive affine-cover comparison
   `nativeBaseCechHOneForgetIsoOfAffineOpenCover`, its explicitly
   cover-transported linear form, and the consumed finite-generation transfer;
-  and
+- the arbitrary-cover canonical base-linear `H⁰` comparison, plus the
+  properness theorem reducing canonical `H⁰` finiteness to finite global
+  sections over the source global-function ring;
+- `orderedBaseCechLowDegreeFinite_of_rationalSection_of_globalSections_module_finite`
+  and its finite-free consumer, which give the first checked
+  low-degree-good targets for support codévissage; and
 - `smoothProperCurve_H_eq_zero` above degree one, plus pointed proper-curve
-  `H¹` finite-dimensionality under the older finite-map-transported action.
+  `H¹` finite-dimensionality for the canonical base and field actions.
 
-Only the 11-point Čech package is integrated. The 12-point core remains active
-until the canonical degree-zero action is identified with global sections and
-the connecting maps are linear for the canonical field actions. The final
-12-point package remains blocked until proper coherent `H⁰`/`H¹`
-finite-dimensionality is available for those same actions and the exact
-low-degree cohomology base-change comparison is supplied. General proper-flat
-base change and semicontinuity remain owned by
+The 11-point Čech package and 12-point canonical core are integrated. The
+final 12-point package remains active but the parent node receives no credit:
+an arbitrary coherent sheaf still needs a generically isomorphic comparison
+to a low-degree-good target with strictly smaller residual supports, and the
+exact low-degree cohomology base-change comparison is still absent. General
+proper-flat base change and semicontinuity remain owned by
 `MT-TC-C1-RELATIVE-COHOMOLOGY`; the first genuine Riemann--Roch consumer belongs
 to B2. Work-package status does not change the B1 node's zero credit.
 

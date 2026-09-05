@@ -115,11 +115,11 @@ line bundles on a smooth curve.
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology`
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
-  Package the checked canonical H0 comparisons, conditional coherent-support H0
-  endpoint, linear connecting maps, pointed-curve canonical-field H1
-  finite-dimensionality, affine acyclicity, and vanishing above degree one with the
-  still-needed proper/projective support producer in the required curve-cohomology
-  facade.
+  Package the checked canonical H0 comparisons, finite-free ordered low-degree targets,
+  conditional coherent-support H0 endpoint, linear connecting maps, pointed-curve
+  canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above
+  degree one with the still-needed generically isomorphic support-decreasing comparison
+  in the required curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -198,6 +198,18 @@ line bundles on a smooth curve.
   Consume the canonical H0 comparison in the proper-curve layer and identify it linearly
   with global sections carrying the same structure-map field action.
 * `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroBaseSectionsLinearEquivGlobalSections`
+  Restrict the canonical H0/global-sections comparison linearly along an arbitrary base
+  morphism.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroBaseSections_finite_of_globalSections_module_finite`
+  Transfer finite generation of global sections over the source global-function ring to
+  canonical base-linear H0 when the base morphism is finite on global functions.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_globalSections_module_finite`
+  Use properness of an integral finite-type scheme to make canonical ground-field H0
+  finite-dimensional from finite global sections over the source ring.
+* `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hOneCanonicalFieldModule`
   Restrict the canonical global-functions action on genuine H1 along the actual
   structure morphism to obtain the cover-independent ground-field action.
@@ -249,6 +261,18 @@ line bundles on a smooth curve.
   Use a rational section and the canonical Cech linear equivalence to prove genuine H1
   finite-dimensional for the canonical structure-map field action on a smooth proper
   integral curve.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.genuineSheafHOneCanonicalBase_finite_of_rationalSection`
+  Expose pointed proper-curve H1 finite generation for the canonical action of the base
+  global-function ring used by Cech consumers.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.orderedBaseCechLowDegreeFinite_of_rationalSection_of_globalSections_module_finite`
+  Combine proper H0 and pointed-curve H1 finiteness with canonical Cech comparisons to
+  prove ordered low-degree finiteness for a coherent sheaf with finite global sections.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.free_orderedBaseCechLowDegreeFinite_of_rationalSection`
+  Certify finite free sheaves as coherent ordered low-degree-good targets on pointed
+  smooth proper integral curves.
 
 :::
 

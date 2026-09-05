@@ -680,8 +680,14 @@ The strongest concrete reuse candidates are:
   complexes, and its degree-zero/degree-one finiteness equivalence has a
   finite-morphism consumer: finite pushforward preserves finite-type
   quasicoherence, so any target-side coherent low-degree theorem descends.
-  This is still only the input to the Chow/projective low-degree comodel; the
-  new genuine-`H⁰` endpoint remains conditional on that missing producer. An
+  The project-original properness layer now uses Mathlib's finite map on
+  global functions to prove canonical `H⁰` finite whenever the sheaf's
+  global sections are finite over the source ring. Together with the checked
+  pointed-curve `H¹` result and the retained ordered/native homology retract,
+  this certifies finite free sheaves as ordered low-degree-good targets. This
+  is still only the target side of the Chow/projective low-degree comodel: the
+  new genuine-`H⁰` endpoint remains conditional on a generically isomorphic
+  comparison from an arbitrary coherent sheaf with strict support decrease. An
   audit of historical AINTLIB
   commit `d78d10a74577e28840d21eb4e07395d87c44370f` found the preferable direct
   degree-zero/degree-one support induction before the later all-degree
