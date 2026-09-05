@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Vasily Ilin, OpenAI Codex
 -/
 
+import Mathlib.AlgebraicGeometry.Morphisms.Affine
 import MazurTorsion.NumberTheory.XZeroFortyNineSchemeModel
 
 /-!
@@ -22,7 +23,8 @@ or comparison with a coarse moduli fibre is asserted here.  The named
 downstream consumer is
 `MazurTorsion.XZeroFortyNine.CoarseComparison.RationalFiberOpenComparison`,
 whose comparison map will land in this open rather than carrying a separate
-noncuspidality hypothesis.
+noncuspidality hypothesis.  The affine presentation below also supplies the
+coordinate-ring target for a future scheme-level eta-coordinate comparison.
 -/
 
 noncomputable section
@@ -46,6 +48,30 @@ def rationalCuspAvoidingOpen : scheme.Opens :=
 
 /-- The rational-cusp-avoiding `D(X)` open as an actual scheme. -/
 abbrev rationalCuspAvoidingScheme : Scheme := rationalCuspAvoidingOpen.toScheme
+
+/-- The pullback `D(X)` is affine: the ambient Proj basic open is affine, and
+the projective cubic is closed in the ambient projective plane. -/
+theorem rationalCuspAvoidingOpen_isAffine :
+    IsAffineOpen rationalCuspAvoidingOpen := by
+  exact
+    (Proj.isAffineOpen_basicOpen
+      (homogeneousPieces ℚ) (MvPolynomial.X 0)
+      (MvPolynomial.isHomogeneous_X ℚ 0) (by omega)).preimage
+        (WeierstrassProjectiveCubic.inclusion curve)
+
+instance rationalCuspAvoidingScheme_isAffine :
+    IsAffine rationalCuspAvoidingScheme :=
+  rationalCuspAvoidingOpen_isAffine
+
+/-- The affine coordinate ring of the rational-cusp-avoiding open. -/
+abbrev rationalCuspAvoidingCoordinateRing :=
+  Γ(scheme, rationalCuspAvoidingOpen)
+
+/-- The canonical affine presentation of the rational-cusp-avoiding open. -/
+def rationalCuspAvoidingIsoSpec :
+    rationalCuspAvoidingScheme ≅
+      Spec (.of rationalCuspAvoidingCoordinateRing) :=
+  rationalCuspAvoidingOpen_isAffine.isoSpec
 
 /-- The open immersion of the rational-cusp-avoiding locus into the projective
 cubic. -/
@@ -163,5 +189,15 @@ theorem rationalCuspAvoidingScheme_rationalPoints_isEmpty :
   intro g
   exact not_isNoncuspidal _
     (comp_rationalCuspAvoidingInclusion_isNoncuspidal g)
+
+/-- Equivalently in affine coordinates, the coordinate ring of `D(X)` has no
+ring homomorphism to `Q`. -/
+theorem rationalCuspAvoidingCoordinateRing_hom_rat_isEmpty :
+    IsEmpty
+      (CommRingCat.of rationalCuspAvoidingCoordinateRing ⟶ CommRingCat.of ℚ) := by
+  constructor
+  intro f
+  exact rationalCuspAvoidingScheme_rationalPoints_isEmpty.false
+    (Spec.map f ≫ rationalCuspAvoidingIsoSpec.inv)
 
 end MazurTorsion.XZeroFortyNine.SchemeModel
