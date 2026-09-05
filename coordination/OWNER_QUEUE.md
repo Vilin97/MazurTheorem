@@ -75,9 +75,11 @@ overlap cocycle now passes through a canonical-witness named-face interface to
 full coherent locally invertible descent data. Universe-zero compatible-family
 effectivity and locality construct the global divisor line bundle, its full
 descent isomorphism, and every chart restriction without caller input. That
-package is integrated, and the selected lane now targets tensor additivity,
-the exact principal kernel, surjectivity, and the divisor-class/Picard
-equivalence.
+package is integrated. Full coherent descent now identifies the raw datum for a
+divisor sum with canonical descent of the tensor of the two constructed global
+line bundles, and fully faithful module descent conditionally lifts this to the
+global modules. The selected lane now targets that fully faithful input, the
+exact principal kernel, surjectivity, and the divisor-class/Picard equivalence.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and
 `A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂`. The identity

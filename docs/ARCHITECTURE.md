@@ -120,8 +120,11 @@ invertibility constructs `globalDivisorLineBundleOnProperSmoothCurve`. Its
 full descent isomorphism and every affine-chart restriction are checked; no
 effectivity witness is exposed to callers. The raw family is also tensor-additive
 as full coherent descent data: the transported target has chartwise tensor
-objects and factorwise raw transitions. Fully faithful morphism descent is
-still needed to lift this comparison to the selected global objects. Coherent
+objects and factorwise raw transitions. The canonical tensor-descent calculation
+now compares that raw sum datum directly with the restrictions of the tensor of
+the two selected global line bundles. This full descent-data isomorphism is
+unconditional, and fully faithful module descent lifts it to the selected global
+objects. Proving that fully faithful input without an assumption, coherent
 principal triviality, cover independence, and the divisor-class/Picard
 equivalence remain downstream.
 

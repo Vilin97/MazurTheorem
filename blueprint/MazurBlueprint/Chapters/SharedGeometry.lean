@@ -115,10 +115,27 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleRestrictionIsoOnProperSmoothCurve`
   Identify every coordinate-chart restriction of the global divisor line bundle with the
   corresponding affine inverse-ideal line bundle.
-* `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorAddDescentIsoOnProperSmoothCurve` transports divisor addition to chartwise tensor descent data.
-* `theorem` (`contract`): `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorTensorDescentData_hom_eq_tensorRawOverlap` identifies its chosen transitions factorwise.
-* `structure` (`proposed`): `TauCeti.AlgebraicGeometry.PicardGroup` exposes line bundles modulo isomorphism as the Picard group of a smooth proper curve.
-* `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classEquivPicard` identifies Weil divisor classes with the line-bundle Picard group.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorAddDescentIsoOnProperSmoothCurve`
+  Transport the coherent raw datum for D + E across the actual chartwise addition
+  isomorphisms to full descent data on the chartwise tensor objects.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorTensorDescentData_hom_eq_tensorRawOverlap`
+  Identify each chosen transition of the transported tensor datum with the factorwise
+  tensor of the two raw divisor transitions, conjugated by canonical pullback
+  tensorators.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorAddToGlobalTensorDescentIsoOnProperSmoothCurve`
+  Identify the raw coherent datum for D + E unconditionally with canonical descent of
+  the tensor of the constructed global line bundles for D and E.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleAddIsoOnProperSmoothCurve_of_fullyFaithful`
+  Lift the checked descent-level tensor comparison to the selected global divisor
+  modules under fully faithful module descent on the coordinate cover.
+* `structure` (`proposed`): `TauCeti.AlgebraicGeometry.PicardGroup`
+  Expose line bundles modulo isomorphism as the Picard group of a smooth proper curve.
+* `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classEquivPicard`
+  Identify Weil divisors modulo principal divisors with the line-bundle Picard group.
 
 :::
 

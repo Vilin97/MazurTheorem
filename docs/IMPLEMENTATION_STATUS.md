@@ -112,9 +112,12 @@ slices at the 260-point headline:
   without a caller-supplied witness. Transport across the affine addition
   isomorphisms now proves a full descent-data tensor-additivity isomorphism,
   and its chosen transitions compute to the factorwise tensors of the raw
-  transitions. Lifting that comparison to the global effective objects still
-  requires morphism descent/object separation. The lane remains on the
-  divisor-class/Picard equivalence package.
+  transitions. A canonical tensor-descent calculation compares this directly
+  with descent of the tensor of the two constructed global line bundles. The
+  resulting full descent-data additivity theorem is unconditional; its global
+  module lift is checked under `ModuleDescentFullyFaithfulFor`. Removing that
+  hypothesis still requires morphism descent/object separation. The lane
+  remains on the divisor-class/Picard equivalence package.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a
   field and a supplied divisor-class/Picard equivalence, the checked

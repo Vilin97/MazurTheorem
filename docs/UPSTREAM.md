@@ -107,8 +107,13 @@ locally invertible descent data from the raw inverse-ideal transitions, and
 effectivity and locality to construct the global line bundle with its descent
 and chart-restriction isomorphisms. `CurveDivisorRawTensorAddDescent` proves
 full descent-level tensor additivity and identifies its chosen transitions
-factorwise. Lifting this comparison to the global objects, principal detection,
-and the Picard equivalence remain downstream. The
+factorwise. `CurveLineBundleTensorDescent` computes the canonical tensor
+transition, and `CurveDivisorGlobalTensorAdd` now identifies the raw datum for
+`D + E` with canonical descent of the tensor of the two constructed global
+line bundles. The corresponding global-module isomorphism is checked under
+`ModuleDescentFullyFaithfulFor`. Proving that fully faithful descent input
+unconditionally, principal detection, and the Picard equivalence remain
+downstream. The
 Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual
