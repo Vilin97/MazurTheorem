@@ -34,6 +34,7 @@ import MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite
 import MazurTorsion.Upstream.ProperCurveCohomologyFinite
 import MazurTorsion.Upstream.ProperCurveFiniteSupport
 import MazurTorsion.Upstream.ProperCurveFiniteSupportCech
+import MazurTorsion.Upstream.PointedProperCurveCohomology
 import MazurTorsion.Upstream.SchemeModuleAffinePullbackSections
 import MazurTorsion.Upstream.SchemeModuleBaseChangeCech
 import MazurTorsion.Upstream.SchemeModuleProperBaseChange
@@ -65,6 +66,7 @@ degree-zero cohomology finite-dimensional for every coherent module on the
 pointed proper curve. The exact low-degree field-extension comparison is now
 cover-independent for proper curves: the termwise base-Cech assembly and flat
 homology transport are applied to the finite subcover of the canonical affine
-cover. General proper-flat base change and semicontinuity remain outside this
-boundary.
+cover. `PointedProperCurveCohomology` packages that comparison together with
+canonical `H⁰`/`H¹` finite-dimensionality and vanishing above degree one.
+General proper-flat base change and semicontinuity remain outside this boundary.
 -/
