@@ -303,6 +303,7 @@ import MazurTorsion.NumberTheory.XZeroFortyNineReduction
 import MazurTorsion.NumberTheory.XZeroFortyNineSchemeModel
 import MazurTorsion.NumberTheory.XZeroFortyNineEtaModel
 import MazurTorsion.NumberTheory.XZeroFortyNineTransfer
+import MazurTorsion.NumberTheory.XZeroFortyNineCoarseComparison
 import MazurTorsion.NumberTheory.XZeroTwentySevenClassification
 import MazurTorsion.NumberTheory.XZeroTwentyOneDescent
 import MazurTorsion.NumberTheory.XZeroTwentyOneRankZero

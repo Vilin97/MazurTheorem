@@ -143,4 +143,17 @@ theorem point_eq_infinityCusp_or_finiteCusp
   · exact Or.inl rfl
   · exact Or.inr rfl
 
+/-- A rational scheme point is noncuspidal when it avoids both represented
+cusp morphisms. -/
+def IsNoncuspidal (g : Spec (.of ℚ) ⟶ scheme) : Prop :=
+  g ≠ infinityCusp ∧ g ≠ finiteCusp
+
+/-- The represented rational target has no noncuspidal rational point. -/
+theorem not_isNoncuspidal (g : Spec (.of ℚ) ⟶ scheme) :
+    ¬ IsNoncuspidal g := by
+  intro h
+  obtain hg | hg := point_eq_infinityCusp_or_finiteCusp g
+  · exact h.1 hg
+  · exact h.2 hg
+
 end MazurTorsion.XZeroFortyNine.SchemeModel
