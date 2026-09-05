@@ -1,7 +1,7 @@
 /-
 Copyright (c) 2026 Chris Birkbeck. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Chris Birkbeck, Vasily Ilin
+Authors: Chris Birkbeck, Vasily Ilin, Codex
 -/
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SheafCechInjectiveAugmentation
 
@@ -12,7 +12,9 @@ Construct the horizontal edge from global sections of the chosen injective
 resolution. For an actual cover, left exactness of global sections transfers
 the sheaf-level Cech resolution to exact low rows, so the horizontal and
 vertical edge quasi-isomorphisms identify degree-one Cech homology with
-genuine sheaf cohomology.
+genuine sheaf cohomology.  The augmented native short complex, its exactness,
+and monicity of its augmentation are public because the project-level
+degree-zero Cech comparison consumes precisely this left-exact boundary.
 -/
 
 open CategoryTheory CategoryTheory.Limits TopologicalSpace Opposite
@@ -100,7 +102,7 @@ private theorem cechInjectiveResolutionHorizontalAugmentation_comp_d
   exact cechGlobalSectionsAugmentation_comp_d (I.cocomplex.X q) U
 
 /-- The native Cech short complex augmented by global sections. -/
-private noncomputable def cechGlobalSectionsNativeShortComplex
+noncomputable def cechGlobalSectionsNativeShortComplex
     (F : Sheaf AddCommGrpCat.{u} X) :
     ShortComplex AddCommGrpCat.{u} :=
   ShortComplex.mk (cechGlobalSectionsAugmentation F U)
@@ -145,7 +147,7 @@ private theorem cechGlobalSections_map_augmented_exact_and_mono
 
 /-- The native Cech short complex augmented by global sections is exact for an
 open cover. -/
-private theorem cechGlobalSectionsNativeShortComplex_exact
+theorem cechGlobalSectionsNativeShortComplex_exact
     (F : Sheaf AddCommGrpCat.{u} X) (hU : ⨆ i, U i = ⊤) :
     (cechGlobalSectionsNativeShortComplex U F).Exact := by
   let S := cechAugmentedShortComplex F U
@@ -170,7 +172,7 @@ private theorem cechGlobalSectionsNativeShortComplex_exact
   exact ShortComplex.exact_of_iso e hmap.1
 
 /-- The native Cech augmentation on global sections is monic for an open cover. -/
-private theorem cechGlobalSectionsAugmentation_mono
+theorem cechGlobalSectionsAugmentation_mono
     (F : Sheaf AddCommGrpCat.{u} X) (hU : ⨆ i, U i = ⊤) :
     Mono (cechGlobalSectionsAugmentation F U) := by
   have hmap := cechGlobalSections_map_augmented_exact_and_mono U F hU

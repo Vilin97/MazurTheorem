@@ -1,18 +1,20 @@
 /-
 Copyright (c) 2026 Chris Birkbeck. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Chris Birkbeck, Vasily Ilin
+Authors: Chris Birkbeck, Vasily Ilin, Codex
 -/
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.AcyclicAffineCechComparison
 import MazurTorsion.Upstream.AINTLIB.ForMathlib.SchemeModuleBaseCech
 
 /-!
-# Degree-one homology of base-linear Cech complexes
+# Low-degree homology of base-linear Cech complexes
 
 This is the isomorphism-only slice of AINTLIB's base-Cech homology module.
-It transports homology through the reviewed forgetful complex isomorphism and
-then applies the affine-cover native-Cech comparison.
+It transports homology in every degree through the reviewed forgetful complex
+isomorphism and applies the affine-cover native-Cech comparison in degree one.
+The general forgetful comparison is public because the project-level
+degree-zero comparison is its named downstream consumer.
 -/
 
 open CategoryTheory CategoryTheory.Limits TopologicalSpace
@@ -25,7 +27,7 @@ noncomputable section
 
 /-- Forgetting the base-module structure on Cech homology recovers the
 homology of the native additive Cech complex. -/
-private noncomputable def baseCechComplexHomologyForgetIso
+noncomputable def baseCechComplexHomologyForgetIso
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     {ι : Type u} (U : ι → X.Opens) (n : ℕ) :
     (baseModuleForget S).obj ((baseCechComplex π M U).homology n) ≅
@@ -35,8 +37,10 @@ private noncomputable def baseCechComplexHomologyForgetIso
       HomologicalComplex.homologyMapIso
         (baseCechComplexForgetIso π M U) n
 
+/-- The forward map of the forgetful homology comparison is the mapped-homology
+comparison followed by the homology map of the degreewise forgetful isomorphism. -/
 @[simp]
-private theorem baseCechComplexHomologyForgetIso_hom
+theorem baseCechComplexHomologyForgetIso_hom
     {X S : Scheme.{u}} (π : X ⟶ S) (M : X.Modules)
     {ι : Type u} (U : ι → X.Opens) (n : ℕ) :
     (baseCechComplexHomologyForgetIso π M U n).hom =
@@ -49,7 +53,7 @@ private theorem baseCechComplexHomologyForgetIso_hom
 /-- The comparison between forgotten base-linear Cech homology and native
 additive Cech homology is natural in the coefficient module. -/
 @[reassoc]
-private theorem baseCechComplexHomologyForgetIso_naturality
+theorem baseCechComplexHomologyForgetIso_naturality
     {X S : Scheme.{u}} (π : X ⟶ S) {M N : X.Modules} (f : M ⟶ N)
     {ι : Type u} (U : ι → X.Opens) (n : ℕ) :
     (baseModuleForget S).map
