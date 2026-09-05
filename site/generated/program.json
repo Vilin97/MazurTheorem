@@ -5,7 +5,7 @@
     "revision": {
       "id": "canonical-foundations-v4",
       "date": "2026-08-15",
-    "summary": "Retain Mazur's degree-one formal-immersion route while recording checked but uncredited foundation slices: canonical-linear coherent H0/H1 with pointed proper-curve H1 finiteness, global-functions-linear Ext connecting maps, an arbitrary-cover base-Cech H0 comparison, finite free sheaves certified as ordered low-degree-good targets on pointed proper curves, an exact support-comodel assembler for supplied open-local comparisons, finite canonical support thickenings for strict-support coherent sheaves, and coherent canonical support models yielding finite global sections, finite canonical H0, and pointed ordered Cech H0/H1 for strict support; the associated fppf sheafification of the all-degree normalized Picard presheaf together with an honest absolute Picard degree kernel and splitting; a genuine four-chart affine Weierstrass addition cover with all six exact pairwise compatibilities and an actual glued affine-pair morphism, now identified with the standard member of an actual four-member cover of the full projective product whose members have integral affine tensor-product coordinate rings, normalized universal input points, evaluated secant and doubling triples satisfying the cubic equation, actual over-base secant and doubling morphisms on both output-coordinate principal opens, a proof that those four opens jointly cover every pair member, exact agreement of the two secant output normalizations on their YZ overlap, and an actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)`; generic finite free-translation quotient geometry over affine noetherian bases; terminal proper-model specialization at five; and represented polynomial-cusp sections. Canonical pointed proper-curve H0/H1 finiteness, higher vanishing, and exact low-degree field-extension base change now share one checked facade; Riemann-Roch and general proper-flat base change, a pullback-compatible relative degree and relative Pic⁰, Picard representability, actual Eisenstein quotient instances, torsion injectivity, represented X_0, and compactification remain open."
+    "summary": "Retain Mazur's degree-one formal-immersion route while recording checked but uncredited foundation slices: canonical-linear coherent H0/H1 with pointed proper-curve H1 finiteness, global-functions-linear Ext connecting maps, an arbitrary-cover base-Cech H0 comparison, finite free sheaves certified as ordered low-degree-good targets on pointed proper curves, an exact support-comodel assembler for supplied open-local comparisons, finite canonical support thickenings for strict-support coherent sheaves, and coherent canonical support models yielding finite global sections, finite canonical H0, and pointed ordered Cech H0/H1 for strict support; the associated fppf sheafification of the all-degree normalized Picard presheaf together with an honest absolute Picard degree kernel and splitting; a genuine four-chart affine Weierstrass addition cover with all six exact pairwise compatibilities and an actual glued affine-pair morphism, now identified with the standard member of an actual four-member cover of the full projective product whose members have integral affine tensor-product coordinate rings, normalized universal input points, evaluated secant and doubling triples satisfying the cubic equation, actual over-base secant and doubling morphisms on both output-coordinate principal opens, a proof that those four opens jointly cover every pair member, exact agreement of the two secant output normalizations on their YZ overlap, and an actual over-base addition morphism on an infinity-by-infinity open neighborhood containing `(O, O)`; generic finite free-translation quotient geometry over affine noetherian bases; terminal proper-model specialization at five; and represented polynomial-cusp sections. Canonical pointed proper-curve H0/H1 finiteness, higher vanishing, and exact low-degree field-extension base change share one checked facade; named-face divisor cocycles now produce coherent locally invertible descent data and unconditional global divisor line bundles with full descent and chart-restriction isomorphisms on universe-zero affine covers. Riemann-Roch and general proper-flat base change, the divisor-class/Picard equivalence, a pullback-compatible relative degree and relative Pic⁰, Picard representability, actual Eisenstein quotient instances, torsion injectivity, represented X_0, and compactification remain open."
     },
     "canonical_target": {
       "name": "MazurTorsion.rationalTorsion_hasMazurClassification",
@@ -40,7 +40,7 @@
           "MT-TC-E1-JACOBIAN-VARIETY",
           "MT-TC-F1-ABEL-JACOBI"
         ],
-        "current_work_package": "WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-GLOBAL-EFFECTIVITY",
+        "current_work_package": "WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-PICARD-EQUIVALENCE",
         "exit_criterion": "A represented Jacobian and pointed Abel–Jacobi morphism compile with base-change consumers."
       },
       {
@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2102122,
-    "integrated_lean_modules": 2046,
+    "integrated_lean_lines": 2102679,
+    "integrated_lean_modules": 2049,
     "remaining_composite_orders": [
       25,
       35
@@ -1790,7 +1790,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. A canonical-witness named-face certificate converts the all-index raw cocycle into coherent locally invertible descent data. Universe-zero compatible-family effectivity and locality of invertibility then construct an unconditional global divisor line bundle, its full descent isomorphism, and every chart restriction. Tensor additivity, exact principal kernel, surjectivity, and the Picard equivalence remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1855,6 +1855,41 @@
         },
         {
           "kind": "structure",
+          "name": "MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleIsoCocycleCondition",
+          "state": "contract",
+          "description": "Record the all-index line-bundle cocycle with canonical named triple-overlap witnesses and convert it generically to coherent Mathlib descent data.",
+          "module": "MazurTorsion.Upstream.CurveLineBundleIsoCocycleDescent"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorDescentDataOnProperSmoothCurve",
+          "state": "contract",
+          "description": "Convert the checked raw inverse-ideal overlap family into full coherent module descent data while retaining the specified local divisor line bundles.",
+          "module": "MazurTorsion.Upstream.CurveDivisorRawIsoCocycle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleOnProperSmoothCurve",
+          "state": "contract",
+          "description": "Construct the global invertible sheaf of an arbitrary divisor using universe-zero compatible-family effectivity and locality, with no caller-supplied witness.",
+          "module": "MazurTorsion.Upstream.CurveDivisorGlobalLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleDescentIsoOnProperSmoothCurve",
+          "state": "contract",
+          "description": "Identify the coherent restrictions of the constructed global line bundle with the raw divisor descent datum.",
+          "module": "MazurTorsion.Upstream.CurveDivisorGlobalLineBundle"
+        },
+        {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleRestrictionIsoOnProperSmoothCurve",
+          "state": "contract",
+          "description": "Identify every coordinate-chart restriction of the global divisor line bundle with the corresponding affine inverse-ideal line bundle.",
+          "module": "MazurTorsion.Upstream.CurveDivisorGlobalLineBundle"
+        },
+        {
+          "kind": "structure",
           "name": "TauCeti.AlgebraicGeometry.PicardGroup",
           "state": "proposed",
           "description": "Expose line bundles modulo isomorphism as the Picard group of a smooth proper curve."
@@ -1894,8 +1929,8 @@
           "Mathlib.AlgebraicGeometry.Morphisms.Smooth",
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
-        "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison.",
-        "recommended_route": "Preserve the checked smooth-curve Dedekind chart compatibility, exact all-index raw overlap cocycle, generic `normalization_of_iso_cocycle`, derived `LineBundleCocycle.normalization`, and `moduleEffectiveDescentForOpenCover`. Package the concrete raw family as the required `LineBundleCocycle` and `DivisorCocycle`, using its exact-pseudofunctor-map overlap isomorphisms and pointwise all-index cocycle without an independent normalization field. Select or supply a universe-zero nonempty affine coordinate cover, then apply module effectivity and locality of invertibility to obtain the actual global divisor line bundles and their chart restrictions. Prove that these chosen globalizations are tensor-additive and coherently trivial on principal divisors; zero triviality then makes `L(-D)` an explicit inverse to `L(D)` without using `TensorInverseComparison X` for unrelated sheaves. Establish object separation, either from a checked fully faithful descent theorem or directly for the equalizer construction. Then derive overlap-compatible rational normalization from a global trivialization. The existing `TrivialDescendedLineBundleHasGlobalPrincipalWitness` equivalence turns that into principal detection, exact principal kernel, and the class equivalence. Prove Picard surjectivity and separately the global tensor-inverse comparison required by the stronger `Dictionary`. The weighted product formula remains the separately registered A2 prerequisite.",
+        "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison. On proper smooth curves, the exact raw inverse-ideal overlap cocycle now yields coherent locally invertible descent data and an unconditional global divisor line bundle with full descent and chart restrictions on every supplied universe-zero affine cover.",
+        "recommended_route": "Preserve the checked smooth-curve Dedekind chart compatibility, exact all-index raw overlap cocycle, generic `normalization_of_iso_cocycle`, derived `LineBundleCocycle.normalization`, and `moduleEffectiveDescentForOpenCover`. The named-face certificate now packages the concrete raw family as coherent locally invertible descent data with fixed pullback witnesses, and universe-zero compatible-family effectivity plus locality constructs its global divisor line bundle and chart restrictions without caller input. Next prove these chosen globalizations tensor-additive and coherently trivial on principal divisors; zero triviality then makes `L(-D)` an explicit inverse to `L(D)` without using `TensorInverseComparison X` for unrelated sheaves. Establish object separation, either from a checked fully faithful descent theorem or directly for the equalizer construction. Then derive overlap-compatible rational normalization from a global trivialization. The existing `TrivialDescendedLineBundleHasGlobalPrincipalWitness` equivalence turns that into principal detection, exact principal kernel, and the class equivalence. Prove Picard surjectivity and separately the global tensor-inverse comparison required by the stronger `Dictionary`. The weighted product formula remains the separately registered A2 prerequisite.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"
@@ -1912,8 +1947,8 @@
         ]
       },
       "evidence": {
-        "recorded_artifact_count": 279,
-        "canonical_artifact_count": 7,
+        "recorded_artifact_count": 284,
+        "canonical_artifact_count": 12,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [
@@ -1931,7 +1966,7 @@
           "id": "WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-GLOBAL-EFFECTIVITY",
           "title": "Global descent and effectivity",
           "weight_points": 7,
-          "status": "active",
+          "status": "integrated",
           "depends_on": [
             "WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-LOCAL-DICTIONARY"
           ],
@@ -1941,7 +1976,7 @@
           "id": "WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-PICARD-EQUIVALENCE",
           "title": "Divisor-class to Picard equivalence",
           "weight_points": 5,
-          "status": "blocked",
+          "status": "active",
           "depends_on": [
             "WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-GLOBAL-EFFECTIVITY"
           ],

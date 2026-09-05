@@ -21,7 +21,7 @@ are selected, leaving one slot unused:
 
 | Lane | Node slice | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|---|
-| Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-GLOBAL-EFFECTIVITY` | Construct the global line bundle and prove descent without a caller-supplied effectivity witness. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
+| Canonical curve cohomology to Jacobians | `MT-TC-A3-DIVISOR-LINE-BUNDLE`, `MT-TC-B1-COHERENT-COHOMOLOGY`, `MT-TC-B2-RR-SERRE`, `MT-TC-C1-RELATIVE-COHOMOLOGY`, `MT-TC-C2-SYMMETRIC-POWERS`, `MT-TC-D1-PICARD-FUNCTOR`, `MT-TC-D2-PICARD-REPRESENTABILITY`, `MT-TC-E1-JACOBIAN-VARIETY`, `MT-TC-F1-ABEL-JACOBI` | `WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-PICARD-EQUIVALENCE` | Prove exact principal kernel, surjectivity, and tensor-additive equivalence. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
 | Represented `X₀(N)` vertical slice | `MT-EC-ISOGENY-WEIL`, `MT-X0-MODULI`, `MT-X0-INTEGRAL`, `MT-X0-JACOBIAN` | `WP-MT-X0-MODULI-REPRESENTED-MODULI` | Map the honest subgroup scheme to the represented open modular curve without assuming missing group-law or quotient data. | Represented `X₀(N)` geometry reaches the integral-model and Jacobian layers without supplied point-equivalence shadows. |
 
 Only these two `current_work_package` values count as selected WIP. Other
@@ -70,9 +70,14 @@ cover internally, so the smooth proper integral-curve consumer has no cover
 parameter. `PointedProperCurveCohomology.ofRationalSection` now co-packages
 this comparison with canonical `H⁰`/`H¹` finite-dimensionality and
 vanishing above degree one. All three B1 packages are integrated; general
-proper-flat base change and semicontinuity remain in C1. The selected lane now
-returns to A3 to construct the global divisor-associated line bundle and its
-descent without a caller-supplied effectivity witness.
+proper-flat base change and semicontinuity remain in C1. In A3, the exact raw
+overlap cocycle now passes through a canonical-witness named-face interface to
+full coherent locally invertible descent data. Universe-zero compatible-family
+effectivity and locality construct the global divisor line bundle, its full
+descent isomorphism, and every chart restriction without caller input. That
+package is integrated, and the selected lane now targets tensor additivity,
+the exact principal kernel, surjectivity, and the divisor-class/Picard
+equivalence.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and
 `A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂`. The identity

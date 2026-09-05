@@ -95,6 +95,26 @@ line bundles on a smooth curve.
   Verify that the triple-intersection comparison has the chosen threefold overlap's
   structural map to the curve; its three face-specific consumers are checked in the same
   module.
+* `structure` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.LineBundleIsoCocycleCondition`
+  Record the all-index line-bundle cocycle with canonical named triple-overlap witnesses
+  and convert it generically to coherent Mathlib descent data.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorDescentDataOnProperSmoothCurve`
+  Convert the checked raw inverse-ideal overlap family into full coherent module descent
+  data while retaining the specified local divisor line bundles.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleOnProperSmoothCurve`
+  Construct the global invertible sheaf of an arbitrary divisor using universe-zero
+  compatible-family effectivity and locality, with no caller-supplied witness.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleDescentIsoOnProperSmoothCurve`
+  Identify the coherent restrictions of the constructed global line bundle with the raw
+  divisor descent datum.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleRestrictionIsoOnProperSmoothCurve`
+  Identify every coordinate-chart restriction of the global divisor line bundle with the
+  corresponding affine inverse-ideal line bundle.
 * `structure` (`proposed`): `TauCeti.AlgebraicGeometry.PicardGroup`
   Expose line bundles modulo isomorphism as the Picard group of a smooth proper curve.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classEquivPicard`

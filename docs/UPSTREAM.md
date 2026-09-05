@@ -99,7 +99,14 @@ the pointed proper curve. `PointedProperCurveCohomology` is the unified absolute
 boundary combining those finiteness and higher-vanishing results with the
 cover-independent exact low-degree comparison; its named constructor is
 `PointedProperCurveCohomology.ofRationalSection`. General proper-flat base change
-and semicontinuity remain downstream. The
+and semicontinuity remain downstream. The divisor lane now has a similarly
+narrow boundary: `CurveLineBundleIsoCocycleDescent` fixes the named
+triple-overlap witnesses, `CurveDivisorRawIsoCocycle` produces coherent
+locally invertible descent data from the raw inverse-ideal transitions, and
+`CurveDivisorGlobalLineBundle` applies universe-zero compatible-family
+effectivity and locality to construct the global line bundle with its descent
+and chart-restriction isomorphisms. Tensor additivity, principal detection,
+and the Picard equivalence remain downstream. The
 Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual

@@ -874,6 +874,15 @@ strict-support finite-morphism and low-degree consumer boundaries are
 `MazurTorsion.Upstream.ProperCurveFiniteSupport` and
 `MazurTorsion.Upstream.ProperCurveFiniteSupportCech`; the latter also owns the
 full-support-only reduction consumed by the eventual comparison producer.
+The project-original divisor globalization boundary is split across
+`MazurTorsion.Upstream.CurveLineBundleIsoCocycleDescent`, which fixes the
+named triple-overlap witnesses and converts them generically to Mathlib
+descent data; `MazurTorsion.Upstream.CurveDivisorRawIsoCocycle`, which packages
+the raw inverse-ideal transitions as coherent locally invertible data; and
+`MazurTorsion.Upstream.CurveDivisorGlobalLineBundle`, which uses the checked
+universe-zero compatible-family effectivity and invertibility locality to
+construct the global line bundle, full descent isomorphism, and chart
+restrictions without a supplied effectivity witness.
 `MazurTorsion.lean` is the named checked consumer of the earlier geometry
 boundaries. The geometry boundary also imports Tau Ceti's line-bundle and
 Abel--Jacobi layers from the root package's exact dependency.

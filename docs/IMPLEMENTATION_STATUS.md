@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **26.0%**: 260 of the fixed 1,000 points.
 - Ecosystem readiness is **26%**.
-- The audited baseline contains **2,046 Lean modules** and **2,102,122 Lean
+- The audited baseline contains **2,049 Lean modules** and **2,102,679 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -38,7 +38,7 @@ two current packages:
 
 | Lane | Current package | Current WP exit criterion | Lane goal |
 |---|---|---|---|
-| Canonical curve cohomology to Jacobians | `WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-GLOBAL-EFFECTIVITY` | Construct the global line bundle and prove descent without a caller-supplied effectivity witness. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
+| Canonical curve cohomology to Jacobians | `WP-MT-TC-A3-DIVISOR-LINE-BUNDLE-PICARD-EQUIVALENCE` | Prove exact principal kernel, surjectivity, and tensor-additive equivalence. | A represented Jacobian and pointed Abel--Jacobi morphism compile with base-change consumers. |
 | Represented `X₀(N)` vertical slice | `WP-MT-X0-MODULI-REPRESENTED-MODULI` | Map the honest subgroup scheme to the represented open modular curve without assuming missing group-law or quotient data. | An exact-order-49 point reaches an honest represented `X₀(49)` point without a supplied point-equivalence shadow. |
 
 Package status is scheduling metadata. Only the two `current_work_package`
@@ -104,8 +104,13 @@ slices at the 260-point headline:
   combines this comparison with the checked canonical `H⁰`/`H¹` finiteness
   and higher-vanishing results. B1 and all three of its packages are now
   integrated. General proper-flat base change and semicontinuity belong to C1;
-  the first genuine Riemann--Roch consumer belongs to B2. The selected lane has
-  returned to A3 global line-bundle effectivity and descent.
+  the first genuine Riemann--Roch consumer belongs to B2. In A3, a named-face
+  cocycle certificate now converts the raw inverse-ideal transitions to full
+  coherent locally invertible descent data. Compatible-family effectivity on
+  a universe-zero cover and locality of invertibility construct the global
+  divisor line bundle, its descent isomorphism, and each chart restriction
+  without a caller-supplied witness. The lane now selects the tensor-additive
+  divisor-class/Picard equivalence package.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a
   field and a supplied divisor-class/Picard equivalence, the checked

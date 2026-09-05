@@ -219,11 +219,22 @@ to B2.
 
 ### Divisors and line bundles
 
-The existing absolute divisor-class/Picard adapters are useful point-level
-normalizations. The remaining A3 theorem is the global tensor-compatible
-dictionary: exact principal kernel, essential surjectivity, and descent of
-the actual line bundle. Local affine comparisons do not by themselves prove
-this global result.
+The exact raw inverse-ideal overlap cocycle now passes through
+`LineBundleIsoCocycleCondition`, whose named triple-overlap witnesses avoid
+re-synthesizing proof parameters at concrete geometric use sites. The generic
+adapter produces full coherent locally invertible descent data without
+changing the local objects or transition maps. On a universe-zero affine
+coordinate cover, compatible-family module effectivity and locality of
+invertibility construct `globalDivisorLineBundleOnProperSmoothCurve`, its full
+descent isomorphism, and its restriction to every specified affine divisor
+line bundle without a caller-supplied effectivity witness.
+
+The remaining A3 theorem is the tensor-compatible dictionary: prove tensor
+additivity and coherent principal triviality for these globalizations, derive
+the exact principal kernel and essential surjectivity, and identify divisor
+classes with the scheme Picard group. The object-level globalization does not
+by itself prove those comparison statements or independence of the selected
+cover.
 
 ### Relative Picard
 

@@ -1,14 +1,14 @@
 # Reviewed ports and integration adapters
 
 This directory is the boundary between project code and selected external
-developments. It is intentionally not a vendor dump. At this revision its 174
+developments. It is intentionally not a vendor dump. At this revision its 177
 Lean modules divide into three layout groups:
 
 | Tree | Modules | Meaning |
 |---|---:|---|
 | [`AINTLIB/`](AINTLIB/) | 101 | reviewed exact-pin ports and narrow adaptations: 91 `ForMathlib`, four `Picard`, and six `FltRegular` modules |
 | [`LeanPool/`](LeanPool/) | 15 | the attributed Grothendieck-vanishing cone migrated to the project pin |
-| files directly in `Upstream/` | 58 | project-facing adapters, comparisons, consumers, and semantic facades over selected upstream APIs |
+| files directly in `Upstream/` | 61 | project-facing adapters, comparisons, consumers, and semantic facades over selected upstream APIs |
 
 Directory placement records dependency direction, not authorship. Neither a
 top-level path nor an AINTLIB path by itself determines whether a file is an
@@ -26,6 +26,8 @@ Downstream project code should prefer the narrowest applicable boundary:
 | Boundary | Role |
 |---|---|
 | [`Geometry.lean`](Geometry.lean) | broad checked divisor, line-bundle, Picard, and curve-cohomology integration boundary |
+| [`CurveLineBundleIsoCocycleDescent.lean`](CurveLineBundleIsoCocycleDescent.lean) | canonical-witness isomorphism cocycles and their generic conversion to coherent descent data |
+| [`CurveDivisorGlobalLineBundle.lean`](CurveDivisorGlobalLineBundle.lean) | unconditional global divisor line bundle, full descent isomorphism, and affine-chart restrictions on universe-zero covers |
 | [`SchemeModuleCohomologyHZero.lean`](SchemeModuleCohomologyHZero.lean) | canonical global-functions action and genuine degree-zero sheaf cohomology |
 | [`SchemeModuleBaseCechHOneComparison.lean`](SchemeModuleBaseCechHOneComparison.lean) | native Čech-to-genuine-sheaf `H¹` comparison |
 | [`SchemeModuleBaseCechHOneModule.lean`](SchemeModuleBaseCechHOneModule.lean) | explicit global-functions-linear `H¹` comparison |

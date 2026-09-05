@@ -111,6 +111,17 @@ proper-flat base change and semicontinuity remain in C1.
 The first genuine Riemann--Roch consumer belongs to B2, downstream of this
 foundation.
 
+The divisor lane now separates local cocycle elaboration from object
+effectivity. `LineBundleIsoCocycleCondition` fixes the six canonical face
+witnesses on every chosen triple overlap and converts them generically to
+Mathlib descent data. The raw inverse-ideal family supplies that certificate,
+and the universe-zero compatible-family equalizer plus locality of
+invertibility constructs `globalDivisorLineBundleOnProperSmoothCurve`. Its
+full descent isomorphism and every affine-chart restriction are checked; no
+effectivity witness is exposed to callers. Tensor additivity, coherent
+principal triviality, cover independence, and the divisor-class/Picard
+equivalence remain the next boundary.
+
 The Picard lane likewise separates an honest absolute construction from the
 missing represented object. For one smooth proper integral curve over a field
 and a supplied divisor-class/Picard equivalence, the checked residue-degree
