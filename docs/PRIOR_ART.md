@@ -708,14 +708,19 @@ The strongest concrete reuse candidates are:
   construction of a comodel in the opposite direction; a project-original
   support lemma derives strict cokernel support directly from epimorphy on a
   nonempty open, and a project-original subobject theorem makes the source's
-  `H⁰` finite whenever it embeds into a finite free sheaf. Thus the remaining
-  direct producer is a coherent full-support free lattice. An
+  `H⁰` finite whenever it embeds into a finite free sheaf. A project-original
+  affine-open pullback presentation now supplies the direct producer: finite
+  local generators are transposed through restriction--pushforward, and the
+  pullback source maps monomorphically toward a finite free sheaf and
+  epimorphically toward the target on that open. Its kernel/image transfers,
+  followed by the strict/full-support split around the generic point, prove
+  canonical `H⁰` finite-dimensional for every coherent module on the pointed
+  proper curve. An
   audit of historical AINTLIB
   commit `d78d10a74577e28840d21eb4e07395d87c44370f` found the preferable direct
   degree-zero/degree-one support induction before the later all-degree
-  rewrite; that is the route being ported. The proper/projective support
-  generic-generator extension, the alternative comodel producer, and exact
-  low-degree base-change facade remain open. Nor
+  rewrite; that is the route being ported. The exact low-degree base-change
+  facade remains open. Nor
   does this prior art provide the relative base-change or semicontinuity APIs
   required by the roadmap.
 * elliptic finite-flat subgroups, the quotient-scheme universal property,

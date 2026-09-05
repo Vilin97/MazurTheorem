@@ -115,13 +115,10 @@ line bundles on a smooth curve.
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology`
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
-  Package the checked canonical H0 comparisons, field-linear exact-sequence transfers,
-  finite-free ordered low-degree targets, coherent finite strict-support models with
-  finite global sections and direct canonical H0/pointed Cech H0-H1 finiteness
-  consumers, the full-support-source/open-local-epimorphism presentation reduction and
-  alternative full-support comodel reduction, pointed-curve canonical-field H1
-  finite-dimensionality, affine acyclicity, and vanishing above degree one with the
-  still-needed geometric producer in the required curve-cohomology facade.
+  Package the checked unconditional canonical H0 finite-dimensionality, pointed
+  canonical H1 finite-dimensionality, and vanishing above degree one for coherent
+  modules on pointed smooth proper integral curves, together with the still-needed exact
+  low-degree cohomology base-change comparison, in the required curve-cohomology facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -408,6 +405,21 @@ line bundles on a smooth curve.
   For a full-support coherent target, reduce finite canonical H0 to a coherent submodule
   of a finite free sheaf mapping epically onto the target on one nonempty open, with
   source full support inferred automatically.
+* `definition` (`contract`): `AlgebraicGeometry.Scheme.Modules.AffineOpenPresentation`
+  Package a coherent source with maps to a finite free sheaf and the target that become
+  respectively monic and epic on one affine open.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.exists_affineOpenPresentation`
+  Construct the affine-open presentation by transposing finite local generators through
+  restriction--pushforward and pulling back against the adjunction unit.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_affineOpenPresentation`
+  Use the strict-support kernel and finite-free image of an affine-open presentation to
+  prove finite canonical H0 of a full-support coherent target.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_coherent`
+  Prove canonical H0 finite-dimensional for every coherent module on a pointed smooth
+  proper integral curve, with no supplied comparison hypothesis.
 
 :::
 

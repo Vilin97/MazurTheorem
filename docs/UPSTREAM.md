@@ -83,9 +83,15 @@ strictness from an epimorphism on a nonempty open when the source has full
 support, and conversely infers source full support from an open-local
 epimorphism to a full-support target on an integral scheme. `ProperHZeroFinite`
 proves that a monomorphism from this source into a finite free sheaf supplies
-its canonical `H⁰` finiteness, leaving the direct producer for a full-support
-target as any coherent free sublattice mapping epically on one nonempty open;
-no separate source-support proof remains. The
+its canonical `H⁰` finiteness. `SchemeModuleAffineOpenPresentation` constructs
+the required coherent source from finite generators on an affine open by a
+restriction--pushforward transpose and pullback: it is monic toward a finite
+free sheaf and epic toward the target after restriction. The resulting
+kernel/image exact-sequence argument in `ProperCurveFiniteSupportCech`, followed
+by the strict/full-support split at an affine neighborhood of the generic
+point, proves canonical `H⁰` finite-dimensional for every coherent module on
+the pointed proper curve. The exact low-degree cohomology base-change
+comparison remains outside this boundary. The
 Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual

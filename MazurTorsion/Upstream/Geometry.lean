@@ -56,5 +56,9 @@ finite-dimensionality theorem.
 Properness also makes the global-function ring finite over the ground field;
 the resulting canonical degree-zero theorem and its arbitrary-cover Cech
 comparison certify finite free sheaves as low-degree-good ordered Cech
-targets for the remaining coherent-support construction.
+targets. An affine-open pullback presentation from finite local generators,
+together with the strict-support exact-sequence transfers, now proves canonical
+degree-zero cohomology finite-dimensional for every coherent module on the
+pointed proper curve. The exact low-degree base-change comparison remains the
+open boundary of this package.
 -/

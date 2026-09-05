@@ -34,10 +34,12 @@ The route itself did not change in this audit. The architecture did:
   targets, coherent finite strict-support models with finite global sections
   and direct canonical `H⁰`/pointed Cech `H⁰`-`H¹` consumers, identity
   comodels reducing induction to full support, field-linear exact-sequence
-  transfers reducing `H⁰` to a full-support finite-free sublattice epic on
-  a nonempty open,
-  and open-local support-comodel assembly, one Weierstrass secant chart, and
-  the represented polynomial-cusp collision are recorded as checked
+  transfers, open-local support-comodel assembly, an affine-open pullback
+  presentation producing the needed
+  finite-free sublattice comparison, and unconditional canonical `H⁰`
+  finite-dimensionality for every coherent module on the pointed proper curve,
+  one Weierstrass secant chart, and the represented polynomial-cusp collision
+  are recorded as checked
   prerequisites without promoting them to Riemann--Roch, a group scheme, or
   represented `X₀`; and
 - conditional finite-level experiments are paused while canonical foundations

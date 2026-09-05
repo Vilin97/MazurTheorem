@@ -93,12 +93,15 @@ coherent map `E ⟶ M` with finite `H⁰(E)` and strict-support cokernel forces
 finite `H⁰(M)`, because pointed-curve `H¹` controls its kernel. If `E` has
 full support, epimorphy after restriction to any nonempty open now supplies
 the strict cokernel hypothesis automatically. A monomorphism from `E` into a
-finite free sheaf also supplies finite `H⁰(E)`, so the direct producer is now
-exactly a coherent full-support free lattice mapping epically on one nonempty
-open. Constructing that lattice (or the alternative nonempty-open full-support
-comodel) and proper base change keep the final package open. The
-first genuine
-Riemann--Roch consumer belongs to B2, downstream of this foundation.
+finite free sheaf also supplies finite `H⁰(E)`. An affine-open pullback
+presentation constructs such an `E` from finite local generators, monic toward
+a finite free sheaf and epic toward the target after restriction. Its
+strict-support kernel and finite-free image prove finite canonical `H⁰` for a
+full-support target; the affine generic-point neighborhood and the existing
+strict-support theorem then give unconditional canonical `H⁰` finiteness for
+every coherent module on the pointed proper curve. Only the exact low-degree
+cohomology base-change comparison keeps the final package open. The first
+genuine Riemann--Roch consumer belongs to B2, downstream of this foundation.
 
 The Picard lane likewise separates an honest absolute construction from the
 missing represented object. For one smooth proper integral curve over a field

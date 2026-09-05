@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **22.5%**: 225 of the fixed 1,000 points.
 - Ecosystem readiness is **23%**.
-- The audited baseline contains **2,038 Lean modules** and **2,097,376 Lean
+- The audited baseline contains **2,042 Lean modules** and **2,099,054 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -84,13 +84,17 @@ slices at the 225-point headline:
   handles its arbitrary coherent kernel. An epimorphism after restriction to
   a nonempty open now gives that strict cokernel support automatically when
   the source has full support, and a monomorphism from the source into a
-  finite free sheaf proves its canonical `H⁰` finite. The 12-point core is
-  integrated. The final 12-point finiteness/base-change package is active:
-  construction of a coherent full-support free lattice mapping epically on
-  one nonempty open (or the alternative full-support comodel) and the exact
-  low-degree base-change comparison remain missing,
-  while vanishing above degree one is already checked. The first genuine
-  Riemann--Roch consumer belongs to B2.
+  finite free sheaf proves its canonical `H⁰` finite. An affine-open pullback
+  presentation now constructs that source from finite local generators: it
+  is monic toward a finite free sheaf and epic toward the target after
+  restriction. Its strict-support kernel and finite-free image prove finite
+  canonical `H⁰` for every full-support target. Choosing an affine
+  neighborhood of the generic point and splitting strict from full support
+  proves canonical `H⁰` finite-dimensional for every coherent module on the
+  pointed proper curve. The 12-point core is integrated. The final 12-point
+  finiteness/base-change package is active with only the exact low-degree
+  base-change comparison still missing; vanishing above degree one is already
+  checked. The first genuine Riemann--Roch consumer belongs to B2.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a
   field and a supplied divisor-class/Picard equivalence, the checked
