@@ -33,6 +33,7 @@ import MazurTorsion.Upstream.CurveLineBundleCompatibleFamilies
 import MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite
 import MazurTorsion.Upstream.ProperCurveCohomologyFinite
 import MazurTorsion.Upstream.ProperCurveFiniteSupport
+import MazurTorsion.Upstream.ProperCurveFiniteSupportCech
 import MazurTorsion.Upstream.SchemeModuleBaseCechHZeroFinite
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.Basic
