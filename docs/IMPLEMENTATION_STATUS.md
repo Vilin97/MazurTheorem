@@ -247,13 +247,18 @@ slices at the 225-point headline:
   Direct homogeneous-coordinate proofs place both rational cusp morphisms
   outside this open, so every rational point factoring through it is
   noncuspidal, the open has no `Spec Q` points, and its coordinate ring has no
-  ring homomorphism to `Q`.
+  ring homomorphism to `Q`. The eta equation now defines an affine scheme whose
+  exact coordinate-change domain is the principal open
+  `D(x(x² + 7x + 7))`. The checked regular formulas give a morphism from this
+  eta open into the explicit `D(X)` presentation, proving that it too has no
+  `Spec Q` points or coordinate-ring homomorphisms to `Q`.
   `RationalFiberOpenComparison` now states the missing comparison as an open
   immersion over `Q` into this rational-cusp-avoiding open; no separate
   noncuspidality hypothesis remains. From such supplied data the code proves
   emptiness of coarse rational points and the modular-route order-49 endpoint.
-  No coarse-space or comparison instance, universal-family comparison, or
-  generalized bad-characteristic cyclicity is constructed. The represented
+  No modular eta-function map, coarse-space or comparison instance,
+  universal-family comparison, or generalized bad-characteristic cyclicity is
+  constructed. The represented
   `X₀(N)` classifier therefore stays selected with no additional roadmap
   credit.
 - The generic finite-translation layer constructs the actual quotient of a

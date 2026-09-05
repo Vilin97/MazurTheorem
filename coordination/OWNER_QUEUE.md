@@ -200,11 +200,16 @@ represented standard-chart quotient at `X/Z`: the homogeneous cubic equation
 proves that `X != 0` forces `Z != 0`, so this localization has exactly the
 `D(X)` range. Homogeneous-coordinate calculations prove that both rational
 cusps lie outside it; consequently the coordinate ring has no homomorphism to
-`Q`. The comparison interface therefore asks for an open immersion into this
+`Q`. The eta equation is now an affine scheme, and its exact regularity domain
+`D(x(x^2+7x+7))` maps by the checked coordinate formulas into the explicit
+`D(X)` presentation. This eta open consequently has no `Spec Q` points or
+coordinate-ring homomorphisms to `Q`. The comparison interface therefore asks
+for an open immersion into this
 rational-cusp-avoiding open; noncuspidality is derived rather than supplied as
 a separate field. This yields emptiness of coarse rational points and the
-modular-route order-49 endpoint. No coarse-space or comparison instance is
-constructed, so the current package and its zero credit are unchanged. The
+modular-route order-49 endpoint. No modular eta-function map, coarse-space, or
+comparison instance is constructed, so the current package and its zero
+credit are unchanged. The
 generic Néron mapping-property and
 admissible-filtration packages are integrated. Their Eisenstein-quotient
 instantiation requires the actual Eisenstein quotient and its Néron model, so

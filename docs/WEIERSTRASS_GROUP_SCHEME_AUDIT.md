@@ -411,10 +411,15 @@ equation proves that `X != 0` forces `Z != 0`, so the localization has exactly
 the `D(X)` range. Coordinate calculations place both rational cusp morphisms
 outside it, so factorization through this open proves rational noncuspidality,
 the represented point classification makes the open empty on `Q`-points, and
-the coordinate ring has no ring homomorphism to `Q`. The remaining geometric
-comparison has a precise
+the coordinate ring has no ring homomorphism to `Q`. The eta equation is now
+an affine scheme with exact regularity domain `D(x(x² + 7x + 7))`; its checked
+coordinate change is an actual morphism from that principal open into the
+explicit `D(X)` presentation. Hence the eta open also has no `Spec Q` points or
+coordinate-ring homomorphisms to `Q`. The remaining geometric comparison has a
+precise
 interface: an open immersion of the coarse rational fibre into this
 rational-cusp-avoiding open. It implies emptiness of coarse rational points and
 the modular-route order-49 endpoint without a separate noncuspidality field.
-No coarse-space or open-comparison instance, universal-family comparison, or
-bad-characteristic generalized cyclicity is yet constructed.
+No modular eta-function map, coarse-space or open-comparison instance,
+universal-family comparison, or bad-characteristic generalized cyclicity is
+yet constructed.

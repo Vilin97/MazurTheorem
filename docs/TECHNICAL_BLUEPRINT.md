@@ -373,14 +373,20 @@ Homogeneous-coordinate computations show that the infinity cusp
 `[0 : 1 : 0]` and finite cusp `[0 : 0 : 1]` both lie outside it. Thus every
 rational point factoring through this open avoids the two represented cusps,
 the two-point classification makes the open empty on `Q`-points, and the
-coordinate ring has no ring homomorphism to `Q`.
+coordinate ring has no ring homomorphism to `Q`. The eta plane equation is now
+represented by an affine scheme as well. Its exact scheme-theoretic regularity
+domain is `D(x(x² + 7x + 7))`, and the checked coordinate formulas define a
+morphism from this open into the explicit `D(X)` presentation. It follows that
+the eta open has no `Spec Q` points and its coordinate ring has no homomorphism
+to `Q`.
 `RationalFiberOpenComparison` asks for the geometrically correct bridge: an
 open immersion of the coarse fibre into this rational-cusp-avoiding open.
 Noncuspidality is now derived from the factorization rather than supplied as a
 separate hypothesis. This comparison makes both the fibre and global coarse
 scheme empty on rational points and gives the modular order-49 contradiction.
-Constructing the coarse space and comparison, comparing universal families,
-and extending cyclicity through bad characteristic remain open.
+Constructing modular eta functions into the new equation chart, constructing
+the coarse space and comparison, comparing universal families, and extending
+cyclicity through bad characteristic remain open.
 
 The point constructor must consume an actual finite-flat subgroup scheme and
 prove noncuspidality; a supplied equivalence of point sets is not sufficient.

@@ -408,6 +408,20 @@ by checked admissible variable changes.
   `MazurTorsion.XZeroFortyNine.SchemeModel.rationalCuspAffinePresentationIso`
   Identify the spectrum of the explicit standard-chart localization with the actual D(X)
   open subscheme.
+* `definition` (`contract`): `MazurTorsion.XZeroFortyNine.EtaSchemeModel.scheme`
+  Represent the affine eta equation as the spectrum of its bivariate quotient coordinate
+  ring.
+* `definition` (`contract`): `MazurTorsion.XZeroFortyNine.EtaSchemeModel.openInclusion`
+  Realize D(x(x^2+7x+7)) as the exact principal-open regularity domain of the
+  scheme-level coordinate change.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.EtaSchemeModel.toRationalCuspOpen`
+  Map the denominator-open eta-equation scheme into the actual rational-cusp-avoiding
+  D(X) subscheme by the checked coordinate formulas.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.EtaSchemeModel.openScheme_rationalPoints_isEmpty`
+  Exclude all Spec Q points of the eta regularity domain through its morphism into the
+  classified D(X) open.
 * `definition` (`contract`):
   `MazurTorsion.XZeroFortyNine.CoarseComparison.rationalFiber`
   Form the rational fibre of a supplied global coarse moduli scheme by pullback from
