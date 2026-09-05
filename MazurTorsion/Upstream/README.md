@@ -28,6 +28,7 @@ Downstream project code should prefer the narrowest applicable boundary:
 | [`Geometry.lean`](Geometry.lean) | broad checked divisor, line-bundle, Picard, and curve-cohomology integration boundary |
 | [`CurveLineBundleIsoCocycleDescent.lean`](CurveLineBundleIsoCocycleDescent.lean) | canonical-witness isomorphism cocycles and their generic conversion to coherent descent data |
 | [`CurveDivisorGlobalLineBundle.lean`](CurveDivisorGlobalLineBundle.lean) | unconditional global divisor line bundle, full descent isomorphism, and affine-chart restrictions on universe-zero covers |
+| [`CurveDivisorRawTensorAddDescent.lean`](CurveDivisorRawTensorAddDescent.lean) | full descent-level tensor additivity of the raw divisor family, with factorwise chosen transitions |
 | [`SchemeModuleCohomologyHZero.lean`](SchemeModuleCohomologyHZero.lean) | canonical global-functions action and genuine degree-zero sheaf cohomology |
 | [`SchemeModuleBaseCechHOneComparison.lean`](SchemeModuleBaseCechHOneComparison.lean) | native Čech-to-genuine-sheaf `H¹` comparison |
 | [`SchemeModuleBaseCechHOneModule.lean`](SchemeModuleBaseCechHOneModule.lean) | explicit global-functions-linear `H¹` comparison |

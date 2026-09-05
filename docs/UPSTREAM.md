@@ -105,7 +105,9 @@ triple-overlap witnesses, `CurveDivisorRawIsoCocycle` produces coherent
 locally invertible descent data from the raw inverse-ideal transitions, and
 `CurveDivisorGlobalLineBundle` applies universe-zero compatible-family
 effectivity and locality to construct the global line bundle with its descent
-and chart-restriction isomorphisms. Tensor additivity, principal detection,
+and chart-restriction isomorphisms. `CurveDivisorRawTensorAddDescent` proves
+full descent-level tensor additivity and identifies its chosen transitions
+factorwise. Lifting this comparison to the global objects, principal detection,
 and the Picard equivalence remain downstream. The
 Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their

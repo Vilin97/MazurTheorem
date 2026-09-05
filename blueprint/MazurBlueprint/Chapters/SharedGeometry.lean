@@ -115,10 +115,10 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleRestrictionIsoOnProperSmoothCurve`
   Identify every coordinate-chart restriction of the global divisor line bundle with the
   corresponding affine inverse-ideal line bundle.
-* `structure` (`proposed`): `TauCeti.AlgebraicGeometry.PicardGroup`
-  Expose line bundles modulo isomorphism as the Picard group of a smooth proper curve.
-* `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classEquivPicard`
-  Identify Weil divisors modulo principal divisors with the line-bundle Picard group.
+* `definition` (`contract`): `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorAddDescentIsoOnProperSmoothCurve` transports divisor addition to chartwise tensor descent data.
+* `theorem` (`contract`): `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorTensorDescentData_hom_eq_tensorRawOverlap` identifies its chosen transitions factorwise.
+* `structure` (`proposed`): `TauCeti.AlgebraicGeometry.PicardGroup` exposes line bundles modulo isomorphism as the Picard group of a smooth proper curve.
+* `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classEquivPicard` identifies Weil divisor classes with the line-bundle Picard group.
 
 :::
 

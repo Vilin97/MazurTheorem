@@ -109,7 +109,11 @@ slices at the 260-point headline:
   coherent locally invertible descent data. Compatible-family effectivity on
   a universe-zero cover and locality of invertibility construct the global
   divisor line bundle, its descent isomorphism, and each chart restriction
-  without a caller-supplied witness. The lane now selects the tensor-additive
+  without a caller-supplied witness. Transport across the affine addition
+  isomorphisms now proves a full descent-data tensor-additivity isomorphism,
+  and its chosen transitions compute to the factorwise tensors of the raw
+  transitions. Lifting that comparison to the global effective objects still
+  requires morphism descent/object separation. The lane remains on the
   divisor-class/Picard equivalence package.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a

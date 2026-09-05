@@ -118,9 +118,12 @@ Mathlib descent data. The raw inverse-ideal family supplies that certificate,
 and the universe-zero compatible-family equalizer plus locality of
 invertibility constructs `globalDivisorLineBundleOnProperSmoothCurve`. Its
 full descent isomorphism and every affine-chart restriction are checked; no
-effectivity witness is exposed to callers. Tensor additivity, coherent
+effectivity witness is exposed to callers. The raw family is also tensor-additive
+as full coherent descent data: the transported target has chartwise tensor
+objects and factorwise raw transitions. Fully faithful morphism descent is
+still needed to lift this comparison to the selected global objects. Coherent
 principal triviality, cover independence, and the divisor-class/Picard
-equivalence remain the next boundary.
+equivalence remain downstream.
 
 The Picard lane likewise separates an honest absolute construction from the
 missing represented object. For one smooth proper integral curve over a field

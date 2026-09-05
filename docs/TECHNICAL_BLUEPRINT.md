@@ -227,14 +227,17 @@ changing the local objects or transition maps. On a universe-zero affine
 coordinate cover, compatible-family module effectivity and locality of
 invertibility construct `globalDivisorLineBundleOnProperSmoothCurve`, its full
 descent isomorphism, and its restriction to every specified affine divisor
-line bundle without a caller-supplied effectivity witness.
+line bundle without a caller-supplied effectivity witness. The full raw datum
+for `D + E` now transports across the chartwise addition isomorphisms to a
+coherent datum on the chartwise tensors; on chosen overlaps its transition is
+proved equal to the factorwise tensor of the raw `D` and `E` transitions.
 
-The remaining A3 theorem is the tensor-compatible dictionary: prove tensor
-additivity and coherent principal triviality for these globalizations, derive
-the exact principal kernel and essential surjectivity, and identify divisor
-classes with the scheme Picard group. The object-level globalization does not
-by itself prove those comparison statements or independence of the selected
-cover.
+The remaining A3 theorem is the tensor-compatible dictionary: lift descent-level
+tensor additivity to these globalizations using morphism descent/object
+separation, prove coherent principal triviality, derive the exact principal
+kernel and essential surjectivity, and identify divisor classes with the scheme
+Picard group. The object-level globalization does not by itself prove those
+global comparison statements or independence of the selected cover.
 
 ### Relative Picard
 

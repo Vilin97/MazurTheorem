@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2102679,
-    "integrated_lean_modules": 2049,
+    "integrated_lean_lines": 2102914,
+    "integrated_lean_modules": 2050,
     "remaining_composite_orders": [
       25,
       35
@@ -1790,7 +1790,7 @@
       "weight_points": 18,
       "risk": "extreme",
       "backend": "tauceti",
-      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. A canonical-witness named-face certificate converts the all-index raw cocycle into coherent locally invertible descent data. Universe-zero compatible-family effectivity and locality of invertibility then construct an unconditional global divisor line bundle, its full descent isomorphism, and every chart restriction. Tensor additivity, exact principal kernel, surjectivity, and the Picard equivalence remain open.",
+      "summary": "Construct the Picard group of line bundles and identify divisor classes with line bundles on a smooth curve. The checked affine path proves integral closedness and Dedekind order compatibility for locally standard-smooth relative curves over a field and constructs actual overlap line-bundle isomorphisms on proper smooth curve intersections. A canonical-witness named-face certificate converts the all-index raw cocycle into coherent locally invertible descent data. Universe-zero compatible-family effectivity and locality of invertibility then construct an unconditional global divisor line bundle, its full descent isomorphism, and every chart restriction. Tensor additivity now holds as a full descent-data isomorphism whose chosen transitions are the factorwise tensors of the raw transitions. Lifting that comparison to the effective global objects, exact principal kernel, surjectivity, and the Picard equivalence remain open.",
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
@@ -1889,6 +1889,20 @@
           "module": "MazurTorsion.Upstream.CurveDivisorGlobalLineBundle"
         },
         {
+          "kind": "definition",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorAddDescentIsoOnProperSmoothCurve",
+          "state": "contract",
+          "description": "Transport the coherent raw datum for D + E across the actual chartwise addition isomorphisms to full descent data on the chartwise tensor objects.",
+          "module": "MazurTorsion.Upstream.CurveDivisorRawTensorAddDescent"
+        },
+        {
+          "kind": "theorem",
+          "name": "MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorTensorDescentData_hom_eq_tensorRawOverlap",
+          "state": "contract",
+          "description": "Identify each chosen transition of the transported tensor datum with the factorwise tensor of the two raw divisor transitions, conjugated by canonical pullback tensorators.",
+          "module": "MazurTorsion.Upstream.CurveDivisorRawTensorAddDescent"
+        },
+        {
           "kind": "structure",
           "name": "TauCeti.AlgebraicGeometry.PicardGroup",
           "state": "proposed",
@@ -1929,8 +1943,8 @@
           "Mathlib.AlgebraicGeometry.Morphisms.Smooth",
           "TauCeti.AlgebraicGeometry.WeilDivisor.Scheme.Order"
         ],
-        "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison. On proper smooth curves, the exact raw inverse-ideal overlap cocycle now yields coherent locally invertible descent data and an unconditional global divisor line bundle with full descent and chart restrictions on every supplied universe-zero affine cover.",
-        "recommended_route": "Preserve the checked smooth-curve Dedekind chart compatibility, exact all-index raw overlap cocycle, generic `normalization_of_iso_cocycle`, derived `LineBundleCocycle.normalization`, and `moduleEffectiveDescentForOpenCover`. The named-face certificate now packages the concrete raw family as coherent locally invertible descent data with fixed pullback witnesses, and universe-zero compatible-family effectivity plus locality constructs its global divisor line bundle and chart restrictions without caller input. Next prove these chosen globalizations tensor-additive and coherently trivial on principal divisors; zero triviality then makes `L(-D)` an explicit inverse to `L(D)` without using `TensorInverseComparison X` for unrelated sheaves. Establish object separation, either from a checked fully faithful descent theorem or directly for the equalizer construction. Then derive overlap-compatible rational normalization from a global trivialization. The existing `TrivialDescendedLineBundleHasGlobalPrincipalWitness` equivalence turns that into principal detection, exact principal kernel, and the class equivalence. Prove Picard surjectivity and separately the global tensor-inverse comparison required by the stronger `Dictionary`. The weighted product formula remains the separately registered A2 prerequisite.",
+        "informal": "For the geometric order system of a smooth proper integral curve, prove the full invertible-sheaf/Picard comparison and identify divisor classes with the scheme Picard group. Checked code proves these two outputs are equivalent to the complete dictionary. Affinely, it constructs the actual tensor-additive tilde line bundles, a canonical Picard embedding with exact principal kernel, an unconditional range equivalence, and a full equivalence under exactly the reverse tensor-unit/local-rank-one comparison. On proper smooth curves, the exact raw inverse-ideal overlap cocycle yields coherent locally invertible descent data and an unconditional global divisor line bundle with full descent and chart restrictions on every supplied universe-zero affine cover. The raw family is now tensor-additive as full descent data, with the target transitions identified factorwise.",
+        "recommended_route": "Preserve the checked smooth-curve Dedekind chart compatibility, exact all-index raw overlap cocycle, generic `normalization_of_iso_cocycle`, derived `LineBundleCocycle.normalization`, and `moduleEffectiveDescentForOpenCover`. The named-face certificate packages the concrete raw family as coherent locally invertible descent data with fixed pullback witnesses, universe-zero compatible-family effectivity plus locality constructs its global divisor line bundle and chart restrictions without caller input, and `rawDivisorAddDescentIsoOnProperSmoothCurve` proves tensor additivity at the full descent-data level. Next establish fully faithful module descent, or the exact object-separation consequence for the equalizer construction, and lift this comparison to the chosen globalizations. Prove coherent principal triviality; zero triviality then makes `L(-D)` an explicit inverse to `L(D)` without using `TensorInverseComparison X` for unrelated sheaves. Then derive overlap-compatible rational normalization from a global trivialization. The existing `TrivialDescendedLineBundleHasGlobalPrincipalWitness` equivalence turns that into principal detection, exact principal kernel, and the class equivalence. Prove Picard surjectivity and separately the global tensor-inverse comparison required by the stronger `Dictionary`. The weighted product formula remains the separately registered A2 prerequisite.",
         "consumer_declarations": [
           "MazurTheorem.Challenge.divisorClassEquivPicard",
           "MazurTheorem.Challenge.divisorPicardCoreData"
