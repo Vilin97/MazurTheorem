@@ -7,6 +7,7 @@ Authors: Vasily Ilin, Codex
 import MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite
 import MazurTorsion.Upstream.ProperCurveFiniteSupport
 import MazurTorsion.Upstream.SchemeModuleBaseCechHZeroFinite
+import MazurTorsion.Upstream.SchemeModuleComparisonSupportEpi
 
 /-!
 # Cohomology of strict support on a proper curve
@@ -171,6 +172,47 @@ theorem hZeroCanonical_finiteDimensional_of_strictCokernel
       letI := hZeroCanonicalFieldModule K X f Q₀
       FiniteDimensional K (H Q₀ 0)
     exact hQ₀
+
+/-- A coherent full-support source which surjects onto `M` on any nonempty
+open gives finite-dimensional canonical `H⁰(M)`, provided its own canonical
+`H⁰` is finite-dimensional.  Full support makes the support containment and
+support-meeting point needed for strict cokernel support automatic.
+
+This is the exact consumer for a future finite family of generic generators:
+their extension only has to be epic on one nonempty open, not invertible
+there and not oriented from `M` toward a comodel. -/
+theorem hZeroCanonical_finiteDimensional_of_fullSupportSource_of_epi_restrict
+    (K : Type u) [Field K] (X : Scheme.{u}) [IsIntegral X]
+    (f : X ⟶ Spec (.of K)) [IsProper f] [SmoothOfRelativeDimension 1 f]
+    (s : SmoothCurveRationalSection K X f)
+    (E M : X.Modules) [E.IsFiniteType] [E.IsQuasicoherent]
+    [M.IsFiniteType] [M.IsQuasicoherent]
+    (g : E ⟶ M) {Y : Scheme.{u}} (j : Y ⟶ X)
+    [IsOpenImmersion j] [Nonempty Y]
+    [Epi ((restrictFunctor j).map g)]
+    (hEtop : closedStalkSupport E = ⊤)
+    (hE : letI := hZeroCanonicalFieldModule K X f E
+      FiniteDimensional K (H E 0)) :
+    letI := hZeroCanonicalFieldModule K X f M
+    FiniteDimensional K (H M 0) := by
+  letI : IsNoetherian X :=
+    isNoetherian_of_proper_smoothRelativeDimension_one K X f
+  have hresidual :=
+    Scheme.Modules.comparisonResidual_isFiniteType_and_isQuasicoherent g
+  letI : (cokernel (Abelian.image.ι g)).IsFiniteType :=
+    hresidual.2.1
+  letI : (cokernel (Abelian.image.ι g)).IsQuasicoherent :=
+    hresidual.2.2
+  let x : Y := Classical.choice (inferInstance : Nonempty Y)
+  have hQ : closedStalkSupport
+      (cokernel (Abelian.image.ι g)) < ⊤ := by
+    rw [← hEtop]
+    exact
+      Scheme.Modules.closedStalkSupport_cokernel_image_ι_lt_of_epi_map
+        j g (by rw [hEtop]; exact le_top) x
+          (by rw [hEtop]; trivial)
+  exact hZeroCanonical_finiteDimensional_of_strictCokernel
+    K X f s E M g hE hQ
 
 /-- On a pointed smooth proper integral curve, it is enough to construct
 support comodels for coherent modules whose closed stalk support is the whole
