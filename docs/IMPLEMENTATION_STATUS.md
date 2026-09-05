@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **22.5%**: 225 of the fixed 1,000 points.
 - Ecosystem readiness is **23%**.
-- The audited baseline contains **2,021 Lean modules** and **2,092,782 Lean
+- The audited baseline contains **2,035 Lean modules** and **2,096,879 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -61,11 +61,15 @@ slices at the 225-point headline:
   action. Coefficient morphisms are linear in `H¹`, and naturality of the
   actual Ext connecting class makes every short-exact-sequence boundary linear
   over global functions. Its canonical ground-field `H⁰ → H¹` specialization
-  has a pointed proper-curve finite-dimensional-image consumer. The 12-point
-  core is therefore integrated. The final 12-point finiteness/base-change
-  package is active: proper coherent `H⁰` finiteness and the exact low-degree
-  base-change comparison remain missing, while vanishing above degree one is
-  already checked. The first genuine Riemann--Roch consumer belongs to B2.
+  has a pointed proper-curve finite-dimensional-image consumer. Native
+  base-Čech `H⁰` on every open cover is canonically base-linear equivalent to
+  genuine Ext-based `H⁰`; finite generation transfers from ordered `H⁰`, and
+  the coherent-support induction now has a checked genuine-`H⁰` endpoint. The
+  12-point core is integrated. The final 12-point finiteness/base-change
+  package is active: the proper/projective support-comodel producer needed for
+  unconditional coherent `H⁰` finiteness and the exact low-degree base-change
+  comparison remain missing, while vanishing above degree one is already
+  checked. The first genuine Riemann--Roch consumer belongs to B2.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a
   field and a supplied divisor-class/Picard equivalence, the checked

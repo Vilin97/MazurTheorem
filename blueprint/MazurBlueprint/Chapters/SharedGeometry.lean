@@ -115,10 +115,11 @@ line bundles on a smooth curve.
 * `definition` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology`
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
-  Package the checked canonical H0 comparison, linear connecting maps, pointed-curve
-  canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above
-  degree one with the still-needed proper coherent H0 finiteness in the required
-  curve-cohomology facade.
+  Package the checked canonical H0 comparisons, conditional coherent-support H0
+  endpoint, linear connecting maps, pointed-curve canonical-field H1
+  finite-dimensionality, affine acyclicity, and vanishing above degree one with the
+  still-needed proper/projective support producer in the required curve-cohomology
+  facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -156,6 +157,29 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomologyLinearMap`
   Bundle every coefficient-module morphism as a linear map for the canonical
   global-functions cohomology actions.
+* `definition` (`contract`): `TopCat.Sheaf.cechHomologyZeroIsoGlobalSectionsOfOpenCover`
+  Identify native Cech homology in degree zero with global sections for every open cover
+  by comparing the cycle kernel with the exact augmented Cech short complex.
+* `definition` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.baseCechHomologyZeroForgetIsoGlobalSectionsOfOpenCover`
+  Transport the arbitrary-cover degree-zero comparison through the forgotten base-linear
+  Cech complex, naturally in the coefficient module.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHZeroLinearEquivCanonicalOfOpenCover`
+  Upgrade native base-Cech H0 on any open cover to a linear equivalence with genuine
+  Ext-based H0 carrying the canonical base-global-sections action.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.baseCechComplex_homology_zero_module_finite_of_orderedBaseCechComplex`
+  Transfer finite generation from ordered Cech H0 to native all-tuples Cech H0 using the
+  degree-zero alternating-extension retraction.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZero_finite_of_orderedBaseCechComplex`
+  Transfer ordered Cech H0 finite generation through the canonical arbitrary-cover
+  comparison to genuine sheaf H0.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZero_finite_of_coherentSupportComodels`
+  Consume coherent support-decreasing comodels to obtain finite generation of genuine H0
+  with its canonical base action.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.cohomologyConnectingHom`
   Expose the genuine Ext connecting homomorphism for a short exact sequence of scheme

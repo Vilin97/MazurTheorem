@@ -36,10 +36,13 @@ now acts canonically in every degree, coefficient maps are linear, and
 naturality of the genuine Ext connecting class makes the boundary map of every
 short exact sequence linear. The proper-curve layer consumes its
 ground-field-linear `H⁰ → H¹` specialization and proves the image
-finite-dimensional for a pointed smooth proper curve. The selected next
-package must supply proper coherent `H⁰` finiteness and the exact low-degree
-base-change comparison; `H¹` finiteness and vanishing above degree one are
-already checked.
+finite-dimensional for a pointed smooth proper curve. Native base-Čech `H⁰`
+on every open cover is now canonically base-linear equivalent to genuine
+Ext-based `H⁰`; ordered `H⁰` finite generation transfers through it, and the
+coherent-support induction has a checked genuine-`H⁰` endpoint. The selected
+package must still construct the proper/projective support comodels that make
+this endpoint unconditional and prove the exact low-degree base-change
+comparison; `H¹` finiteness and vanishing above degree one are already checked.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and
 `A₁₂ := x₁² + x₁x₂ + x₂² + a₂(x₁ + x₂) + a₄ - a₁y₂`. The identity

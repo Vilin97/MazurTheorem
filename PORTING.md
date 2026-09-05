@@ -470,6 +470,10 @@ The remainder of the retained sheaf-Cech lane proves exactness of the
 augmented sheaf complex, computes its global sections, constructs the
 first-quadrant injective Cech bicomplex and its two low-degree edge maps, and
 identifies native Cech homology in degree one with Ext-based sheaf cohomology.
+The already retained augmented native short complex, its exactness on a cover,
+and its monic augmentation are now public so the local degree-zero comparison
+can identify the homology kernel with global sections. This is an API exposure,
+not a claim that the new degree-zero comparison occurs in the audited source.
 `SheafCechSheafResolution` is cut immediately after
 `cechAugmentation_mono`; its unused packaged acyclic-complex tail is omitted.
 The unused `SheafCohomologyFiniteProducts`, `SheafCechFlasqueTerms`, and
@@ -485,23 +489,26 @@ checked project theorems `injectiveSheaf_isFlasque` and
 the sign equality, and its composition calculation. Same-file construction
 machinery is private in the local API.
 
-The scalar-linearity extension is local work by Vasily Ilin in
+The scalar-linearity and degree-zero API extensions are local work by Vasily
+Ilin and Codex in
 `SheafDerivedGlobalSections`, `SheafCechInjectiveBicomplex`,
 `SheafCechInjectiveAugmentation`, `SheafCechInjectiveComparison`,
 `AcyclicAffineCechComparison`, `SchemeModuleBaseCech`, and
 `SchemeModuleBaseCechHomology`; those file headers retain Chris Birkbeck's
 upstream credit and add the local author's credit. The extension proves the
-naturality of the retained degree-one Cech comparison and its compatibility
-with the canonical global-sections scalar action. These declarations are not
-claimed to occur in the audited AINTLIB snapshot.
+naturality of the retained degree-one Cech comparison, its compatibility with
+the canonical global-sections scalar action, and the general forgotten
+base-linear homology comparison consumed in degree zero. These declarations
+are not claimed to occur in the audited AINTLIB snapshot.
 
 The affine comparison is also deliberately narrow. The degree-one theorem
 from `AcyclicAffineCechComparison` obtains the required restricted positive
 cohomology vanishing from the project's checked affine quasicoherent theorem,
 instead of importing AINTLIB's larger `AffineVanishing` cone.
-`SchemeModuleBaseCechHomology` retains only the two homology isomorphisms
-needed to pass from the base-linear complex to the native additive Cech
-complex and then to sheaf `H¹`.
+`SchemeModuleBaseCechHomology` retains the general forgetful homology
+isomorphism and the degree-one affine-cover isomorphism needed to pass from
+the base-linear complex to the native additive Cech complex and then to sheaf
+cohomology.
 
 The thirteen finite-action quotient modules retain the declarations and
 namespaces of the same exact snapshot. Imports between retained AINTLIB
@@ -715,6 +722,19 @@ degree-one finiteness, which feeds
 low-degree reduction, not a properness theorem: the canonical-support Chow
 construction producing such comodels remains the next open seam.
 
+The project-original `SchemeModuleBaseCechHZeroComparison` uses the exposed
+augmented native short complex to identify native Cech `H⁰` with global
+sections on every open cover, proves naturality, transports the comparison
+through the base-module forgetful isomorphism, and upgrades it to the
+canonical base-linear action on genuine Ext-based `H⁰`.
+`SchemeModuleBaseCechHZeroFinite` adapts the ordered/native homology-transfer
+argument from AINTLIB's attributed degree-one comparison: in degree zero every
+tuple is strictly increasing, so alternating extension recovers every native
+zero-cochain. Its named consumers transfer ordered finite generation to
+genuine `H⁰` and then apply the coherent-support comodel induction. These
+theorems make no properness claim; the proper/projective comodel producer is
+still absent.
+
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`
 takes finite generation of ordered degree-one homology and proves finite
@@ -776,6 +796,10 @@ ordered-H¹ finiteness boundary.
 The named boundary for the projective-line principal-parts and finite-map
 specialization is
 `MazurTorsion.Upstream.ProjectiveLineCechHOneFinite`.
+The corresponding arbitrary-cover degree-zero boundaries are
+`MazurTorsion.Upstream.SchemeModuleBaseCechHZeroComparison` and its named
+finite-generation consumer
+`MazurTorsion.Upstream.SchemeModuleBaseCechHZeroFinite`.
 `MazurTorsion.lean` is the named checked consumer of the earlier geometry
 boundaries. The geometry boundary also imports Tau Ceti's line-bundle and
 Abel--Jacobi layers from the root package's exact dependency.

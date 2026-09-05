@@ -667,7 +667,12 @@ The strongest concrete reuse candidates are:
   its elementwise preimage theorem is a compiled downstream consumer. The
   global-functions action is now transported explicitly to genuine sheaf
   `H¹`, and a checked linear equivalence carries `Module.Finite` through the
-  comparison. The canonical-support extension has also been ported through
+  comparison. A project-original degree-zero comparison now uses the retained
+  augmented native Cech exact sequence to identify arbitrary-cover native
+  `H⁰` naturally and base-linearly with genuine Ext-based `H⁰`. Its
+  ordered/native finite-generation proof is adapted from the attributed
+  AINTLIB degree-one argument and feeds the existing coherent-support
+  induction. The canonical-support extension has also been ported through
   finite affine support annihilation, ideal-power reconstruction, the
   open-local pullback unit, full support of the canonical model, and strict
   support decrease of comparison residuals. The inverse-image-cover
@@ -675,13 +680,15 @@ The strongest concrete reuse candidates are:
   complexes, and its degree-zero/degree-one finiteness equivalence has a
   finite-morphism consumer: finite pushforward preserves finite-type
   quasicoherence, so any target-side coherent low-degree theorem descends.
-  This is still only the input to
-  the Chow/projective low-degree comodel. An audit of historical AINTLIB
+  This is still only the input to the Chow/projective low-degree comodel; the
+  new genuine-`H⁰` endpoint remains conditional on that missing producer. An
+  audit of historical AINTLIB
   commit `d78d10a74577e28840d21eb4e07395d87c44370f` found the preferable direct
   degree-zero/degree-one support induction before the later all-degree
-  rewrite; that is the route being ported. The proper ordered input and final
-  proper-curve `H¹` facade remain open. Nor does this prior art provide the
-  relative base-change or semicontinuity APIs required by the roadmap.
+  rewrite; that is the route being ported. The proper/projective support
+  comodel producer and exact low-degree base-change facade remain open. Nor
+  does this prior art provide the relative base-change or semicontinuity APIs
+  required by the roadmap.
 * elliptic finite-flat subgroups, the quotient-scheme universal property,
   constant groups, `muN`, and the Hopf-algebraic theorem
   [`deligne_point_pow_eq_one`](https://github.com/CBirkbeck/AINTLIB/blob/7ecbba9dbb7fee076a1b77a6cd516fc6de46d684/projects/ModularCurves/ModularCurves/ForMathlib/CartierDual.lean#L724).

@@ -224,8 +224,13 @@ API-narrowing, and exact-pin compatibility adjustments recorded in
 The retained Cech lane excludes the unused flat/Picard and properness cones,
 replaces the option-dependent flasque-cohomology proof with existing checked
 project theorems, drops three unconsumed intermediate modules and the unused
-packaged acyclic-resolution tail, and keeps only the degree-one affine and
-base-homology comparisons. The separate canonical-support extension stops at
+packaged acyclic-resolution tail, and keeps the degree-one affine comparison
+plus the general forgotten base-homology comparison. The augmented native
+short complex and general forgetful homology isomorphism are exposed for the
+project-original arbitrary-cover `H⁰` comparison. Its degree-zero
+ordered/native finite-generation proof is adapted from the attributed
+AINTLIB degree-one argument and is recorded in `PORTING.md`. The separate
+canonical-support extension stops at
 the canonical thickening/full-support model and strict support-drop API; it
 does not retain or claim the Chow/projective producer or properness endpoint.
 The finite-pushforward comparison extension retains the inverse-image-cover
