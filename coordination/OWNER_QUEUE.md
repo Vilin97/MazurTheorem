@@ -209,9 +209,11 @@ presentation and in the actual cusp-avoiding subscheme. This eta open
 now also has a constructive rational-point presentation: quotient evaluation
 identifies affine eta pairs with coordinate-ring maps, and localization
 identifies the point-level condition `x != 0` with honest `Spec Q` points of
-the scheme open. These equivalences do not use the already-known emptiness.
-The eta open consequently has no `Spec Q` points or coordinate-ring
-homomorphisms to `Q`.
+the scheme open. These equivalences do not use the already-known emptiness. A
+generic standard-chart evaluation theorem now proves that the scheme-level
+coordinate morphism applied to this point is exactly the original explicit
+projective eta point. The eta open consequently has no `Spec Q` points or
+coordinate-ring homomorphisms to `Q`.
 The comparison interface therefore asks for an open immersion into this
 rational-cusp-avoiding open; noncuspidality is derived rather than supplied as
 a separate field. This yields emptiness of coarse rational points and the

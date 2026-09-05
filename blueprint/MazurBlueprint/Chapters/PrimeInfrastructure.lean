@@ -450,6 +450,17 @@ by checked admissible variable changes.
   `MazurTorsion.XZeroFortyNine.EtaSchemeModel.openSchemeRationalPointEquiv`
   Identify open eta pairs with honest Spec Q morphisms into the eta regularity scheme by
   explicit coordinate evaluation and Spec full faithfulness.
+* `definition` (`contract`): `MazurTorsion.XZeroFortyNine.etaWeierstrassOrdinate`
+  Expose the explicit transformed eta ordinate used by both the rational-point and
+  scheme-level maps.
+* `theorem` (`contract`):
+  `MazurTorsion.ModularCurve.XZeroFiniteFlatModuli.WeierstrassProjectiveCubic.standardChartSpecMap_comp_coveringChartMap`
+  Identify evaluation on the represented standard affine chart with the projective point
+  given by its three evaluated homogeneous ratios.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.EtaSchemeModel.openSchemeRationalPointEquiv_symm_comp_target`
+  Prove that the scheme-level eta coordinate morphism applied to an evaluated eta pair
+  is exactly the earlier explicit projective eta point.
 * `definition` (`contract`):
   `MazurTorsion.XZeroFortyNine.CoarseComparison.rationalFiber`
   Form the rational fibre of a supplied global coarse moduli scheme by pullback from

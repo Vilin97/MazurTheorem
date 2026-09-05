@@ -385,8 +385,11 @@ emptiness, explicit quotient evaluation identifies rational affine eta pairs
 with coordinate-ring maps, and the no-rational-zero result for the quadratic
 denominator upgrades `x != 0` to the full localization condition. Full
 faithfulness of `Spec` therefore identifies the original open eta-point type
-with honest rational scheme points. It follows that the eta open has no
-`Spec Q` points and its coordinate ring has no homomorphism to `Q`.
+with honest rational scheme points. A generic theorem identifies standard
+chart evaluation with its homogeneous projective point, and its eta consumer
+proves that the scheme-level coordinate morphism is exactly the earlier
+point-level `etaPointToScheme`. It follows that the eta open has no `Spec Q`
+points and its coordinate ring has no homomorphism to `Q`.
 `RationalFiberOpenComparison` asks for the geometrically correct bridge: an
 open immersion of the coarse fibre into this rational-cusp-avoiding open.
 Noncuspidality is now derived from the factorization rather than supplied as a

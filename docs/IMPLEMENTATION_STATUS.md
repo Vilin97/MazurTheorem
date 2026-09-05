@@ -256,9 +256,11 @@ slices at the 225-point headline:
   presentation and the actual cusp-avoiding subscheme. Constructive quotient
   evaluation and localization equivalences also identify the original
   rational eta-pair types with coordinate-ring maps and honest `Spec Q`
-  points of these schemes; these maps do not use empty-type elimination. The
-  eta open therefore has no `Spec Q` points or coordinate-ring homomorphisms
-  to `Q`.
+  points of these schemes; these maps do not use empty-type elimination. A
+  generic standard-chart evaluation theorem proves that applying the
+  scheme-level coordinate change to the constructed point recovers the
+  original explicit projective eta point exactly. The eta open therefore has
+  no `Spec Q` points or coordinate-ring homomorphisms to `Q`.
   `RationalFiberOpenComparison` now states the missing comparison as an open
   immersion over `Q` into this rational-cusp-avoiding open; no separate
   noncuspidality hypothesis remains. From such supplied data the code proves

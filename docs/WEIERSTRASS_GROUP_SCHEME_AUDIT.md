@@ -420,7 +420,9 @@ open immersion, and compute its exact image after transport to the actual
 cusp-avoiding subscheme. Explicit quotient evaluation and localization also
 identify rational eta pairs with coordinate-ring maps and honest scheme
 points, using the quadratic denominator's lack of rational zeros rather than
-the known emptiness. Hence the eta open also has no `Spec Q` points or
+the known emptiness. The standard-chart point comparison then proves that the
+scheme-level coordinate map agrees exactly with the earlier projective eta
+point construction. Hence the eta open also has no `Spec Q` points or
 coordinate-ring homomorphisms to `Q`. The remaining geometric comparison has a
 precise
 interface: an open immersion of the coarse rational fibre into this
