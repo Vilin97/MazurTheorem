@@ -19,7 +19,7 @@ finite/infinite split, but it does not replace the full classification.
 
 - Integrated completion is **22.5%**: 225 of the fixed 1,000 points.
 - Ecosystem readiness is **23%**.
-- The audited baseline contains **2,042 Lean modules** and **2,099,054 Lean
+- The audited baseline contains **2,043 Lean modules** and **2,100,122 Lean
   lines**.
 
 Module and line counts describe the checked source surface; they are not
@@ -92,9 +92,12 @@ slices at the 225-point headline:
   neighborhood of the generic point and splitting strict from full support
   proves canonical `H⁰` finite-dimensional for every coherent module on the
   pointed proper curve. The 12-point core is integrated. The final 12-point
-  finiteness/base-change package is active with only the exact low-degree
-  base-change comparison still missing; vanishing above degree one is already
-  checked. The first genuine Riemann--Roch consumer belongs to B2.
+  finiteness/base-change package is active. The canonical section map in an
+  affine Cartesian square is now proved to be extension of scalars by
+  cancelling the coordinate-ring pushout. Its termwise Cech assembly and the
+  induced exact low-degree cohomology base-change comparison remain; vanishing
+  above degree one is already checked. The first genuine Riemann--Roch
+  consumer belongs to B2.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a
   field and a supplied divisor-class/Picard equivalence, the checked

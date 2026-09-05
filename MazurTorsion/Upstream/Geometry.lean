@@ -61,5 +61,6 @@ targets. An affine-open pullback presentation from finite local generators,
 together with the strict-support exact-sequence transfers, now proves canonical
 degree-zero cohomology finite-dimensional for every coherent module on the
 pointed proper curve. The exact low-degree base-change comparison remains the
-open boundary of this package.
+open boundary of this package; its affine Cartesian section map is now checked
+as extension of scalars, leaving the Cech-complex and homology assembly.
 -/

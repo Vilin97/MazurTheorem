@@ -56,10 +56,14 @@ sequence windows are now ground-field-linear, and their finite-dimensional
 transfer gives a direct alternative: a coherent map `E ⟶ M` with finite
 `H⁰(E)` and strict-support cokernel suffices, with pointed-curve `H¹`
 controlling the kernel. Full support of `E` and epimorphy on a nonempty open
-now imply that strictness automatically. It must next construct such an
-`H⁰`-finite source and open-local epimorphism (or the low-degree-good
-full-support comodel) and prove the exact
-low-degree base-change comparison; `H¹` finiteness and vanishing above degree
+now imply that strictness automatically. An affine-open pullback presentation
+constructs such an `H⁰`-finite source and open-local epimorphism from finite
+local generators, and the strict/full-support split now proves canonical
+`H⁰` finite-dimensional for every coherent module. The canonical section map
+in an affine Cartesian square is also checked to be extension of scalars by
+cancelling the coordinate-ring pushout. It must next assemble these local maps
+into the base-linear Cech complex and prove the induced exact low-degree
+cohomology base-change comparison; `H¹` finiteness and vanishing above degree
 one are already checked.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and

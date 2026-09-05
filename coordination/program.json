@@ -70,8 +70,8 @@
     "source_commit": "3e10cb35773cccaa5989f0a00aa93b9d3b193743",
     "lean_toolchain": "leanprover/lean4:v4.33.0-rc1",
     "mathlib_commit": "79d0395a1825a6264ad5d269e35e60537518955e",
-    "integrated_lean_lines": 2099054,
-    "integrated_lean_modules": 2042,
+    "integrated_lean_lines": 2100123,
+    "integrated_lean_modules": 2043,
     "remaining_composite_orders": [
       25,
       35
@@ -1963,7 +1963,7 @@
       "external_reuse": [
         {
           "source": "aintlib-modular-curves",
-          "status": "low-degree exactness and unconditional proper-curve H0 retained; base change open",
+          "status": "low-degree exactness and unconditional proper-curve H0 retained; affine Cartesian section base change checked, Cech/homology base change open",
           "estimated_node_savings_percent": {
             "min": 40,
             "max": 55
@@ -2505,6 +2505,34 @@
           "state": "contract",
           "description": "Prove canonical H0 finite-dimensional for every coherent module on a pointed smooth proper integral curve, with no supplied comparison hypothesis.",
           "module": "MazurTorsion.Upstream.ProperCurveFiniteSupportCech"
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.Scheme.Modules.specPullbackSectionsLinearMap_isBaseChange",
+          "state": "contract",
+          "description": "Identify the canonical affine-spectrum pullback map on quasicoherent global sections as extension of scalars.",
+          "module": "MazurTorsion.Upstream.SchemeModuleAffinePullbackSections"
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.Scheme.Modules.pullbackUnitTopLinearMap_isBaseChange_of_isAffine",
+          "state": "contract",
+          "description": "Transport the affine-spectrum tensor comparison through canonical affine coordinates and prove that it is the geometric pullback-unit map.",
+          "module": "MazurTorsion.Upstream.SchemeModuleAffinePullbackSections"
+        },
+        {
+          "kind": "definition",
+          "name": "AlgebraicGeometry.Scheme.Modules.pullbackUnitBaseLinearMap",
+          "state": "contract",
+          "description": "Bundle the pullback-unit map on top sections linearly over the base ring of a commutative scheme square.",
+          "module": "MazurTorsion.Upstream.SchemeModuleAffinePullbackSections"
+        },
+        {
+          "kind": "theorem",
+          "name": "AlgebraicGeometry.Scheme.Modules.pullbackUnitBaseLinearMap_isBaseChange_of_isPullback",
+          "state": "contract",
+          "description": "For an affine Cartesian square, cancel the coordinate-ring pushout and prove that the canonical base-linear section map is extension of scalars along the opposite side.",
+          "module": "MazurTorsion.Upstream.SchemeModuleAffinePullbackSections"
         }
       ],
       "depends_on": [
@@ -2522,8 +2550,8 @@
         "credit_percent": 0
       },
       "evidence": {
-        "recorded_artifact_count": 168,
-        "canonical_artifact_count": 75,
+        "recorded_artifact_count": 210,
+        "canonical_artifact_count": 79,
         "policy": "The roadmap lists canonical outputs and a small acceptance sample. Helper declarations remain discoverable in the checked source and API documentation."
       },
       "work_packages": [

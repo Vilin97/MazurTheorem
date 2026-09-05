@@ -420,6 +420,22 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.hZeroCanonical_finiteDimensional_of_coherent`
   Prove canonical H0 finite-dimensional for every coherent module on a pointed smooth
   proper integral curve, with no supplied comparison hypothesis.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.specPullbackSectionsLinearMap_isBaseChange`
+  Identify the canonical affine-spectrum pullback map on quasicoherent global sections
+  as extension of scalars.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.pullbackUnitTopLinearMap_isBaseChange_of_isAffine`
+  Transport the affine-spectrum tensor comparison through canonical affine coordinates
+  and prove that it is the geometric pullback-unit map.
+* `definition` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.pullbackUnitBaseLinearMap`
+  Bundle the pullback-unit map on top sections linearly over the base ring of a
+  commutative scheme square.
+* `theorem` (`contract`):
+  `AlgebraicGeometry.Scheme.Modules.pullbackUnitBaseLinearMap_isBaseChange_of_isPullback`
+  For an affine Cartesian square, cancel the coordinate-ring pushout and prove that the
+  canonical base-linear section map is extension of scalars along the opposite side.
 
 :::
 
