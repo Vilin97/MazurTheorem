@@ -191,10 +191,14 @@ coarse scheme, compatibly with base change. Independently, the explicit
 rational `X₀(49)` equation is now realized as the reduced projective cubic
 scheme; all of its `Spec Q` morphisms are checked to be exactly two distinct
 cusp morphisms, and the eta chart consumes this represented classification.
-No coarse-space instance or rational-fibre identification with that target is
-constructed, so the current package and its zero credit are unchanged. The
-generic Néron mapping-property and admissible-filtration packages are
-integrated. Their Eisenstein-quotient
+The rational fibre of every supplied global coarse scheme is now formed by an
+actual pullback over `Spec Z`, and every rational coarse point lifts to it. A
+comparison interface isolates the remaining theorem as an open immersion into
+the explicit cubic with noncuspidal rational image; this hypothesis yields
+emptiness of coarse rational points and the modular-route order-49 endpoint.
+No coarse-space or comparison instance is constructed, so the current package
+and its zero credit are unchanged. The generic Néron mapping-property and
+admissible-filtration packages are integrated. Their Eisenstein-quotient
 instantiation requires the actual Eisenstein quotient and its Néron model, so
 it is blocked and does not occupy the spare WIP slot.
 

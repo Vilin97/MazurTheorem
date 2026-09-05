@@ -401,7 +401,11 @@ of one. The explicit rational level-49 target is now the actual reduced
 projective cubic scheme rather than only a coordinate point type. The canonical
 coordinate-to-scheme map is bijective on `Q`-points, so the checked two-point
 classification gives two distinct cusp morphisms which exhaust all `Spec Q`
-points; the eta open is a represented downstream consumer. No coarse-space
-instance, rational-fibre comparison with this target, universal-family
-comparison, modular noncuspidality theorem, or bad-characteristic generalized
-cyclicity is yet constructed.
+points; the eta open is a represented downstream consumer. The rational fibre
+of a supplied global coarse space is now an actual pullback over `Spec Z`, and
+every rational point lifts to it. The remaining geometric comparison has a
+precise interface: an open immersion over `Spec Q` whose rational image avoids
+both cusp morphisms. It implies emptiness of coarse rational points and the
+modular-route order-49 endpoint. No coarse-space or open-comparison instance,
+universal-family comparison, or bad-characteristic generalized cyclicity is
+yet constructed.

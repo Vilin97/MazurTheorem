@@ -365,6 +365,30 @@ by checked admissible variable changes.
   cubic.
 * `theorem` (`contract`): `MazurTorsion.XZeroFortyNine.etaPointToScheme_ne_cusps`
   Prove that the noncuspidal eta locus avoids both represented rational cusp morphisms.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.CoarseComparison.rationalFiber`
+  Form the rational fibre of a supplied global coarse moduli scheme by pullback from
+  Spec Z to Spec Q.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.CoarseComparison.rationalFiberPointMorphism`
+  Lift every rational point of the global coarse scheme canonically to its rational
+  fibre.
+* `structure` (`contract`):
+  `MazurTorsion.XZeroFortyNine.CoarseComparison.RationalFiberOpenComparison`
+  Package an open immersion of the coarse rational fibre into the explicit cubic whose
+  rational image avoids both cusps.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.CoarseComparison.RationalFiberOpenComparison.coarseRationalPoints_isEmpty`
+  Deduce that the supplied coarse moduli scheme has no rational points from the
+  represented two-cusp classification.
+* `definition` (`contract`):
+  `MazurTorsion.XZeroFortyNine.CoarseComparison.RationalFiberOpenComparison.pointOfOrderFortyNineTorsion`
+  Send exact order-49 torsion through the coarse rational fibre to the explicit
+  projective cubic.
+* `theorem` (`contract`):
+  `MazurTorsion.XZeroFortyNine.CoarseComparison.RationalFiberOpenComparison.rationalPoint_addOrderOf_ne_fortyNine_of_coarseOpenComparison`
+  Derive the modular-route order-49 contradiction from a supplied coarse space and
+  honest open rational-fibre comparison.
 * `structure` (`contract`): `MazurTorsion.ModularCurve.XZeroModuli.SplitGeometricDatum`
   Bundle a proper geometrically integral relative-dimension-one commutative group scheme
   with an actual split finite-flat cyclic subgroup of level N.

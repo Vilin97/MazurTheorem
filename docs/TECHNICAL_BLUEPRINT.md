@@ -361,9 +361,15 @@ also scheme-theoretic: `XZeroFortyNine.SchemeModel.scheme` is the reduced
 projective cubic, and `rationalPointEquiv` proves that its `Spec Q` morphisms
 are exactly the coordinate points. Thus the two rational cusps are actual,
 distinct scheme morphisms and exhaust the rational points; the eta-chart map
-now consumes this result. Constructing a coarse-space instance, identifying
-its rational fibre with the explicit cubic, comparing universal families,
-proving modular noncuspidality, and extending cyclicity through bad
+now consumes this result. For a supplied global coarse scheme, the rational
+fibre is constructed as the categorical pullback along
+`Spec Q ⟶ Spec Z`, and every rational coarse point has a canonical lift.
+`RationalFiberOpenComparison` then asks for the geometrically correct bridge:
+an open immersion of this fibre into the explicit projective cubic whose
+rational image avoids the two cusps. This exact hypothesis makes both the
+fibre and global coarse scheme empty on rational points and gives the modular
+order-49 contradiction. Constructing the coarse space and comparison,
+comparing universal families, and extending cyclicity through bad
 characteristic remain open.
 
 The point constructor must consume an actual finite-flat subgroup scheme and
