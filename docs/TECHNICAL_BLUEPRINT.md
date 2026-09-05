@@ -177,7 +177,9 @@ divisor/line-bundle dictionary. The checked core now contains:
   field;
 - affine-morphism pullback preservation of quasicoherence and finite type,
   whose canonical-support consumer combines finite pushforward with the
-  comparison isomorphism to make strict-support global sections finite; and
+  comparison isomorphism to make strict-support global sections finite;
+- direct consumers giving finite canonical `H⁰` and pointed ordered base-Cech
+  `H⁰`/`H¹` under strict support; and
 - `smoothProperCurve_H_eq_zero` above degree one, plus pointed proper-curve
   `H¹` finite-dimensionality for the canonical base and field actions.
 

@@ -766,8 +766,11 @@ immersion consumer makes the canonical support model coherent. No proof is
 copied from the omitted properness cone. `ProperCurveFiniteSupport` applies
 finite pushforward over the affine field spectrum and the retained comparison
 isomorphism to prove finite global sections for every strict-support coherent
-module. The full-support comparison producer and exact low-degree base-change
-facade remain open.
+module. The project-original `ProperCurveFiniteSupportCech` consumes that
+result through the checked global-sections/`H⁰` comparison and pointed-curve
+low-degree theorem, exposing finite canonical `H⁰` and ordered base-Cech
+`H⁰`/`H¹` under strict support. The full-support comparison producer and
+exact low-degree base-change facade remain open.
 
 The new project-facing consumer
 `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.nativeBaseCechHOne_finite_of_ordered`
@@ -838,9 +841,10 @@ The proper degree-zero and finite-free low-degree target boundaries are
 `MazurTorsion.Upstream.ProperHZeroFinite` and
 `MazurTorsion.Upstream.ProperCurveCechLowDegreeFinite`; the comparison-data
 assembly boundary is
-`MazurTorsion.Upstream.SchemeModuleOrderedBaseCechLowDegreeSupport`, and the
-strict-support finite-morphism boundary is
-`MazurTorsion.Upstream.ProperCurveFiniteSupport`.
+`MazurTorsion.Upstream.SchemeModuleOrderedBaseCechLowDegreeSupport`. The
+strict-support finite-morphism and low-degree consumer boundaries are
+`MazurTorsion.Upstream.ProperCurveFiniteSupport` and
+`MazurTorsion.Upstream.ProperCurveFiniteSupportCech`.
 `MazurTorsion.lean` is the named checked consumer of the earlier geometry
 boundaries. The geometry boundary also imports Tau Ceti's line-bundle and
 Abel--Jacobi layers from the root package's exact dependency.

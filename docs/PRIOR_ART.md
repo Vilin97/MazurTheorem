@@ -695,7 +695,9 @@ The strongest concrete reuse candidates are:
   the retained affine tilde/base-change and open-restriction comparisons to
   make that canonical model quasicoherent and finite type. Finite pushforward
   over the affine field spectrum then gives finite global sections for strict
-  support. The genuine-`H⁰` endpoint still needs comparison data in the
+  support, with project-original consumers exposing finite canonical `H⁰`
+  and pointed ordered Cech `H⁰`/`H¹`. The genuine-`H⁰` endpoint still needs
+  comparison data in the
   full-support case. An audit of historical AINTLIB
   commit `d78d10a74577e28840d21eb4e07395d87c44370f` found the preferable direct
   degree-zero/degree-one support induction before the later all-degree

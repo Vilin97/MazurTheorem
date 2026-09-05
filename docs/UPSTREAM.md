@@ -73,7 +73,9 @@ low-degree target boundaries are `ProperHZeroFinite` and
 assembled by `SchemeModuleOrderedBaseCechLowDegreeSupport`, while
 `SchemeModulePullbackCoherent` proves the canonical model coherent and
 `ProperCurveFiniteSupport` uses its finite pushforward to make strict-support
-global sections finite. The Hilbert-94 cone is consumed through
+global sections finite. `ProperCurveFiniteSupportCech` exposes the resulting
+canonical `H⁰` and pointed ordered base-Cech `H⁰`/`H¹` finiteness. The
+Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual
 development. See the [Upstream directory map](../MazurTorsion/Upstream/README.md)

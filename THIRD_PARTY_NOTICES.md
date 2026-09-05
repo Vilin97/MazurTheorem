@@ -251,7 +251,10 @@ already attributed affine base-change and open-restriction APIs to prove
 affine-morphism pullback coherence; it copies no omitted proper-cohomology
 proof. Its canonical-model consumer lets `ProperCurveFiniteSupport` use finite
 pushforward and the retained comparison isomorphism to prove finite global
-sections for strict support.
+sections for strict support. The project-original
+`ProperCurveFiniteSupportCech` merely composes that result with checked local
+cohomology interfaces to expose canonical `H⁰` and pointed ordered Cech
+`H⁰`/`H¹` finiteness; it introduces no copied proof.
 The finite-pushforward comparison extension retains the inverse-image-cover
 complex isomorphisms, their low-degree finiteness transport, and the
 support-only pushforward/pullback result; it omits the all-degree and

@@ -116,11 +116,12 @@ line bundles on a smooth curve.
   Define degree-zero and degree-one coherent cohomology for sheaves on proper curves.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.CurveCohomology.finiteDimensional`
   Package the checked canonical H0 comparisons, finite-free ordered low-degree targets,
-  coherent finite strict-support models with finite global sections, open-local
-  support-comodel assembly, conditional coherent-support H0 endpoint, linear connecting
-  maps, pointed-curve canonical-field H1 finite-dimensionality, affine acyclicity, and
-  vanishing above degree one with the still-needed comparison producer in the required
-  curve-cohomology facade.
+  coherent finite strict-support models with finite global sections and direct canonical
+  H0/pointed Cech H0-H1 finiteness consumers, open-local support-comodel assembly,
+  conditional coherent-support H0 endpoint, linear connecting maps, pointed-curve
+  canonical-field H1 finite-dimensionality, affine acyclicity, and vanishing above
+  degree one with the still-needed comparison producer in the required curve-cohomology
+  facade.
 * `definition` (`contract`):
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.zariskiFunctor`
   Apply Mathlib's native sheaf-cohomology functor to the underlying abelian sheaf of an
@@ -322,6 +323,14 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.CanonicalSupportThickening.globalSections_module_finite_of_closedStalkSupport_lt_top`
   Prove finite generation of global sections over the curve's global-function ring for
   every coherent module with strict closed stalk support.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.CanonicalSupportThickening.hZeroCanonical_finiteDimensional_of_closedStalkSupport_lt_top`
+  Expose finite-dimensional canonical degree-zero cohomology for every coherent module
+  with strict closed stalk support.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.SchemeModuleCohomology.CanonicalSupportThickening.orderedBaseCechLowDegreeFinite_of_rationalSection_of_closedStalkSupport_lt_top`
+  Expose ordered base-Cech finiteness in degrees zero and one for strict support on a
+  pointed smooth proper integral curve.
 
 :::
 

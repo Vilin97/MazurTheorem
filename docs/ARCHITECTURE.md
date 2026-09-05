@@ -85,7 +85,8 @@ support-comodel consumed by induction. Strict support on the proper curve is
 finite, its canonical thickening is finite over the ground field, and
 affine-morphism pullback coherence makes the support model coherent. Finite
 pushforward now recovers finite global sections for every strict-support
-coherent module. Construction of comparison data for full-support sheaves and
+coherent module, with direct canonical `H⁰` and pointed ordered Cech
+`H⁰`/`H¹` finiteness consumers. Construction of comparison data for full-support sheaves and
 proper base change keep the final package open. The first genuine
 Riemann--Roch consumer belongs to B2, downstream of this foundation.
 

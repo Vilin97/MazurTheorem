@@ -1,14 +1,14 @@
 # Reviewed ports and integration adapters
 
 This directory is the boundary between project code and selected external
-developments. It is intentionally not a vendor dump. At this revision its 172
+developments. It is intentionally not a vendor dump. At this revision its 173
 Lean modules divide into three layout groups:
 
 | Tree | Modules | Meaning |
 |---|---:|---|
 | [`AINTLIB/`](AINTLIB/) | 101 | reviewed exact-pin ports and narrow adaptations: 91 `ForMathlib`, four `Picard`, and six `FltRegular` modules |
 | [`LeanPool/`](LeanPool/) | 15 | the attributed Grothendieck-vanishing cone migrated to the project pin |
-| files directly in `Upstream/` | 56 | project-facing adapters, comparisons, consumers, and semantic facades over selected upstream APIs |
+| files directly in `Upstream/` | 57 | project-facing adapters, comparisons, consumers, and semantic facades over selected upstream APIs |
 
 Directory placement records dependency direction, not authorship. Neither a
 top-level path nor an AINTLIB path by itself determines whether a file is an
@@ -31,6 +31,7 @@ Downstream project code should prefer the narrowest applicable boundary:
 | [`SchemeModuleBaseCechHOneModule.lean`](SchemeModuleBaseCechHOneModule.lean) | explicit global-functions-linear `H¹` comparison |
 | [`ProjectiveLineCechHOneFinite.lean`](ProjectiveLineCechHOneFinite.lean) | finite-dimensional two-chart `H¹` calculation on the projective line |
 | [`ProperCurveCohomologyFinite.lean`](ProperCurveCohomologyFinite.lean) | pointed smooth-proper-curve finite-dimensional `H¹` consumer |
+| [`ProperCurveFiniteSupportCech.lean`](ProperCurveFiniteSupportCech.lean) | strict-support canonical `H⁰` and pointed ordered base-Cech `H⁰`/`H¹` finiteness consumers |
 | [`CurveCohomologyGrothendieckVanishing.lean`](CurveCohomologyGrothendieckVanishing.lean) | curve specialization of the retained LeanPool vanishing theorem |
 
 Import a file below `AINTLIB/` or `LeanPool/` directly only when extending or
