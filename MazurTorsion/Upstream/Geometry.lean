@@ -35,6 +35,7 @@ import MazurTorsion.Upstream.ProperCurveCohomologyFinite
 import MazurTorsion.Upstream.ProperCurveFiniteSupport
 import MazurTorsion.Upstream.ProperCurveFiniteSupportCech
 import MazurTorsion.Upstream.SchemeModuleAffinePullbackSections
+import MazurTorsion.Upstream.SchemeModuleBaseChangeCech
 import MazurTorsion.Upstream.SchemeModuleBaseCechHZeroFinite
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 import TauCeti.AlgebraicGeometry.WeilDivisor.AbelJacobi.Basic
@@ -60,7 +61,10 @@ comparison certify finite free sheaves as low-degree-good ordered Cech
 targets. An affine-open pullback presentation from finite local generators,
 together with the strict-support exact-sequence transfers, now proves canonical
 degree-zero cohomology finite-dimensional for every coherent module on the
-pointed proper curve. The exact low-degree base-change comparison remains the
-open boundary of this package; its affine Cartesian section map is now checked
-as extension of scalars, leaving the Cech-complex and homology assembly.
+pointed proper curve. The exact low-degree base-change comparison remains open
+only at the cover-selection facade: termwise assembly over a supplied finite
+affine cover, the scalar-extended Cech-complex isomorphism, flat homology
+transport, and the resulting genuine `H⁰`/`H¹` field-extension comparison
+are checked. General proper-flat base change and semicontinuity remain outside
+this boundary.
 -/

@@ -124,6 +124,22 @@ noncomputable def restrictPushforwardIsoOfIsPullback
             (M.val.map (eqToHom h).op).hom x)
       exact ConcreteCategory.congr_hom (q.val.naturality (eqToHom h).op).symm x)
 
+/-- The forward restriction--pushforward comparison is, on each open and section, transport
+along the equality of the two inverse-image opens.  This is the componentwise design boundary
+used by `SchemeModuleBaseChangeCech` to compare its canonical Cech map with affine pullback. -/
+theorem restrictPushforwardIsoOfIsPullback_hom_app_app_apply
+    {X Y U V : Scheme.{u}}
+    (f : X ⟶ Y) (f' : U ⟶ V) (iU : U ⟶ X) (iV : V ⟶ Y)
+    [IsOpenImmersion iV] [IsOpenImmersion iU]
+    (H : IsPullback f' iU iV f) (M : X.Modules)
+    (W : V.Opens)
+    (x : Γ((restrictFunctor iV).obj ((pushforward f).obj M), W)) :
+    ((((restrictPushforwardIsoOfIsPullback f f' iU iV H).hom.app M).app W).hom x) =
+      (M.presheaf.map
+        (eqToHom
+          (IsOpenImmersion.image_preimage_eq_preimage_image_of_isPullback H W)).op).hom x := by
+  rfl
+
 end
 
 end AlgebraicGeometry.Scheme.Modules

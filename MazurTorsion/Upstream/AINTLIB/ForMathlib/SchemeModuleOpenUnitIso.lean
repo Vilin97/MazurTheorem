@@ -408,6 +408,34 @@ private theorem openPullbackRestrictMate_eq
     exact (openPullbackExplicitSquare_mate_eq f U).symm
   exact congrArg TwoSquare.natTrans h
 
+/-- Restricting the pullback--pushforward unit to an open subscheme agrees with the unit for
+the restricted morphism, after the canonical pushforward and pullback comparisons.  The named
+downstream consumer is `SchemeModuleBaseChangeCech`, which uses this square to identify each
+affine Cech factor with the canonical affine pullback map. -/
+theorem restrict_pullbackPushforward_unit_naturality
+    {X Y : Scheme.{u}} (f : X ⟶ Y) (U : Y.Opens) (M : Y.Modules) :
+    (restrictFunctor U.ι).map
+          ((pullbackPushforwardAdjunction f).unit.app M) ≫
+        (restrictPushforwardIsoOfIsPullback f (f ∣_ U)
+          (f ⁻¹ᵁ U).ι U.ι (isPullback_morphismRestrict f U)).hom.app
+            ((pullback f).obj M) =
+      (pullbackPushforwardAdjunction (f ∣_ U)).unit.app
+          ((restrictFunctor U.ι).obj M) ≫
+        (pushforward (f ∣_ U)).map
+          ((openPullbackSquareExplicitIsoT f U).hom.app M) := by
+  have hmate (N : Y.Modules) :
+      (((mateEquiv (pullbackPushforwardAdjunction f)
+        (pullbackPushforwardAdjunction (f ∣_ U))).symm
+          (openRestrictPushforwardSquare f U)).app N) =
+        (openPullbackSquareExplicitIsoT f U).hom.app N := by
+    exact congrArg (fun q ↦ q.app N) (openPullbackRestrictMate_eq f U)
+  have h := unit_mateEquiv_symm
+    (pullbackPushforwardAdjunction f)
+    (pullbackPushforwardAdjunction (f ∣_ U))
+    (openRestrictPushforwardSquare f U) M
+  rw [hmate ((𝟭 Y.Modules).obj M)] at h
+  exact h
+
 /-- If the unit for a morphism restricted over an open is invertible, then the
 restriction of the original unit to that open is invertible. -/
 theorem isIso_restrict_pullbackPushforward_unit_of_restrict
