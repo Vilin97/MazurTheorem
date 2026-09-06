@@ -110,10 +110,11 @@ full descent-level tensor additivity and identifies its chosen transitions
 factorwise. `CurveLineBundleTensorDescent` computes the canonical tensor
 transition, and `CurveDivisorGlobalTensorAdd` now identifies the raw datum for
 `D + E` with canonical descent of the tensor of the two constructed global
-line bundles. The corresponding global-module isomorphism is checked under
-`ModuleDescentFullyFaithfulFor`. Proving that fully faithful descent input
-unconditionally, principal detection, and the Picard equivalence remain
-downstream. The
+line bundles. `CurveLineBundleFullyFaithful` reconstructs morphisms through the
+same compatible-family equalizer and proves `ModuleDescentFullyFaithfulFor`
+unconditionally on universe-zero open covers. Consequently the corresponding
+global-module isomorphism is unconditional. Coherent principal detection and
+the Picard equivalence remain downstream. The
 Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual

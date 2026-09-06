@@ -132,6 +132,14 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleAddIsoOnProperSmoothCurve_of_fullyFaithful`
   Lift the checked descent-level tensor comparison to the selected global divisor
   modules under fully faithful module descent on the coordinate cover.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.LineBundleDescent.moduleDescentFullyFaithfulForOpenCover`
+  Prove fully faithful module descent unconditionally on universe-zero scheme open
+  covers by reconstructing compatible local morphisms through the equalizer model.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleAddIsoOnProperSmoothCurve`
+  Identify the constructed global divisor line bundle of D + E unconditionally with the
+  tensor product of the constructed line bundles of D and E.
 * `structure` (`proposed`): `TauCeti.AlgebraicGeometry.PicardGroup`
   Expose line bundles modulo isomorphism as the Picard group of a smooth proper curve.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classEquivPicard`

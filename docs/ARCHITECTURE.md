@@ -123,10 +123,11 @@ as full coherent descent data: the transported target has chartwise tensor
 objects and factorwise raw transitions. The canonical tensor-descent calculation
 now compares that raw sum datum directly with the restrictions of the tensor of
 the two selected global line bundles. This full descent-data isomorphism is
-unconditional, and fully faithful module descent lifts it to the selected global
-objects. Proving that fully faithful input without an assumption, coherent
-principal triviality, cover independence, and the divisor-class/Picard
-equivalence remain downstream.
+unconditional. The same universe-zero compatible-family equalizer now also
+reconstructs morphisms, proving fully faithful module descent and lifting the
+comparison unconditionally to the selected global objects. Coherent principal
+triviality, cover independence, and the divisor-class/Picard equivalence remain
+downstream.
 
 The Picard lane likewise separates an honest absolute construction from the
 missing represented object. For one smooth proper integral curve over a field

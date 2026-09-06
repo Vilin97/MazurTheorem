@@ -30,7 +30,8 @@ Downstream project code should prefer the narrowest applicable boundary:
 | [`CurveDivisorGlobalLineBundle.lean`](CurveDivisorGlobalLineBundle.lean) | unconditional global divisor line bundle, full descent isomorphism, and affine-chart restrictions on universe-zero covers |
 | [`CurveDivisorRawTensorAddDescent.lean`](CurveDivisorRawTensorAddDescent.lean) | full descent-level tensor additivity of the raw divisor family, with factorwise chosen transitions |
 | [`CurveLineBundleTensorDescent.lean`](CurveLineBundleTensorDescent.lean) | canonical tensor descent, chosen-overlap transition formulas, and generic monoidal comparison bridges |
-| [`CurveDivisorGlobalTensorAdd.lean`](CurveDivisorGlobalTensorAdd.lean) | unconditional global tensor additivity in full descent data and its fully-faithful conditional module lift |
+| [`CurveLineBundleFullyFaithful.lean`](CurveLineBundleFullyFaithful.lean) | unconditional fully faithful module descent on universe-zero open covers via compatible-family reconstruction |
+| [`CurveDivisorGlobalTensorAdd.lean`](CurveDivisorGlobalTensorAdd.lean) | unconditional global tensor additivity for the constructed divisor line bundles |
 | [`SchemeModuleCohomologyHZero.lean`](SchemeModuleCohomologyHZero.lean) | canonical global-functions action and genuine degree-zero sheaf cohomology |
 | [`SchemeModuleBaseCechHOneComparison.lean`](SchemeModuleBaseCechHOneComparison.lean) | native Čech-to-genuine-sheaf `H¹` comparison |
 | [`SchemeModuleBaseCechHOneModule.lean`](SchemeModuleBaseCechHOneModule.lean) | explicit global-functions-linear `H¹` comparison |

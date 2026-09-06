@@ -235,15 +235,18 @@ Canonical tensor descent is computed in the same normal form, so tensoring the
 two global effectivity comparisons and composing with the inverse local
 addition maps gives an unconditional full descent-data isomorphism from the raw
 sum datum to descent of the global tensor product. Under
-`ModuleDescentFullyFaithfulFor`, this lifts to the desired isomorphism of
-global modules.
+`ModuleDescentFullyFaithfulFor`, this lifts to the desired isomorphism of global
+modules. A compatible family of adjoint local morphisms now lifts through the
+same universe-zero equalizer; the reconstruction unit is an isomorphism because
+this can be detected on the covering charts. This proves the fully faithful
+input unconditionally and hence makes the global divisor tensor comparison
+unconditional.
 
-The remaining A3 theorem is the tensor-compatible dictionary: prove fully
-faithful module descent (or the exact object-separation consequence needed by
-this construction), then prove coherent principal triviality, derive the exact
-principal kernel and essential surjectivity, and identify divisor classes with
-the scheme Picard group. The checked descent-level comparison does not by itself
-prove those remaining global statements or independence of the selected cover.
+The remaining A3 theorem is the tensor-compatible dictionary: prove coherent
+principal triviality, derive the exact principal kernel and essential
+surjectivity, and identify divisor classes with the scheme Picard group. The
+checked global tensor comparison does not by itself prove those remaining
+statements or independence of the selected cover.
 
 ### Relative Picard
 
