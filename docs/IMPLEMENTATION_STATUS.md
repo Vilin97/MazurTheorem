@@ -117,8 +117,11 @@ slices at the 260-point headline:
   compatible-family equalizer now reconstructs morphisms as well as objects,
   proving fully faithful module descent unconditionally on universe-zero open
   covers. The resulting global-module tensor-additivity isomorphism is therefore
-  unconditional. The lane remains on coherent principal triviality, exact
-  principal kernel, surjectivity, and the divisor-class/Picard equivalence.
+  unconditional. The raw full data now instantiate the divisor-indexed cocycle
+  system expected by the Picard boundary; objectwise effectivity and descended
+  tensor additivity for that concrete system are unconditional. The lane remains
+  on coherent principal triviality, exact principal kernel, surjectivity, and the
+  divisor-class/Picard equivalence.
 - The all-degree zero-section-normalized relative Picard presheaf now has its
   associated fppf sheafification. For a smooth proper integral curve over a
   field and a supplied divisor-class/Picard equivalence, the checked

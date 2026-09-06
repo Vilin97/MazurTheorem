@@ -140,6 +140,21 @@ line bundles on a smooth curve.
   `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.globalDivisorLineBundleAddIsoOnProperSmoothCurve`
   Identify the constructed global divisor line bundle of D + E unconditionally with the
   tensor product of the constructed line bundles of D and E.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorCocycleSystemOnProperSmoothCurve`
+  Reconstruct a normalized divisor-indexed chosen-overlap cocycle system from the raw
+  full descent data.
+* `definition` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorCocycleSystemDescentIsoOnProperSmoothCurve`
+  Identify every reconstructed cocycle with its original raw full descent datum.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorCocycleSystemEffectiveOnProperSmoothCurve`
+  Instantiate objectwise effectivity for the concrete divisor cocycle system using the
+  unconditional global divisor line bundles.
+* `theorem` (`contract`):
+  `MazurTorsion.AlgebraicGeometry.CurveDivisorDescent.rawDivisorCocycleSystemTensorAdditiveOnProperSmoothCurve`
+  Instantiate descended tensor additivity for the concrete effective divisor cocycle
+  system.
 * `structure` (`proposed`): `TauCeti.AlgebraicGeometry.PicardGroup`
   Expose line bundles modulo isomorphism as the Picard group of a smooth proper curve.
 * `theorem` (`proposed`): `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.classEquivPicard`

@@ -79,8 +79,10 @@ package is integrated. Full coherent descent now identifies the raw datum for a
 divisor sum with canonical descent of the tensor of the two constructed global
 line bundles. The compatible-family equalizer now also proves fully faithful
 module descent on universe-zero open covers, so the lift to the selected global
-modules is unconditional. The selected lane now targets coherent principal
-triviality, the exact principal kernel, surjectivity, and the
+modules is unconditional. The raw full data now instantiate the abstract
+divisor cocycle system used by the Picard boundary, with unconditional
+objectwise effectivity and descended tensor additivity. The selected lane now
+targets coherent principal triviality, the exact principal kernel, surjectivity, and the
 divisor-class/Picard equivalence.
 
 For the group-law lane, `B₁₂ := y₁ + y₂ + a₁x₁ + a₃` and

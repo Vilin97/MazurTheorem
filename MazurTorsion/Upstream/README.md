@@ -32,6 +32,7 @@ Downstream project code should prefer the narrowest applicable boundary:
 | [`CurveLineBundleTensorDescent.lean`](CurveLineBundleTensorDescent.lean) | canonical tensor descent, chosen-overlap transition formulas, and generic monoidal comparison bridges |
 | [`CurveLineBundleFullyFaithful.lean`](CurveLineBundleFullyFaithful.lean) | unconditional fully faithful module descent on universe-zero open covers via compatible-family reconstruction |
 | [`CurveDivisorGlobalTensorAdd.lean`](CurveDivisorGlobalTensorAdd.lean) | unconditional global tensor additivity for the constructed divisor line bundles |
+| [`CurveDivisorPicardEquivalence.lean`](CurveDivisorPicardEquivalence.lean) | the concrete raw divisor cocycle system, its unconditional effectivity, and descended tensor additivity for the Picard boundary |
 | [`SchemeModuleCohomologyHZero.lean`](SchemeModuleCohomologyHZero.lean) | canonical global-functions action and genuine degree-zero sheaf cohomology |
 | [`SchemeModuleBaseCechHOneComparison.lean`](SchemeModuleBaseCechHOneComparison.lean) | native Čech-to-genuine-sheaf `H¹` comparison |
 | [`SchemeModuleBaseCechHOneModule.lean`](SchemeModuleBaseCechHOneModule.lean) | explicit global-functions-linear `H¹` comparison |

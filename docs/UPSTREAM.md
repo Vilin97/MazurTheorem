@@ -113,8 +113,11 @@ transition, and `CurveDivisorGlobalTensorAdd` now identifies the raw datum for
 line bundles. `CurveLineBundleFullyFaithful` reconstructs morphisms through the
 same compatible-family equalizer and proves `ModuleDescentFullyFaithfulFor`
 unconditionally on universe-zero open covers. Consequently the corresponding
-global-module isomorphism is unconditional. Coherent principal detection and
-the Picard equivalence remain downstream. The
+global-module isomorphism is unconditional. `CurveDivisorPicardEquivalence`
+now converts the raw full data into the concrete divisor-indexed cocycle system
+used by the Picard boundary and proves its objectwise effectivity and descended
+tensor additivity. Coherent principal detection and the Picard equivalence
+remain downstream. The
 Hilbert-94 cone is consumed through
 `MazurTorsion.NumberTheory.CyclotomicHilbert94`. `MazurTorsion.lean` is their
 aggregate audit consumer, not the recommended import for an individual
