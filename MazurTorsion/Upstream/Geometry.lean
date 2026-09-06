@@ -14,6 +14,7 @@ import MazurTorsion.Upstream.CurveDivisorGlobalLineBundle
 import MazurTorsion.Upstream.CurveDivisorGlobalTensorAdd
 import MazurTorsion.Upstream.CurveDivisorRawTensorAddDescent
 import MazurTorsion.Upstream.CurveDivisorPicardDescent
+import MazurTorsion.Upstream.CurveDivisorPicardEquivalence
 import MazurTorsion.Upstream.CurveDivisorRationalBoundary
 import MazurTorsion.Upstream.CurveDivisorTensorAddRestriction
 import MazurTorsion.Upstream.CurveDivisorTensorAddOverlap
