@@ -183,7 +183,7 @@ jobs:
           steps.audit-modules-probe.outputs.cache-hit != 'true' ||
           steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
           steps.order-twenty-five-probe.outputs.cache-hit != 'true'
-        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        uses: jlumbroso/free-disk-space@ceedf095f4ec1a097402bc6bd80831f2e1a6fde6
         with:
           android: true
           dotnet: true
