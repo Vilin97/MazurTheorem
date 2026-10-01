@@ -514,7 +514,7 @@ jobs:
 
       - name: Reclaim runner disk for the complete Lean environment
         if: steps.api-docs-cache.outputs.cache-hit != 'true'
-        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        uses: jlumbroso/free-disk-space@ceedf095f4ec1a097402bc6bd80831f2e1a6fde6
         with:
           android: true
           dotnet: true
@@ -1113,7 +1113,7 @@ jobs:
 
       - name: Deploy Pages
         id: deployment
-        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346
 
       - name: Verify the live deployment
         env:
