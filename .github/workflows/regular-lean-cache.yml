@@ -183,7 +183,7 @@ jobs:
           steps.audit-modules-probe.outputs.cache-hit != 'true' ||
           steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
           steps.order-twenty-five-probe.outputs.cache-hit != 'true'
-        uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be
+        uses: jlumbroso/free-disk-space@ceedf095f4ec1a097402bc6bd80831f2e1a6fde6
         with:
           android: true
           dotnet: true
@@ -199,7 +199,7 @@ jobs:
           steps.audit-modules-probe.outputs.cache-hit != 'true' ||
           steps.tau-ceti-probe.outputs.cache-hit != 'true' ||
           steps.order-twenty-five-probe.outputs.cache-hit != 'true'
-        uses: leanprover/lean-action@50fcf42d2e460296f1a34b402e990d1b24f8b596
+        uses: leanprover/lean-action@fe408643ea7367d8c0404a8be3975bb145f5fb64
         with:
           auto-config: false
           use-github-cache: false
